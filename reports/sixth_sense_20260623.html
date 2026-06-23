@@ -8,23 +8,18 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: -apple-system, 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: #0a0a1a; color: #e0e0e0; line-height: 1.8; }
   .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-  .header { 
+  .logo-banner { 
     position: relative;
     text-align: center; 
     margin: -20px -20px 30px -20px;
-    padding: 80px 20px 50px;
+    padding: 60px 20px;
     background-image: url('header_banner_20260623.png');
     background-size: cover;
     background-position: center;
     border-radius: 0 0 20px 20px;
     overflow: hidden;
-    min-height: 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
   }
-  .header::before {
+  .logo-banner::before {
     content: '';
     position: absolute;
     top: 0;
@@ -34,18 +29,19 @@
     background: linear-gradient(135deg, rgba(255,107,157,0.4), rgba(162,155,254,0.4), rgba(108,92,231,0.4));
     z-index: 1;
   }
-  .header > * {
+  .logo { 
     position: relative;
     z-index: 2;
-  }
-  .logo { 
     font-size: 4em; 
     font-weight: 900; 
     letter-spacing: 5px; 
     color: #fff;
     text-shadow: 0 0 20px rgba(255,107,157,0.8), 0 0 40px rgba(162,155,254,0.6);
-    margin-bottom: 15px;
     line-height: 1;
+  }
+  .header-text {
+    text-align: center;
+    margin-bottom: 30px;
   }
   .title { 
     font-size: 1.8em; 
@@ -55,11 +51,11 @@
     -webkit-text-fill-color: transparent; 
     background-clip: text; 
     letter-spacing: 4px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     line-height: 1;
   }
-  .header .date { color: #fff; font-size: 1.1em; margin-top: 10px; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
-  .header .subtitle { color: #fff; font-size: 0.95em; margin-top: 8px; font-style: italic; opacity: 0.9; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
+  .date { color: #888; font-size: 1.1em; margin-bottom: 10px; }
+  .subtitle { color: #a29bfe; font-size: 0.95em; font-style: italic; opacity: 0.8; }
   .weather-box { background: linear-gradient(135deg, #1a2438, #131d2e); border-radius: 12px; padding: 18px; margin: 20px 0 30px; border: 1px solid rgba(120,160,190,0.25); box-shadow: 0 0 12px rgba(80,130,170,0.08); }
   .weather-box h2 { color: #7eb8d4; font-size: 1.1em; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
   .weather-today { display: flex; gap: 15px; margin-bottom: 12px; }
@@ -128,8 +124,11 @@
 <body>
 <div class="container">
 
-<div class="header">
+<div class="logo-banner">
   <div class="logo">Sono</div>
+</div>
+
+<div class="header-text">
   <div class="title">第六感日報</div>
   <div class="date">2026年6月23日（星期二）</div>
   <div class="subtitle">為你感應世界的脈搏</div>
