@@ -11,13 +11,18 @@
   .header { 
     position: relative;
     text-align: center; 
-    margin: 0 0 30px;
-    padding: 60px 20px 40px;
+    margin: -20px -20px 30px -20px;
+    padding: 80px 20px 50px;
     background-image: url('header_banner_20260623.png');
     background-size: cover;
     background-position: center;
     border-radius: 0 0 20px 20px;
     overflow: hidden;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   .header::before {
     content: '';
@@ -26,7 +31,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(255,107,157,0.3), rgba(162,155,254,0.3), rgba(108,92,231,0.3));
+    background: linear-gradient(135deg, rgba(255,107,157,0.4), rgba(162,155,254,0.4), rgba(108,92,231,0.4));
     z-index: 1;
   }
   .header > * {
@@ -39,7 +44,7 @@
     letter-spacing: 5px; 
     color: #fff;
     text-shadow: 0 0 20px rgba(255,107,157,0.8), 0 0 40px rgba(162,155,254,0.6);
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     line-height: 1;
   }
   .title { 
@@ -50,11 +55,11 @@
     -webkit-text-fill-color: transparent; 
     background-clip: text; 
     letter-spacing: 4px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     line-height: 1;
   }
-  .date { color: #888; font-size: 1em; margin-top: 8px; }
-  .subtitle { color: #a29bfe; font-size: 0.9em; margin-top: 5px; font-style: italic; opacity: 0.8; }
+  .header .date { color: #fff; font-size: 1.1em; margin-top: 10px; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
+  .header .subtitle { color: #fff; font-size: 0.95em; margin-top: 8px; font-style: italic; opacity: 0.9; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
   .weather-box { background: linear-gradient(135deg, #1a2438, #131d2e); border-radius: 12px; padding: 18px; margin: 20px 0 30px; border: 1px solid rgba(120,160,190,0.25); box-shadow: 0 0 12px rgba(80,130,170,0.08); }
   .weather-box h2 { color: #7eb8d4; font-size: 1.1em; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
   .weather-today { display: flex; gap: 15px; margin-bottom: 12px; }
