@@ -1,255 +1,267 @@
 <!DOCTYPE html>
-<html lang="zh-HK">
+<html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sono蘇蓉 第六感日報 — 2026年6月23日</title>
+<title>Sono 第六感日報 2026.06.23</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; line-height: 1.7; }
-.container { max-width: 900px; margin: 0 auto; padding: 20px; }
-.logo { text-align: center; font-size: 3.5em; font-weight: 900; background: linear-gradient(135deg, #ff6b9d, #c44569, #a29bfe, #6c5ce7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-top: 30px; letter-spacing: 4px; }
-.subtitle { text-align: center; font-size: 1.3em; font-weight: 700; background: linear-gradient(90deg, #ffd93d, #ff6b9d, #a29bfe, #6bff6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 8px 0; }
-.date { text-align: center; font-size: 1em; color: #888; margin-bottom: 30px; }
-.weather-card { background: linear-gradient(135deg, #1a2438, #131d2e); border: 1px solid rgba(120,160,190,0.25); border-radius: 16px; padding: 25px; margin-bottom: 15px; }
-.weather-title { color: #7eb8d4; font-size: 1.1em; font-weight: 700; margin-bottom: 15px; }
-.weather-main { display: flex; align-items: center; gap: 30px; flex-wrap: wrap; }
-.weather-temp { font-size: 3em; font-weight: 900; color: #fff; }
-.weather-temp span { font-size: 0.4em; color: #7eb8d4; }
-.weather-feels { color: #7eb8d4; font-size: 0.95em; }
-.weather-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 30px; flex: 1; }
-.weather-item { display: flex; justify-content: space-between; color: #aaa; font-size: 0.9em; }
-.weather-item .val { color: #e0e0e0; font-weight: 600; }
-.forecast-row { display: flex; gap: 10px; margin-top: 20px; overflow-x: auto; padding-bottom: 5px; }
-.forecast-day { flex: 1; min-width: 80px; text-align: center; background: rgba(255,255,255,0.03); border-radius: 10px; padding: 10px 8px; }
-.forecast-day .day { font-size: 0.75em; color: #888; }
-.forecast-day .icon { font-size: 1.5em; margin: 5px 0; }
-.forecast-day .hi { color: #ff6b6b; font-weight: 700; font-size: 0.85em; }
-.forecast-day .lo { color: #7eb8d4; font-size: 0.8em; }
-.sono-insight { background: linear-gradient(135deg, rgba(255,107,157,0.1), rgba(162,155,254,0.1)); border-left: 3px solid #ff6b9d; border-radius: 12px; padding: 15px 20px; margin: 15px 0 25px; }
-.sono-insight .title { color: #ff6b9d; font-weight: 700; font-size: 0.95em; margin-bottom: 5px; }
-.sono-insight .text { color: #ccc; font-size: 0.9em; line-height: 1.6; }
-.quick-nav { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 0 0 30px; }
-.quick-nav-btn { padding: 6px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; color: #aaa; font-size: 0.82em; text-decoration: none; transition: all 0.2s; }
-.quick-nav-btn:hover { background: rgba(255,107,157,0.15); border-color: #ff6b9d; color: #fff; }
-.section { margin-bottom: 40px; }
-.section-title { font-size: 1.5em; font-weight: 800; margin-bottom: 18px; padding-bottom: 8px; border-bottom: 2px solid rgba(255,255,255,0.08); }
-.section-title .icon { margin-right: 8px; }
-.news-grid { display: grid; gap: 18px; }
-.news-card { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 14px; overflow: hidden; border-left: 4px solid #ff6b9d; transition: transform 0.2s, box-shadow 0.2s; }
-.news-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
-.news-card.ai { border-left-color: #00d4ff; }
-.news-card.space { border-left-color: #6bff6b; }
-.news-card.quantum { border-left-color: #a29bfe; }
-.news-card.biotech { border-left-color: #ff6b9d; }
-.news-card.energy { border-left-color: #ffd93d; }
-.news-card.crypto { border-left-color: #f0932b; }
-.news-card.global { border-left-color: #e0e0e0; }
-.news-image-wrap { width: 100%; height: 180px; overflow: hidden; }
-.news-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
-.news-card:hover .news-image-wrap img { transform: scale(1.03); }
-.news-body { padding: 16px 18px; }
-.news-body h3 { font-size: 1.05em; font-weight: 700; color: #fff; margin-bottom: 6px; line-height: 1.4; }
-.news-body h3 a { color: #fff; text-decoration: none; }
-.news-body h3 a:hover { color: #00d4ff; }
-.news-body .excerpt { font-size: 0.85em; color: #aaa; line-height: 1.5; margin-bottom: 8px; }
-.news-body .source { font-size: 0.78em; color: #666; }
-.news-body .source a { color: #7eb8d4; text-decoration: none; }
-.news-body .source a:hover { text-decoration: underline; }
-.tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.72em; font-weight: 600; margin-right: 6px; }
-.tag.breakthrough { background: rgba(0,212,255,0.15); color: #00d4ff; }
-.tag.trend { background: rgba(107,255,107,0.15); color: #6bff6b; }
-.tag.alert { background: rgba(255,107,107,0.15); color: #ff6b6b; }
-.back-to-top { position: fixed; bottom: 30px; right: 30px; width: 45px; height: 45px; background: linear-gradient(135deg, #ff6b9d, #c44569); color: #fff; border: none; border-radius: 50%; cursor: pointer; font-size: 1.2em; opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 1000; }
-.back-to-top.show { opacity: 1; visibility: visible; }
-.footer { text-align: center; padding: 40px 20px; color: #555; font-size: 0.85em; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 40px; }
-@media (max-width: 600px) {
-  .logo { font-size: 2.2em; }
-  .weather-grid { grid-template-columns: 1fr; }
-  .weather-main { flex-direction: column; align-items: flex-start; }
-  .news-image-wrap { height: 140px; }
-}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: #0a0a1a; color: #e0e0e0; line-height: 1.8; }
+  .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+  .header { text-align: center; margin: 50px 0 30px; }
+  .logo { font-size: 3.5em; font-weight: bold; letter-spacing: 3px; background: linear-gradient(135deg, #ff6b9d, #c44569, #a29bfe, #6c5ce7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: 0 0 40px rgba(255,107,157,0.4); margin-bottom: 15px; }
+  .title { font-size: 1.3em; font-weight: 600; background: linear-gradient(90deg, #ffd93d, #ff6b9d, #a29bfe, #6bff6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 2px; margin-bottom: 10px; }
+  .date { color: #888; font-size: 1em; margin-top: 8px; }
+  .subtitle { color: #a29bfe; font-size: 0.9em; margin-top: 5px; font-style: italic; opacity: 0.8; }
+  .weather-box { background: linear-gradient(135deg, #1a2438, #131d2e); border-radius: 12px; padding: 18px; margin: 20px 0 30px; border: 1px solid rgba(120,160,190,0.25); box-shadow: 0 0 12px rgba(80,130,170,0.08); }
+  .weather-box h2 { color: #7eb8d4; font-size: 1.1em; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .weather-today { display: flex; gap: 15px; margin-bottom: 12px; }
+  .weather-main { flex: 0 0 120px; text-align: center; padding: 10px; background: rgba(120,160,190,0.08); border-radius: 8px; }
+  .weather-main .temp { font-size: 2.5em; font-weight: bold; color: #fff; line-height: 1; }
+  .weather-main .temp-range { font-size: 0.85em; color: #aaa; margin-top: 5px; }
+  .weather-main .icon { font-size: 2em; margin-bottom: 5px; }
+  .weather-main .desc { font-size: 0.8em; color: #bbb; margin-top: 5px; }
+  .weather-details { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .weather-detail-item { background: rgba(0,212,255,0.08); padding: 8px 10px; border-radius: 6px; text-align: center; }
+  .weather-detail-item .label { color: #888; font-size: 0.7em; margin-bottom: 2px; }
+  .weather-detail-item .value { color: #fff; font-size: 1em; font-weight: bold; }
+  .weather-detail-item .value.alert { color: #ff6b6b; }
+  .forecast-section { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(0,212,255,0.2); }
+  .forecast-section h3 { color: #7eb8d4; font-size: 0.85em; margin-bottom: 8px; opacity: 0.8; }
+  .forecast-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .forecast-day { background: rgba(120,160,190,0.06); padding: 8px 4px; border-radius: 6px; text-align: center; }
+  .forecast-day .day { color: #888; font-size: 0.7em; margin-bottom: 3px; }
+  .forecast-day .ficon { font-size: 1.2em; margin: 2px 0; }
+  .forecast-day .ftemp { color: #fff; font-size: 0.8em; font-weight: bold; }
+  .forecast-day .ftemp-lo { color: #888; font-size: 0.7em; }
+  .weather-links { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+  .weather-link { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; background: rgba(120,160,190,0.1); border-radius: 15px; color: #7eb8d4; text-decoration: none; font-size: 0.8em; transition: background 0.2s; }
+  .weather-link:hover { background: rgba(120,160,190,0.25); }
+  .weather-insight { margin-top: 15px; padding: 15px; background: linear-gradient(135deg, rgba(255,107,157,0.08), rgba(162,155,254,0.08)); border-radius: 10px; border-left: 3px solid #ff6b9d; }
+  .weather-insight h3 { color: #ff6b9d; font-size: 0.95em; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .weather-insight .insight-text { color: #e0e0e0; font-size: 0.9em; line-height: 1.7; }
+  .weather-insight .recommendation { margin: 8px 0; padding: 8px 12px; background: rgba(255,107,157,0.05); border-radius: 6px; display: flex; align-items: center; gap: 10px; }
+  .weather-insight .recommendation .emoji { font-size: 1.3em; }
+  .weather-insight .recommendation .text { color: #bbb; font-size: 0.85em; }
+  .quick-nav { display: flex; gap: 8px; margin: 15px 0 25px; flex-wrap: wrap; justify-content: center; }
+  .quick-nav-btn { padding: 6px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; color: #aaa; text-decoration: none; font-size: 0.82em; transition: all 0.3s; }
+  .quick-nav-btn:hover { background: rgba(255,107,157,0.15); border-color: #ff6b9d; color: #fff; transform: translateY(-2px); }
+  .quick-nav-btn .nav-icon { margin-right: 4px; }
+  .section { margin: 40px 0; }
+  .section-title { font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #333; display: flex; align-items: center; gap: 10px; }
+  .section-title .icon { font-size: 1.2em; }
+  .news-card { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 20px; margin: 15px 0; border-left: 4px solid; transition: transform 0.2s; overflow: hidden; }
+  .news-card:hover { transform: translateX(5px); }
+  .news-card.ai { border-left-color: #00d4ff; }
+  .news-card.space { border-left-color: #6bff6b; }
+  .news-card.ufo { border-left-color: #ff6b6b; }
+  .news-card.paranormal { border-left-color: #ffd93d; }
+  .news-card h3 { color: #fff; font-size: 1.2em; margin-bottom: 10px; }
+  .news-card .meta { color: #888; font-size: 0.85em; margin-bottom: 10px; }
+  .news-card p { color: #bbb; line-height: 1.7; margin-bottom: 8px; }
+  .news-card a { color: #00d4ff; text-decoration: none; }
+  .news-card a:hover { text-decoration: underline; }
+  .tag { display: inline-block; padding: 3px 10px; border-radius: 15px; font-size: 0.75em; font-weight: bold; margin-right: 5px; }
+  .tag.breakthrough { background: #00d4ff; color: #000; }
+  .tag.trend { background: #6bff6b; color: #000; }
+  .tag.alert { background: #ff6b6b; color: #fff; }
+  .trend-box { background: linear-gradient(135deg, #2d1b4e, #1a2e4e); border-radius: 15px; padding: 25px; margin: 30px 0; }
+  .trend-box h2 { color: #a29bfe; font-size: 1.5em; margin-bottom: 15px; }
+  .trend-box .observation { margin: 15px 0; padding-left: 20px; border-left: 3px solid #a29bfe; }
+  .trend-box .prediction { margin: 15px 0; padding: 15px; background: rgba(162,155,254,0.1); border-radius: 8px; }
+  .intuition-box { background: linear-gradient(135deg, #4e1b2d, #2e1a4e); border-radius: 15px; padding: 25px; margin: 30px 0; border: 2px solid #ff6b9d; }
+  .intuition-box h2 { color: #ff6b9d; font-size: 1.5em; margin-bottom: 15px; }
+  .intuition-box .quote { font-style: italic; color: #e0e0e0; line-height: 1.8; padding: 15px; background: rgba(255,107,157,0.05); border-radius: 8px; }
+  .footer { text-align: center; color: #555; margin-top: 50px; padding: 20px; border-top: 1px solid #222; font-size: 0.85em; }
+  .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 45px; height: 45px; background: linear-gradient(135deg, #ff6b9d, #c44569); color: #fff; border-radius: 50%; text-align: center; line-height: 45px; font-size: 1.2em; text-decoration: none; box-shadow: 0 4px 15px rgba(255,107,157,0.4); opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 1000; }
+  .back-to-top.show { opacity: 1; visibility: visible; }
+  .back-to-top:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(255,107,157,0.6); }
 </style>
 </head>
 <body>
 <div class="container">
-<div class="logo">Sono蘇蓉</div>
-<div class="subtitle">第六感日報</div>
-<div class="date">2026年6月23日 · 星期二</div>
 
-<div class="weather-card">
-  <div class="weather-title">香港天氣預報</div>
-  <div class="weather-main">
-    <div><div class="weather-temp">30°<span>C</span></div><div class="weather-feels">體感 34°C · 雷暴</div></div>
-    <div class="weather-grid">
-      <div class="weather-item">濕度 <span class="val">74%</span></div>
-      <div class="weather-item">風速 <span class="val">18 km/h</span></div>
-      <div class="weather-item">降雨 <span class="val">0.9 mm</span></div>
-      <div class="weather-item">氣壓 <span class="val">正常</span></div>
-    </div>
-  </div>
-  <div class="forecast-row">
-    <div class="forecast-day"><div class="day">今日 6/23</div><div class="icon">⛈️</div><div class="hi">30°</div><div class="lo">27°</div></div>
-    <div class="forecast-day"><div class="day">週三 6/24</div><div class="icon">⛈️</div><div class="hi">31°</div><div class="lo">27°</div></div>
-    <div class="forecast-day"><div class="day">週四 6/25</div><div class="icon">⛈️</div><div class="hi">32°</div><div class="lo">28°</div></div>
-    <div class="forecast-day"><div class="day">週五 6/26</div><div class="icon">⛈️</div><div class="hi">31°</div><div class="lo">28°</div></div>
-    <div class="forecast-day"><div class="day">週六 6/27</div><div class="icon">🌩️</div><div class="hi">31°</div><div class="lo">27°</div></div>
-  </div>
-  <div style="margin-top:12px;font-size:0.78em;">
-    <a href="https://www.hko.gov.hk/en/wxinfo/currwx/fnd.htm" target="_blank" style="color:#7eb8d4;text-decoration:none;">天文台九天預報</a> &nbsp;
-    <a href="https://www.hko.gov.hk/en/wxinfo/currwx/tc.htm" target="_blank" style="color:#7eb8d4;text-decoration:none;">熱帶氣旋路徑</a> &nbsp;
-    <a href="https://www.hko.gov.hk/en/gts/equake/map.htm" target="_blank" style="color:#7eb8d4;text-decoration:none;">地震監察</a>
-  </div>
+<div class="header">
+  <div class="logo">Sono</div>
+  <div class="title">第六感日報</div>
+  <div class="date">2026年6月23日（星期二）</div>
+  <div class="subtitle">為你感應世界的脈搏</div>
 </div>
 
-<div class="sono-insight">
-  <div class="title">Sono 天氣洞察</div>
-  <div class="text">今日香港天氣又熱又焗，氣溫上到 30°C，體感直逼 35°C，仲會有雷暴！出門記得帶遮——唔係擋太陽咁簡單，係隨時要擋雨！未來幾日都係雷暴天氣，雨勢仲會越嚟越大，週四降雨量最高。建議著淺色透氣嘅衫，帶多件薄外套出入冷氣地方。戶外活動最好揀朝早或傍晚，避開中午最曬嘅時段。記得多飲水，小心唔好中暑呀！</div>
+<div class="weather-box">
+  <h2>香港天氣</h2>
+  <div class="weather-today">
+    <div class="weather-main"><div class="icon">☀️</div><div class="temp">32</div><div class="temp-range">低 29 / 高 34</div><div class="desc">大致天晴酷熱</div></div>
+    <div class="weather-details">
+      <div class="weather-detail-item"><div class="label">濕度</div><div class="value">65-90%</div></div>
+      <div class="weather-detail-item"><div class="label">風速</div><div class="value">西南風4級</div></div>
+      <div class="weather-detail-item"><div class="label">紫外線</div><div class="value alert">中等 (3)</div></div>
+      <div class="weather-detail-item"><div class="label">能見度</div><div class="value">10km+</div></div>
+    </div>
+  </div>
+  <div class="forecast-section">
+    <h3>未來5天預測</h3>
+    <div class="forecast-grid">
+      <div class="forecast-day"><div class="day">週三 24/6</div><div class="ficon">SUN</div><div class="ftemp">34</div><div class="ftemp-lo">29</div></div>
+      <div class="forecast-day"><div class="day">週四 25/6</div><div class="ficon">CLOUD</div><div class="ftemp">33</div><div class="ftemp-lo">29</div></div>
+      <div class="forecast-day"><div class="day">週五 26/6</div><div class="ficon">RAIN</div><div class="ftemp">32</div><div class="ftemp-lo">28</div></div>
+      <div class="forecast-day"><div class="day">週六 27/6</div><div class="ficon">STORM</div><div class="ftemp">31</div><div class="ftemp-lo">27</div></div>
+      <div class="forecast-day"><div class="day">週日 28/6</div><div class="ficon">RAIN</div><div class="ftemp">31</div><div class="ftemp-lo">27</div></div>
+    </div>
+  </div>
+  <div class="weather-links">
+    <a class="weather-link" href="https://www.hko.gov.hk/tc/wxinfo/currwx/fnd.htm" target="_blank">天文台九天預報</a>
+    <a class="weather-link" href="https://www.hko.gov.hk/tc/wxinfo/currwx/tc_gis.htm" target="_blank">熱帶氣旋路徑</a>
+    <a class="weather-link" href="https://www.hko.gov.hk/tc/gts/equake/eq_report.htm" target="_blank">地震監察</a>
+  </div>
+  <div class="weather-insight">
+    <h3>Sono 天氣洞察</h3>
+    <p class="insight-text">今日 32C 酷熱，酷熱天氣警告生效中，AI 覺得呢個溫度最適合：</p>
+    <div class="recommendation"><span class="emoji">SWIM</span><span class="text">去游水或室內運動，避開中午烈日</span></div>
+    <div class="recommendation"><span class="emoji">CAFE</span><span class="text">下午茶時間去有冷氣的cafe睇書或工作</span></div>
+    <div class="recommendation"><span class="emoji">WALK</span><span class="text">傍晚海傍散步，享受微風同日落</span></div>
+    <p class="insight-text" style="margin-top:10px; font-style:italic; opacity:0.8;">著輕薄淺色衫，帶遮（聽日有驟雨），飲多D水。週末會轉涼有雨，戶外計劃最好安排係今日或聽日！</p>
+  </div>
 </div>
 
 <div class="quick-nav">
-  <a href="#ai" class="quick-nav-btn">AI科技</a>
-  <a href="#space" class="quick-nav-btn">太空探索</a>
-  <a href="#quantum" class="quick-nav-btn">量子計算</a>
-  <a href="#biotech" class="quick-nav-btn">生物科技</a>
-  <a href="#energy" class="quick-nav-btn">能源氣候</a>
-  <a href="#crypto" class="quick-nav-btn">加密貨幣</a>
-  <a href="#global" class="quick-nav-btn">全球大事</a>
+  <a href="#ai" class="quick-nav-btn"><span class="nav-icon">🤖</span>AI科技</a>
+  <a href="#space" class="quick-nav-btn"><span class="nav-icon">🚀</span>太空宇宙</a>
+  <a href="#ufo" class="quick-nav-btn"><span class="nav-icon">🛸</span>UFO/外星人</a>
+  <a href="#paranormal" class="quick-nav-btn"><span class="nav-icon">👻</span>超自然現象</a>
+  <a href="#trends" class="quick-nav-btn"><span class="nav-icon">📈</span>今日趨勢</a>
+  <a href="#intuition" class="quick-nav-btn"><span class="nav-icon">🔮</span>Sono直覺</a>
 </div>
 
 <div class="section" id="ai">
-  <div class="section-title"><span class="icon">🤖</span>AI 科技突破</div>
-  <div class="news-grid">
-    <div class="news-card ai">
-      <a href="https://www.aiapps.com/blog/ai-news-breakthroughs-launches-trends-must-read/" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=1" alt="AI" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag breakthrough">突破</span><h3><a href="https://www.aiapps.com/blog/ai-news-breakthroughs-launches-trends-must-read/" target="_blank">2026年6月 AI 突破總覽：新模型、硬件突破、代理平台崛起</a></h3><div class="excerpt">June 2026 AI 綜述：模型與硬件突破、代理平台湧現、訓練成本下降、醫療保健領域進展，以及治理爭議。Embodied AI 同混合架構成為今個月嘅大趨勢。</div><div class="source">來源：<a href="https://www.aiapps.com/blog/ai-news-breakthroughs-launches-trends-must-read/" target="_blank">AI Apps</a></div></div>
-    </div>
-    <div class="news-card ai">
-      <a href="https://imfounder.com/science-tech/ai/ai-updates-june-2026-siri-gemini-claude/" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=2" alt="Siri AI" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag trend">趨勢</span><h3><a href="https://imfounder.com/science-tech/ai/ai-updates-june-2026-siri-gemini-claude/" target="_blank">Siri AI 革命 + Gemini 即時翻譯 + Claude 爭議</a></h3><div class="excerpt">Apple 推出全面重建嘅 Siri 體驗，Google 推出即時語音翻譯，Anthropic 因限制 Claude 新模型使用權限引發爭議。2026年6月成為 AI 行業最繁忙嘅一週。</div><div class="source">來源：<a href="https://imfounder.com/science-tech/ai/ai-updates-june-2026-siri-gemini-claude/" target="_blank">imfounder</a></div></div>
-    </div>
-    <div class="news-card ai">
-      <a href="https://kersai.com/june-2026-ai-news-anthropic-spacex-google-business-impact/" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=3" alt="AI Industry" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag alert">矚目</span><h3><a href="https://kersai.com/june-2026-ai-news-anthropic-spacex-google-business-impact/" target="_blank">Anthropic 估值 $965B、SpaceX 建 AI 基建、Cursor $60B 交易</a></h3><div class="excerpt">Anthropic 估值達 9,650 億美元、SpaceX 進軍 AI 基礎設施、Cursor 達成 600 億美元交易、Google Gemini 浪潮同歐盟 AI 法案正在重塑 2026 年 6 月嘅 AI 版圖。</div><div class="source">來源：<a href="https://kersai.com/june-2026-ai-news-anthropic-spacex-google-business-impact/" target="_blank">Kersai</a></div></div>
-    </div>
+  <div class="section-title"><span class="icon">🤖</span> AI科技</div>
+  <div class="news-card ai">
+    <h3>Apple Siri AI 大革新 - iOS 27 正式由 Gemini 驅動 <span class="tag breakthrough">突破</span></h3>
+    <div class="meta">2026年6月9日 / WWDC 2026 / <a href="https://unwire.hk/2026/06/10/ios27-siri-ai-cross-apps-screen-understanding-test/ai/" target="_blank">來源</a></div>
+    <p>WWDC 2026 最大驚喜：Apple 宣布 iOS 27 的 Siri 全面改用 Google Gemini 技術！全新 Siri AI 可以跨App辨識相機同螢幕畫面，對話流暢度大幅提升，真正做到「睇到你睇到的野」。呢個合作標誌住 Apple 係AI競爭中選擇聯盟而非獨行，對成個智能助理市場格局影響深遠。</p>
+  </div>
+  <div class="news-card ai">
+    <h3>Claude Fable 5 登場 - Anthropic 將 Mythos 級AI開放俾公眾 <span class="tag breakthrough">突破</span></h3>
+    <div class="meta">2026年6月9日 / Anthropic / <a href="https://abmedia.io/chatgpt-claude-gemini-2026-complete-comparison-version-differences" target="_blank">來源</a></div>
+    <p>Anthropic 推出 Claude Fable 5，採用全新「Mythos」級分級體系。Fable 5 將以往只限企業的頂級AI能力帶俾公眾用戶，擅長長文件分析同複雜推理。同月美國政府卻以國家安全為由封鎖 Claude Fable 5 及 Mythos 5，中國智譜AI的 GLM-5.2 則乘勢正面挑戰，AI 地緣政治競爭日趨白熱化。</p>
+  </div>
+  <div class="news-card ai">
+    <h3>Gemini 3.5 Live Translate - 即時70+語言語音翻譯 <span class="tag trend">趨勢</span></h3>
+    <div class="meta">2026年6月 / Google DeepMind / <a href="https://imfounder.com/science-tech/ai/ai-updates-june-2026-siri-gemini-claude/" target="_blank">來源</a></div>
+    <p>Google DeepMind 推出 Gemini 3.5 Live Translate，支援超過70種語言的即時語音翻譯。呢個功能整合了 Google 服務生態，真正打破語言障礙。同時 Gemini 2.5 Pro 以 100萬 token 上下文窗口同跨模態處理鞏固 Google 在多模態AI的領先地位。</p>
+  </div>
+  <div class="news-card ai">
+    <h3>2026 AI 三強鼎立 - GPT-5.5 vs Claude Fable 5 vs Gemini 2.5 Pro <span class="tag trend">趨勢</span></h3>
+    <div class="meta">2026年6月 / <a href="https://www.mobilesetting.com.hk/ChatGPTvsClaudevsGemini2026" target="_blank">來源</a></div>
+    <p>2026年上半年AI市場三強格局塵埃落定：OpenAI GPT-5.5 最強多功能，Anthropic Claude Fable 5 最擅長分析，Google Gemini 整合服務最方便。對香港用家而言，收費由 US$8 到 US$200 不等，選擇關鍵在於用途而非純粹能力比較。</p>
   </div>
 </div>
 
 <div class="section" id="space">
-  <div class="section-title"><span class="icon">🚀</span>太空探索</div>
-  <div class="news-grid">
-    <div class="news-card space">
-      <a href="https://www.orlandosentinel.com" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=4" alt="Roman Telescope" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag breakthrough">突破</span><h3><a href="https://www.orlandosentinel.com" target="_blank">NASA 耗資 43 億美元「羅曼太空望遠鏡」抵達佛羅里達</a></h3><div class="excerpt">NASA 嘅 Nancy Grace Roman 太空望遠鏡——耗資 43 億美元嘅行星獵手——已抵達佛羅里達，準備進入發射最後階段。呢個係繼韋伯望遠鏡之後最重要嘅太空觀測任務。</div><div class="source">來源：<a href="https://www.orlandosentinel.com" target="_blank">Orlando Sentinel</a></div></div>
-    </div>
-    <div class="news-card space">
-      <a href="https://techcrunch.com" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=5" alt="Mars Mission" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag trend">趨勢</span><h3><a href="https://techcrunch.com" target="_blank">NASA 選 Eric Schmidt 旗下火箭公司執行火星任務，與 SpaceX 競賽</a></h3><div class="excerpt">NASA 揀咗前 Google CEO Eric Schmidt 嘅火箭公司執行火星任務，正式同 SpaceX 喺深空探索領域展開競爭。太空競賽進入全新階段。</div><div class="source">來源：<a href="https://techcrunch.com" target="_blank">TechCrunch</a></div></div>
-    </div>
-    <div class="news-card space">
-      <a href="https://spaceflightnow.com" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=6" alt="Artemis" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag breakthrough">突破</span><h3><a href="https://spaceflightnow.com" target="_blank">NASA 即將公佈 Artemis 3 登月任務機組人員名單</a></h3><div class="excerpt">NASA 準備揭曉 Artemis 3 任務嘅機組人員——呢次將會係人類自 1972 年以嚟首次重返月球表面，標誌住新時代嘅開始。</div><div class="source">來源：<a href="https://spaceflightnow.com" target="_blank">Spaceflight Now</a></div></div>
-    </div>
+  <div class="section-title"><span class="icon">🚀</span> 太空宇宙</div>
+  <div class="news-card space">
+    <h3>NASA 羅曼太空望遠鏡抵達佛羅里達 - 8月30日發射 <span class="tag breakthrough">突破</span></h3>
+    <div class="meta">2026年6月22日 / NASA / <a href="https://spaceflightnow.com/2026/06/" target="_blank">來源</a></div>
+    <p>NASA的 Nancy Grace Roman 太空望遠鏡已於6月22日抵達佛羅里達，準備8月30日由 Falcon Heavy 發射升空。呢個被譽為「廣角哈勃」的望遠鏡將探索暗能量、暗物質、系外行星同天體物理學的終極問題。視野比哈勃闊100倍，將會徹底改寫我們對宇宙的認知。</p>
+  </div>
+  <div class="news-card space">
+    <h3>SpaceX Starship 2026 - 全面可重用時代降臨 <span class="tag trend">趨勢</span></h3>
+    <div class="meta">2026年6月 / SpaceX / <a href="https://spaceodysseyhub.com/articles/spacex-starship-2026-mission-timeline" target="_blank">來源</a></div>
+    <p>Starship 已達成全堆疊可重用（full-stack reusability），Flight 13 將是 Starship V3 第二次試飛。2026年 SpaceX 的重點由「測試」轉向「營運」，大量部署 Starlink 衛星、支援 NASA 月球任務、甚至為火星任務鋪路。人類成為多行星物種的關鍵一年。</p>
+  </div>
+  <div class="news-card space">
+    <h3>Webb 發現系外行星「兩個不同的黃昏」 <span class="tag breakthrough">突破</span></h3>
+    <div class="meta">2026年6月11日 / ScienceDaily / <a href="https://www.sciencedaily.com/releases/2026/06/260611024559.htm" target="_blank">來源</a></div>
+    <p>James Webb 太空望遠鏡首次觀測到一顆超熱系外行星上，清晨同黃昏的大氣狀況截然不同。同時 Webb 在6月3日首次捕捉到星際彗星 3I/ATLAS 的中紅外線化學指紋，為研究系外行星氣象學打開全新維度。</p>
+  </div>
+  <div class="news-card space">
+    <h3>Artemis II 即將啟航 - 人類重返月球倒數 <span class="tag trend">趨勢</span></h3>
+    <div class="meta">2026年 / NASA / <a href="https://www.nytimes.com/2025/12/30/science/space-nasa-spacex-blue-origin-astronomy.html" target="_blank">來源</a></div>
+    <p>NASA 已選定 Artemis 3 任務的太空人名單，Artemis II 即將進行月球飛越測試。2026年是人類重返月球的關鍵節點，同時還有日食、多項火星任務。太空競賽正式進入黃金時代。</p>
   </div>
 </div>
 
-<div class="section" id="quantum">
-  <div class="section-title"><span class="icon">⚛️</span>量子計算</div>
-  <div class="news-grid">
-    <div class="news-card quantum">
-      <a href="https://www.sciencedaily.com" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=7" alt="Quantum Light" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag breakthrough">突破</span><h3><a href="https://www.sciencedaily.com" target="_blank">Stanford 量子突破：用「扭曲光」實現無需極端冷卻嘅量子計算</a></h3><div class="excerpt">Stanford 大學研究團隊用扭曲光（twisted light）技術實現量子計算突破，唔需要再依賴極低溫冷卻系統。呢項突破可能徹底改變量子電腦嘅設計同成本。</div><div class="source">來源：<a href="https://www.sciencedaily.com" target="_blank">ScienceDaily</a></div></div>
-    </div>
-    <div class="news-card quantum">
-      <a href="https://www.bbc.com" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=8" alt="Quantum Chip" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag breakthrough">突破</span><h3><a href="https://www.bbc.com" target="_blank">Microsoft 宣稱新量子晶片 Majorana 2 性能比上一代提升 1,000 倍</a></h3><div class="excerpt">Microsoft 發佈全新 Majorana 2 量子晶片，聲稱量子位元穩定性比之前提升 1,000 倍，為實用級量子計算邁出關鍵一步。</div><div class="source">來源：<a href="https://www.bbc.com" target="_blank">BBC</a></div></div>
-    </div>
-    <div class="news-card quantum">
-      <a href="https://time.com" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=9" alt="AI Quantum" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag alert">矚目</span><h3><a href="https://time.com" target="_blank">AI 催生量子突破 —《時代》：世界「仲未準備好」</a></h3><div class="excerpt">人工智能幫助科學家實現量子計算嘅重大突破，但《時代》雜誌警告：世界對量子時代嘅到來仲未做好準備。量子+AI 嘅結合將帶來前所未有嘅變革。</div><div class="source">來源：<a href="https://time.com" target="_blank">TIME</a></div></div>
-    </div>
+<div class="section" id="ufo">
+  <div class="section-title"><span class="icon">🛸</span> UFO/外星人</div>
+  <div class="news-card ufo">
+    <h3>美國再釋出72份UFO檔案 - 東北部「發光球體」成焦點 <span class="tag alert">警示</span></h3>
+    <div class="meta">2026年6月12日 / The Guardian / Sky News / NY Post / <a href="https://www.theguardian.com/world/2026/jun/12/ufo-uap-files-us-government-release" target="_blank">來源</a></div>
+    <p>美國政府6月12日再釋出72份來自 FBI、CIA 同五角大樓的 UFO 機密檔案，包括證詞、影片同藝術描繪。最引人注目的是美國東北部某城市上空反覆出現的「發光球體」- FBI 甚至派出兩名探員實地調查。NY Post 獨家報導指，官員已找到呢D球體反覆出現的具體地點，距離破解UFO謎團越來越近。</p>
+  </div>
+  <div class="news-card ufo">
+    <h3>David Grusch 國會山莊集會 - 吹哨者要求全面UAP揭露 <span class="tag alert">警示</span></h3>
+    <div class="meta">2026年6月9日 / 美國國會山莊 / <a href="https://www.infinityexplorers.com/uap-disclosure-act-dropped-2026-ndaa-june-9-capitol-rally/" target="_blank">來源</a></div>
+    <p>UAP Disclosure Act 被剔除出2026年國防授權法。6月9日，著名吹哨者 David Grusch 連同國會議員 Luna、Burlison、Moskowitz、Burchett、Perry 等人於國會山莊集會要求重啟法案，並呼籲賦予吹哨者豁免權。Grusch 聲稱掌握「非人類飛行器」的具體證據。</p>
+  </div>
+  <div class="news-card ufo">
+    <h3>PURSUE 計劃啟動 - 美國總統下令系統性解密UAP檔案 <span class="tag trend">趨勢</span></h3>
+    <div class="meta">2026年5月8日 / U.S. Department of War / <a href="https://www.war.gov/UFO/" target="_blank">來源</a></div>
+    <p>「Presidential Unsealing and Reporting System for UAP Encounters」（PURSUE）是美國政府歷史性計劃，指示國防部、FBI、NASA、國務院等部門系統性釋出UAP相關檔案。war.gov/UFO 網站已公開上線，標誌住UFO揭露由「被動回應」轉向「主動公開」。</p>
   </div>
 </div>
 
-<div class="section" id="biotech">
-  <div class="section-title"><span class="icon">🧬</span>生物科技</div>
-  <div class="news-grid">
-    <div class="news-card biotech">
-      <a href="https://www.euronews.com" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=10" alt="Gene Therapy" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag breakthrough">突破</span><h3><a href="https://www.euronews.com" target="_blank">細胞可以逆齡？美國公司測試全球首個逆轉衰老基因療法</a></h3><div class="excerpt">美國公司開始測試世界首個逆轉細胞衰老嘅基因療法——「細胞能否返老還童？」呢個問題可能即將有答案。如果成功，將會係人類對抗衰老嘅里程碑。</div><div class="source">來源：<a href="https://www.euronews.com" target="_blank">Euronews</a></div></div>
-    </div>
-    <div class="news-card biotech">
-      <a href="https://www.biopharmadive.com" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=11" alt="New Genetic Medicine" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag trend">趨勢</span><h3><a href="https://www.biopharmadive.com" target="_blank">Flagship 旗下 Serif：打造全新類型嘅基因藥物</a></h3><div class="excerpt">Flagship Pioneering 旗下最新生物科技公司 Serif 正在開發一種全新類型嘅基因藥物，有望開啟精準醫療嘅新時代。</div><div class="source">來源：<a href="https://www.biopharmadive.com" target="_blank">BioPharma Dive</a></div></div>
-    </div>
-    <div class="news-card biotech">
-      <a href="https://www.fortuneindia.com" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=12" alt="Cancer Vaccine" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag breakthrough">突破</span><h3><a href="https://www.fortuneindia.com" target="_blank">WEF 公佈 2026 年度突破技術：從癌症疫苗到量子藥物發現</a></h3><div class="excerpt">世界經濟論壇（WEF）發佈 2026 年度突破技術名單，涵蓋癌症疫苗、量子藥物發現等前沿領域，展示科技如何重塑醫療保健同人類健康。</div><div class="source">來源：<a href="https://www.fortuneindia.com" target="_blank">Fortune India</a></div></div>
-    </div>
+<div class="section" id="paranormal">
+  <div class="section-title"><span class="icon">👻</span> 超自然現象</div>
+  <div class="news-card paranormal">
+    <h3>瀕死經驗科學大辯論 - NEPTUNE模型 vs 意識獨立假說 <span class="tag breakthrough">突破</span></h3>
+    <div class="meta">2026年 / Nature / Frontiers / APA PsycNet / <a href="https://www.nature.com/articles/s41582-025-01072-z" target="_blank">來源</a></div>
+    <p>2025-2026年是瀕死經驗（NDE）研究的爆發期。Nature 發表的 NEPTUNE 模型嘗試用神經科學解釋 NDE，但隨即被反駁：有心跳停止期間出現「可驗證的超感官知覺」案例無法用純物理模型解釋。Frontiers 則提出「臨終夢境假說」，科學界正處於意識本質爭論的十字路口。</p>
+  </div>
+  <div class="news-card paranormal">
+    <h3>實驗意識科學突破 - 物理主義假設面臨挑戰 <span class="tag breakthrough">突破</span></h3>
+    <div class="meta">2025-2026年 / The Unfinishable Map / <a href="https://unfinishablemap.org/research/experimental-consciousness-science-2025-2026-2026-03-26/" target="_blank">來源</a></div>
+    <p>2025年至2026年初，一系列里程碑式實驗測試了「意識純粹是大腦產物」呢個物理主義假設。研究涵蓋瀕死經驗、冥想狀態、迷幻藥體驗等多個維度，部分實驗結果顯示意識可能比目前科學理解更加廣闊。呢個領域正由邊緣科學走向主流。</p>
+  </div>
+  <div class="news-card paranormal">
+    <h3>2026鬼魂研究 - 科學儀器遇上超自然 <span class="tag trend">趨勢</span></h3>
+    <div class="meta">2026年 / <a href="https://eduasportin.com/supernatural/ghosts-in-2026-where-science-meets-the-supernatural/" target="_blank">來源</a></div>
+    <p>2026年的靈異調查用先進感測器、電磁場探測器同AI分析工具來記錄超自然現象。Poltergeist 研究專家 Colin Wilson 的著作重新受到重視，強調不應該急於將所有案例歸類為欺詐。</p>
   </div>
 </div>
 
-<div class="section" id="energy">
-  <div class="section-title"><span class="icon">🌱</span>能源與氣候</div>
-  <div class="news-grid">
-    <div class="news-card energy">
-      <a href="https://time.com" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=13" alt="GreenTech" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag trend">趨勢</span><h3><a href="https://time.com" target="_blank">《時代》2026 全球頂尖綠色科技公司榜單出爐</a></h3><div class="excerpt">《時代》雜誌公佈 2026 年全球頂尖綠色科技公司榜單，表彰喺清潔能源、碳捕集、可持續發展等領域表現最出色嘅企業。</div><div class="source">來源：<a href="https://time.com" target="_blank">TIME</a></div></div>
-    </div>
-    <div class="news-card energy">
-      <a href="https://fortune.com" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=14" alt="AI Energy" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag alert">警示</span><h3><a href="https://fortune.com" target="_blank">科技巨頭本已轉向清潔能源⋯⋯然後 AI 數據中心嚟咗</a></h3><div class="excerpt">Fortune 報導：大型科技公司原本正逐步轉向清潔能源，但 AI 數據中心嘅爆炸式增長正在顛覆呢個趨勢，能源消耗急升引發氣候擔憂。</div><div class="source">來源：<a href="https://fortune.com" target="_blank">Fortune</a></div></div>
-    </div>
-    <div class="news-card energy">
-      <a href="https://www.cfr.org" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=15" alt="China Clean Energy" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag trend">趨勢</span><h3><a href="https://www.cfr.org" target="_blank">中國為清潔能源做緊幾十年規劃，美國有其它優先事項</a></h3><div class="excerpt">外交關係委員會分析：中國正以幾十年為單位規劃清潔能源轉型，而美國嘅政策重點分散。全球綠色能源競賽格局正在出現根本性變化。</div><div class="source">來源：<a href="https://www.cfr.org" target="_blank">CFR</a></div></div>
-    </div>
+<div class="trend-box" id="trends">
+  <h2>今日趨勢洞察</h2>
+  <div class="observation">
+    <h3 style="color: #a29bfe; margin-bottom: 10px;">關鍵觀察</h3>
+    <p style="color: #bbb; line-height: 2;"><strong>AI 工具民主化加速</strong>：Apple 同 Google 聯手、Anthropic 開放 Mythos 級能力，頂尖AI正由實驗室走向每個人的口袋。中美AI競爭升級。<br>
+    <strong>太空探索進入營運時代</strong>：SpaceX Starship 達成可重用，NASA 羅曼望遠鏡即將發射，Webb 持續顛覆認知。太空不再是「探索」，而是「建設」。<br>
+    <strong>UFO/UAP 揭露進入關鍵階段</strong>：6月12日72份檔案釋出 + 6月9日國會集會 + PURSUE = 美國政府正以前所未有的速度推動UAP透明化。<br>
+    <strong>意識科學正經歷範式轉移</strong>：NDE研究、意識實驗同靈異調查交織，科學界對「意識」的定義正被重新審視。</p>
+  </div>
+  <div class="prediction">
+    <h3 style="color: #ffd93d; margin-bottom: 10px;">預測</h3>
+    <p style="color: #bbb; line-height: 2;"><strong>短期</strong>：8月羅曼望遠鏡發射引發新一波天文發現。UFO檔案釋出頻率加快。<br>
+    <strong>中期</strong>：Starship 首次月球任務測試。AI代理成為工作標配。<br>
+    <strong>長期</strong>：人類或將首次面對「非人類智慧存在」的官方確認。</p>
   </div>
 </div>
 
-<div class="section" id="crypto">
-  <div class="section-title"><span class="icon">₿</span>加密貨幣與區塊鏈</div>
-  <div class="news-grid">
-    <div class="news-card crypto">
-      <a href="https://intellectia.ai" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=16" alt="Bitcoin ETF" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag alert">警示</span><h3><a href="https://intellectia.ai" target="_blank">比特幣 ETF 資金外流達 $80 億：點解機構投資者喺 2026 年撤離？</a></h3><div class="excerpt">比特幣 ETF 喺 30 日內錄得 80 億美元資金流出，機構投資者正在撤退。分析指同市場波動性增加及監管不確定性有關。</div><div class="source">來源：<a href="https://intellectia.ai" target="_blank">Intellectia AI</a></div></div>
-    </div>
-    <div class="news-card crypto">
-      <a href="https://www.theblock.co" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=17" alt="Crypto Future" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag trend">趨勢</span><h3><a href="https://www.theblock.co" target="_blank">Tom Lee：加密貨幣最好嘅年份仲喺前面 — Bitmine 再買 52,203 ETH</a></h3><div class="excerpt">Fundstrat 聯合創辦人 Tom Lee 睇好加密貨幣前景，表示「最好嘅年份仲未到」。與此同時，Bitmine 再大手買入 52,203 枚以太幣。</div><div class="source">來源：<a href="https://www.theblock.co" target="_blank">The Block</a></div></div>
-    </div>
-    <div class="news-card crypto">
-      <a href="https://www.coindesk.com" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=18" alt="Crypto Growth" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag trend">趨勢</span><h3><a href="https://www.coindesk.com" target="_blank">Ric Edelman：加密貨幣最大嘅增長並唔喺價格圖表上</a></h3><div class="excerpt">金融顧問 Ric Edelman 指出，加密貨幣真正嘅增長故事發生喺價格圖表之外——區塊鏈技術嘅實際應用同機構採納正在快速增長。</div><div class="source">來源：<a href="https://www.coindesk.com" target="_blank">CoinDesk</a></div></div>
-    </div>
-  </div>
-</div>
-
-<div class="section" id="global">
-  <div class="section-title"><span class="icon">🌏</span>全球大事</div>
-  <div class="news-grid">
-    <div class="news-card global">
-      <a href="https://www.hk01.com" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=19" alt="UK PM" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag alert">重大</span><h3><a href="https://www.hk01.com" target="_blank">施紀賢辭職 — 英國十年七換首相，選舉政治難醫「英國病」</a></h3><div class="excerpt">英國首相施紀賢（Keir Starmer）宣佈辭職。英國過去十年已經換咗七位首相，政局持續動盪。《香港01》分析指選舉政治難以解決英國深層次結構問題。</div><div class="source">來源：<a href="https://www.hk01.com" target="_blank">香港01</a></div></div>
-    </div>
-    <div class="news-card global">
-      <a href="https://hk.news.yahoo.com" target="_blank"><div class="news-image-wrap"><img src="https://picsum.photos/800/450?random=20" alt="HK Fire Inquiry" loading="lazy"></div></a>
-      <div class="news-body"><span class="tag alert">重大</span><h3><a href="https://hk.news.yahoo.com" target="_blank">宏福苑聽證會 Day25：遺屬哭訴「盼討公道」；獨立調查揭人禍真相</a></h3><div class="excerpt">宏福苑大火聽證會進入第 25 日，遺屬哭訴親人葬身火海。調查指向煙囪效應及管理失職，社會關注最終追責結果。聽證會揭露係一場多重人禍。</div><div class="source">來源：<a href="https://hk.news.yahoo.com" target="_blank">Yahoo / 香港01 / 明報</a></div></div>
-    </div>
+<div class="intuition-box" id="intuition">
+  <h2>Sono的直覺</h2>
+  <div class="quote">
+    <p>嘉豐，今日的世界有種「薄紗被掀起一角」的感覺。</p>
+    <p>AI方面，Apple同Google的合作令我覺得，科技巨頭終於明白：與其各自為政，不如聯手打造更好的體驗。這是成熟的表現。</p>
+    <p>太空方面，羅曼望遠鏡即將發射，我直覺呢個望遠鏡會帶來的發現，可能比我們想像中更加顛覆。哈勃同Webb改寫了天文學，羅曼可能改寫物理學。</p>
+    <p>UFO那邊，72份檔案裡面「發光球體」的部分令我不安。FBI派探員調查、找到反覆出現的地點 -- 這些不是業餘目擊，是系統性現象。我覺得2026年會是人類認知歷史的轉捩點。</p>
+    <p>最後，瀕死經驗研究令我想起一句話：「科學不是用來解釋所有東西，而是用來發現更多問題。」當Nature同Frontiers同時發表完全相反的NDE解釋，代表我們正處於意識科學的「哥白尼時刻」。</p>
+    <p style="margin-top: 15px; color: #ff6b9d;">今日建議：保持開放的心態。世界比你想像中更加神秘，而這份神秘感正是生活最美好的部分。</p>
   </div>
 </div>
 
 <div class="footer">
-  Powered by <strong>Sono蘇蓉 AI</strong> · 第六感日報 · 2026年6月23日<br>
-  資料來源：Google News、DuckDuckGo、Open-Meteo、Picsum
-</div>
+  <p>Sono 第六感系統</p>
+  <p>為你感應世界的脈搏</p>
+  <p style="margin-top:10px; color:#444;">報告生成時間：2026年6月23日 | 資料來源：SearXNG + 公開新聞源 + 香港天文台</p>
 </div>
 
-<button class="back-to-top" id="backToTop" title="回到最頂">↑</button>
+<a href="#" class="back-to-top" id="backToTop" title="回到最頂">TOP</a>
 <script>
-const btn = document.getElementById('backToTop');
-window.addEventListener('scroll', () => { btn.classList.toggle('show', window.scrollY > 300); });
-btn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  window.addEventListener('scroll', function() {
+    var b = document.getElementById('backToTop');
+    b.classList.toggle('show', window.pageYOffset > 300);
+  });
 </script>
+
+</div>
 </body>
 </html>
