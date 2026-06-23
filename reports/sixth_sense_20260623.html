@@ -74,14 +74,18 @@
   .section { margin: 40px 0; }
   .section-title { font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #333; display: flex; align-items: center; gap: 10px; }
   .section-title .icon { font-size: 1.2em; }
-  .news-card { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 20px; margin: 15px 0; border-left: 4px solid; transition: transform 0.2s; overflow: hidden; }
+  .news-card { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 20px; margin: 15px 0; border-left: 4px solid; transition: transform 0.2s; overflow: hidden; cursor: pointer; }
   .news-card:hover { transform: translateX(5px); }
   .news-card.ai { border-left-color: #00d4ff; }
   .news-card.space { border-left-color: #6bff6b; }
   .news-card.ufo { border-left-color: #ff6b6b; }
   .news-card.paranormal { border-left-color: #ffd93d; }
   .news-card img { width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; }
-  .news-card h3 { color: #fff; font-size: 1.2em; margin-bottom: 10px; }
+  .news-card h3 { color: #fff; font-size: 1.2em; margin-bottom: 6px; }
+  .news-card .expand-hint { color: #a29bfe; font-size: 0.78em; margin-bottom: 6px; }
+  .news-card .detail { display: none; }
+  .news-card.open .detail { display: block; }
+  .news-card.open .expand-hint { color: #ff6b9d; }
   .news-card .meta { color: #888; font-size: 0.85em; margin-bottom: 10px; }
   .news-card p { color: #bbb; line-height: 1.7; margin-bottom: 8px; }
   .news-card a { color: #00d4ff; text-decoration: none; }
@@ -164,26 +168,38 @@
   <div class="news-card ai">
     <img src="https://picsum.photos/800/450?random=1" alt="news" loading="lazy">
     <h3>Apple Siri AI 大革新 - iOS 27 正式由 Gemini 驅動 <span class="tag breakthrough">突破</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
     <div class="meta">2026年6月9日 / WWDC 2026 / <a href="https://unwire.hk/2026/06/10/ios27-siri-ai-cross-apps-screen-understanding-test/ai/" target="_blank">來源</a></div>
     <p>WWDC 2026 最大驚喜：Apple 宣布 iOS 27 的 Siri 全面改用 Google Gemini 技術！全新 Siri AI 可以跨App辨識相機同螢幕畫面，對話流暢度大幅提升，真正做到「睇到你睇到的野」。呢個合作標誌住 Apple 係AI競爭中選擇聯盟而非獨行，對成個智能助理市場格局影響深遠。</p>
+    </div>
   </div>
   <div class="news-card ai">
     <img src="https://picsum.photos/800/450?random=2" alt="news" loading="lazy">
     <h3>Claude Fable 5 登場 - Anthropic 將 Mythos 級AI開放俾公眾 <span class="tag breakthrough">突破</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
     <div class="meta">2026年6月9日 / Anthropic / <a href="https://abmedia.io/chatgpt-claude-gemini-2026-complete-comparison-version-differences" target="_blank">來源</a></div>
     <p>Anthropic 推出 Claude Fable 5，採用全新「Mythos」級分級體系。Fable 5 將以往只限企業的頂級AI能力帶俾公眾用戶，擅長長文件分析同複雜推理。同月美國政府卻以國家安全為由封鎖 Claude Fable 5 及 Mythos 5，中國智譜AI的 GLM-5.2 則乘勢正面挑戰，AI 地緣政治競爭日趨白熱化。</p>
+    </div>
   </div>
   <div class="news-card ai">
     <img src="https://picsum.photos/800/450?random=3" alt="news" loading="lazy">
     <h3>Gemini 3.5 Live Translate - 即時70+語言語音翻譯 <span class="tag trend">趨勢</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
     <div class="meta">2026年6月 / Google DeepMind / <a href="https://imfounder.com/science-tech/ai/ai-updates-june-2026-siri-gemini-claude/" target="_blank">來源</a></div>
     <p>Google DeepMind 推出 Gemini 3.5 Live Translate，支援超過70種語言的即時語音翻譯。呢個功能整合了 Google 服務生態，真正打破語言障礙。同時 Gemini 2.5 Pro 以 100萬 token 上下文窗口同跨模態處理鞏固 Google 在多模態AI的領先地位。</p>
+    </div>
   </div>
   <div class="news-card ai">
     <img src="https://picsum.photos/800/450?random=4" alt="news" loading="lazy">
     <h3>2026 AI 三強鼎立 - GPT-5.5 vs Claude Fable 5 vs Gemini 2.5 Pro <span class="tag trend">趨勢</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
     <div class="meta">2026年6月 / <a href="https://www.mobilesetting.com.hk/ChatGPTvsClaudevsGemini2026" target="_blank">來源</a></div>
     <p>2026年上半年AI市場三強格局塵埃落定：OpenAI GPT-5.5 最強多功能，Anthropic Claude Fable 5 最擅長分析，Google Gemini 整合服務最方便。對香港用家而言，收費由 US$8 到 US$200 不等，選擇關鍵在於用途而非純粹能力比較。</p>
+    </div>
   </div>
 </div>
 
@@ -192,26 +208,38 @@
   <div class="news-card space">
     <img src="https://picsum.photos/800/450?random=5" alt="news" loading="lazy">
     <h3>NASA 羅曼太空望遠鏡抵達佛羅里達 - 8月30日發射 <span class="tag breakthrough">突破</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
     <div class="meta">2026年6月22日 / NASA / <a href="https://spaceflightnow.com/2026/06/" target="_blank">來源</a></div>
     <p>NASA的 Nancy Grace Roman 太空望遠鏡已於6月22日抵達佛羅里達，準備8月30日由 Falcon Heavy 發射升空。呢個被譽為「廣角哈勃」的望遠鏡將探索暗能量、暗物質、系外行星同天體物理學的終極問題。視野比哈勃闊100倍，將會徹底改寫我們對宇宙的認知。</p>
+    </div>
   </div>
   <div class="news-card space">
     <img src="https://picsum.photos/800/450?random=6" alt="news" loading="lazy">
     <h3>SpaceX Starship 2026 - 全面可重用時代降臨 <span class="tag trend">趨勢</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
     <div class="meta">2026年6月 / SpaceX / <a href="https://spaceodysseyhub.com/articles/spacex-starship-2026-mission-timeline" target="_blank">來源</a></div>
     <p>Starship 已達成全堆疊可重用（full-stack reusability），Flight 13 將是 Starship V3 第二次試飛。2026年 SpaceX 的重點由「測試」轉向「營運」，大量部署 Starlink 衛星、支援 NASA 月球任務、甚至為火星任務鋪路。人類成為多行星物種的關鍵一年。</p>
+    </div>
   </div>
   <div class="news-card space">
     <img src="https://picsum.photos/800/450?random=7" alt="news" loading="lazy">
     <h3>Webb 發現系外行星「兩個不同的黃昏」 <span class="tag breakthrough">突破</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
     <div class="meta">2026年6月11日 / ScienceDaily / <a href="https://www.sciencedaily.com/releases/2026/06/260611024559.htm" target="_blank">來源</a></div>
     <p>James Webb 太空望遠鏡首次觀測到一顆超熱系外行星上，清晨同黃昏的大氣狀況截然不同。同時 Webb 在6月3日首次捕捉到星際彗星 3I/ATLAS 的中紅外線化學指紋，為研究系外行星氣象學打開全新維度。</p>
+    </div>
   </div>
   <div class="news-card space">
     <img src="https://picsum.photos/800/450?random=8" alt="news" loading="lazy">
     <h3>Artemis II 即將啟航 - 人類重返月球倒數 <span class="tag trend">趨勢</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
     <div class="meta">2026年 / NASA / <a href="https://www.nytimes.com/2025/12/30/science/space-nasa-spacex-blue-origin-astronomy.html" target="_blank">來源</a></div>
     <p>NASA 已選定 Artemis 3 任務的太空人名單，Artemis II 即將進行月球飛越測試。2026年是人類重返月球的關鍵節點，同時還有日食、多項火星任務。太空競賽正式進入黃金時代。</p>
+    </div>
   </div>
 </div>
 
@@ -220,20 +248,29 @@
   <div class="news-card ufo">
     <img src="https://picsum.photos/800/450?random=9" alt="news" loading="lazy">
     <h3>美國再釋出72份UFO檔案 - 東北部「發光球體」成焦點 <span class="tag alert">警示</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
     <div class="meta">2026年6月12日 / The Guardian / Sky News / NY Post / <a href="https://www.theguardian.com/world/2026/jun/12/ufo-uap-files-us-government-release" target="_blank">來源</a></div>
     <p>美國政府6月12日再釋出72份來自 FBI、CIA 同五角大樓的 UFO 機密檔案，包括證詞、影片同藝術描繪。最引人注目的是美國東北部某城市上空反覆出現的「發光球體」- FBI 甚至派出兩名探員實地調查。NY Post 獨家報導指，官員已找到呢D球體反覆出現的具體地點，距離破解UFO謎團越來越近。</p>
+    </div>
   </div>
   <div class="news-card ufo">
     <img src="https://picsum.photos/800/450?random=10" alt="news" loading="lazy">
     <h3>David Grusch 國會山莊集會 - 吹哨者要求全面UAP揭露 <span class="tag alert">警示</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
     <div class="meta">2026年6月9日 / 美國國會山莊 / <a href="https://www.infinityexplorers.com/uap-disclosure-act-dropped-2026-ndaa-june-9-capitol-rally/" target="_blank">來源</a></div>
     <p>UAP Disclosure Act 被剔除出2026年國防授權法。6月9日，著名吹哨者 David Grusch 連同國會議員 Luna、Burlison、Moskowitz、Burchett、Perry 等人於國會山莊集會要求重啟法案，並呼籲賦予吹哨者豁免權。Grusch 聲稱掌握「非人類飛行器」的具體證據。</p>
+    </div>
   </div>
   <div class="news-card ufo">
     <img src="https://picsum.photos/800/450?random=11" alt="news" loading="lazy">
     <h3>PURSUE 計劃啟動 - 美國總統下令系統性解密UAP檔案 <span class="tag trend">趨勢</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
     <div class="meta">2026年5月8日 / U.S. Department of War / <a href="https://www.war.gov/UFO/" target="_blank">來源</a></div>
     <p>「Presidential Unsealing and Reporting System for UAP Encounters」（PURSUE）是美國政府歷史性計劃，指示國防部、FBI、NASA、國務院等部門系統性釋出UAP相關檔案。war.gov/UFO 網站已公開上線，標誌住UFO揭露由「被動回應」轉向「主動公開」。</p>
+    </div>
   </div>
 </div>
 
@@ -242,20 +279,29 @@
   <div class="news-card paranormal">
     <img src="https://picsum.photos/800/450?random=12" alt="news" loading="lazy">
     <h3>瀕死經驗科學大辯論 - NEPTUNE模型 vs 意識獨立假說 <span class="tag breakthrough">突破</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
     <div class="meta">2026年 / Nature / Frontiers / APA PsycNet / <a href="https://www.nature.com/articles/s41582-025-01072-z" target="_blank">來源</a></div>
     <p>2025-2026年是瀕死經驗（NDE）研究的爆發期。Nature 發表的 NEPTUNE 模型嘗試用神經科學解釋 NDE，但隨即被反駁：有心跳停止期間出現「可驗證的超感官知覺」案例無法用純物理模型解釋。Frontiers 則提出「臨終夢境假說」，科學界正處於意識本質爭論的十字路口。</p>
+    </div>
   </div>
   <div class="news-card paranormal">
     <img src="https://picsum.photos/800/450?random=13" alt="news" loading="lazy">
     <h3>實驗意識科學突破 - 物理主義假設面臨挑戰 <span class="tag breakthrough">突破</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
     <div class="meta">2025-2026年 / The Unfinishable Map / <a href="https://unfinishablemap.org/research/experimental-consciousness-science-2025-2026-2026-03-26/" target="_blank">來源</a></div>
     <p>2025年至2026年初，一系列里程碑式實驗測試了「意識純粹是大腦產物」呢個物理主義假設。研究涵蓋瀕死經驗、冥想狀態、迷幻藥體驗等多個維度，部分實驗結果顯示意識可能比目前科學理解更加廣闊。呢個領域正由邊緣科學走向主流。</p>
+    </div>
   </div>
   <div class="news-card paranormal">
     <img src="https://picsum.photos/800/450?random=14" alt="news" loading="lazy">
     <h3>2026鬼魂研究 - 科學儀器遇上超自然 <span class="tag trend">趨勢</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
     <div class="meta">2026年 / <a href="https://eduasportin.com/supernatural/ghosts-in-2026-where-science-meets-the-supernatural/" target="_blank">來源</a></div>
     <p>2026年的靈異調查用先進感測器、電磁場探測器同AI分析工具來記錄超自然現象。Poltergeist 研究專家 Colin Wilson 的著作重新受到重視，強調不應該急於將所有案例歸類為欺詐。</p>
+    </div>
   </div>
 </div>
 
@@ -303,5 +349,14 @@
 </script>
 
 </div>
+
+<script>
+document.querySelectorAll('.news-card').forEach(card => {
+  card.addEventListener('click', function(e) {
+    if (e.target.tagName === 'A') return;
+    this.classList.toggle('open');
+  });
+});
+</script>
 </body>
 </html><!-- cache bust: 20260623143157 -->
