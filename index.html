@@ -1,121 +1,50 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-HK">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sono蘇蓉 · 第六感日報</title>
+<title>Sono蘇蓉 第六感日報</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { 
-    font-family: -apple-system, 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', sans-serif; 
-    background: #0a0a1a; 
-    color: #e0e0e0; 
-    line-height: 1.8;
-    min-height: 100vh;
-  }
-  .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-  
-  .header { text-align: center; margin: 50px 0 40px; }
-  .logo { 
-    font-size: 3.5em; font-weight: bold; letter-spacing: 3px; 
-    background: linear-gradient(135deg, #ff6b9d, #c44569, #a29bfe, #6c5ce7); 
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-    background-clip: text; text-shadow: 0 0 40px rgba(255,107,157,0.4); 
-    margin-bottom: 15px; 
-  }
-  .title { 
-    font-size: 1.3em; font-weight: 600; 
-    background: linear-gradient(90deg, #ffd93d, #ff6b9d, #a29bfe, #6bff6b); 
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-    background-clip: text; letter-spacing: 2px; margin-bottom: 10px; 
-  }
-  .subtitle { color: #a29bfe; font-size: 0.9em; margin-top: 5px; font-style: italic; opacity: 0.8; }
-  
-  .latest-box {
-    background: linear-gradient(135deg, #1a2438, #131d2e);
-    border: 1px solid rgba(120,160,190,0.25);
-    border-radius: 12px;
-    padding: 25px;
-    margin: 30px 0;
-    text-align: center;
-  }
-  .latest-box h2 { color: #7eb8d4; font-size: 1.2em; margin-bottom: 15px; }
-  .latest-link {
-    display: inline-block;
-    padding: 12px 30px;
-    background: linear-gradient(135deg, #ff6b9d, #c44569);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 25px;
-    font-size: 1.1em;
-    font-weight: bold;
-    transition: all 0.3s;
-  }
-  .latest-link:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(255,107,157,0.4); }
-  
-  .archive-box {
-    background: rgba(255,255,255,0.03);
-    border-radius: 12px;
-    padding: 25px;
-    margin: 30px 0;
-  }
-  .archive-box h2 { color: #a29bfe; font-size: 1.3em; margin-bottom: 15px; }
-  .archive-list { list-style: none; }
-  .archive-list li {
-    padding: 12px 15px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    transition: background 0.2s;
-  }
-  .archive-list li:hover { background: rgba(255,255,255,0.05); }
-  .archive-list a {
-    color: #7eb8d4;
-    text-decoration: none;
-    font-size: 1em;
-  }
-  .archive-list a:hover { color: #ff6b9d; }
-  .archive-list .date { color: #666; font-size: 0.85em; margin-right: 10px; }
-  
-  .footer {
-    text-align: center;
-    color: #555;
-    margin-top: 50px;
-    padding: 20px;
-    border-top: 1px solid #222;
-    font-size: 0.85em;
-  }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; line-height: 1.7; }
+.container { max-width: 800px; margin: 0 auto; padding: 20px; }
+.logo { text-align: center; font-size: 3em; font-weight: 900; background: linear-gradient(135deg, #ff6b9d, #c44569, #a29bfe, #6c5ce7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-top: 30px; letter-spacing: 4px; }
+.subtitle { text-align: center; font-size: 1.2em; font-weight: 700; background: linear-gradient(90deg, #ffd93d, #ff6b9d, #a29bfe, #6bff6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 8px 0 40px; }
+.report-list { display: grid; gap: 15px; }
+.report-item { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 20px; border-left: 4px solid #ff6b9d; transition: transform 0.2s, box-shadow 0.2s; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: #e0e0e0; }
+.report-item:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.4); border-left-color: #00d4ff; }
+.report-item .date-num { font-size: 2em; font-weight: 900; color: #ff6b9d; min-width: 70px; }
+.report-item .info { flex: 1; margin-left: 15px; }
+.report-item .info h3 { font-size: 1.1em; color: #fff; margin-bottom: 4px; }
+.report-item .info .desc { font-size: 0.85em; color: #888; }
+.report-item .arrow { font-size: 1.5em; color: #555; }
+.footer { text-align: center; padding: 40px 20px; color: #555; font-size: 0.85em; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 50px; }
+.empty { text-align: center; color: #666; padding: 60px 20px; font-size: 1.1em; }
+@media (max-width: 600px) {
+  .logo { font-size: 2em; }
+  .report-item .date-num { font-size: 1.5em; min-width: 50px; }
+}
 </style>
 </head>
 <body>
 <div class="container">
-  <div class="header">
-    <div class="logo">Sono蘇蓉</div>
-    <div class="title">第六感日報</div>
-    <div class="subtitle">為你感應世界嘅脈搏</div>
+<div class="logo">Sono蘇蓉</div>
+<div class="subtitle">第六感日報 · 往期回顧</div>
+<div class="report-list">
+
+<a href="reports/sixth_sense_20260623.html" class="report-item">
+  <div class="date-num">23</div>
+  <div class="info">
+    <h3>2026年6月23日 · 星期二</h3>
+    <div class="desc">AI 突破總覽 · NASA 羅曼望遠鏡抵達 · Stanford 量子突破 · 逆齡基因療法測試 · 英國首相辭職</div>
   </div>
-  
-  <div class="latest-box">
-    <h2>📰 最新一期</h2>
-    <a href="/reports/" class="latest-link">瀏覽所有日報 →</a>
-  </div>
-  
-  <div class="archive-box">
-    <h2>📚 歷史日報</h2>
-    <p style="color:#888; margin-bottom:15px;">每日朝早 8:00 自動更新</p>
-    <ul class="archive-list">
-      <li>
-        <span class="date">2026-06-23</span>
-        <a href="/reports/sixth_sense_20260623.html">第六感日報 · 6月23日</a>
-      </li>
-    </ul>
-    <p style="color:#666; font-size:0.85em; margin-top:15px; font-style:italic;">
-      點擊上方「瀏覽所有日報」查看所有歷史日報
-    </p>
-  </div>
-  
-  <div class="footer">
-    <p>—— Sono蘇蓉，第六感系統 ——</p>
-    <p>每日自動搜集 AI · 太空 · UFO · 超自然新聞</p>
-  </div>
+  <div class="arrow">→</div>
+</a>
+
+</div>
+<div class="footer">
+  Powered by <strong>Sono蘇蓉 AI</strong> · 第六感日報
+</div>
 </div>
 </body>
 </html>
