@@ -8,9 +8,51 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: -apple-system, 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: #0a0a1a; color: #e0e0e0; line-height: 1.8; }
   .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-  .header { text-align: center; margin: 50px 0 30px; }
-  .logo { font-size: 3.5em; font-weight: bold; letter-spacing: 3px; background: linear-gradient(135deg, #ff6b9d, #c44569, #a29bfe, #6c5ce7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: 0 0 40px rgba(255,107,157,0.4); margin-bottom: 15px; }
-  .title { font-size: 1.3em; font-weight: 600; background: linear-gradient(90deg, #ffd93d, #ff6b9d, #a29bfe, #6bff6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 2px; margin-bottom: 10px; }
+  .header { 
+    position: relative;
+    text-align: center; 
+    margin: 0 0 30px;
+    padding: 60px 20px 40px;
+    background-image: url('header_banner_20260623.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 0 0 20px 20px;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,107,157,0.3), rgba(162,155,254,0.3), rgba(108,92,231,0.3));
+    z-index: 1;
+  }
+  .header > * {
+    position: relative;
+    z-index: 2;
+  }
+  .logo { 
+    font-size: 4em; 
+    font-weight: 900; 
+    letter-spacing: 5px; 
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255,107,157,0.8), 0 0 40px rgba(162,155,254,0.6);
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+  .title { 
+    font-size: 1.8em; 
+    font-weight: 700; 
+    background: linear-gradient(90deg, #ffd93d, #ff6b9d, #a29bfe, #6bff6b); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+    background-clip: text; 
+    letter-spacing: 4px;
+    margin-bottom: 15px;
+    line-height: 1;
+  }
   .date { color: #888; font-size: 1em; margin-top: 8px; }
   .subtitle { color: #a29bfe; font-size: 0.9em; margin-top: 5px; font-style: italic; opacity: 0.8; }
   .weather-box { background: linear-gradient(135deg, #1a2438, #131d2e); border-radius: 12px; padding: 18px; margin: 20px 0 30px; border: 1px solid rgba(120,160,190,0.25); box-shadow: 0 0 12px rgba(80,130,170,0.08); }
