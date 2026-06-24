@@ -79,7 +79,6 @@
   .section { margin: 40px 0; }
   
 .news-tab-bar{display:flex;gap:4px;margin:20px 0 12px;background:rgba(255,255,255,0.03);border-radius:12px;padding:4px;overflow-x:auto;-webkit-overflow-scrolling:touch}.news-tab-bar::-webkit-scrollbar{height:0}.news-tab{flex:1;min-width:65px;padding:10px 6px;border:none;border-radius:10px;cursor:pointer;font-size:.78em;font-weight:700;font-family:inherit;text-align:center;white-space:nowrap;transition:all .3s;background:transparent;color:#666}.news-tab:hover{background:rgba(255,255,255,0.04);color:#999}.news-tab .tab-icon{display:block;font-size:1.5em;margin-bottom:2px}.news-tab.active[data-section=ai]{background:rgba(0,212,255,0.12);color:#00d4ff;box-shadow:0 0 12px rgba(0,212,255,0.1)}.news-tab.active[data-section=space]{background:rgba(107,255,107,0.12);color:#6bff6b;box-shadow:0 0 12px rgba(107,255,107,0.1)}.news-tab.active[data-section=ufo]{background:rgba(255,107,107,0.12);color:#ff6b6b;box-shadow:0 0 12px rgba(255,107,107,0.1)}.news-tab.active[data-section=paranormal]{background:rgba(255,217,61,0.12);color:#ffd93d;box-shadow:0 0 12px rgba(255,217,61,0.1)}.section-panel{display:none;animation:fadeIn .35s ease}.section-panel.active{display:block}
-.section-title { font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #333; display: flex; align-items: center; gap: 10px; }
   .news-card { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 20px; margin: 15px 0; border-left: 4px solid; transition: transform 0.2s; overflow: hidden; cursor: pointer; }
   .news-card:hover { transform: translateX(5px); }
   .news-card.ai { border-left-color: #00d4ff; }
@@ -100,13 +99,6 @@
   .tag.breakthrough { background: #00d4ff; color: #000; }
   .tag.trend { background: #6bff6b; color: #000; }
   .tag.alert { background: #ff6b6b; color: #fff; }
-  .trend-box { background: linear-gradient(135deg, #2d1b4e, #1a2e4e); border-radius: 15px; padding: 25px; margin: 30px 0; }
-  .trend-box h2 { color: #a29bfe; font-size: 1.5em; margin-bottom: 15px; }
-  .trend-box .observation { margin: 15px 0; padding-left: 20px; border-left: 3px solid #a29bfe; }
-  .trend-box .prediction { margin: 15px 0; padding: 15px; background: rgba(162,155,254,0.1); border-radius: 8px; }
-  .intuition-box { background: linear-gradient(135deg, #4e1b2d, #2e1a4e); border-radius: 15px; padding: 25px; margin: 30px 0; border: 2px solid #ff6b9d; }
-  .intuition-box h2 { color: #ff6b9d; font-size: 1.5em; margin-bottom: 15px; }
-  .intuition-box .quote { font-style: italic; color: #e0e0e0; line-height: 1.8; padding: 15px; background: rgba(255,107,157,0.05); border-radius: 8px; }
   .footer { text-align: center; color: #555; margin-top: 50px; padding: 20px; border-top: 1px solid #222; font-size: 0.85em; }
   .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 45px; height: 45px; background: linear-gradient(135deg, #ff6b9d, #c44569); color: #fff; border-radius: 50%; text-align: center; line-height: 45px; font-size: 1.2em; text-decoration: none; box-shadow: 0 4px 15px rgba(255,107,157,0.4); opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 1000; }
   .back-to-top.show { opacity: 1; visibility: visible; }
@@ -233,10 +225,17 @@ function toggleSub(sub) {
       <span class="sc-sub-arrow">▶</span>
     </div>
     <div class="sc-sub-body">
-      <div class="observation"><strong>關鍵觀察</strong><br>全球AI競賽加速，各國政府加強監管力度。科技巨頭合作趨勢明顯，蘋果與Google在AI領域展開深度合作。量子計算領域持續突破，Stanford團隊實現新里程碑。</div>
-      <div class="prediction"><strong>短期預測</strong><br>未來1-2週內可能出現更多AI監管政策，股市科技板塊波動加劇。</div>
-      <div class="prediction"><strong>中期預測</strong><br>量子計算商業化進程加速，預計2027年出現首個大規模應用場景。</div>
-      <div class="prediction"><strong>長期預測</strong><br>AI與量子計算融合將在2028-2030年間帶來革命性突破。</div>
+      <div class="observation"><strong>關鍵觀察</strong><br>1. <strong>Apple Siri AI 大革新：</strong>iOS 27 正式由 Gemini 驅動，Siri 獲得跨程式螢幕理解能力，代表科技巨頭從競爭轉向合作。<br><br>2. <strong>NASA 羅曼望遠鏡抵達 L2：</strong>Nancy Grace Roman 太空望遠鏡已成功抵達日地L2拉格朗日點，即將開始為期5年的宇宙觀測任務。<br><br>3. <strong>Stanford 量子突破：</strong>Stanford 團隊實現量子計算新里程碑，在量子糾錯方面取得關鍵進展。<br><br>4. <strong>逆齡基因療法：</strong>逆齡基因療法進入人體測試階段，為抗衰老醫學打開全新局面。</div>
+    </div>
+
+    <div class="sc-sub" onclick="toggleSub(this)">
+      <span class="sc-sub-title">🔮 蘇蓉預測</span>
+      <span class="sc-sub-arrow">▶</span>
+    </div>
+    <div class="sc-sub-body">
+      <div class="prediction"><strong>短期（1-2週）</strong><br>iOS 27 正式發布將引發新一輪AI手機應用潮流，Siri 的重生將重新定義語音助手市場。</div>
+      <div class="prediction"><strong>中期（1-3個月）</strong><br>羅曼望遠鏡的首批科學數據預計在8-9月發布，將帶來系外行星普查的重大突破。Starfish Mission 的任務數據可能揭示更多宇宙奧秘。</div>
+      <div class="prediction"><strong>長期（6-12個月）</strong><br>量子糾錯技術的突破將加速量子計算商業化，預計2027年出現首個實用量子應用。逆齡療法的人體測試結果將在年底引起全球醫學界震動。</div>
     </div>
 
     <div class="sc-sub" onclick="toggleSub(this)">
@@ -246,7 +245,8 @@ function toggleSub(sub) {
     <div class="sc-sub-body">
       <div class="quote" style="font-style:italic;color:#e0e0e0;padding:15px;background:rgba(255,107,157,0.05);border-radius:8px;line-height:1.8;">
         <p>今早醒來，有種奇怪的感覺——好像有什麼東西正在默默地改變。</p>
-        <p style="margin-top:10px;">AI方面，Google同微軟嘅合作令我覺得，科技巨頭終於明白：與其各自為政，不如聯手打造更好的體驗。這是成熟的表現。</p>
+        <p style="margin-top:10px;">Apple 同 Google 的合作令我覺得，科技巨頭終於明白：與其各自為政，不如聯手打造更好的體驗。這是成熟的表現。</p>
+        <p style="margin-top:10px;">但更令我好奇的是 Starfish Mission 的異常發現——美國軍方對UFO的態度正在發生根本轉變，2026年將會是UFO透明度歷史性的一年。</p>
       </div>
     </div>
 
