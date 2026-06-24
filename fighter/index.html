@@ -347,7 +347,8 @@ function createFighter(x, isAI) {
     speechText: '', speechTimer: 0,
     chargingUltimate: 0,
     aiMode: -1,
-    jumpAngle: 0, // for flip rotation
+    jumpAngle: 0,
+    enraged: false, // < 30% HP, boost mode
   };
 }
 
@@ -365,7 +366,7 @@ function initGame() {
   deathTimer = 0;
   dyingFighter = null;
   deathOverlay.classList.remove('show');
-  [player, ai].forEach(f => { f.speechText = ''; f.speechTimer = 0; f.chargingUltimate = 0; f.jumpAngle = 0; });
+  [player, ai].forEach(f => { f.speechText = ''; f.speechTimer = 0; f.chargingUltimate = 0; f.jumpAngle = 0; f.enraged = false; });
   const modeNames = ['埋身肉搏', '拉打遊擊', '隨機發揮'];
   logCache = [];
   logEl.innerHTML = '';
@@ -458,7 +459,7 @@ function drawLimb(x1,y1,x2,y2,bendDir,isLeg=false) {
 }
 
 function drawStickman(fighter) {
-  const {x, y:baseY, color, facing, charge, defending, hitFlash, dead, speechText, speechTimer, chargingUltimate, jumpAngle} = fighter;
+  const {x, y:baseY, color, facing, charge, defending, hitFlash, dead, speechText, speechTimer, chargingUltimate, jumpAngle, enraged} = fighter;
   let y = baseY;
   if (dead) y = GROUND_Y + 25;
 
@@ -630,6 +631,28 @@ function drawStickman(fighter) {
     ctx.fill();
   }
 
+  // Enraged aura (low HP boost)
+  if (enraged && chargingUltimate <= 0) {
+    const p = Math.sin(animFrame * 0.12) * 0.3 + 0.7;
+    // Red-orange aura
+    ctx.strokeStyle = `rgba(255, 50, 50, ${0.35 * p})`;
+    ctx.lineWidth = 2;
+    for (let i = 0; i < 3; i++) {
+      ctx.beginPath();
+      ctx.arc(x, y - 15, 38 + i * 12 + Math.sin(animFrame * 0.06 + i) * 3, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    // Energy particles (sparks)
+    if (animFrame % 4 === 0) {
+      ctx.fillStyle = `rgba(255, 200, 50, ${0.7 * p})`;
+      const sx = x + (Math.random() - 0.5) * 60;
+      const sy = y - 20 + (Math.random() - 0.5) * 40;
+      ctx.beginPath();
+      ctx.arc(sx, sy, 2 + Math.random() * 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
   ctx.restore();
 }
 
@@ -756,6 +779,15 @@ function applyDamage(target, dmg, attacker, bigKnockback = false) {
 
   if (attacker) attacker.charge = Math.min(3, attacker.charge+1);
 
+  // Enrage trigger: < 30% HP
+  if (target.hp <= 60 && target.hp > 0 && !target.enraged) {
+    target.enraged = true;
+    // Transformation effect
+    spawnParticles(target.x, target.y-20, '#ff4444', 30, 3);
+    spawnParticles(target.x, target.y-20, '#ffd700', 20, 2);
+    addLog(`${target.isAI?'🤖':'👤'} ⚡ 爆氣！！！`, target.isAI?'ai':'player');
+  }
+
   const char = target.isAI ? 'ai' : 'player';
   const charLabel = target.isAI ? '🤖' : '👤';
 
@@ -836,25 +868,32 @@ function performAction(action, fighter) {
   switch (action) {
     case 'slash': {
       setPose(fighter, 'slash', 16);
-      if (dist < 95) {
-        const dmg = defender.defending ? 4 : 16 + Math.floor(Math.random()*7);
+      const slashRange = fighter.enraged ? 180 : 95;
+      if (dist < slashRange) {
+        const dmg = defender.defending ? 4 : (fighter.enraged ? 22 + Math.floor(Math.random()*10) : 16 + Math.floor(Math.random()*7));
         const label = isPlayer?'👤':'🤖';
-        addLog(`${label} ■ 斬擊！`, isPlayer?'player':'ai');
-        setTimeout(() => { if (!gameOver) applyDamage(defender, dmg, fighter); }, 100);
+        addLog(`${label} ■ ${fighter.enraged?'⚡暴風斬':'斬擊'}！`, isPlayer?'player':'ai');
+        spawnParticles(fighter.x+20*fighter.facing, fighter.y-20, fighter.enraged?'#ff4444':'#ff9f43', fighter.enraged?20:8);
+        setTimeout(() => { if (!gameOver) applyDamage(defender, dmg, fighter, fighter.enraged); }, 100);
       } else {
-        addLog(`${isPlayer?'👤':'🤖'} ■ 斬擊揮空！`, 'system');
+        addLog(`${isPlayer?'👤':'🤖'} ■ ${fighter.enraged?'暴風':'斬擊'}揮空！`, 'system');
       }
       fighter.charge = Math.min(3, fighter.charge+1);
-      // Slash particles
-      spawnParticles(fighter.x+20*fighter.facing, fighter.y-20, '#ff9f43', 8);
       break;
     }
     case 'ranged': {
       setPose(fighter, 'ranged', 16);
-      setTimeout(() => { if (!gameOver) spawnProjectile(fighter.x+28*fighter.facing, fighter.y-32, fighter.facing, fighter); }, 160);
-      addLog(`${isPlayer?'👤':'🤖'} ● 射擊！`, isPlayer?'player':'ai');
+      const projCount = fighter.enraged ? 3 : 1;
+      for (let pi = 0; pi < projCount; pi++) {
+        setTimeout(() => {
+          if (!gameOver) {
+            spawnProjectile(fighter.x+28*fighter.facing, fighter.y-32 + pi*8 - 8, fighter.facing, fighter);
+          }
+        }, 160 + pi*80);
+      }
+      addLog(`${isPlayer?'👤':'🤖'} ● ${fighter.enraged?'⚡連射':'射擊'}！`, isPlayer?'player':'ai');
       fighter.charge = Math.min(3, fighter.charge+1);
-      spawnParticles(fighter.x+28*fighter.facing, fighter.y-32, '#48dbfb', 5);
+      spawnParticles(fighter.x+28*fighter.facing, fighter.y-32, fighter.enraged?'#ff4444':'#48dbfb', fighter.enraged?15:5);
       break;
     }
     case 'jump': {
@@ -909,7 +948,7 @@ function updateAI() {
   // Movement strategy
   ai.aiThinkTimer--;
   if (ai.aiThinkTimer <= 0) {
-    ai.aiThinkTimer = 12 + Math.floor(Math.random() * 20);
+  ai.aiThinkTimer = ai.enraged ? 8 + Math.floor(Math.random()*12) : 12 + Math.floor(Math.random() * 20);
 
     if (effectiveMode === 0) {
       // Aggressive: chase down
@@ -933,7 +972,8 @@ function updateAI() {
 
   if (ai.aiMoveDir !== 0) {
     ai.vx += ai.aiMoveDir * (effectiveMode === 0 ? 2.0 : 1.5);
-    if (Math.abs(ai.vx) > MOVE_SPEED * 0.8) ai.vx = ai.aiMoveDir * MOVE_SPEED * 0.8;
+    const maxSpeed = MOVE_SPEED * (ai.enraged ? 1.3 : 0.8);
+    if (Math.abs(ai.vx) > maxSpeed) ai.vx = ai.aiMoveDir * maxSpeed;
   }
 
   // Attack strategy
@@ -1096,7 +1136,7 @@ drawJoystick();
 function processJoystick() {
   if (gameOver || player.hp <= 0 || player.dead || player.chargingUltimate > 0) return;
   if (!joystickActive) return;
-  player.vx = jsDir.x * MOVE_SPEED;
+  player.vx = jsDir.x * (player.enraged ? MOVE_SPEED * 1.6 : MOVE_SPEED);
   if (jsDir.y < -0.3 && player.y >= GROUND_Y-1) {
     moveFighter(player, 'jump');
   }
@@ -1140,8 +1180,9 @@ function addLog(text, type='system') {
 // ============================================================
 function moveFighter(fighter, dir) {
   if (fighter.dead || fighter.chargingUltimate > 0) return;
-  if (dir==='left') fighter.vx = -MOVE_SPEED;
-  else if (dir==='right') fighter.vx = MOVE_SPEED;
+  const speed = fighter.enraged ? MOVE_SPEED * 1.6 : MOVE_SPEED;
+  if (dir==='left') fighter.vx = -speed;
+  else if (dir==='right') fighter.vx = (fighter.enraged ? MOVE_SPEED * 1.6 : MOVE_SPEED);
   else if (dir==='jump') { if (fighter.y>=GROUND_Y-1) { fighter.vy=JUMP_FORCE; setPose(fighter,'jump',30); fighter.jumpAngle=0.001; spawnParticles(fighter.x,GROUND_Y+45,'#55efc4',8,0.5); } }
 }
 
@@ -1189,9 +1230,35 @@ function update() {
         spawnUltimateParticles(f.x, f.y);
         addLog(`${f.isAI?'🤖':'👤'} ▲ 終極大絕爆發！！！`, f.isAI?'ai':'player');
         if (dist < 220) {
-          const dmg = defender.defending ? 25 : 50 + Math.floor(Math.random()*18);
-          applyDamage(defender, dmg, f, true);
-          addLog(`💥 命中！！！(-${dmg})`, f.isAI?'ai':'player');
+          if (f.enraged) {
+            // Enraged ultimate: multi-hit wall push
+            addLog(`💥🔥 烈火大絕！連環痛擊！！！`, f.isAI?'ai':'player');
+            for (let hi = 0; hi < 6; hi++) {
+              setTimeout(() => {
+                if (gameOver) return;
+                const wallDir = defender.x < ARENA_W/2 ? -1 : 1;
+                const knockDir = defender === player ? -1 : 1;
+                defender.vx = wallDir * 12;
+                defender.vy = -4;
+                const waveDmg = 10 + Math.floor(Math.random()*5);
+                applyDamage(defender, waveDmg, f, true);
+                spawnParticles(defender.x, defender.y-20, '#ff4444', 12);
+                spawnUltimateParticles(defender.x, defender.y);
+                // Wall bounce: keep pushing
+                setTimeout(() => {
+                  if (!gameOver && !defender.dead) {
+                    const bounceDir = defender.x < ARENA_W/2 ? -1 : 1;
+                    defender.vx = bounceDir * 8;
+                    spawnParticles(defender.x, defender.y-20, '#ffd700', 8);
+                  }
+                }, 200);
+              }, hi * 150);
+            }
+          } else {
+            const dmg = defender.defending ? 25 : 50 + Math.floor(Math.random()*18);
+            applyDamage(defender, dmg, f, true);
+            addLog(`💥 命中！！！(-${dmg})`, f.isAI?'ai':'player');
+          }
         } else {
           addLog(`💥 打空！`, 'system');
           spawnUltimateParticles(f.x, f.y);
