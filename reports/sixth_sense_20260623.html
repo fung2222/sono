@@ -80,7 +80,6 @@
   
 .news-tab-bar{display:flex;gap:4px;margin:20px 0 12px;background:rgba(255,255,255,0.03);border-radius:12px;padding:4px;overflow-x:auto;-webkit-overflow-scrolling:touch}.news-tab-bar::-webkit-scrollbar{height:0}.news-tab{flex:1;min-width:65px;padding:10px 6px;border:none;border-radius:10px;cursor:pointer;font-size:.78em;font-weight:700;font-family:inherit;text-align:center;white-space:nowrap;transition:all .3s;background:transparent;color:#666}.news-tab:hover{background:rgba(255,255,255,0.04);color:#999}.news-tab .tab-icon{display:block;font-size:1.5em;margin-bottom:2px}.news-tab.active[data-section=ai]{background:rgba(0,212,255,0.12);color:#00d4ff;box-shadow:0 0 12px rgba(0,212,255,0.1)}.news-tab.active[data-section=space]{background:rgba(107,255,107,0.12);color:#6bff6b;box-shadow:0 0 12px rgba(107,255,107,0.1)}.news-tab.active[data-section=ufo]{background:rgba(255,107,107,0.12);color:#ff6b6b;box-shadow:0 0 12px rgba(255,107,107,0.1)}.news-tab.active[data-section=paranormal]{background:rgba(255,217,61,0.12);color:#ffd93d;box-shadow:0 0 12px rgba(255,217,61,0.1)}.section-panel{display:none;animation:fadeIn .35s ease}.section-panel.active{display:block}
 .section-title { font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #333; display: flex; align-items: center; gap: 10px; }
-  .section-title .icon { font-size: 1.2em; }
   .news-card { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 20px; margin: 15px 0; border-left: 4px solid; transition: transform 0.2s; overflow: hidden; cursor: pointer; }
   .news-card:hover { transform: translateX(5px); }
   .news-card.ai { border-left-color: #00d4ff; }
@@ -264,7 +263,6 @@ function toggleSub(sub) {
 
 <div class="section-panel active" id="panel-ai">
 <div class="section" id="ai">
-  <div class="section-title"><span class="icon">🤖</span> AI科技</div>
   <div class="news-card ai">
     <a href="https://unwire.hk/2026/06/10/ios27-siri-ai-cross-apps-screen-understanding-test/ai/" target="_blank"><img src="https://cdn.unwire.hk/wp-content/uploads/2026/06/2026061074519-scaled.png" alt="news" loading="lazy"></a>
     <h3>Apple Siri AI 大革新 - iOS 27 正式由 Gemini 驅動 <span class="tag breakthrough">突破</span></h3>
@@ -306,7 +304,6 @@ function toggleSub(sub) {
 </div>
 <div class="section-panel" id="panel-space">
 <div class="section" id="space">
-  <div class="section-title"><span class="icon">🚀</span> 太空宇宙</div>
   <div class="news-card space">
     
     <h3>NASA 羅曼太空望遠鏡抵達佛羅里達 - 8月30日發射 <span class="tag breakthrough">突破</span></h3>
@@ -348,7 +345,6 @@ function toggleSub(sub) {
 </div>
 <div class="section-panel" id="panel-ufo">
 <div class="section" id="ufo">
-  <div class="section-title"><span class="icon">🛸</span> UFO/外星人</div>
   <div class="news-card ufo">
     
     <h3>美國再釋出72份UFO檔案 - 東北部「發光球體」成焦點 <span class="tag alert">警示</span></h3>
@@ -381,7 +377,6 @@ function toggleSub(sub) {
 </div>
 <div class="section-panel" id="panel-paranormal">
 <div class="section" id="paranormal">
-  <div class="section-title"><span class="icon">👻</span> 超自然現象</div>
   <div class="news-card paranormal">
     
     <h3>瀕死經驗科學大辯論 - NEPTUNE模型 vs 意識獨立假說 <span class="tag breakthrough">突破</span></h3>
