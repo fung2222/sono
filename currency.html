@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a1a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>Sono 貨幣匯率</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+    background: #0a0a1a; color: #e0e0e0; min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 20px;
+  }
+  .container { max-width: 500px; width: 100%; }
+
+  .back-link {
+    display: flex; align-items: center; gap: 8px;
+    color: #a29bfe; text-decoration: none; font-size: 0.85em;
+    margin-bottom: 20px; padding: 6px 14px;
+    border: 1px solid #333; border-radius: 20px; width: fit-content;
+    transition: all 0.3s;
+  }
+  .back-link:hover { border-color: #a29bfe; background: rgba(162,155,254,0.08); }
+
+  .logo {
+    text-align: center; margin-bottom: 8px;
+  }
+  .logo h1 {
+    font-size: 2.2em; font-weight: 900; letter-spacing: 3px;
+    background: linear-gradient(135deg, #ff6b9d, #c44569, #a29bfe, #6c5ce7);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .logo .sub {
+    color: #888; font-size: 0.85em; margin-top: 2px;
+  }
+
+  .converter-card {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border-radius: 16px; padding: 24px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    margin-bottom: 20px;
+  }
+
+  .rate-info {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 24px; padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .rate-label { color: #888; font-size: 0.8em; }
+  .rate-value { color: #6bff6b; font-size: 1.1em; font-weight: 700; }
+  .rate-time { color: #666; font-size: 0.7em; }
+
+  .currency-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 12px;
+  }
+  .currency-select {
+    flex: 1; padding: 14px 12px;
+    background: rgba(255,255,255,0.06); border: 1px solid #333;
+    border-radius: 10px; color: #fff; font-size: 1em;
+    font-family: inherit; cursor: pointer; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23888' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center;
+    outline: none; transition: border-color 0.2s;
+  }
+  .currency-select:focus { border-color: #a29bfe; }
+  .currency-select option { background: #1a1a2e; color: #fff; }
+
+  .amount-input {
+    width: 100%; padding: 14px 12px;
+    background: rgba(255,255,255,0.06); border: 1px solid #333;
+    border-radius: 10px; color: #fff; font-size: 1.2em;
+    font-family: inherit; outline: none;
+    transition: border-color 0.2s; margin-bottom: 16px;
+  }
+  .amount-input:focus { border-color: #feca57; }
+  .amount-input::placeholder { color: #555; }
+
+  .swap-btn {
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255,255,255,0.06); border: 1px solid #333;
+    color: #a29bfe; cursor: pointer; font-size: 1.1em;
+    transition: all 0.2s; margin: 0 auto 16px;
+  }
+  .swap-btn:hover { background: rgba(162,155,254,0.12); border-color: #a29bfe; }
+  .swap-btn:active { transform: rotate(180deg); }
+
+  .result-box {
+    background: linear-gradient(135deg, rgba(107,255,107,0.06), rgba(162,155,254,0.06));
+    border: 1px solid rgba(107,255,107,0.15);
+    border-radius: 12px; padding: 20px; text-align: center;
+    margin-top: 8px;
+  }
+  .result-label { color: #888; font-size: 0.8em; margin-bottom: 6px; }
+  .result-amount {
+    font-size: 2.2em; font-weight: 900;
+    background: linear-gradient(90deg, #6bff6b, #a29bfe);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .result-sub {
+    color: #666; font-size: 0.75em; margin-top: 6px;
+  }
+
+  .popular-rates {
+    margin-top: 16px; padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .popular-title { color: #888; font-size: 0.78em; margin-bottom: 10px; }
+  .popular-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;
+  }
+  .popular-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px; cursor: pointer;
+    transition: background 0.2s; font-size: 0.85em;
+  }
+  .popular-item:hover { background: rgba(255,255,255,0.06); }
+  .popular-item .code { color: #a29bfe; font-weight: 600; }
+  .popular-item .val { color: #ccc; }
+
+  .loading {
+    text-align: center; padding: 40px; color: #666;
+  }
+  .loading .spinner {
+    display: inline-block; width: 30px; height: 30px;
+    border: 3px solid #333; border-top-color: #a29bfe;
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+    margin-bottom: 12px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .error-msg {
+    background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.25);
+    border-radius: 10px; padding: 16px; text-align: center;
+    color: #ff6b6b; font-size: 0.9em; margin-bottom: 16px;
+  }
+
+  .footer {
+    text-align: center; color: #555; font-size: 0.75em;
+    margin-top: 20px; padding: 20px 0;
+    border-top: 1px solid #222; width: 100%; max-width: 500px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../" class="back-link">🏠 返回 Sono蘇蓉</a>
+
+  <div class="logo">
+    <h1>💰 貨幣匯率</h1>
+    <div class="sub">即時匯率 · 18種貨幣 · 市場價格</div>
+  </div>
+
+  <div class="converter-card" id="converter">
+    <div class="rate-info">
+      <div>
+        <div class="rate-label">基準匯率</div>
+        <div class="rate-value" id="baseRate">--</div>
+      </div>
+      <div class="rate-time" id="updateTime">更新中...</div>
+    </div>
+
+    <div class="currency-row">
+      <select class="currency-select" id="fromCurrency">
+        <option value="HKD">🇭🇰 HKD 港元</option>
+        <option value="USD">🇺🇸 USD 美元</option>
+        <option value="EUR">🇪🇺 EUR 歐元</option>
+        <option value="GBP">🇬🇧 GBP 英鎊</option>
+        <option value="JPY">🇯🇵 JPY 日圓</option>
+        <option value="CNY">🇨🇳 CNY 人民幣</option>
+        <option value="TWD">🇹🇼 TWD 新台幣</option>
+        <option value="KRW">🇰🇷 KRW 韓圜</option>
+        <option value="SGD">🇸🇬 SGD 新加坡元</option>
+        <option value="AUD">🇦🇺 AUD 澳元</option>
+        <option value="CAD">🇨🇦 CAD 加元</option>
+        <option value="CHF">🇨🇭 CHF 瑞士法郎</option>
+        <option value="NZD">🇳🇿 NZD 紐元</option>
+        <option value="THB">🇹🇭 THB 泰銖</option>
+        <option value="VND">🇻🇳 VND 越南盾</option>
+        <option value="MYR">🇲🇾 MYR 馬幣</option>
+        <option value="PHP">🇵🇭 PHP 菲律賓披索</option>
+        <option value="IDR">🇮🇩 IDR 印尼盾</option>
+      </select>
+    </div>
+
+    <input class="amount-input" id="amount" type="number" value="1" min="0" step="any" placeholder="輸入金額">
+
+    <button class="swap-btn" id="swapBtn">⇄</button>
+
+    <div class="currency-row">
+      <select class="currency-select" id="toCurrency">
+        <option value="USD">🇺🇸 USD 美元</option>
+        <option value="HKD" selected>🇭🇰 HKD 港元</option>
+        <option value="EUR">🇪🇺 EUR 歐元</option>
+        <option value="GBP">🇬🇧 GBP 英鎊</option>
+        <option value="JPY">🇯🇵 JPY 日圓</option>
+        <option value="CNY">🇨🇳 CNY 人民幣</option>
+        <option value="TWD">🇹🇼 TWD 新台幣</option>
+        <option value="KRW">🇰🇷 KRW 韓圜</option>
+        <option value="SGD">🇸🇬 SGD 新加坡元</option>
+        <option value="AUD">🇦🇺 AUD 澳元</option>
+        <option value="CAD">🇨🇦 CAD 加元</option>
+        <option value="CHF">🇨🇭 CHF 瑞士法郎</option>
+        <option value="NZD">🇳🇿 NZD 紐元</option>
+        <option value="THB">🇹🇭 THB 泰銖</option>
+        <option value="VND">🇻🇳 VND 越南盾</option>
+        <option value="MYR">🇲🇾 MYR 馬幣</option>
+        <option value="PHP">🇵🇭 PHP 菲律賓披索</option>
+        <option value="IDR">🇮🇩 IDR 印尼盾</option>
+      </select>
+    </div>
+
+    <div class="result-box" id="resultBox">
+      <div class="result-label">兌換結果</div>
+      <div class="result-amount" id="resultAmount">--</div>
+      <div class="result-sub" id="resultSub">輸入金額開始計算</div>
+    </div>
+
+    <div class="popular-rates">
+      <div class="popular-title">🔥 熱門匯率</div>
+      <div class="popular-grid" id="popularGrid"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    匯率數據來源：Frankfurter API (歐洲央行)<br>
+    僅供參考，實際交易匯率以銀行牌價為準
+  </div>
+</div>
+
+<script>
+const fromSel = document.getElementById('fromCurrency');
+const toSel = document.getElementById('toCurrency');
+const amountInp = document.getElementById('amount');
+const swapBtn = document.getElementById('swapBtn');
+const baseRate = document.getElementById('baseRate');
+const updateTime = document.getElementById('updateTime');
+const resultAmount = document.getElementById('resultAmount');
+const resultSub = document.getElementById('resultSub');
+const popularGrid = document.getElementById('popularGrid');
+
+let rates = {};
+
+const POPULAR_PAIRS = [
+  ['USD','HKD'], ['USD','CNY'], ['EUR','USD'],
+  ['GBP','USD'], ['JPY','HKD'], ['AUD','USD'],
+  ['CNY','HKD'], ['EUR','HKD'], ['KRW','HKD'], ['TWD','HKD'],
+];
+
+async function fetchRates() {
+  try {
+    const from = fromSel.value;
+    const resp = await fetch(`https://api.frankfurter.app/latest?from=${from}`);
+    if (!resp.ok) throw new Error('API error');
+    const data = await resp.json();
+    rates = data.rates;
+    rates[from] = 1;
+    const date = new Date(data.date);
+    updateTime.textContent = '更新: ' + date.toLocaleDateString('zh-HK');
+    baseRate.textContent = `1 ${from} = ?`;
+    convert();
+    loadPopular();
+  } catch(e) {
+    // Fallback: use hardcoded approximate rates
+    rates = {
+      USD:1, EUR:0.92, GBP:0.79, JPY:149.5, CNY:7.24,
+      HKD:7.82, TWD:32.1, KRW:1375, SGD:1.34, AUD:1.53,
+      CAD:1.37, CHF:0.88, NZD:1.65, THB:35.8, VND:25450,
+      MYR:4.68, PHP:56.2, IDR:16200,
+    };
+    updateTime.textContent = '離線模式 (近似匯率)';
+    baseRate.textContent = `1 ${from} = ?`;
+    convert();
+    loadPopular();
+  }
+}
+
+function convert() {
+  const from = fromSel.value;
+  const to = toSel.value;
+  const amount = parseFloat(amountInp.value) || 0;
+
+  const fromRate = rates[from] || 1;
+  const toRate = rates[to];
+
+  if (!toRate) {
+    resultAmount.textContent = '--';
+    resultSub.textContent = '匯率數據加載中...';
+    return;
+  }
+
+  // Convert: amount in "from" → USD (base) → "to"
+  const baseAmount = amount / fromRate;
+  const result = baseAmount * toRate;
+
+  const fromNames = {
+    USD:'美元', EUR:'歐元', GBP:'英鎊', JPY:'日圓', CNY:'人民幣',
+    HKD:'港元', TWD:'新台幣', KRW:'韓圜', SGD:'新加坡元',
+    AUD:'澳元', CAD:'加元', CHF:'瑞士法郎', NZD:'紐元',
+    THB:'泰銖', VND:'越南盾', MYR:'馬幣', PHP:'披索', IDR:'印尼盾',
+  };
+
+  // Format
+  const isBig = result > 1000 || to === 'VND' || to === 'IDR' || to === 'KRW';
+  const formatted = isBig
+    ? result.toLocaleString('zh-HK', {minimumFractionDigits: 0, maximumFractionDigits: 0})
+    : result.toLocaleString('zh-HK', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+  resultAmount.textContent = `${formatted} ${to}`;
+  resultSub.textContent = `1 ${from} = ${(toRate/fromRate).toFixed(6)} ${to} ｜ 匯率更新: 近期`;
+
+  baseRate.textContent = `1 ${from} = ${(toRate/fromRate).toFixed(6)} ${to}`;
+}
+
+function loadPopular() {
+  popularGrid.innerHTML = '';
+  const from = fromSel.value;
+  POPULAR_PAIRS.forEach(([f, t]) => {
+    const fr = rates[f] || 1;
+    const tr = rates[t] || 1;
+    if (!fr || !tr) return;
+    const val = tr / fr;
+    const item = document.createElement('div');
+    item.className = 'popular-item';
+    item.innerHTML = `<span class="code">${f}→${t}</span><span class="val">${val.toFixed(4)}</span>`;
+    item.addEventListener('click', () => {
+      fromSel.value = f;
+      toSel.value = t;
+      fetchRates();
+    });
+    popularGrid.appendChild(item);
+  });
+}
+
+swapBtn.addEventListener('click', () => {
+  const tmp = fromSel.value;
+  fromSel.value = toSel.value;
+  toSel.value = tmp;
+  fetchRates();
+});
+
+fromSel.addEventListener('change', fetchRates);
+toSel.addEventListener('change', convert);
+amountInp.addEventListener('input', convert);
+
+fetchRates();
+</script>
+</body>
+</html>
