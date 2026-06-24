@@ -120,8 +120,9 @@
 .sc-sub-title { font-size:1em; font-weight:600; color:#ddd; }
 .sc-sub-arrow { font-size:0.8em; color:#888; transition:transform 0.4s ease; }
 .sc-sub.open .sc-sub-arrow { transform:rotate(90deg); }
-.sc-sub-body { display:block; overflow:hidden; transition:max-height 0.5s ease; padding:0 20px; }
-.sc-sub-body.open { display:block; padding:15px 20px; }
+.sc-sub.open .sc-sub-arrow { transform:rotate(90deg); }
+.sc-sub-body { display:none; overflow:hidden; transition:max-height 0.5s ease; padding:0 20px; }
+.sc-sub-body.open { display:block; padding:15px 20px; padding:15px 20px; }
 .sc-sub-body .observation { margin:12px 0; padding-left:16px; border-left:3px solid #a29bfe; color:#ccc; font-size:0.9em; line-height:1.7; }
 .sc-sub-body .prediction { margin:12px 0; padding:12px 16px; background:rgba(162,155,254,0.08); border-radius:8px; color:#ccc; font-size:0.9em; line-height:1.7; }
 .sc-sub-body .quote p { color:#ddd; }
@@ -147,8 +148,8 @@
 <div class="subtitle" style="text-align:center;color:#888;font-size:0.92em;margin-bottom:6px;">為你感應世界的脈搏</div>
 </div>
 
-<div class="date" style="padding:12px 0 10px;border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:16px;">
-<div style="font-size:1.3em;font-weight:700;color:#e0e0e0;letter-spacing:1px;">2026年6月23日（星期二）</div>
+<div class="date" style="padding:6px 0 6px;border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:16px;">
+<div style="font-size:0.7em;font-weight:700;color:#e0e0e0;letter-spacing:1px;">2026年6月23日（星期二）</div>
 </div>
 
 <!-- WEATHER -->
@@ -412,6 +413,21 @@ document.querySelectorAll('.news-card').forEach(card => {
 </script>
 
 <script>function switchNewsTab(i){document.querySelectorAll(".news-tab").forEach(b=>b.classList.remove("active"));document.querySelectorAll(".section-panel").forEach(p=>p.classList.remove("active"));document.querySelector('.news-tab[data-section="'+i+'"]').classList.add("active");document.getElementById("panel-"+i).classList.add("active")}</script>
+
+
+<script>
+function toggleSub(sub) {
+  var allSubs = document.querySelectorAll('.sc-sub');
+  allSubs.forEach(function(s) {
+    if (s !== sub && s.classList.contains('open')) {
+      s.classList.remove('open');
+      s.nextElementSibling.classList.remove('open');
+    }
+  });
+  sub.classList.toggle('open');
+  sub.nextElementSibling.classList.toggle('open');
+}
+</script>
 
 </body>
 </html><!-- cache bust: 20260623143157 -->
