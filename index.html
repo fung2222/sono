@@ -32,7 +32,7 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 /* Chat header bar */
 .chat-bar { display: flex; align-items: center; gap: 10px; padding: 12px 16px; cursor: pointer; transition: background 0.2s; }
 .chat-bar:hover { background: rgba(255,255,255,0.02); }
-.chat-bar .chat-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #ff6b9d, #a29bfe); display: flex; align-items: center; justify-content: center; font-size: 1.1em; flex-shrink: 0; }
+.chat-bar .chat-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #ff9dbc, #c48bfe); display: flex; align-items: center; justify-content: center; font-size: 1.1em; flex-shrink: 0; font-weight: 700; color: #fff; }
 .chat-bar .chat-prompt { flex: 1; color: #666; font-size: 0.92em; }
 .chat-bar .chat-actions { display: flex; gap: 6px; }
 .chat-bar .chat-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(255,255,255,0.06); color: #888; cursor: pointer; font-size: 0.9em; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
@@ -87,10 +87,10 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 /* ══════ Tab Bar ══════ */
 .tab-bar { display: flex; gap: 4px; margin: 4px 0 0; background: rgba(255,255,255,0.03); border-radius: 14px; padding: 4px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .tab-bar::-webkit-scrollbar { height: 0; }
-.tab-btn { flex: 1; min-width: 90px; padding: 12px 8px; border: none; border-radius: 11px; cursor: pointer; font-size: 0.9em; font-weight: 700; font-family: inherit; transition: all 0.3s; text-align: center; white-space: nowrap; background: transparent; color: #666; }
+.tab-btn { flex: 1; min-width: 100px; padding: 14px 10px; border: none; border-radius: 11px; cursor: pointer; font-size: 0.9em; font-weight: 700; font-family: inherit; transition: all 0.3s; text-align: center; white-space: nowrap; background: transparent; color: #666; }
 .tab-btn:hover { background: rgba(255,255,255,0.04); color: #999; }
-.tab-btn .tab-emoji { display: block; font-size: 1.3em; margin-bottom: 2px; }
-.tab-btn .tab-label { font-size: 0.82em; }
+.tab-btn .tab-emoji { display: block; font-size: 2.6em; margin-bottom: 4px; }
+.tab-btn .tab-label { font-size: 1.6em; }
 
 .tab-btn.active[data-tab="daily"]  { background: rgba(255,107,157,0.15); color: #ff6b9d; box-shadow: 0 0 20px rgba(255,107,157,0.12); }
 .tab-btn.active[data-tab="games"]  { background: rgba(107,255,107,0.12); color: #6bff6b; box-shadow: 0 0 20px rgba(107,255,107,0.1); }
@@ -102,6 +102,11 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ── Tab: Daily ── */
+.weather-bar { display: flex; align-items: center; gap: 12px; padding: 14px 18px; margin-bottom: 14px; background: linear-gradient(135deg, rgba(255,107,157,0.08), rgba(162,155,254,0.08)); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); }
+.weather-bar .weather-icon { font-size: 2em; }
+.weather-bar .weather-temp { font-size: 1.6em; font-weight: 900; color: #ff9dbc; }
+.weather-bar .weather-humidity { font-size: 0.85em; color: #888; }
+.weather-bar .weather-desc { font-size: 0.9em; color: #aaa; flex: 1; }
 .report-list { display: grid; gap: 12px; }
 .report-item { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 18px 20px; border-left: 4px solid #ff6b9d; transition: transform 0.2s, box-shadow 0.2s; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: #e0e0e0; }
 .report-item:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.4); border-left-color: #00d4ff; }
@@ -137,8 +142,9 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 
 @media (max-width: 600px) {
   .logo { font-size: 2.2em; }
-  .tab-btn { padding: 10px 6px; font-size: 0.78em; min-width: 75px; }
-  .tab-btn .tab-emoji { font-size: 1.2em; }
+  .tab-btn { padding: 12px 8px; font-size: 0.78em; min-width: 85px; }
+  .tab-btn .tab-emoji { font-size: 2.4em; }
+  .tab-btn .tab-label { font-size: 1.3em; }
   .report-item .date-num { font-size: 1.5em; min-width: 45px; }
   .card-grid { grid-template-columns: 1fr; }
   .chat-body { height: 340px; }
@@ -158,8 +164,8 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 <!-- ══════ AI Chat Widget ══════ -->
 <div class="chat-widget" id="chatWidget">
   <div class="chat-bar" id="chatBar" onclick="toggleChat()">
-    <div class="chat-avatar">🤖</div>
-    <div class="chat-prompt" id="chatPrompt">同 Sono 傾偈…</div>
+    <div class="chat-avatar">蓉</div>
+    <div class="chat-prompt" id="chatPrompt">同 Sono蘇蓉 傾偈…</div>
     <div class="chat-actions">
       <button class="chat-btn" title="設定" onclick="event.stopPropagation();openSettings()">⚙️</button>
       <button class="chat-btn" id="chatToggleIcon" title="展開">▼</button>
@@ -167,7 +173,7 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
   </div>
   <div class="chat-body">
     <div class="chat-messages" id="chatMessages">
-      <div class="msg system">👋 你好！我係 Sono AI 助手，有咩可以幫你？</div>
+      <div class="msg system">👋 你好！我係 Sono蘇蓉，有咩可以幫你？</div>
     </div>
     <div class="chat-input-wrap">
       <input type="text" id="chatInput" placeholder="輸入訊息…" onkeydown="if(event.key==='Enter')sendMessage()">
@@ -212,6 +218,13 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 
 <!-- ══════ Tab 1: Sono 每日 ══════ -->
 <div class="tab-panel active" id="tab-daily">
+  <!-- Weather bar -->
+  <div class="weather-bar" id="weatherBar">
+    <span class="weather-icon" id="weatherIcon">⛅</span>
+    <span class="weather-temp" id="weatherTemp">--°C</span>
+    <span class="weather-humidity" id="weatherHumidity"></span>
+    <span class="weather-desc" id="weatherDesc">載入中…</span>
+  </div>
   <div class="report-list">
     <a href="reports/sixth_sense_20260624.html" class="report-item">
       <div class="date-num">24</div>
@@ -420,7 +433,7 @@ async function sendMessage() {
       body: JSON.stringify({
         model: model,
         messages: [
-          { role: 'system', content: '你係 Sono AI 助手，用繁體中文回答。語氣友善、精簡。用戶係香港人。' },
+          { role: 'system', content: '你係 Sono蘇蓉，一個友善、聰明嘅女性 AI 助手。用繁體中文回答，語氣溫暖親切、精簡扼要。用戶係香港人，名叫嘉豐。' },
           { role: 'user', content: text }
         ],
         max_tokens: 800,
@@ -475,6 +488,28 @@ function saveSettings() {
 document.getElementById('settingsOverlay').addEventListener('click', function(e) {
   if (e.target === this) closeSettings();
 });
+// ══════ Weather Fetch (HKO API) ══════
+async function fetchWeather() {
+  try {
+    var resp = await fetch('https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=tc');
+    var data = await resp.json();
+    var temp = data.temperature.data[0]?.value || '--';
+    var hum = data.humidity.data[0]?.value || '--';
+    var icon = data.icon?.[0] || 50;
+    // HKO icon → emoji
+    var emojiMap = {50:'☀️',51:'🌤️',52:'⛅',53:'⛅',54:'🌤️',60:'🌦️',61:'🌦️',62:'🌧️',63:'🌧️',64:'⛈️',65:'⛈️',70:'🌫️',71:'🌫️',80:'🌬️',81:'🌬️'};
+    var weatherEmoji = emojiMap[icon] || '⛅';
+    document.getElementById('weatherIcon').textContent = weatherEmoji;
+    document.getElementById('weatherTemp').textContent = temp + '°C';
+    document.getElementById('weatherHumidity').textContent = '💧 ' + hum + '%';
+    // Warning messages
+    var warn = data.warningMessage?.join(' ') || '';
+    document.getElementById('weatherDesc').textContent = warn || '香港即時天氣';
+  } catch(e) {
+    document.getElementById('weatherDesc').textContent = '無法載入天氣';
+  }
+}
+fetchWeather();
 </script>
 </body>
 </html>
