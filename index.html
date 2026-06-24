@@ -388,10 +388,10 @@ async function sendMessage() {
   // Update prompt bar
   document.getElementById('chatPrompt').textContent = text.length > 30 ? text.slice(0,30)+'…' : text;
 
-  // Get API config — default: OpenRouter + Gemini Flash (free)
+  // Get API config — default: OpenRouter + Gemma 4 (free)
   var endpoint = localStorage.getItem('sono_api_endpoint') || 'https://openrouter.ai/api/v1/chat/completions';
-  // Auto-fix old endpoint (missing /chat/completions)
-  if (endpoint === 'https://openrouter.ai/api/v1') {
+  // Auto-fix any broken/old endpoint
+  if (endpoint && !endpoint.includes('/chat/completions')) {
     endpoint = 'https://openrouter.ai/api/v1/chat/completions';
     localStorage.setItem('sono_api_endpoint', endpoint);
   }
