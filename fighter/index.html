@@ -67,13 +67,13 @@
     background: linear-gradient(180deg, #0f1419 0%, #1a1a2e 100%);
     border: 2px solid #333; border-radius: 12px;
     box-shadow: 0 0 40px rgba(255,107,107,0.12);
-    margin-bottom: 10px; max-width: 100%; height: auto; display: block;
+    margin-bottom: 4px; max-width: 100%; height: auto; display: block;
   }
 
   .gamepad {
     display: flex; justify-content: space-between; align-items: stretch;
-    max-width: 640px; width: 100%; gap: 10px; margin-bottom: 10px;
-    min-height: 180px;
+    max-width: 640px; width: 100%; gap: 10px; margin-bottom: 6px;
+    min-height: 180px; margin-top: 0;
   }
 
   /* Joystick */
@@ -161,10 +161,10 @@
     max-width: 640px; width: 100%; display: flex; justify-content: center; margin-bottom: 8px;
   }
   .btn-restart {
-    padding: 6px 16px;
+    padding: 8px 20px;
     background: linear-gradient(135deg, #ff6b6b, #feca57);
     border: none; color: #fff; border-radius: 8px;
-    cursor: pointer; font-weight: 700; font-size: 0.8em;
+    cursor: pointer; font-weight: 700; font-size: 0.85em;
     box-shadow: 0 2px 8px rgba(255,107,107,0.3);
     transition: transform 0.1s;
   }
@@ -251,7 +251,7 @@
   </div>
 
   <div id="arenaWrap">
-    <canvas id="arena" width="640" height="320"></canvas>
+    <canvas id="arena" width="640" height="420"></canvas>
     <div id="deathOverlay"><div id="deathText"></div></div>
   </div>
 
@@ -278,7 +278,7 @@
   </div>
 
   <div class="restart-bar">
-    <button class="btn-restart" id="restartBtn">🔄</button>
+    <button class="btn-restart" id="restartBtn">重新開始</button>
   </div>
 
   <div class="log" id="log"></div>
@@ -287,9 +287,9 @@
 // ============================================================
 // CONFIG
 // ============================================================
-const GROUND_Y = 260;
+const GROUND_Y = 360;
 const ARENA_W = 640;
-const ARENA_H = 320;
+const ARENA_H = 420;
 const MOVE_SPEED = 5.5;
 const JUMP_FORCE = -14;
 const GRAVITY = 0.7;
