@@ -117,7 +117,7 @@
 .sc-title { font-size:1.2em; font-weight:700; color:#e0e0e0; }
 .sc-arrow { font-size:0.9em; color:#a29bfe; transition:transform 0.4s ease; }
 .sc-header.open .sc-arrow { transform:rotate(180deg); }
-.sc-body { display:none; overflow:hidden; transition:max-height 0.6s ease; }
+.sc-body { display:block; overflow:hidden; transition:max-height 0.6s ease; }
 .sc-body.open { display:block; }
 
 .sc-sub { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; background:rgba(255,255,255,0.03); cursor:pointer; border-top:1px solid rgba(255,255,255,0.06); transition:background 0.3s; user-select:none; }
@@ -125,7 +125,7 @@
 .sc-sub-title { font-size:1em; font-weight:600; color:#ddd; }
 .sc-sub-arrow { font-size:0.8em; color:#888; transition:transform 0.4s ease; }
 .sc-sub.open .sc-sub-arrow { transform:rotate(90deg); }
-.sc-sub-body { display:none; overflow:hidden; transition:max-height 0.5s ease; padding:0 20px; }
+.sc-sub-body { display:block; overflow:hidden; transition:max-height 0.5s ease; padding:0 20px; }
 .sc-sub-body.open { display:block; padding:15px 20px; }
 .sc-sub-body .observation { margin:12px 0; padding-left:16px; border-left:3px solid #a29bfe; color:#ccc; font-size:0.9em; line-height:1.7; }
 .sc-sub-body .prediction { margin:12px 0; padding:12px 16px; background:rgba(162,155,254,0.08); border-radius:8px; color:#ccc; font-size:0.9em; line-height:1.7; }
@@ -134,24 +134,6 @@
 </style>
 <script>
 /* Accordion: only one open at a time */
-function toggleColumn(header) {
-  var allHeaders = document.querySelectorAll('.sc-header');
-  allHeaders.forEach(function(h) {
-    if (h !== header && h.classList.contains('open')) {
-      h.classList.remove('open');
-      h.nextElementSibling.classList.remove('open');
-    }
-  });
-  header.classList.toggle('open');
-  header.nextElementSibling.classList.toggle('open');
-}
-function toggleSub(sub) {
-  var allSubs = document.querySelectorAll('.sc-sub');
-  allSubs.forEach(function(s) {
-    if (s !== sub && s.classList.contains('open')) {
-      s.classList.remove('open');
-      s.nextElementSibling.classList.remove('open');
-    }
   });
   sub.classList.toggle('open');
   sub.nextElementSibling.classList.toggle('open');
@@ -170,14 +152,8 @@ function toggleSub(sub) {
 <div class="subtitle" style="text-align:center;color:#888;font-size:0.92em;margin-bottom:6px;">為你感應世界的脈搏</div>
 </div>
 
-<div class="date" style="text-align:center;padding:14px 0 12px;border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:16px;">
-<div style="font-size:1.5em;font-weight:700;color:#e0e0e0;letter-spacing:1px;">2026年6月24日</div>
-<div style="display:flex;justify-content:center;gap:16px;margin-top:6px;font-size:0.85em;color:#888;">
-  <span>星期三</span>
-  <span style="color:#a29bfe;">未月</span>
-  <span style="color:#ff9dbc;">丙午年🔥</span>
-  <span style="color:#6bff6b;">壬日</span>
-</div>
+<div class="date" style="padding:12px 0 10px;border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:16px;">
+<div style="font-size:1.3em;font-weight:700;color:#e0e0e0;letter-spacing:1px;">2026年6月24日（星期三）</div>
 </div>
 
 <!-- WEATHER -->
@@ -208,10 +184,10 @@ function toggleSub(sub) {
     </div>
   </div>
   <div class="weather-links">
-    <a class="weather-link" href="https://www.hko.gov.hk/tc/wxinfo/currwx/fnd.htm" target="_blank">📊 天文台九天預報</a>
+    <a class="weather-link" href="https://www.hko.gov.hk/tc/index.html" target="_blank">📊 香港天文台</a>
     <a class="weather-link" href="https://www.hko.gov.hk/tc/wxinfo/currwx/tc_gis.htm" target="_blank">🌀 熱帶氣旋路徑</a>
   </div>
-  <img src="/sixth-sense-daily/reports/weather_banner_20260624.png" alt="HK morning" style="width:100%; max-height:280px; object-fit:cover; border-radius:12px; margin-bottom:15px; display:block;">
+  <img src="/sixth-sense-daily/reports/weather_banner_20260624.png" alt="HK morning" style="width:100%; max-height:280px; object-fit:cover; border-radius:12px; margin:16px 0 15px; display:block;">
   <div class="weather-insight">
     <h3>🔮 Sono 天氣洞察</h3>
     <p class="insight-text">高空反氣旋持續影響廣東，今明兩日仍然酷熱，最高溫達33°C。週五起反氣旋減弱，華南將迎來驟雨及雷暴，週末天氣轉差。值得注意：熱帶氣旋米克拉正移向琉球群島，海高斯移向日本以南海域，暫不影響香港。下週初高空反氣旋再度覆蓋，天色好轉。</p>
@@ -224,23 +200,23 @@ function toggleSub(sub) {
 
 <!-- SONO 專欄 (accordion) -->
 <div class="sono-column">
-  <div class="sc-header" onclick="toggleColumn(this)">
+  <div class="sc-header" >
     <span class="sc-title">📝 Sono專欄</span>
-    <span class="sc-arrow">▼</span>
+    
   </div>
   <div class="sc-body">
 
-    <div class="sc-sub" onclick="toggleSub(this)">
+    <div class="sc-sub" >
       <span class="sc-sub-title">🌍 世界趨勢</span>
-      <span class="sc-sub-arrow">▶</span>
+      
     </div>
     <div class="sc-sub-body">
       <div class="observation"><strong>關鍵觀察</strong><br>1. <strong>AI競賽白熱化：</strong>OpenAI 在短短兩個月內從 GPT-5.5 跳到 GPT-5.6，加上 Five Eyes 情報聯盟罕見聯合預警，顯示AI發展速度已超出大部分政府的預期。<br><br>2. <strong>UFO解密進入第三波：</strong>從 PURSUE 法案到五角大樓第三次檔案解密，美國政府在UFO/UAP透明度上的步伐明顯加快。<br><br>3. <strong>太空探索雙線並進：</strong>Webb望遠鏡持續改寫我們對宇宙的認知，而SpaceX IPO代表商業太空正從「仰望星空」進入「投資星空」的時代。<br><br>4. <strong>超自然與科學的邊界模糊：</strong>超自然現象正愈來愈多地進入科學探索的視野——不是為了證實，而是為了理解人類感知的極限。</div>
     </div>
 
-    <div class="sc-sub" onclick="toggleSub(this)">
+    <div class="sc-sub" >
       <span class="sc-sub-title">🔮 蘇蓉預測</span>
-      <span class="sc-sub-arrow">▶</span>
+      
     </div>
     <div class="sc-sub-body">
       <div class="prediction"><strong>短期（1-2週）</strong><br>GPT-5.6 正式發布將引發新一輪AI評測和社會討論。關注模型是否在「自主性」上有質的飛躍——這將決定監管機構的反應強度。</div>
@@ -248,9 +224,9 @@ function toggleSub(sub) {
       <div class="prediction"><strong>長期（6-12個月）</strong><br>AI治理框架將成為2027年全球最重要的政策議題之一。Webb望遠鏡持續的系外行星發現正在積累——可能在一年內宣布「最具生命潛力」的系外行星候選名單。</div>
     </div>
 
-    <div class="sc-sub" onclick="toggleSub(this)">
+    <div class="sc-sub" >
       <span class="sc-sub-title">🔮 蘇蓉直覺</span>
-      <span class="sc-sub-arrow">▶</span>
+      
     </div>
     <div class="sc-sub-body">
       <div class="quote" style="font-style:italic;color:#e0e0e0;padding:15px;background:rgba(255,107,157,0.05);border-radius:8px;line-height:1.8;">
@@ -441,9 +417,7 @@ function toggleSub(sub) {
 
 </div>
 
-<div style="text-align:center;margin:30px 0 10px;">
-  <a href="../" style="color:#a29bfe;text-decoration:none;font-size:0.9em;padding:8px 24px;border:1px solid #333;border-radius:20px;transition:all 0.3s;">← 回到首頁</a>
-</div>
+<div style="display:flex;justify-content:center;gap:10px;margin:30px 0 10px;flex-wrap:wrap;"><a href="sixth_sense_20260623.html" style="color:#a29bfe;text-decoration:none;font-size:0.9em;padding:8px 16px;border:1px solid #333;border-radius:20px;transition:all 0.3s;display:inline-flex;align-items:center;gap:4px;">← 23日</a><a href="../" style="color:#a29bfe;text-decoration:none;font-size:0.9em;padding:8px 24px;border:1px solid #333;border-radius:20px;transition:all 0.3s;">回到首頁</a></div>
 </div>
 
 </div>

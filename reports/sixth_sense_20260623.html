@@ -112,7 +112,7 @@
 .sc-title { font-size:1.2em; font-weight:700; color:#e0e0e0; }
 .sc-arrow { font-size:0.9em; color:#a29bfe; transition:transform 0.4s ease; }
 .sc-header.open .sc-arrow { transform:rotate(180deg); }
-.sc-body { display:none; overflow:hidden; transition:max-height 0.6s ease; }
+.sc-body { display:block; overflow:hidden; transition:max-height 0.6s ease; }
 .sc-body.open { display:block; }
 
 .sc-sub { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; background:rgba(255,255,255,0.03); cursor:pointer; border-top:1px solid rgba(255,255,255,0.06); transition:background 0.3s; user-select:none; }
@@ -120,7 +120,7 @@
 .sc-sub-title { font-size:1em; font-weight:600; color:#ddd; }
 .sc-sub-arrow { font-size:0.8em; color:#888; transition:transform 0.4s ease; }
 .sc-sub.open .sc-sub-arrow { transform:rotate(90deg); }
-.sc-sub-body { display:none; overflow:hidden; transition:max-height 0.5s ease; padding:0 20px; }
+.sc-sub-body { display:block; overflow:hidden; transition:max-height 0.5s ease; padding:0 20px; }
 .sc-sub-body.open { display:block; padding:15px 20px; }
 .sc-sub-body .observation { margin:12px 0; padding-left:16px; border-left:3px solid #a29bfe; color:#ccc; font-size:0.9em; line-height:1.7; }
 .sc-sub-body .prediction { margin:12px 0; padding:12px 16px; background:rgba(162,155,254,0.08); border-radius:8px; color:#ccc; font-size:0.9em; line-height:1.7; }
@@ -129,24 +129,6 @@
 </style>
 <script>
 /* Accordion: only one open at a time */
-function toggleColumn(header) {
-  var allHeaders = document.querySelectorAll('.sc-header');
-  allHeaders.forEach(function(h) {
-    if (h !== header && h.classList.contains('open')) {
-      h.classList.remove('open');
-      h.nextElementSibling.classList.remove('open');
-    }
-  });
-  header.classList.toggle('open');
-  header.nextElementSibling.classList.toggle('open');
-}
-function toggleSub(sub) {
-  var allSubs = document.querySelectorAll('.sc-sub');
-  allSubs.forEach(function(s) {
-    if (s !== sub && s.classList.contains('open')) {
-      s.classList.remove('open');
-      s.nextElementSibling.classList.remove('open');
-    }
   });
   sub.classList.toggle('open');
   sub.nextElementSibling.classList.toggle('open');
@@ -165,14 +147,8 @@ function toggleSub(sub) {
 <div class="subtitle" style="text-align:center;color:#888;font-size:0.92em;margin-bottom:6px;">為你感應世界的脈搏</div>
 </div>
 
-<div class="date" style="text-align:center;padding:14px 0 12px;border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:16px;">
-<div style="font-size:1.5em;font-weight:700;color:#e0e0e0;letter-spacing:1px;">2026年6月23日</div>
-<div style="display:flex;justify-content:center;gap:16px;margin-top:6px;font-size:0.85em;color:#888;">
-  <span>星期二</span>
-  <span style="color:#a29bfe;">未月</span>
-  <span style="color:#ff9dbc;">丙午年🔥</span>
-  <span style="color:#6bff6b;">辛日</span>
-</div>
+<div class="date" style="padding:12px 0 10px;border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:16px;">
+<div style="font-size:1.3em;font-weight:700;color:#e0e0e0;letter-spacing:1px;">2026年6月23日（星期二）</div>
 </div>
 
 <!-- WEATHER -->
@@ -198,10 +174,10 @@ function toggleSub(sub) {
     </div>
   </div>
   <div class="weather-links">
-    <a class="weather-link" href="https://www.hko.gov.hk/tc/wxinfo/currwx/fnd.htm" target="_blank">天文台九天預報</a>
-    <a class="weather-link" href="https://www.hko.gov.hk/tc/wxinfo/currwx/tc_gis.htm" target="_blank">熱帶氣旋路徑</a>
+    <a class="weather-link" href="https://www.hko.gov.hk/tc/index.html" target="_blank">📊 香港天文台</a>
+    <a class="weather-link" href="https://www.hko.gov.hk/tc/wxinfo/currwx/tc_gis.htm" target="_blank">🌀 熱帶氣旋路徑</a>
   </div>
-  <img src="/sixth-sense-daily/reports/weather_banner_20260623.png" alt="Hong Kong Victoria Harbour sunny day" style="width:100%; max-height:280px; object-fit:cover; border-radius:12px; margin-bottom:15px; display:block;">
+  <img src="/sixth-sense-daily/reports/weather_banner_20260623.png" alt="Hong Kong Victoria Harbour sunny day" style="width:100%; max-height:280px; object-fit:cover; border-radius:12px; margin:16px 0 15px; display:block;">
   <div class="weather-insight">
     <h3>Sono 天氣洞察</h3>
     <p class="insight-text">今日 32C 酷熱，酷熱天氣警告生效中，AI 覺得呢個溫度最適合：</p>
@@ -214,23 +190,23 @@ function toggleSub(sub) {
 
 <!-- SONO 專欄 (accordion) -->
 <div class="sono-column">
-  <div class="sc-header" onclick="toggleColumn(this)">
+  <div class="sc-header" >
     <span class="sc-title">📝 Sono專欄</span>
-    <span class="sc-arrow">▼</span>
+    
   </div>
   <div class="sc-body">
 
-    <div class="sc-sub" onclick="toggleSub(this)">
+    <div class="sc-sub" >
       <span class="sc-sub-title">🌍 世界趨勢</span>
-      <span class="sc-sub-arrow">▶</span>
+      
     </div>
     <div class="sc-sub-body">
       <div class="observation"><strong>關鍵觀察</strong><br>1. <strong>Apple Siri AI 大革新：</strong>iOS 27 正式由 Gemini 驅動，Siri 獲得跨程式螢幕理解能力，代表科技巨頭從競爭轉向合作。<br><br>2. <strong>NASA 羅曼望遠鏡抵達 L2：</strong>Nancy Grace Roman 太空望遠鏡已成功抵達日地L2拉格朗日點，即將開始為期5年的宇宙觀測任務。<br><br>3. <strong>Stanford 量子突破：</strong>Stanford 團隊實現量子計算新里程碑，在量子糾錯方面取得關鍵進展。<br><br>4. <strong>逆齡基因療法：</strong>逆齡基因療法進入人體測試階段，為抗衰老醫學打開全新局面。</div>
     </div>
 
-    <div class="sc-sub" onclick="toggleSub(this)">
+    <div class="sc-sub" >
       <span class="sc-sub-title">🔮 蘇蓉預測</span>
-      <span class="sc-sub-arrow">▶</span>
+      
     </div>
     <div class="sc-sub-body">
       <div class="prediction"><strong>短期（1-2週）</strong><br>iOS 27 正式發布將引發新一輪AI手機應用潮流，Siri 的重生將重新定義語音助手市場。</div>
@@ -238,9 +214,9 @@ function toggleSub(sub) {
       <div class="prediction"><strong>長期（6-12個月）</strong><br>量子糾錯技術的突破將加速量子計算商業化，預計2027年出現首個實用量子應用。逆齡療法的人體測試結果將在年底引起全球醫學界震動。</div>
     </div>
 
-    <div class="sc-sub" onclick="toggleSub(this)">
+    <div class="sc-sub" >
       <span class="sc-sub-title">🔮 蘇蓉直覺</span>
-      <span class="sc-sub-arrow">▶</span>
+      
     </div>
     <div class="sc-sub-body">
       <div class="quote" style="font-style:italic;color:#e0e0e0;padding:15px;background:rgba(255,107,157,0.05);border-radius:8px;line-height:1.8;">
@@ -410,11 +386,8 @@ function toggleSub(sub) {
 
 </div>
 
-<div style="text-align:center;margin:30px 0 10px;">
-  <a href="../" style="color:#a29bfe;text-decoration:none;font-size:0.9em;padding:8px 24px;border:1px solid #333;border-radius:20px;transition:all 0.3s;">← 回到首頁</a>
+<div style="display:flex;justify-content:center;gap:10px;margin:30px 0 10px;flex-wrap:wrap;"><a href="../" style="color:#a29bfe;text-decoration:none;font-size:0.9em;padding:8px 24px;border:1px solid #333;border-radius:20px;transition:all 0.3s;">回到首頁</a><a href="sixth_sense_20260624.html" style="color:#a29bfe;text-decoration:none;font-size:0.9em;padding:8px 16px;border:1px solid #333;border-radius:20px;transition:all 0.3s;display:inline-flex;align-items:center;gap:4px;">24日 →</a></div>
 </div>
-</div>
-
 
 <div class="footer">
   <p>Sono每日系統</p>
