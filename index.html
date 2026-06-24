@@ -178,12 +178,12 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
   <div class="settings-card">
     <h3>⚙️ AI 聊天設定</h3>
     <label>API 端點 (OpenAI 兼容)</label>
-    <input type="text" id="apiEndpoint" placeholder="https://api.openai.com/v1/chat/completions">
+    <input type="text" id="apiEndpoint" placeholder="https://openrouter.ai/api/v1">
     <label>API Key</label>
-    <input type="password" id="apiKey" placeholder="sk-...">
+    <input type="password" id="apiKey" placeholder="sk-or-...">
     <label>Model</label>
-    <input type="text" id="apiModel" placeholder="gpt-4o / deepseek-chat">
-    <p class="hint">💡 支援任何 OpenAI 兼容 API（DeepSeek、DashScope、OpenRouter 等）。設定只儲存喺你呢個瀏覽器，唔會上傳。</p>
+    <input type="text" id="apiModel" placeholder="google/gemini-2.0-flash-001">
+    <p class="hint">💡 已預設 OpenRouter + Gemini Flash（免費）。想轉 model 可改，支援任何 OpenAI 兼容 API。</p>
     <div class="btn-row">
       <button class="btn-cancel" onclick="closeSettings()">取消</button>
       <button class="btn-save" onclick="saveSettings()">儲存</button>
@@ -385,14 +385,14 @@ async function sendMessage() {
   // Update prompt bar
   document.getElementById('chatPrompt').textContent = text.length > 30 ? text.slice(0,30)+'…' : text;
 
-  // Get API config
-  var endpoint = localStorage.getItem('sono_api_endpoint') || '';
+  // Get API config — default: OpenRouter + Gemini Flash (free)
+  var endpoint = localStorage.getItem('sono_api_endpoint') || 'https://openrouter.ai/api/v1';
   var apiKey = localStorage.getItem('sono_api_key') || '';
-  var model = localStorage.getItem('sono_api_model') || 'gpt-4o';
+  var model = localStorage.getItem('sono_api_model') || 'google/gemini-2.0-flash-001';
 
-  if (!endpoint || !apiKey) {
+  if (!apiKey) {
     hideTyping();
-    addMessage('system', '⚠️ 未設定 API！請撳右上角 ⚙️ 設定 AI 端點同 API Key');
+    addMessage('system', '⚠️ 未設定 API Key！請撳右上角 ⚙️ 設定');
     isWaiting = false;
     document.getElementById('sendBtn').disabled = false;
     return;
@@ -437,9 +437,9 @@ async function sendMessage() {
 
 // ══════ Settings ══════
 function openSettings() {
-  document.getElementById('apiEndpoint').value = localStorage.getItem('sono_api_endpoint') || '';
+  document.getElementById('apiEndpoint').value = localStorage.getItem('sono_api_endpoint') || 'https://openrouter.ai/api/v1';
   document.getElementById('apiKey').value = localStorage.getItem('sono_api_key') || '';
-  document.getElementById('apiModel').value = localStorage.getItem('sono_api_model') || 'gpt-4o';
+  document.getElementById('apiModel').value = localStorage.getItem('sono_api_model') || 'google/gemini-2.0-flash-001';
   document.getElementById('settingsOverlay').classList.add('show');
 }
 
