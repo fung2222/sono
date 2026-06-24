@@ -723,7 +723,7 @@ function killFighter(fighter) {
   fighter.y = GROUND_Y; // snap to ground
 
   // Center death text
-  const winner = fighter === player ? 'AI' : '你';
+  const winnerName = fighter === player ? 'AI' : '你';
   deathText.textContent = fighter === player ? '👤 你戰敗！' : '🤖 AI 戰敗！';
   deathText.style.color = fighter === player ? '#ff4444' : '#48dbfb';
   deathOverlay.classList.add('show');
