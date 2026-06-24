@@ -83,7 +83,6 @@
 .section-panel { display:none; animation:fadeIn 0.35s ease; }
 .section-panel.active { display:block; }
 
-
 .section-title { font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #333; display: flex; align-items: center; gap: 10px; }
   .section-title .icon { font-size: 1.2em; }
   .news-card { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 20px; margin: 15px 0; border-left: 4px solid; transition: transform 0.2s; overflow: hidden; cursor: pointer; }
@@ -268,18 +267,16 @@ function toggleSub(sub) {
   </div>
 </div>
 
-
 <!-- NEWS TABS -->
 <div class="news-tab-bar">
   <button class="news-tab active" data-section="ai" onclick="switchNewsTab('ai')"><span class="tab-icon">🤖</span>AI科技</button>
   <button class="news-tab" data-section="space" onclick="switchNewsTab('space')"><span class="tab-icon">🚀</span>太空宇宙</button>
   <button class="news-tab" data-section="ufo" onclick="switchNewsTab('ufo')"><span class="tab-icon">🛸</span>UFO/外星人</button>
   <button class="news-tab" data-section="paranormal" onclick="switchNewsTab('paranormal')"><span class="tab-icon">👻</span>超自然現象</button>
-</div>
 
 <!-- AI SECTION -->
-<div class="section-panel active" id="panel-ai">
 
+<div class="section-panel active" id="panel-ai">
 <div class="section" id="ai">
   <div class="section-title"><span class="icon">🤖</span> AI科技</div>
 
@@ -319,12 +316,12 @@ function toggleSub(sub) {
       <p>Elon Musk 表示 Tesla 正專注於開發具備機器人能力的AI系統，並暗示即將取得重大突破。Musk 在內部會議中透露，Tesla Bot (Optimus) 的下一代AI大腦將能處理更複雜的現實世界任務，從工廠生產線到家庭服務。外界預測這將是 Tesla 在AI領域與 OpenAI、Google 競爭的關鍵一步。</p>
     </div>
   </div>
+
 </div>
 
 <!-- SPACE SECTION -->
-<div class="section-panel" id="panel-space">
 
-</div>
+<div class="section-panel" id="panel-space">
 <div class="section" id="space">
   <div class="section-title"><span class="icon">🚀</span> 太空宇宙</div>
 
@@ -364,12 +361,13 @@ function toggleSub(sub) {
       <p>NASA 的 James Webb 望遠鏡發現一顆系外行星擁有極端天氣：其岩石雲層每晚完全消失，白天又重新形成。科學家形容這種現象如同「整個天空每晚被重置」。該行星溫度極高，大氣中含有汽化的礦物，當夜幕降臨溫度稍降時，雲層凝結下降，為系外行星氣象學開啟了全新研究領域。</p>
     </div>
   </div>
+
 </div>
 
 <!-- UFO SECTION -->
-<div class="section-panel" id="panel-ufo">
 
 </div>
+<div class="section-panel" id="panel-ufo">
 <div class="section" id="ufo">
   <div class="section-title"><span class="icon">🛸</span> UFO/外星人</div>
 
@@ -408,12 +406,13 @@ function toggleSub(sub) {
       <p>Sky News 報導五角大樓最新UFO解密檔案中，多個報告提及「發光紅色球體」——這些物體被描述為可在空中靜止盤旋數分鐘，然後以極高速度消失。部分案例由軍方紅外線感測器記錄，在可見光譜中無法被肉眼察覺。這些「紅色球體」正成為UFO研究者最關注的現象類型之一。</p>
     </div>
   </div>
+
 </div>
 
 <!-- PARANORMAL SECTION -->
-<div class="section-panel" id="panel-paranormal">
 
 </div>
+<div class="section-panel" id="panel-paranormal">
 <div class="section" id="paranormal">
   <div class="section-title"><span class="icon">👻</span> 超自然現象</div>
 
@@ -485,14 +484,17 @@ function toggleSub(sub) {
   </div>
   <p class="expand-hint" style="color:#a29bfe;font-size:0.85em;text-align:center;margin-top:8px;">⋯ 點擊展開更多</p>
 </div>
+</div>
 
 <div style="text-align:center;margin:30px 0 10px;">
   <a href="../" style="color:#a29bfe;text-decoration:none;font-size:0.9em;padding:8px 24px;border:1px solid #333;border-radius:20px;transition:all 0.3s;">← 回到首頁</a>
 </div>
 </div>
 
+</div>
+
 <div class="footer">
-  <p>Suno蘇蓉系統</p>
+  <p>Sono每日系統</p>
   <p>為你感應世界的脈搏</p>
   <p style="margin-top:10px; color:#444;">報告生成時間：2026年6月24日 08:00 HKT | 資料來源：Google News RSS + 香港天文台 Open Data API</p>
 </div>
@@ -530,8 +532,7 @@ document.querySelectorAll('.news-card, .trend-box, .intuition-box').forEach(card
 
 <script>function switchNewsTab(i){document.querySelectorAll(".news-tab").forEach(b=>b.classList.remove("active"));document.querySelectorAll(".section-panel").forEach(p=>p.classList.remove("active"));document.querySelector('.news-tab[data-section="'+i+'"]').classList.add("active");document.getElementById("panel-"+i).classList.add("active")}</script>
 
-
-<script>function switchNewsTab(i){document.querySelectorAll(".news-tab").forEach(b=>b.classList.remove("active"));document.querySelectorAll(".section-panel").forEach(p=>p.classList.remove("active"));document.querySelector('.news-tab[data-section="'+i+'"]').classList.add("active");document.getElementById("panel-"+i).classList.add("active")}</script>
+<script>
 
 </body>
 </html>
