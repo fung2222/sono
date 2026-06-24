@@ -291,7 +291,7 @@ const GROUND_Y = 445;
 const ARENA_W = 640;
 const ARENA_H = 505;
 const MOVE_SPEED = 5.5;
-const JUMP_FORCE = -22;
+const JUMP_FORCE = -11;
 const GRAVITY = 0.65;
 
 // ============================================================
@@ -345,8 +345,9 @@ function createFighter(x, isAI) {
     aiThinkTimer: 20, aiMoveDir: 0, aiActionCooldown: 0,
     dead: false,
     speechText: '', speechTimer: 0,
-    chargingUltimate: 0, // 1.5s charge timer (~90 frames)
-    aiMode: -1, // assigned on init: 0=aggressive, 1=kiter, 2=random
+    chargingUltimate: 0,
+    aiMode: -1,
+    jumpAngle: 0, // for flip rotation
   };
 }
 
@@ -364,7 +365,7 @@ function initGame() {
   deathTimer = 0;
   dyingFighter = null;
   deathOverlay.classList.remove('show');
-  [player, ai].forEach(f => { f.speechText = ''; f.speechTimer = 0; f.chargingUltimate = 0; });
+  [player, ai].forEach(f => { f.speechText = ''; f.speechTimer = 0; f.chargingUltimate = 0; f.jumpAngle = 0; });
   const modeNames = ['埋身肉搏', '拉打遊擊', '隨機發揮'];
   logCache = [];
   logEl.innerHTML = '';
@@ -436,6 +437,11 @@ function getPosePoints(pose, facing) {
       armL:{x:-35*f,y:15}, armR:{x:-10*f,y:5},
       legL:{x:-30,y:35}, legR:{x:-5,y:30},
     },
+    sit: {
+      head:{x:0,y:-35}, neck:{x:0,y:-20}, hip:{x:0,y:5},
+      armL:{x:-30*f,y:0}, armR:{x:30*f,y:0},
+      legL:{x:-40,y:30}, legR:{x:40,y:30},
+    },
   };
   return poses[pose] || poses.idle;
 }
@@ -452,7 +458,7 @@ function drawLimb(x1,y1,x2,y2,bendDir,isLeg=false) {
 }
 
 function drawStickman(fighter) {
-  const {x, y:baseY, color, facing, charge, defending, hitFlash, dead, speechText, speechTimer, chargingUltimate} = fighter;
+  const {x, y:baseY, color, facing, charge, defending, hitFlash, dead, speechText, speechTimer, chargingUltimate, jumpAngle} = fighter;
   let y = baseY;
   if (dead) y = GROUND_Y + 25;
 
@@ -510,6 +516,13 @@ function drawStickman(fighter) {
   ctx.beginPath(); ctx.ellipse(x, GROUND_Y+52, 22, 6, 0, 0, Math.PI*2); ctx.fill();
 
   ctx.strokeStyle = dc; ctx.fillStyle = dc;
+
+  // Jump flip rotation
+  if (jumpAngle > 0) {
+    ctx.translate(x, y - 15);
+    ctx.rotate(jumpAngle);
+    ctx.translate(-x, -(y - 15));
+  }
 
   // Head
   ctx.beginPath(); ctx.arc(x+pts.head.x, y+pts.head.y, 15, 0, Math.PI*2); ctx.stroke();
@@ -848,6 +861,7 @@ function performAction(action, fighter) {
       if (fighter.y >= GROUND_Y-1) {
         fighter.vy = JUMP_FORCE;
         setPose(fighter, 'jump', 30);
+        fighter.jumpAngle = 0.001;
         spawnParticles(fighter.x, GROUND_Y+45, '#55efc4', 10, 0.5);
       }
       break;
@@ -1128,7 +1142,7 @@ function moveFighter(fighter, dir) {
   if (fighter.dead || fighter.chargingUltimate > 0) return;
   if (dir==='left') fighter.vx = -MOVE_SPEED;
   else if (dir==='right') fighter.vx = MOVE_SPEED;
-  else if (dir==='jump') { if (fighter.y>=GROUND_Y-1) { fighter.vy=JUMP_FORCE; setPose(fighter,'jump',30); spawnParticles(fighter.x,GROUND_Y+45,'#55efc4',8,0.5); } }
+  else if (dir==='jump') { if (fighter.y>=GROUND_Y-1) { fighter.vy=JUMP_FORCE; setPose(fighter,'jump',30); fighter.jumpAngle=0.001; spawnParticles(fighter.x,GROUND_Y+45,'#55efc4',8,0.5); } }
 }
 
 function update() {
@@ -1202,7 +1216,24 @@ function update() {
     f.y += f.vy;
     f.vy += GRAVITY;
     f.vx *= 0.82;
-    if (f.y > GROUND_Y) { f.y = GROUND_Y; f.vy = 0; if (f.targetPose==='jump') { f.pose='jump'; f.targetPose='idle'; f.animProgress=0; } }
+    // Jump flip rotation
+    if (f.jumpAngle > 0) {
+      if (f.vy < 0) f.jumpAngle += 0.3; // faster on way up
+      else f.jumpAngle += 0.12; // slower on way down
+      if (f.jumpAngle >= Math.PI * 2) f.jumpAngle = 0;
+    }
+    if (f.y > GROUND_Y) {
+      f.y = GROUND_Y; f.vy = 0;
+      if (f.jumpAngle > 0) {
+        // Landing after flip → sit down
+        f.jumpAngle = 0;
+        f.pose = 'idle'; f.targetPose = 'sit';
+        f.animProgress = 0; f.poseTimer = 25;
+        spawnParticles(f.x, GROUND_Y+48, '#888', 5, 0.3);
+      } else if (f.targetPose==='jump') {
+        f.pose='jump'; f.targetPose='idle'; f.animProgress=0;
+      }
+    }
     f.x = Math.max(30, Math.min(ARENA_W-30, f.x));
     const other = f===player ? ai : player;
     f.facing = other.x > f.x ? 1 : -1;
