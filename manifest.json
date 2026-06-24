@@ -1,12 +1,23 @@
 {
-  "name": "第六感日報",
-  "short_name": "第六感",
+  "name": "Suno蘇蓉",
+  "short_name": "蘇蓉",
   "start_url": "/sixth-sense-daily/",
   "display": "standalone",
   "background_color": "#0a0a1a",
   "theme_color": "#0a0a1a",
-  "description": "Sono 第六感日報 - 每日AI感應世界脈搏，科技與未來 · 太空與超自然",
+  "description": "Suno蘇蓉 - 每日AI感應世界脈搏，科技與未來 · 太空與超自然",
   "lang": "zh-HK",
   "orientation": "portrait",
-  "icons": []
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ]
 }
