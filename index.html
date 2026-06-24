@@ -660,6 +660,68 @@ fetchWeather();
 
   mFetch();
 })();
+
+// ══════ Global Weather Modal ══════
+(function(){
+  var modal = document.getElementById('weatherModal');
+  document.getElementById('weatherTrigger').onclick = function(){ modal.style.display='flex'; doWeather(); };
+  document.getElementById('weatherClose').onclick = function(){ modal.style.display='none'; };
+  modal.onclick = function(e){ if(e.target===this) modal.style.display='none'; };
+  document.getElementById('wSearch').onclick = doWeather;
+  document.getElementById('wCity').onkeydown = function(e){ if(e.key==='Enter') doWeather(); };
+
+  var wmo = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',61:'🌧️',80:'🌦️',95:'⛈️',96:'⛈️'};
+
+  async function doWeather(){
+    var city = document.getElementById('wCity').value.trim();
+    if(!city) return;
+    document.getElementById('wLoading').style.display='block';
+    document.getElementById('wResult').style.display='none';
+    document.getElementById('wError').style.display='none';
+    try {
+      var geo = await fetch('https://geocoding-api.open-meteo.com/v1/search?name='+encodeURIComponent(city)+'&count=1');
+      var gd = await geo.json();
+      if(!gd.results||!gd.results[0]) throw new Error('找不到城市');
+      var loc = gd.results[0];
+      var w = await fetch('https://api.open-meteo.com/v1/forecast?latitude='+loc.latitude+'&longitude='+loc.longitude+'&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto&forecast_days=5');
+      var wd = await w.json();
+      var c = wd.current;
+      document.getElementById('wIcon').textContent = wmo[c.weather_code]||'☀️';
+      document.getElementById('wTemp').textContent = c.temperature_2m+'°C';
+      document.getElementById('wDesc').textContent = '體感 '+c.apparent_temperature+'°C · 💧'+c.relative_humidity_2m+'% · 🌀'+c.wind_speed_10m+'km/h';
+      document.getElementById('wCityName').textContent = loc.name+(loc.admin1?', '+loc.admin1:'')+(loc.country?', '+loc.country:'');
+      var extra = document.getElementById('wExtra');
+      extra.innerHTML = '';
+      var items = [['💧 濕度',c.relative_humidity_2m+'%'],['🌡️ 體感',c.apparent_temperature+'°C'],['🌀 風速',c.wind_speed_10m+'km/h'],['📊 天氣碼',c.weather_code]];
+      items.forEach(function(x){ extra.innerHTML += '<div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;"><div style="color:#888;font-size:0.7em;">'+x[0]+'</div><div style="color:#fff;font-size:1.1em;font-weight:700;">'+x[1]+'</div></div>'; });
+      var fg = document.getElementById('wForecastGrid');
+      fg.innerHTML = '';
+      var days = ['日','一','二','三','四','五','六'];
+      var today = new Date();
+      wd.daily.time.forEach(function(t,i){
+        var d = new Date(t+'T12:00:00');
+        var dn = (i===0)?'今日':days[d.getDay()];
+        fg.innerHTML += '<div style="background:rgba(255,255,255,0.03);padding:8px 4px;border-radius:6px;text-align:center;"><div style="color:#888;font-size:0.7em;">'+dn+'</div><div style="font-size:1.2em;">'+(wmo[wd.daily.weather_code[i]]||'☀️')+'</div><div style="color:#fff;font-size:0.8em;font-weight:700;">'+wd.daily.temperature_2m_max[i]+'°</div><div style="color:#888;font-size:0.7em;">'+wd.daily.temperature_2m_min[i]+'°</div></div>';
+      });
+      document.getElementById('wLoading').style.display='none';
+      document.getElementById('wResult').style.display='block';
+    } catch(e){
+      document.getElementById('wLoading').style.display='none';
+      document.getElementById('wError').style.display='block';
+      document.getElementById('wError').textContent = '❌ '+e.message;
+    }
+  }
+})();
+
+// ══════ Search Modal ══════
+(function(){
+  var modal = document.getElementById('searchModal');
+  document.getElementById('searchTrigger').onclick = function(){ modal.style.display='flex'; setTimeout(function(){ modal.querySelector('input').focus(); },100); };
+  document.getElementById('searchClose').onclick = function(){ modal.style.display='none'; };
+  modal.onclick = function(e){ if(e.target===this) modal.style.display='none'; };
+  document.getElementById('searchForm').addEventListener('submit', function(){ setTimeout(function(){ modal.style.display='none'; }, 200); });
+})();
+
 </script>
 </body>
 </html>
