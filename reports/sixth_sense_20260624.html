@@ -14,32 +14,19 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: -apple-system, 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: #0a0a1a; color: #e0e0e0; line-height: 1.8; }
   .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-  .header-text {
-    text-align: center;
-    margin-bottom: 30px;
-  }
+  .header-text { text-align: center; margin-bottom: 30px; }
   .logo {
-    font-size: 4em; 
-    font-weight: 900; 
-    letter-spacing: 5px;
+    font-size: 4em; font-weight: 900; letter-spacing: 5px;
     background: linear-gradient(135deg, #ff6b9d, #c44569, #a29bfe, #6c5ce7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 0 40px rgba(255,107,157,0.4);
-    line-height: 1;
-    margin-bottom: 15px;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; text-shadow: 0 0 40px rgba(255,107,157,0.4);
+    line-height: 1; margin-bottom: 15px;
   }
-  .title { 
-    font-size: 1.8em; 
-    font-weight: 700; 
-    background: linear-gradient(90deg, #ffd93d, #ff6b9d, #a29bfe, #6bff6b); 
-    -webkit-background-clip: text; 
-    -webkit-text-fill-color: transparent; 
-    background-clip: text; 
-    letter-spacing: 4px;
-    margin-bottom: 15px;
-    line-height: 1;
+  .title {
+    font-size: 1.8em; font-weight: 700;
+    background: linear-gradient(90deg, #ffd93d, #ff6b9d, #a29bfe, #6bff6b);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; letter-spacing: 4px; margin-bottom: 15px; line-height: 1;
   }
   .date { color: #888; font-size: 1.1em; margin-bottom: 10px; }
   .subtitle { color: #a29bfe; font-size: 0.95em; font-style: italic; opacity: 0.8; }
@@ -67,7 +54,6 @@
   .weather-links { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
   .weather-link { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; background: rgba(120,160,190,0.1); border-radius: 15px; color: #7eb8d4; text-decoration: none; font-size: 0.8em; transition: background 0.2s; }
   .weather-link:hover { background: rgba(120,160,190,0.25); }
-  .weather-warning { margin-top: 12px; padding: 10px 14px; background: rgba(255,107,107,0.1); border-radius: 8px; border-left: 3px solid #ff6b6b; color: #ff6b6b; font-size: 0.85em; display: flex; align-items: center; gap: 8px; }
   .weather-insight { margin-top: 15px; padding: 15px; background: linear-gradient(135deg, rgba(255,107,157,0.08), rgba(162,155,254,0.08)); border-radius: 10px; border-left: 3px solid #ff6b9d; }
   .weather-insight h3 { color: #ff6b9d; font-size: 0.95em; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
   .weather-insight .insight-text { color: #e0e0e0; font-size: 0.9em; line-height: 1.7; }
@@ -87,6 +73,7 @@
   .news-card.space { border-left-color: #6bff6b; }
   .news-card.ufo { border-left-color: #ff6b6b; }
   .news-card.paranormal { border-left-color: #ffd93d; }
+  .news-card img { width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; }
   .news-card h3 { color: #fff; font-size: 1.2em; margin-bottom: 6px; }
   .news-card .expand-hint { color: #a29bfe; font-size: 0.78em; margin-bottom: 6px; }
   .news-card .detail { display: none; }
@@ -124,41 +111,45 @@
   <div class="subtitle">為你感應世界的脈搏</div>
 </div>
 
-<!-- WEATHER BOX -->
+<!-- WEATHER -->
 <div class="weather-box">
   <h2>☁️ 香港天氣</h2>
   <div class="weather-today">
-    <div class="weather-main"><div class="icon">☀️</div><div class="temp">30°</div><div class="temp-range">低 29 / 高 33</div><div class="desc">大致天晴酷熱</div></div>
+    <div class="weather-main">
+      <div class="icon">⛅</div>
+      <div class="temp">30</div>
+      <div class="temp-range">低 29 / 高 33</div>
+      <div class="desc">大致天晴酷熱</div>
+    </div>
     <div class="weather-details">
       <div class="weather-detail-item"><div class="label">濕度</div><div class="value">65-90%</div></div>
-      <div class="weather-detail-item"><div class="label">風速</div><div class="value">西南風 4級</div></div>
-      <div class="weather-detail-item"><div class="label">紫外線</div><div class="value alert">極高 (11+)</div></div>
-      <div class="weather-detail-item"><div class="label">降雨</div><div class="value">0mm</div></div>
+      <div class="weather-detail-item"><div class="label">風速</div><div class="value">西南風4級</div></div>
+      <div class="weather-detail-item"><div class="label">紫外線</div><div class="value">低 (0.8)</div></div>
+      <div class="weather-detail-item"><div class="label">警報</div><div class="value alert">酷熱警告</div></div>
     </div>
   </div>
-  <div class="weather-warning">⚠️ 酷熱天氣警告現正生效 — 高溫天氣持續！請補充足夠水分。</div>
   <div class="forecast-section">
     <h3>未來5天預測</h3>
     <div class="forecast-grid">
-      <div class="forecast-day"><div class="day">週三 24/6</div><div class="ficon">☀️</div><div class="ftemp">33°</div><div class="ftemp-lo">29°</div></div>
-      <div class="forecast-day"><div class="day">週四 25/6</div><div class="ficon">⛈️</div><div class="ftemp">33°</div><div class="ftemp-lo">29°</div></div>
-      <div class="forecast-day"><div class="day">週五 26/6</div><div class="ficon">🌧️</div><div class="ftemp">32°</div><div class="ftemp-lo">28°</div></div>
-      <div class="forecast-day"><div class="day">週六 27/6</div><div class="ficon">⛈️</div><div class="ftemp">31°</div><div class="ftemp-lo">27°</div></div>
-      <div class="forecast-day"><div class="day">週日 28/6</div><div class="ficon">🌧️</div><div class="ftemp">31°</div><div class="ftemp-lo">27°</div></div>
+      <div class="forecast-day"><div class="day">週四 25/6</div><div class="ficon">⛅</div><div class="ftemp">33</div><div class="ftemp-lo">29</div></div>
+      <div class="forecast-day"><div class="day">週五 26/6</div><div class="ficon">🌤️</div><div class="ftemp">32</div><div class="ftemp-lo">28</div></div>
+      <div class="forecast-day"><div class="day">週六 27/6</div><div class="ficon">🌧️</div><div class="ftemp">31</div><div class="ftemp-lo">27</div></div>
+      <div class="forecast-day"><div class="day">週日 28/6</div><div class="ficon">🌧️</div><div class="ftemp">31</div><div class="ftemp-lo">27</div></div>
+      <div class="forecast-day"><div class="day">週一 29/6</div><div class="ficon">⛅</div><div class="ftemp">32</div><div class="ftemp-lo">28</div></div>
     </div>
   </div>
   <div class="weather-links">
-    <a class="weather-link" href="https://www.hko.gov.hk/tc/wxinfo/currwx/fnd.htm" target="_blank">🔗 天文台九天預報</a>
+    <a class="weather-link" href="https://www.hko.gov.hk/tc/wxinfo/currwx/fnd.htm" target="_blank">📊 天文台九天預報</a>
     <a class="weather-link" href="https://www.hko.gov.hk/tc/wxinfo/currwx/tc_gis.htm" target="_blank">🌀 熱帶氣旋路徑</a>
     <a class="weather-link" href="https://www.hko.gov.hk/tc/gts/equake/eq_report.htm" target="_blank">🌍 地震監察</a>
   </div>
   <div class="weather-insight">
     <h3>🔮 Sono 天氣洞察</h3>
-    <p class="insight-text">今日高空反氣旋持續支配廣東，日間酷熱。不過明晚開始高空擾動靠近，週四稍後會有雷暴，週五至週末驟雨增多。熱帶氣旋米克拉及海高斯分別移向琉球群島及日本以南海域，對香港無直接影響。</p>
-    <div class="recommendation"><span class="emoji">🏊</span><span class="text">今日適合室內泳池暢泳，避開中午烈日</span></div>
-    <div class="recommendation"><span class="emoji">☕</span><span class="text">午後適合嘆杯凍咖啡，喺有冷氣嘅cafe睇書</span></div>
-    <div class="recommendation"><span class="emoji">🚶</span><span class="text">傍晚6點後先好戶外散步，戴帽同太陽眼鏡</span></div>
-    <p class="insight-text" style="margin-top:10px; font-style:italic; opacity:0.8;">💡 輕薄淺色衫 + 帶遮（聽日用）| 補水補水補水！</p>
+    <p class="insight-text">高空反氣旋持續影響廣東，今明兩日仍然酷熱，最高溫達33°C。週五起反氣旋減弱，華南將迎來驟雨及雷暴，週末天氣轉差。值得注意：熱帶氣旋米克拉正移向琉球群島，海高斯移向日本以南海域，暫不影響香港。下週初高空反氣旋再度覆蓋，天色好轉。</p>
+    <div class="recommendation"><span class="emoji">💧</span><span class="text">酷熱警告生效！今日多喝水，避免長時間戶外暴曬</span></div>
+    <div class="recommendation"><span class="emoji">🏊</span><span class="text">今明適合海灘/泳池活動，週末轉雨天建議改為室內活動</span></div>
+    <div class="recommendation"><span class="emoji">☂️</span><span class="text">週五至週日外出記得帶遮，局部地區有雷暴</span></div>
+    <p class="insight-text" style="margin-top:10px; font-style:italic; opacity:0.8;">👕 建議穿著輕薄透氣衣物，室內冷氣溫差大，帶件薄外套傍身</p>
   </div>
 </div>
 
@@ -172,211 +163,222 @@
   <a href="#intuition" class="quick-nav-btn"><span class="nav-icon">🔮</span>Sono直覺</a>
 </div>
 
-<!-- AI 科技 -->
+<!-- AI SECTION -->
 <div class="section" id="ai">
   <div class="section-title"><span class="icon">🤖</span> AI科技</div>
 
   <div class="news-card ai">
-    <h3>五眼聯盟警告：下一個AI突破「只剩幾個月」 <span class="tag alert">警告</span></h3>
+    <h3>OpenAI GPT-5.6 即將推出，已在 ChatGPT 內部測試 <span class="tag release">新發布</span></h3>
     <div class="expand-hint">⋯ 點擊展開</div>
     <div class="detail">
-      <div class="meta">2026年6月22日 / NDTV</div>
-      <p>五眼聯盟（Five Eyes）情報機構發出聯合警告，指人工智能領域的下一個重大突破可能在「數個月內」出現，各國需要加速準備應對AI帶來的安全挑戰。報告強調AI在網絡攻擊、自主武器系統及訊息戰方面的潛在風險正在急速升溫，呼籲盟友加強合作制定規範框架。</p>
+      <div class="meta">2026年6月21日 / The Standard (HK) / <a href="https://news.google.com/rss/articles/CBMinwFBVV95cUxOczJOTDRwek5tVi1JamhtZk1FUEZucFc4MDVsN25MNi0tMmRnaXJxcjdqNk8tUmtuTG40Zzg1eDBxVld2X0N2NTFNazY2alV0WURxWUZjdFQyRFpPSTBPZFYtM2xzX3dnUFRVbC1MUVZVOXRZUWNYZUxIOHJONEx1eEVTR3BpN0wzck81dXVKbUFvOXVpOWdNYnBwd0p1bGs?oc=5" target="_blank">來源</a></div>
+      <p>OpenAI 正準備推出 GPT-5.6 系列模型，預計下週正式發布。新模型已在 ChatGPT 內部進行測試，據悉在推理能力、多模態理解和程式編寫方面有顯著提升。這是繼4月 GPT-5.5 發布後，OpenAI 在短短兩個月內的又一次重大更新，顯示 AI 競賽步伐正在加速。</p>
     </div>
   </div>
 
   <div class="news-card ai">
-    <h3>Elon Musk：Tesla 機械人AI即將取得突破 <span class="tag breakthrough">突破</span></h3>
+    <h3>Five Eyes 情報聯盟警告：下一個AI突破僅剩數月 <span class="tag alert">警告</span></h3>
     <div class="expand-hint">⋯ 點擊展開</div>
     <div class="detail">
-      <div class="meta">2026年6月21日 / Stocktwits</div>
-      <p>Elon Musk 表示 Tesla 在具備機械人操控能力的人工智能方面正接近重大突破。Optimus 機械人項目結合 Tesla 的自動駕駛 AI 技術，目標是實現通用型人形機械人。Musk 透露新一代 Optimus 已能在工廠執行複雜任務，預計年內進入試產階段。</p>
+      <div class="meta">2026年6月22日 / NDTV / <a href="https://news.google.com/rss/articles/CBMi0AFBVV95cUxPYXltYTltd01jOWVYeXRnb3NYTEFfdnlkMWZiSVdfbW95MTZ1aUM3MEVWYlNsTS1KNXZIQVZaLU5TUGg3Qzk4Q2FLNHI3N2FxRGhQVG11dXU1SFlXaXRoaVU1N1BTVzRWaUZKQ3hRU2JhOGkyUENzUzd5M2JVWFEwOHJid2RhLWI0Z2hGYk9CMmNXSjlfaTBFcjVudExxVnVuclVhTGg0bXBEQlRUS2ZlcmtCZGFNSmJLUkVyWGFmMjdGeXo2dk01QnlXWWwyeDhw0gHYAUFVX3lxTE9iTW9oREhxZjJwUEl3VWk4Wm1uOVNfdnNOVEJ6dlZzRDRkZ3dlSFloTEd2QllEVHZzNU1oalZwakc5NGllVThPOHhva0tnVXVfYkVyUzM3REZ5UGVEc1h4clRMTks5RGVzQzZ3WjEzdVJPNFpQRE5GRWVTYnE5Wk0yNnplTjFsLXRhV3NscGl2X0JadTM3V0R1UTQzb0hoaVhzUlZKQnk5VnoycW5FY2dlYUdsV0ZQRkM1WVNETTdmdzMycnNNa0NJalRYRzltUERaZ1ZYdlBhQw?oc=5" target="_blank">來源</a></div>
+      <p>由美、英、加、澳、紐組成的 Five Eyes 情報聯盟發出罕見聯合警告，指下一波AI突破可能在「數月內」到來，各國政府需緊急準備應對。警告涵蓋AI在網絡安全、自主武器系統和虛假資訊生成方面的風險。NDTV 報導指這是情報界迄今對AI發展速度最明確的預警。</p>
     </div>
   </div>
 
   <div class="news-card ai">
-    <h3>光物質粒子驅動AI晶片：顛覆電子計算的突破 <span class="tag breakthrough">突破</span></h3>
+    <a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxPZE1nOU05NFNKQ2NPd1o3Y2loTk5HY1ZPUmJNaURoaEh6bnFXWTRQRlhYd2ZJdFBURlg1TXBaVGs0UGZwWi0tUml3NkFaZTByV1NQcHVOQlVUNmxxV2p5TUlWY3pmNllWTDM3dm1VTkZYaVRwbzVrTlBoR1VoR25hS3Z0NFgwcmpHUDBZS2d5WnJWcl92bnpLTWFYZ19aLUwzWVdta091Rjg4dVBv0gGyAUFVX3lxTE9ZZGo4VmdWclVJMGUwMVQyTWk0d2F6UlJ6cG0tdW1MNndaclZHMTRPQnI0eEFUTzlBRnJoVlZBSDJmQVRpRmNnYV9yYkhaeENGWjA5WHhnbkZ5b2V6Nll1a2tVQlR1cm14NW4wMS1vV1htUmRhRjVSbzRGeTRYSUZHTnBzdlZtWklObW5TbnFxNEN1VmphN2VWaGRzT1R5VUdWTTN4M1V3a1FYTVMxdXZwWXc?oc=5" target="_blank"><img src="https://image.cnbcfm.com/api/v1/image/108285632-1774986309800-cnbc_versant_share.png?v=1774986411&w=1920&h=1080" alt="ChatGPT" loading="lazy"></a>
+    <h3>ChatGPT 月活躍用戶突破10億，公眾AI情緒卻轉冷 <span class="tag trend">趨勢</span></h3>
     <div class="expand-hint">⋯ 點擊展開</div>
     <div class="detail">
-      <div class="meta">2026年5月18日 / ScienceDaily</div>
-      <p>科學家成功利用「光-物質粒子」（polaritons）取代電子來驅動AI運算，實現了突破性的低能耗AI晶片。新技術利用激子-極化子在半導體微腔中傳播，運算速度比傳統電子晶片快數百倍，能耗僅為其千分之一，有望徹底改變AI硬件格局。</p>
+      <div class="meta">2026年6月12日 / CNBC / <a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxPZE1nOU05NFNKQ2NPd1o3Y2loTk5HY1ZPUmJNaURoaEh6bnFXWTRQRlhYd2ZJdFBURlg1TXBaVGs0UGZwWi0tUml3NkFaZTByV1NQcHVOQlVUNmxxV2p5TUlWY3pmNllWTDM3dm1VTkZYaVRwbzVrTlBoR1VoR25hS3Z0NFgwcmpHUDBZS2d5WnJWcl92bnpLTWFYZ19aLUwzWVdta091Rjg4dVBv0gGyAUFVX3lxTE9ZZGo4VmdWclVJMGUwMVQyTWk0d2F6UlJ6cG0tdW1MNndaclZHMTRPQnI0eEFUTzlBRnJoVlZBSDJmQVRpRmNnYV9yYkhaeENGWjA5WHhnbkZ5b2V6Nll1a2tVQlR1cm14NW4wMS1vV1htUmRhRjVSbzRGeTRYSUZHTnBzdlZtWklObW5TbnFxNEN1VmphN2VWaGRzT1R5VUdWTTN4M1V3a1FYTVMxdXZwWXc?oc=5" target="_blank">來源</a></div>
+      <p>ChatGPT 應用程式月活躍用戶正式突破10億大關，成為史上增長最快的消費級應用之一。然而 CNBC 報導指出，公眾對AI的情緒正趨於冷卻——私隱擔憂、錯誤資訊及對就業影響的焦慮令部分用戶開始反思AI在日常生活中的角色。這種「使用增長但信任下降」的趨勢值得關注。</p>
     </div>
   </div>
 
   <div class="news-card ai">
-    <h3>下個AI突破不靠更大模型，靠更好數據 <span class="tag trend">趨勢</span></h3>
+    <h3>Elon Musk：Tesla 機器人AI將迎重大突破 <span class="tag breakthrough">突破</span></h3>
     <div class="expand-hint">⋯ 點擊展開</div>
     <div class="detail">
-      <div class="meta">2026年6月4日 / InfoWorld</div>
-      <p>業界共識正在轉向：AI的下一個重大突破不會來自更大規模的模型，而是來自更高質量的數據。數據整理、合成數據生成、以及領域特定數據集的策展成為新焦點。專家認為「數據-centric AI」將重新定義模型訓練的效率與準確度。</p>
+      <div class="meta">2026年6月21日 / Stocktwits / <a href="https://news.google.com/rss/articles/CBMi2wFBVV95cUxNYnlmMDFwM1hub0JpNVhBd0xXaVpqU3I3RUY1Zm12bktwVEdIQ1IzSjBDYlJUdmg4dUd5WE5yVmhEdWZXaU53RHprSWxKR0hvZUg2ZmxBOVJTc2l6dFA2eUJMX00xRWg3czhGVVZxd0Y2RXczbFltbjU4bG96d1RDNUlaNmVtMlFJM1cxWmVPMGIyR25FMm9YU2ZyT2lFNzNGNmJBUmY5Wmw4c3loeDhVc1MxWkVKc0oyYmlxczlaTHlHTk1Jd1dUeGx5VU80dTdUVzd4blZ5VnYyeVU?oc=5" target="_blank">來源</a></div>
+      <p>Elon Musk 表示 Tesla 正專注於開發具備機器人能力的AI系統，並暗示即將取得重大突破。Musk 在內部會議中透露，Tesla Bot (Optimus) 的下一代AI大腦將能處理更複雜的現實世界任務，從工廠生產線到家庭服務。外界預測這將是 Tesla 在AI領域與 OpenAI、Google 競爭的關鍵一步。</p>
     </div>
   </div>
 </div>
 
-<!-- 太空宇宙 -->
+<!-- SPACE SECTION -->
 <div class="section" id="space">
   <div class="section-title"><span class="icon">🚀</span> 太空宇宙</div>
 
   <div class="news-card space">
-    <h3>韋伯望遠鏡偵測到早期宇宙異常訊號 — 可能來自第一代恆星 <span class="tag breakthrough">突破</span></h3>
+    <a href="https://news.google.com/rss/articles/CBMikwFBVV95cUxOV05fN3BudXNzRk81dXI2WEVVTnU5UVBnR0gyVXNLS0N2M215WFZLVTctdVp5Q3NWRkZlSDl4eGZzQnREbmFqWEo4dWQtdFNRVmtzY3JMU3ItOTZkWHBQbmtfX0QwRTV5b3RGM3BuZ0pPandZNl9qa2h0eWJLMVotVHhKNldFTC03LW14Z0UyLU1OSEk?oc=5" target="_blank"><img src="https://news.northwestern.edu/assets/Stories/2026/06/pink-planet1940__FocusFillMaxWyIwLjAwIiwiMC4wMCIsMTIwMCw2MzBd.jpg" alt="Pink Planet" loading="lazy"></a>
+    <h3>著名「粉紅行星」GJ 504b 發現鹽分驚喜 <span class="tag breakthrough">突破</span></h3>
     <div class="expand-hint">⋯ 點擊展開</div>
     <div class="detail">
-      <div class="meta">2026年4月13日 / The Debrief</div>
-      <p>NASA 的詹姆斯·韋伯太空望遠鏡（JWST）在早期宇宙中偵測到一個不尋常的光譜訊號。科學家推測這可能來自宇宙第一批恆星（Population III stars）的形成過程。若確認屬實，將是人類首次直接觀測到宇宙「第一道光」，對理解宇宙起源具有革命性意義。</p>
+      <div class="meta">2026年6月18日 / Northwestern University / <a href="https://news.google.com/rss/articles/CBMikwFBVV95cUxOV05fN3BudXNzRk81dXI2WEVVTnU5UVBnR0gyVXNLS0N2M215WFZLVTctdVp5Q3NWRkZlSDl4eGZzQnREbmFqWEo4dWQtdFNRVmtzY3JMU3ItOTZkWHBQbmtfX0QwRTV5b3RGM3BuZ0pPandZNl9qa2h0eWJLMVotVHhKNldFTC03LW14Z0UyLU1OSEk?oc=5" target="_blank">來源</a></div>
+      <p>西北大學天文學家利用 James Webb 太空望遠鏡觀測著名「粉紅行星」GJ 504b 時，意外發現其大氣中含有鹽分（氯化鈉）跡象。這顆距地球57光年的系外行星因其獨特的粉紅色調聞名，新發現為理解系外行星大氣化學提供了全新視角，亦暗示該行星可能擁有複雜的氣候系統。</p>
     </div>
   </div>
 
   <div class="news-card space">
-    <h3>NASA 揭示暗物質對宇宙結構的全新影響 <span class="tag trend">發現</span></h3>
+    <h3>Webb 望遠鏡首次在星際彗星 3I/ATLAS 探測到甲烷 <span class="tag breakthrough">突破</span></h3>
     <div class="expand-hint">⋯ 點擊展開</div>
     <div class="detail">
-      <div class="meta">2026年1月26日 / NASA</div>
-      <p>NASA 公布最新研究，揭示暗物質在宇宙大尺度結構形成中所扮演的關鍵角色。利用韋伯望遠鏡及羅曼太空望遠鏡的聯合數據，天文學家首次精確繪製出暗物質在星系團周圍的分佈圖，發現暗物質的「絲狀網絡」比理論預測更加密集和複雜。</p>
+      <div class="meta">2026年6月1日 / NASA / <a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxPMlZ3clYxbzJORlhySDdBNDZ4cDBaQVVZc2JleGxfVHhhY2VURW91Vm9TQjNJazc3SHE1LTc2aDQ0ZzFST3l5ZzVpLU5XYzAxckhIclc0VndObjlQS2IwZmUxSVBQa09CelBadmhLZ0JCM2dFOVluYUtuZlllcTY2VWF6S2ZsZTZaeW5sNWIxRlc5ckY3STVDNWxmYkxuLWRJWXllUzVIQnF2ZEhH?oc=5" target="_blank">來源</a></div>
+      <p>NASA 宣布 James Webb 太空望遠鏡首次在星際天體——彗星 3I/ATLAS 上成功探測到甲烷。這是人類首次確認來自太陽系外的星際天體含有有機分子，為研究宇宙其他地方的生命前體化學提供了突破性數據。3I/ATLAS 是繼 'Oumuamua 後第二個被確認的星際訪客。</p>
     </div>
   </div>
 
   <div class="news-card space">
-    <h3>最大規模超熱氣體流在宇宙中發現 <span class="tag trend">發現</span></h3>
+    <h3>SpaceX IPO 點燃太空夢想：華爾街與星空的交匯 <span class="tag trend">趨勢</span></h3>
     <div class="expand-hint">⋯ 點擊展開</div>
     <div class="detail">
-      <div class="meta">2026年1月8日 / UC Irvine</div>
-      <p>加州大學爾灣分校的天文學家發現了宇宙中已知最大規模的超熱氣體流，橫跨數百萬光年。這股氣體流的溫度高達數千萬度，在星系團之間蜿蜒流動，為理解宇宙中「失踪的重子物質」提供了關鍵線索。</p>
+      <div class="meta">2026年6月4日 / The New York Times / <a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE9xMW93V1NfZ3NIelZxOEtsd2ZBME10d0toVmdVeUlKcExGSF9obFhPa1JvWWY1Y0xvNks5UUx0YkpzdU9hQ2lIME1tOS1WQ0NkR1E5Y1FEUnFyMDZ1UnNQQU5HVVZZM05xZkYzanZoa1Y2NzBIbkt2UFZHaVMzZw?oc=5" target="_blank">來源</a></div>
+      <p>紐約時報報導，SpaceX 的 IPO 成為2026年最受矚目的金融事件之一，不僅點燃了投資者對商業太空產業的狂熱，更將大眾的想像力從地球推向宇宙。報導分析指出，SpaceX 上市標誌著商業太空從「少數億萬富翁的遊戲」邁向「大眾可參與的產業」，衛星互聯網、太空旅遊和月球基地計劃成為投資焦點。</p>
     </div>
   </div>
 
   <div class="news-card space">
-    <h3>NASA 發現不含恆星的暗物質天體「Cloud-9」 <span class="tag breakthrough">突破</span></h3>
+    <h3>Webb 望遠鏡發現岩石雲層每晚消失的奇異行星 <span class="tag breakthrough">突破</span></h3>
     <div class="expand-hint">⋯ 點擊展開</div>
     <div class="detail">
-      <div class="meta">2026年1月8日 / FOX Weather</div>
-      <p>NASA 科學家宣布發現了一個全新的天體類別——命名為「Cloud-9」的無恆星暗物質天體。這個神秘天體不發光、不含有可偵測的恆星，完全由暗物質組成，挑戰了現有的天體分類體系，可能代表一種前所未見的暗物質聚集形態。</p>
+      <div class="meta">2026年5月27日 / ScienceDaily / <a href="https://news.google.com/rss/articles/CBMib0FVX3lxTE5Xd0RRWUhiSS1EblZWT3F3ZUViZFhFV0JqTXZGcHVIUFJYQUhiZ04xTG5CZUZrU09PRVBvUmgxZHhJT000aXdSWGlNQ2xFWXM1clFBUmRqdXNrRl81bjdXNlVXUDJYTnczdkJESGdXaw?oc=5" target="_blank">來源</a></div>
+      <p>NASA 的 James Webb 望遠鏡發現一顆系外行星擁有極端天氣：其岩石雲層每晚完全消失，白天又重新形成。科學家形容這種現象如同「整個天空每晚被重置」。該行星溫度極高，大氣中含有汽化的礦物，當夜幕降臨溫度稍降時，雲層凝結下降，為系外行星氣象學開啟了全新研究領域。</p>
     </div>
   </div>
 </div>
 
-<!-- UFO/外星人 -->
+<!-- UFO SECTION -->
 <div class="section" id="ufo">
   <div class="section-title"><span class="icon">🛸</span> UFO/外星人</div>
 
   <div class="news-card ufo">
-    <h3>五角大樓第三批UFO檔案解密：魚鱗狀飛行物與紅色光球 <span class="tag release">解密</span></h3>
+    <h3>五角大樓第三次UFO解密：魚鱗狀土豆與紅色光球 <span class="tag alert">解密</span></h3>
     <div class="expand-hint">⋯ 點擊展開</div>
     <div class="detail">
-      <div class="meta">2026年6月15日 / Fortune</div>
-      <p>美國國防部公布第三批UFO（UAP）解密檔案，內容包括多份飛行員目擊報告，描述了「魚鱗狀外殼」的不明飛行物以及在空中靜止懸浮的紅色光球。雖然檔案並未提供外星生命的直接證據，但這些異常現象仍無法用現有技術解釋。</p>
+      <div class="meta">2026年6月15日 / Fortune / <a href="https://news.google.com/rss/articles/CBMijgFBVV95cUxOSEVQR1huVER1YkZCaG1NMGNkTHFkN1h1cGlDbDExclZWVnMwLUdGcjRpY1duV2xQWHRBbjhLaU03a0s0bHR5LXVBU19JbnQ5aXJwWDNwRXByS1d0RW9DNFZrZHJBMlVyVy1RZWtQSTFhRGV4UkJMOWV5R3RKeWJYb2dtUC1OQm5xTG0xQ09n?oc=5" target="_blank">來源</a></div>
+      <p>Fortune 報導五角大樓第三次UFO/UAP檔案解密，內容包括多份奇異目擊報告：有飛行員描述見到「魚鱗狀的土豆形狀」不明飛行物，亦有多宗「紅色光球」在空中靜止懸浮後瞬間加速消失的記錄。Fortune 評論指，雖然檔案內容引人入勝，但至今仍未提供外星存在的確鑿證據，引發公眾對透明度的更多要求。</p>
     </div>
   </div>
 
   <div class="news-card ufo">
-    <h3>美國最新UFO檔案公開：奇異光芒但缺乏確鑿證據 <span class="tag release">解密</span></h3>
+    <h3>美國最新UFO檔案揭示奇異光芒，仍欠確鑿證據 <span class="tag alert">解密</span></h3>
     <div class="expand-hint">⋯ 點擊展開</div>
     <div class="detail">
-      <div class="meta">2026年6月12日 / The Guardian</div>
-      <p>美國政府最新公開的UFO檔案揭示了多起軍方目擊事件，包括在敏感軍事設施上空出現的不明光芒。然而《衛報》指出，這些檔案雖然引人入勝，但缺乏決定性的「確鑿證據」，無法證實或否定外星生命的存在。透明度的提升本身就是一大突破。</p>
+      <div class="meta">2026年6月12日 / The Guardian / <a href="https://news.google.com/rss/articles/CBMiiAFBVV95cUxQUDU1VWVhOUNyYWZtNTFrRzRiY1M4QWlvUms1VFlzODAzSGhybkU5MTRrdi1vZnVldm5iVk1vT1BVQ3Vpd2FKZXhjRkJ1VndleE56T1I3Y2JCajVmZTJIREwwMGIwQ1RVWWtWRVA0TVVKRUxKVDJha19rMUlpb19OQTZRNUoySVRW?oc=5" target="_blank">來源</a></div>
+      <p>衛報報導美國政府最新一批UFO解密檔案，內容記載多宗軍方飛行員目擊「奇異光芒」的報告，包括在紅外線鏡頭下清晰可見的不明飛行現象。然而衛報指出，儘管檔案數量龐大，至今仍缺乏「確鑿的事實證據」來證明這些現象的外星起源——大部分案例最終被歸類為「無法解釋」而非「外星科技」。</p>
     </div>
   </div>
 
   <div class="news-card ufo">
-    <h3>美國公開新一批UFO檔案：發光紅色球體目擊報告 <span class="tag release">解密</span></h3>
+    <h3>FBI解密檔案：Anoka 警員拍攝到UFO影像 <span class="tag breakthrough">證據</span></h3>
     <div class="expand-hint">⋯ 點擊展開</div>
     <div class="detail">
-      <div class="meta">2026年6月12日 / Sky News</div>
-      <p>Sky News 報導，美國最新UFO檔案中包含多份關於「發光紅色球體」的目擊報告，這些球體被描述為能夠以超高速移動並瞬間改變方向，無視已知的物理定律。部分目擊事件由軍方雷達同時捕捉，增加了報告的可信度。</p>
+      <div class="meta">2026年5月28日 / CBS News / <a href="https://news.google.com/rss/articles/CBMihgFBVV95cUxOOUZsUUR6ekdCTDVhR25UV3RCZF84QmFoVk9YbnBjVVd6VmM5Y3RwVkZGcjFYUmFGWEplSGVMM0dTTjVZSUxFZG5XZjB4aGVJZS1FZXoya2FGUmlELWlTcjBOZTNFeUhGUTRodlFiMlJIVklHZnVEU1UyVlIzX2Z6cjItbkh6UQ?oc=5" target="_blank">來源</a></div>
+      <p>CBS News 報導最新解密的FBI檔案揭示了一宗引人注目的UFO目擊事件：明尼蘇達州 Anoka 市的警員在執勤期間目擊並拍攝到不明飛行物，畫面中可見一個三角形物體在夜空中緩慢移動並發出異常光線。FBI 對此事進行了正式調查，檔案現已向公眾開放查閱，成為執法人員UFO目擊的最有力記錄之一。</p>
     </div>
   </div>
 
   <div class="news-card ufo">
-    <h3>FBI解密檔案：明尼蘇達州警員拍攝到UFO <span class="tag alert">目擊</span></h3>
+    <h3>五角大樓新一批UFO檔案：發光紅色球體成焦點 <span class="tag alert">解密</span></h3>
     <div class="expand-hint">⋯ 點擊展開</div>
     <div class="detail">
-      <div class="meta">2026年5月28日 / CBS News</div>
-      <p>CBS 報導，最新解密的FBI文件詳細記錄了明尼蘇達州 Anoka 市多名警員目擊UFO的事件，其中一名警員更拍攝到影片。檔案描述該不明飛行物「無聲、呈三角形、底部有三盞燈」，在空中盤旋數分鐘後以「不可能的速度」消失。</p>
+      <div class="meta">2026年6月12日 / Sky News / <a href="https://news.google.com/rss/articles/CBMiyAFBVV95cUxQLVFyY1ppSlR5Y1dSeWo2NG5wR3oweXllQmxIM3VPR2FCbXQtMjlEZWxmbHp1ZXo0a0JGelFMdmtaS2J1SWlVVVVhNnZPNUlnWndtN29HdU1oRmZUbzQtdnl5VkNKR3FfM3N3QXRLNVlmN1Q4YnlfVnNIdDZuTUNBRFFXS0hYZzRqaHNENUV1SExDOWZaMjBuT0tNUFBYZmZ4OFgzcHRzNGpVQ0JlbXhwRHU4UHQwRVpjc0Z2aFBXM29teWdmbXZ2aw?oc=5" target="_blank">來源</a></div>
+      <p>Sky News 報導五角大樓最新UFO解密檔案中，多個報告提及「發光紅色球體」——這些物體被描述為可在空中靜止盤旋數分鐘，然後以極高速度消失。部分案例由軍方紅外線感測器記錄，在可見光譜中無法被肉眼察覺。這些「紅色球體」正成為UFO研究者最關注的現象類型之一。</p>
     </div>
   </div>
 </div>
 
-<!-- 超自然現象 -->
+<!-- PARANORMAL SECTION -->
 <div class="section" id="paranormal">
   <div class="section-title"><span class="icon">👻</span> 超自然現象</div>
 
   <div class="news-card paranormal">
-    <h3>Gaurav Tiwari 離奇死亡事件背後的超自然故事 <span class="tag alert">懸案</span></h3>
+    <h3>印度 Gaurav Tiwari 離奇死亡：超自然調查者的未解之謎 <span class="tag alert">懸案</span></h3>
     <div class="expand-hint">⋯ 點擊展開</div>
     <div class="detail">
-      <div class="meta">2026年5月26日 / The Times of India</div>
-      <p>印度知名超自然調查者 Gaurav Tiwari 的離奇死亡案件再度引起關注。Tiwari 生前曾調查多宗靈異事件，2016年被發現在家中離世，死因至今成謎。其家人堅稱他曾受到「黑暗力量」的困擾，死前數月行為異常。最新報導重新審視此案，揭示更多未公開的細節。</p>
+      <div class="meta">2026年5月26日 / The Times of India / <a href="https://news.google.com/rss/articles/CBMijgJBVV95cUxORmJrbW1tR2dFSGVZVzgyeFV1bDRmMGF2dVo0Ym5fRzdXdWtfTFJSSzlXd0Zva2k0YjUtLWNVMDlYcXlZaDRWc3FMUnJJcUFOWTN0N3pLZ3BrX1ZieFF3dHQ0Ymt3RW9iN1dPRHMzdjF2MUFkUDZ3YTZyZ0k1Ql9BbEVOcUp2YnBRU3ZneS1NMzRnWGppcVQyU01pbF9oWUNfRkx0a3BCYmNOb25CcWxXdldOVS0tbzJHSXI4Q0NQUFRhSEczU1hTTXIwTDlTQlNWeWxQR25qeUJ4dG5FMVg0OFF0TlZVLW9GWElfZE1aclBVYS1JRDEtOFRLY1BZdjNha0M4YnRLMEVRRHJZbGfSAZMCQVVfeXFMTXktMVA0SW9UNGpOX3ZER1c5N0ZGejBlN1VLX2J3OHIxb0E2amcyM25lY0NHSnlQOGhIdlVoMnpXYmpkeHQ5VGhILU9xeFIwUnpyUlY1eVEyVlJJYlZNV21fS3FvZGZJdFBLaS14S1RSTnV2RS12UlJwUVRjRnhTcFNfQ2hteXVqb0ZvLXdTNEdaQ1FyVS1aS2V3VzNOOXBuX3IzQzk0dUlaY3hRQUZ1Tm9pMXN0ZDhLTUlWbmxDYzN0SGRhNzZxeW5NSmZIenFybW5kNEFGR3ZkR0Y1ZVFQdE1UWENFQ1hGcTNrZ0FKSU9RQVpiemZfbnRRY0xuRkFwalprNEFLc1JJWENsZk56dnYzMjA?oc=5" target="_blank">來源</a></div>
+      <p>印度時報深入報導超自然調查者 Gaurav Tiwari 的離奇死亡事件。Tiwari 是印度最知名的超自然現象研究者，2016年被發現在家中浴室離世，死前曾表示「被一股負面力量纏繞」。最新調查紀錄片揭示了更多未公開的細節，包括他死前數週的異常行為錄音和未解之謎。此案至今仍是印度超自然界的最大懸案。</p>
     </div>
   </div>
 
   <div class="news-card paranormal">
-    <h3>美國辦公大樓出現無法解釋的靈異現象 <span class="tag alert">目擊</span></h3>
+    <h3>SXSW 2026：超自然恐怖片 NEVER AFTER DARK 扭曲時間講述幽靈故事 <span class="tag trend">電影</span></h3>
     <div class="expand-hint">⋯ 點擊展開</div>
     <div class="detail">
-      <div class="meta">2024年10月26日 / Silver City Daily Press</div>
-      <p>新墨西哥州 Silver City 一棟市中心的辦公大樓傳出連串無法解釋的現象：無人時電梯自行運行、辦公室燈光無故閃爍、清潔人員深夜聽到無人樓層傳出腳步聲。大樓管理處已多次檢查電力及機械系統，均未發現問題。部分員工拒絕夜間留守。</p>
+      <div class="meta">2026年3月13日 / Nightmare on Film Street / <a href="https://news.google.com/rss/articles/CBMieEFVX3lxTE45ZjVrZW1fWHhzRW9yTUZIZDQ0ZEUtQWNabkxLTjU1TlRzYzdkd040RGJ5a29SNWJVajR1cllOdDFLbkQzcmt4SWE1Qm52d3ZERHhfLXdOM0Q3cEtIMHFkUEVUTmNUSFZPejZjaUlMQ0xqZVhhQ3FDUQ?oc=5" target="_blank">來源</a></div>
+      <p>在SXSW 2026電影節首映的超自然恐怖片《NEVER AFTER DARK》獲得影評人高度評價。影片以創新的非線性時間敘事講述一個家庭被百年幽靈糾纏的故事——幽靈並非存在於「空間」而是存在於「時間」之中，每次現身都將受害者拉入不同的年代。影評人稱其為「近年最具哲學深度的超自然恐怖片」。</p>
     </div>
   </div>
 
   <div class="news-card paranormal">
-    <h3>Enfield 騷靈事件：50年後仍令人不安的未解之謎 <span class="tag trend">經典</span></h3>
+    <h3>南卡羅來納州「幽靈」傳說可能有科學解釋 <span class="tag trend">科學</span></h3>
     <div class="expand-hint">⋯ 點擊展開</div>
     <div class="detail">
-      <div class="meta">2023年10月26日 / BBC</div>
-      <p>BBC 回顧1970年代震驚英國的 Enfield 騷靈事件。倫敦北部一個單親家庭中，兩名女童經歷了家具自行移動、神秘敲擊聲及飄浮等超自然現象。事件經警方及多名獨立證人記錄，成為史上最著名的靈異案例之一。至今仍未有公認的科學解釋。</p>
+      <div class="meta">2025年2月4日 / Smithsonian Magazine / <a href="https://news.google.com/rss/articles/CBMi3gFBVV95cUxOaHZkdGEtYWlfdXZXZVUtd04yUHBWd2xXdDBlazVmT2NfaVpyS25sYnh4VmlJRU54VGcwNktaZi1jdmlmUzh1SjQzM3R6SFhHT1hGMVl0SlN0ajYtOWZ6ajM4dURyYThjTVRFc0RCOHptWTJVX25vM0gxanRINWJVZmFEbngtYU50Yjl3WWYtTHd5UmJxa1hlZXdOaUx6SjFOVzVxZ1FKQzJtYjR1cERxaS15dlYybERHTHowTDdwdjRXc3M2RjhvUWRYbFh5RHZBUGlzT0JFZ2hSSXZIWFE?oc=5" target="_blank">來源</a></div>
+      <p>Smithsonian 雜誌報導，在南卡羅來納州一個小鎮流傳多年的「幽靈」傳說，最近得到了科學家的關注。地質學家發現該地區地下存在異常的電磁場和次聲波頻率，這些自然現象可能導致居民產生「被注視」、「毛骨悚然」甚至幻覺等典型「鬧鬼」感受。研究提醒：不是所有幽靈都需要超自然解釋——有時大地本身就會講鬼故。</p>
     </div>
   </div>
 </div>
 
-<!-- 趨勢洞察 -->
+<!-- TRENDS -->
 <div class="trend-box" id="trends">
   <h2>📈 今日趨勢洞察</h2>
   <div class="observation">
     <h3 style="color: #a29bfe; margin-bottom: 10px;">🔍 關鍵觀察</h3>
     <p style="color: #bbb; line-height: 2;">
-      1. <strong>AI安全競賽升溫</strong>：五眼聯盟發出「數月內」的AI突破警告，反映各國對AI失控的焦慮已從學術辯論進入國安層面。Tesla 機械人、光子AI晶片等物理層面突破將加速這場競賽。<br>
-      2. <strong>UFO透明度浪潮持續</strong>：從 PURSUE 法案到第三批解密檔案，美國政府對UAP資訊公開已成制度化趨勢。雖然仍無「外星人證據」，但透明本身已改變公眾討論的基調。<br>
-      3. <strong>韋伯望遠鏡改寫宇宙學</strong>：從第一代恆星訊號到暗物質天體 Cloud-9，JWST 持續打破我們對宇宙的認知邊界。2026年將是人類宇宙觀快速演進的一年。<br>
-      4. <strong>超自然話題回歸主流</strong>：印度超自然調查者離奇死亡案的重啟調查，反映公眾對「科學無法解釋」的現象仍有強烈好奇心。
+      1. <strong>AI競賽白熱化：</strong>OpenAI 在短短兩個月內從 GPT-5.5 跳到 GPT-5.6，加上 Five Eyes 情報聯盟罕見聯合預警，顯示AI發展速度已超出大部分政府的預期。監管與技術的差距正在急速擴大。<br><br>
+      2. <strong>UFO解密進入第三波：</strong>從 PURSUE 法案到五角大樓第三次檔案解密，美國政府在UFO/UAP透明度上的步伐明顯加快。紅色光球和魚鱗狀土豆成為2026年UFO界的標誌性「關鍵詞」。<br><br>
+      3. <strong>太空探索雙線並進：</strong>Webb望遠鏡持續改寫我們對宇宙的認知（星際彗星有機分子、岩石雲行星），而SpaceX IPO代表商業太空正從「仰望星空」進入「投資星空」的時代。<br><br>
+      4. <strong>超自然與科學的邊界模糊：</strong>從南卡的「科學幽靈」到印度超自然調查者的離奇死亡，超自然現象正愈來愈多地進入科學探索的視野——不是為了證實，而是為了理解人類感知的極限。
     </p>
   </div>
   <div class="prediction">
     <h3 style="color: #ffd93d; margin-bottom: 10px;">🔮 預測</h3>
     <p style="color: #bbb; line-height: 2;">
-      <strong>短期（1-2週）：</strong>五角大樓可能在7月初公布第四批UFO解密檔案，預計將包含更多影像證據。香港方面，週四起雷暴天氣將持續至週末。<br>
-      <strong>中期（1-3個月）：</strong>Tesla Optimus 機械人有望在秋季進行公開演示；AI治理國際峰會可能在9月召開，聚焦「自主AI系統」的全球規範。<br>
-      <strong>長期（6-12個月）：</strong>光子AI晶片技術有望走出實驗室，首款商用光物質處理器可能在年底亮相。JWST 對第一代恆星訊號的確認或否定將是2026年最大科學事件之一。
+      <strong>短期（1-2週）：</strong>GPT-5.6 正式發布將引發新一輪AI評測和社會討論。關注模型是否在「自主性」上有質的飛躍——這將決定監管機構的反應強度。<br><br>
+      <strong>中期（1-3個月）：</strong>美國大選年的政治壓力將推動更多UFO檔案在夏季結束前解密。PURSUE 系統的運行數據可能成為下一波討論焦點。同時，SpaceX IPO的市場表現將影響整個商業太空產業的2027年融資環境。<br><br>
+      <strong>長期（6-12個月）：</strong>AI治理框架將成為2027年全球最重要的政策議題之一。Webb望遠鏡持續的系外行星發現正在積累——可能在一年內宣布「最具生命潛力」的系外行星候選名單。
     </p>
   </div>
 </div>
 
-<!-- Sono直覺 -->
+<!-- INTUITION -->
 <div class="intuition-box" id="intuition">
   <h2>🔮 Sono的直覺</h2>
   <div class="quote">
-    <p>今日嘅星空好似特別熱鬧——唔係講緊地球嘅酷熱天氣，而係宇宙層面嘅訊息密度越嚟越高。韋伯望遠鏡收到嘅「第一道光」訊號、Cloud-9 暗物質天體、仲有五角大樓嘅紅色光球報告⋯⋯我有種直覺，2026年會係人類對「未知」嘅認知出現跳躍式突破嘅一年。</p>
-    <p>AI 方面，五眼聯盟嘅警告唔係危言聳聽。當機械人AI同光子晶片技術同時成熟，我哋面對嘅唔單止係科技進步，而係一場對「人類定義」嘅根本挑戰。Tesla Optimus 如果真係年內量產，你會發現呢個世界嘅勞動力結構會被徹底改寫。</p>
-    <p style="margin-top: 15px; color: #ff6b9d;">💡 今日建議：保持好奇心，但唔好被資訊洪流淹沒。揀一個令你感興趣嘅話題——無論係宇宙學、AI倫理定係超自然現象——花30分鐘深入閱讀，而唔係 scroll 過就算。深度理解比廣度更重要。</p>
+    <p>今早醒來，有種奇怪的感覺——好像有什麼東西正在默默地改變。</p>
+    <p>不是那種驚天動地的改變，而是像香港六月的天空，看似晴空萬里，但你知道午後必定有驟雨。那種「未來的重量」正悄悄累積。</p>
+    <p>GPT-5.6 要來了，但我在意的是 Five Eyes 那個警告——不是因為他們說了什麼，而是因為他們「選擇在這個時候說」。情報機構不會無緣無故在GPT發布前一周聯合發聲。這背後有故事。</p>
+    <p>還有那些紅色光球。五角大樓第三次解密了，但每一次都像是在說「我們有很多發現但不告訴你」。魚鱗狀土豆——這個形容太具體了，太奇怪了，反而讓人覺得是真的。真正的謊言不會這麼荒誕。</p>
+    <p style="margin-top: 15px; color: #ff6b9d;">今日建議：保持警覺，保持好奇心。世界正在加速，不要被每天的頭條淹沒——試著看穿它們，感受它們背後的那個「更大的趨勢」。還有，天氣酷熱，多喝水。</p>
   </div>
 </div>
 
 <div class="footer">
   <p>Sono 第六感系統</p>
   <p>為你感應世界的脈搏</p>
-  <p style="margin-top:10px; color:#444;">報告生成時間：2026年6月24日 08:00 HKT | 資料來源：Google News RSS + 公開新聞源 + 香港天文台 HKO API</p>
+  <p style="margin-top:10px; color:#444;">報告生成時間：2026年6月24日 08:00 HKT | 資料來源：Google News RSS + 香港天文台 Open Data API</p>
 </div>
 
 <a href="#" class="back-to-top" id="backToTop" title="回到最頂">↑</a>
+
 <script>
-  window.addEventListener('scroll', function() {
-    var b = document.getElementById('backToTop');
-    b.classList.toggle('show', window.pageYOffset > 300);
+document.querySelectorAll('.news-card').forEach(card => {
+  card.addEventListener('click', function(e) {
+    if (e.target.tagName === 'A') return;
+    this.classList.toggle('open');
   });
-  document.querySelectorAll('.news-card').forEach(card => {
-    card.addEventListener('click', function(e) {
-      if (e.target.tagName === 'A') return;
-      this.classList.toggle('open');
-    });
-  });
+});
+
+window.addEventListener('scroll', function() {
+  var b = document.getElementById('backToTop');
+  b.classList.toggle('show', window.pageYOffset > 300);
+});
+
+document.getElementById('backToTop').addEventListener('click', function(e) {
+  e.preventDefault();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+});
 </script>
 
 </div>
