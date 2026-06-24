@@ -38,7 +38,6 @@
   .back-link { text-align: center; margin: 8px 0 8px; }
   .back-link a { color: #a29bfe; text-decoration: none; font-size: 0.85em; padding: 6px 16px; border: 1px solid #333; border-radius: 16px; transition: all 0.3s; }
   .back-link a:hover { background: #1a1a3a; border-color: #a29bfe; }
-  .logo-link { text-decoration: none; }
   .weather-box { background: linear-gradient(135deg, #1a2438, #131d2e); border-radius: 12px; padding: 18px; margin: 20px 0 30px; border: 1px solid rgba(120,160,190,0.25); box-shadow: 0 0 12px rgba(80,130,170,0.08); }
   .weather-box h2 { color: #7eb8d4; font-size: 1.1em; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
   .weather-today { display: flex; gap: 15px; margin-bottom: 12px; }
@@ -111,20 +110,67 @@
   .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 45px; height: 45px; background: linear-gradient(135deg, #ff6b9d, #c44569); color: #fff; border-radius: 50%; text-align: center; line-height: 45px; font-size: 1.2em; text-decoration: none; box-shadow: 0 4px 15px rgba(255,107,157,0.4); opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 1000; }
   .back-to-top.show { opacity: 1; visibility: visible; }
   .back-to-top:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(255,107,157,0.6); }
+
+<style>
+/* Accordion boxes */
+.sono-column { margin: 30px 0; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+.sc-header { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; background:linear-gradient(135deg,#2d1b4e,#4e1b2d); cursor:pointer; user-select:none; transition:background 0.3s; }
+.sc-header:hover { background:linear-gradient(135deg,#3d2b5e,#5e2b3d); }
+.sc-title { font-size:1.2em; font-weight:700; color:#e0e0e0; }
+.sc-arrow { font-size:0.9em; color:#a29bfe; transition:transform 0.4s ease; }
+.sc-header.open .sc-arrow { transform:rotate(180deg); }
+.sc-body { display:none; overflow:hidden; transition:max-height 0.6s ease; }
+.sc-body.open { display:block; }
+
+.sc-sub { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; background:rgba(255,255,255,0.03); cursor:pointer; border-top:1px solid rgba(255,255,255,0.06); transition:background 0.3s; user-select:none; }
+.sc-sub:hover { background:rgba(255,255,255,0.06); }
+.sc-sub-title { font-size:1em; font-weight:600; color:#ddd; }
+.sc-sub-arrow { font-size:0.8em; color:#888; transition:transform 0.4s ease; }
+.sc-sub.open .sc-sub-arrow { transform:rotate(90deg); }
+.sc-sub-body { display:none; overflow:hidden; transition:max-height 0.5s ease; padding:0 20px; }
+.sc-sub-body.open { display:block; padding:15px 20px; }
+.sc-sub-body .observation { margin:12px 0; padding-left:16px; border-left:3px solid #a29bfe; color:#ccc; font-size:0.9em; line-height:1.7; }
+.sc-sub-body .prediction { margin:12px 0; padding:12px 16px; background:rgba(162,155,254,0.08); border-radius:8px; color:#ccc; font-size:0.9em; line-height:1.7; }
+.sc-sub-body .quote p { color:#ddd; }
+.sc-sub-body strong { color:#a29bfe; }
+</style>
+<script>
+/* Accordion: only one open at a time */
+function toggleColumn(header) {
+  var allHeaders = document.querySelectorAll('.sc-header');
+  allHeaders.forEach(function(h) {
+    if (h !== header && h.classList.contains('open')) {
+      h.classList.remove('open');
+      h.nextElementSibling.classList.remove('open');
+    }
+  });
+  header.classList.toggle('open');
+  header.nextElementSibling.classList.toggle('open');
+}
+function toggleSub(sub) {
+  var allSubs = document.querySelectorAll('.sc-sub');
+  allSubs.forEach(function(s) {
+    if (s !== sub && s.classList.contains('open')) {
+      s.classList.remove('open');
+      s.nextElementSibling.classList.remove('open');
+    }
+  });
+  sub.classList.toggle('open');
+  sub.nextElementSibling.classList.toggle('open');
+}
+</script>
+
 </style>
 </head>
 <body>
 <div class="container">
 
-<div class="header-text">
-  <a href="../" class="logo-link"><div class="logo">Sono</div></a>
-  <div class="title">蘇蓉</div>
-  <div class="subtitle">為你感應世界的脈搏</div>
+<div class="header-text" style="text-align:center;">
+<a href="../" style="text-decoration:none;display:block;">
+<div class="logo" style="font-size:2.4em;font-weight:900;background:linear-gradient(135deg,#ff6b9d,#c44569,#a29bfe,#6c5ce7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px;text-align:center;padding:24px 0 4px;margin:0;">Sono每日</div>
+</a>
+<div class="subtitle" style="text-align:center;color:#888;font-size:0.92em;margin-bottom:6px;">為你感應世界的脈搏</div>
 </div>
-
-<div class="back-link"><a href="../">← 回到首頁</a></div>
-
-<div class="date">2026年6月24日（星期三）</div>
 
 <!-- WEATHER -->
 <div class="weather-box">
@@ -156,11 +202,10 @@
   <div class="weather-links">
     <a class="weather-link" href="https://www.hko.gov.hk/tc/wxinfo/currwx/fnd.htm" target="_blank">📊 天文台九天預報</a>
     <a class="weather-link" href="https://www.hko.gov.hk/tc/wxinfo/currwx/tc_gis.htm" target="_blank">🌀 熱帶氣旋路徑</a>
-    <a class="weather-link" href="https://www.hko.gov.hk/tc/gts/equake/eq_report.htm" target="_blank">🌍 地震監察</a>
   </div>
   <img src="/sixth-sense-daily/reports/weather_banner_20260624.png" alt="HK morning" style="width:100%; max-height:280px; object-fit:cover; border-radius:12px; margin-bottom:15px; display:block;">
   <div class="weather-insight">
-    <h3>🔮 Suno 天氣洞察</h3>
+    <h3>🔮 Sono 天氣洞察</h3>
     <p class="insight-text">高空反氣旋持續影響廣東，今明兩日仍然酷熱，最高溫達33°C。週五起反氣旋減弱，華南將迎來驟雨及雷暴，週末天氣轉差。值得注意：熱帶氣旋米克拉正移向琉球群島，海高斯移向日本以南海域，暫不影響香港。下週初高空反氣旋再度覆蓋，天色好轉。</p>
     <div class="recommendation"><span class="emoji">💧</span><span class="text">酷熱警告生效！今日多喝水，避免長時間戶外暴曬</span></div>
     <div class="recommendation"><span class="emoji">🏊</span><span class="text">今明適合海灘/泳池活動，週末轉雨天建議改為室內活動</span></div>
@@ -176,7 +221,41 @@
   <a href="#ufo" class="quick-nav-btn"><span class="nav-icon">🛸</span>UFO/外星人</a>
   <a href="#paranormal" class="quick-nav-btn"><span class="nav-icon">👻</span>超自然現象</a>
   <a href="#trends" class="quick-nav-btn"><span class="nav-icon">📈</span>今日趨勢</a>
-  <a href="#intuition" class="quick-nav-btn"><span class="nav-icon">🔮</span>Suno直覺</a>
+
+<!-- SONO 專欄 (accordion) -->
+<div class="sono-column">
+  <div class="sc-header" onclick="toggleColumn(this)">
+    <span class="sc-title">📝 Sono專欄</span>
+    <span class="sc-arrow">▼</span>
+  </div>
+  <div class="sc-body">
+
+    <div class="sc-sub" onclick="toggleSub(this)">
+      <span class="sc-sub-title">🌍 世界趨勢</span>
+      <span class="sc-sub-arrow">▶</span>
+    </div>
+    <div class="sc-sub-body">
+      <div class="observation"><strong>關鍵觀察</strong><br>全球AI競賽加速，各國政府加強監管力度。科技巨頭合作趨勢明顯，蘋果與Google在AI領域展開深度合作。量子計算領域持續突破，Stanford團隊實現新里程碑。</div>
+      <div class="prediction"><strong>短期預測</strong><br>未來1-2週內可能出現更多AI監管政策，股市科技板塊波動加劇。</div>
+      <div class="prediction"><strong>中期預測</strong><br>量子計算商業化進程加速，預計2027年出現首個大規模應用場景。</div>
+      <div class="prediction"><strong>長期預測</strong><br>AI與量子計算融合將在2028-2030年間帶來革命性突破。</div>
+    </div>
+
+    <div class="sc-sub" onclick="toggleSub(this)">
+      <span class="sc-sub-title">🔮 蘇蓉直覺</span>
+      <span class="sc-sub-arrow">▶</span>
+    </div>
+    <div class="sc-sub-body">
+      <div class="quote" style="font-style:italic;color:#e0e0e0;padding:15px;background:rgba(255,107,157,0.05);border-radius:8px;line-height:1.8;">
+        <p>今早醒來，有種奇怪的感覺——好像有什麼東西正在默默地改變。</p>
+        <p style="margin-top:10px;">AI方面，Google同微軟嘅合作令我覺得，科技巨頭終於明白：與其各自為政，不如聯手打造更好的體驗。這是成熟的表現。</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <a href="#intuition" class="quick-nav-btn"><span class="nav-icon">🔮</span>Sono專欄</a>
 </div>
 
 <!-- AI SECTION -->
@@ -377,6 +456,9 @@
   <p class="expand-hint" style="color:#a29bfe;font-size:0.85em;text-align:center;margin-top:8px;">⋯ 點擊展開更多</p>
 </div>
 
+<div style="text-align:center;margin:30px 0 10px;">
+  <a href="../" style="color:#a29bfe;text-decoration:none;font-size:0.9em;padding:8px 24px;border:1px solid #333;border-radius:20px;transition:all 0.3s;">← 回到首頁</a>
+</div>
 <div class="footer">
   <p>Suno蘇蓉系統</p>
   <p>為你感應世界的脈搏</p>
@@ -403,8 +485,6 @@ document.getElementById('backToTop').addEventListener('click', function(e) {
   window.scrollTo({top: 0, behavior: 'smooth'});
 });
 </script>
-
-</div>
 
 <script>
 document.querySelectorAll('.news-card, .trend-box, .intuition-box').forEach(card => {
