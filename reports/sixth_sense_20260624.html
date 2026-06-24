@@ -84,7 +84,6 @@
 .section-panel.active { display:block; }
 
 
-.news-tab-bar{display:flex;gap:4px;margin:20px 0 12px;background:rgba(255,255,255,0.03);border-radius:12px;padding:4px;overflow-x:auto;-webkit-overflow-scrolling:touch}.news-tab-bar::-webkit-scrollbar{height:0}.news-tab{flex:1;min-width:65px;padding:10px 6px;border:none;border-radius:10px;cursor:pointer;font-size:.78em;font-weight:700;font-family:inherit;text-align:center;white-space:nowrap;transition:all .3s;background:transparent;color:#666}.news-tab:hover{background:rgba(255,255,255,0.04);color:#999}.news-tab .tab-icon{display:block;font-size:1.5em;margin-bottom:2px}.news-tab.active[data-section=ai]{background:rgba(0,212,255,0.12);color:#00d4ff;box-shadow:0 0 12px rgba(0,212,255,0.1)}.news-tab.active[data-section=space]{background:rgba(107,255,107,0.12);color:#6bff6b;box-shadow:0 0 12px rgba(107,255,107,0.1)}.news-tab.active[data-section=ufo]{background:rgba(255,107,107,0.12);color:#ff6b6b;box-shadow:0 0 12px rgba(255,107,107,0.1)}.news-tab.active[data-section=paranormal]{background:rgba(255,217,61,0.12);color:#ffd93d;box-shadow:0 0 12px rgba(255,217,61,0.1)}.section-panel{display:none;animation:fadeIn .35s ease}.section-panel.active{display:block}
 .section-title { font-size: 1.8em; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #333; display: flex; align-items: center; gap: 10px; }
   .section-title .icon { font-size: 1.2em; }
   .news-card { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 20px; margin: 15px 0; border-left: 4px solid; transition: transform 0.2s; overflow: hidden; cursor: pointer; }
@@ -280,14 +279,6 @@ function toggleSub(sub) {
 
 <!-- AI SECTION -->
 <div class="section-panel active" id="panel-ai">
-
-<!-- NEWS TABS -->
-<div class="news-tab-bar">
-  <button class="news-tab active" data-section="ai" onclick="switchNewsTab('ai')"><span class="tab-icon">🤖</span>AI科技</button>
-  <button class="news-tab" data-section="space" onclick="switchNewsTab('space')"><span class="tab-icon">🚀</span>太空宇宙</button>
-  <button class="news-tab" data-section="ufo" onclick="switchNewsTab('ufo')"><span class="tab-icon">🛸</span>UFO/外星人</button>
-  <button class="news-tab" data-section="paranormal" onclick="switchNewsTab('paranormal')"><span class="tab-icon">👻</span>超自然現象</button>
-</div>
 
 <div class="section" id="ai">
   <div class="section-title"><span class="icon">🤖</span> AI科技</div>
