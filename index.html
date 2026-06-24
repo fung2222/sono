@@ -178,7 +178,7 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
   <div class="settings-card">
     <h3>⚙️ AI 聊天設定</h3>
     <label>API 端點 (OpenAI 兼容)</label>
-    <input type="text" id="apiEndpoint" placeholder="https://openrouter.ai/api/v1">
+    <input type="text" id="apiEndpoint" placeholder="https://openrouter.ai/api/v1/chat/completions">
     <label>API Key</label>
     <input type="password" id="apiKey" placeholder="sk-or-...">
     <label>Model</label>
@@ -386,7 +386,7 @@ async function sendMessage() {
   document.getElementById('chatPrompt').textContent = text.length > 30 ? text.slice(0,30)+'…' : text;
 
   // Get API config — default: OpenRouter + Gemini Flash (free)
-  var endpoint = localStorage.getItem('sono_api_endpoint') || 'https://openrouter.ai/api/v1';
+  var endpoint = localStorage.getItem('sono_api_endpoint') || 'https://openrouter.ai/api/v1/chat/completions';
   var apiKey = localStorage.getItem('sono_api_key') || '';
   var model = localStorage.getItem('sono_api_model') || 'google/gemini-2.0-flash-001';
 
@@ -437,7 +437,7 @@ async function sendMessage() {
 
 // ══════ Settings ══════
 function openSettings() {
-  document.getElementById('apiEndpoint').value = localStorage.getItem('sono_api_endpoint') || 'https://openrouter.ai/api/v1';
+  document.getElementById('apiEndpoint').value = localStorage.getItem('sono_api_endpoint') || 'https://openrouter.ai/api/v1/chat/completions';
   document.getElementById('apiKey').value = localStorage.getItem('sono_api_key') || '';
   document.getElementById('apiModel').value = localStorage.getItem('sono_api_model') || 'google/gemini-2.0-flash-001';
   document.getElementById('settingsOverlay').classList.add('show');
