@@ -54,16 +54,14 @@
   .p2 .charge-fill { background: linear-gradient(90deg, #48dbfb, #a29bfe); }
   .charge-txt { font-size: 0.65em; color: #feca57; white-space: nowrap; }
 
-  .score-box {
-    background: rgba(30,30,50,0.85); border-radius: 10px;
-    padding: 6px 10px; border: 1px solid #333; font-size: 0.8em;
-    text-align: center; min-width: 60px; display: flex; flex-direction: column; justify-content: center;
+  .score-inline {
+    display: flex; gap: 8px; font-size: 0.65em; color: #aaa;
+    margin-top: 3px;
   }
-  .score-label { color: #888; font-size: 0.7em; }
-  .score-val { font-weight: 700; font-size: 1.4em; }
-  .p1 .score-val { color: #feca57; }
-  .p2 .score-val { color: #48dbfb; }
-  .score-death { color: #ff6b6b; font-size: 0.7em; }
+  .score-inline b.s-win { color: #feca57; font-size: 1.1em; }
+  .score-inline b.s-loss { color: #ff6b6b; font-size: 1.1em; }
+  .p2 .score-inline b.s-win { color: #48dbfb; }
+  .p2 .score-inline b.s-loss { color: #ff7675; }
 
   #arena {
     background: linear-gradient(180deg, #0f1419 0%, #1a1a2e 100%);
@@ -105,18 +103,16 @@
   .ps-btn {
     width: 56px; height: 56px; border: none;
     color: #fff; font-weight: 700; cursor: pointer;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 1px; user-select: none; touch-action: none;
+    display: flex; align-items: center; justify-content: center;
+    user-select: none; touch-action: none;
     transition: transform 0.08s, filter 0.08s;
-    position: relative; font-size: 0.8em;
+    position: relative; font-size: 1.6em;
   }
   .ps-btn:active, .ps-btn.active {
     transform: scale(0.88); filter: brightness(1.4);
     box-shadow: 0 0 20px currentColor;
   }
   .ps-btn:disabled { opacity: 0.3; cursor: not-allowed; filter: none; box-shadow: none; }
-  .ps-btn .icon { font-size: 1.5em; line-height: 1; }
-  .ps-btn .label { font-size: 0.6em; letter-spacing: 0.5px; }
 
   .ps-btn.square {
     grid-area: sq;
@@ -135,9 +131,8 @@
   }
   .ps-btn.triangle {
     grid-area: tri;
-    background: #2ecc71; border-radius: 3px;
+    background: #2ecc71; border-radius: 6px;
     box-shadow: 0 3px 10px rgba(46,204,113,0.4);
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   }
   .ps-btn.triangle.ready {
     animation: ultGlow 1s infinite;
@@ -163,14 +158,14 @@
 
   /* Restart button above log */
   .restart-bar {
-    max-width: 640px; width: 100%; display: flex; justify-content: center; margin-bottom: 6px;
+    max-width: 640px; width: 100%; display: flex; justify-content: center; margin-bottom: 8px;
   }
   .btn-restart {
-    padding: 10px 28px;
+    padding: 6px 16px;
     background: linear-gradient(135deg, #ff6b6b, #feca57);
-    border: none; color: #fff; border-radius: 10px;
-    cursor: pointer; font-weight: 700; font-size: 0.9em;
-    box-shadow: 0 4px 15px rgba(255,107,107,0.35);
+    border: none; color: #fff; border-radius: 8px;
+    cursor: pointer; font-weight: 700; font-size: 0.8em;
+    box-shadow: 0 2px 8px rgba(255,107,107,0.3);
     transition: transform 0.1s;
   }
   .btn-restart:active { transform: scale(0.95); }
@@ -219,9 +214,9 @@
 </head>
 <body>
   <h1>⚔️ STICKMAN FIGHTER</h1>
-  <div class="subtitle">火柴人格鬥</div>
 
   <div class="top-bar">
+    <!-- Player (Left) -->
     <div class="hp-score-col p1">
       <div class="hp-container">
         <div class="hp-avatar">👤</div>
@@ -232,50 +227,32 @@
             <div class="charge-bar"><div class="charge-fill" id="playerChargeFill" style="width:0%"></div></div>
             <div class="charge-txt">⚡<span id="playerCharge">0</span>/3</div>
           </div>
+          <div class="score-inline"><span>生還:<b class="s-win" id="playerWins">0</b></span> <span>死亡:<b class="s-loss" id="playerLosses">0</b></span></div>
         </div>
       </div>
     </div>
-    <div class="score-box">
-      <div class="score-label">勝</div>
-      <div class="score-val" id="playerWins">0</div>
-    </div>
-    <div class="score-box p2">
-      <div class="score-label">負</div>
-      <div class="score-val score-death" id="playerLosses">0</div>
-    </div>
-  </div>
-
-  <div class="top-bar" style="margin-bottom:8px">
-    <div class="hp-score-col p2" style="order:2">
+    <!-- Spacer -->
+    <div style="width:8px;flex-shrink:0"></div>
+    <!-- AI (Right) -->
+    <div class="hp-score-col p2">
       <div class="hp-container">
-        <div class="hp-avatar">🤖</div>
-        <div class="hp-info">
-          <div class="hp-header"><span>AI</span><span id="aiHp">100</span></div>
+        <div class="hp-info" style="text-align:right">
+          <div class="hp-header"><span id="aiHp">100</span><span>AI</span></div>
           <div class="hp-bar"><div class="hp-fill" id="aiHpFill" style="width:100%"></div></div>
-          <div class="charge-row">
+          <div class="charge-row" style="flex-direction:row-reverse">
             <div class="charge-bar"><div class="charge-fill" id="aiChargeFill" style="width:0%"></div></div>
-            <div class="charge-txt">⚡<span id="aiCharge">0</span>/3</div>
+            <div class="charge-txt"><span id="aiCharge">0</span>/3⚡</div>
           </div>
+          <div class="score-inline" style="justify-content:flex-end"><span>生還:<b class="s-win" id="aiWins">0</b></span> <span>死亡:<b class="s-loss" id="aiLosses">0</b></span></div>
         </div>
+        <div class="hp-avatar">🤖</div>
       </div>
-    </div>
-    <div class="score-box" style="order:3">
-      <div class="score-label">AI 勝</div>
-      <div class="score-val" id="aiWins">0</div>
-    </div>
-    <div class="score-box" style="order:1">
-      <div class="score-label">AI 負</div>
-      <div class="score-val score-death" id="aiLosses">0</div>
     </div>
   </div>
 
   <div id="arenaWrap">
     <canvas id="arena" width="640" height="320"></canvas>
     <div id="deathOverlay"><div id="deathText"></div></div>
-  </div>
-
-  <div class="restart-bar">
-    <button class="btn-restart" id="restartBtn">🔄 重新開始</button>
   </div>
 
   <div class="gamepad">
@@ -286,29 +263,22 @@
 
     <div class="ps-buttons">
       <button class="ps-btn triangle" id="triBtn" data-action="ultimate">
-        <span class="icon">▲△</span>
-        <span class="label">大絕</span>
+        ▲
       </button>
       <button class="ps-btn square" data-action="slash">
-        <span class="icon">■</span>
-        <span class="label">斬擊</span>
+        ■
       </button>
       <button class="ps-btn circle" data-action="ranged">
-        <span class="icon">●</span>
-        <span class="label">射擊</span>
+        ●
       </button>
       <button class="ps-btn cross" data-action="jump">
-        <span class="icon">✕</span>
-        <span class="label">跳躍</span>
+        ✕
       </button>
     </div>
+  </div>
 
-    <div class="ps-legend">
-      <span><span class="dot sq"></span>■ 斬擊</span>
-      <span><span class="dot cr"></span>● 射擊</span>
-      <span><span class="dot cross-dot"></span>✕ 跳躍</span>
-      <span><span class="dot tri"></span>▲ 大絕</span>
-    </div>
+  <div class="restart-bar">
+    <button class="btn-restart" id="restartBtn">🔄</button>
   </div>
 
   <div class="log" id="log"></div>
