@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a0a1a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>過三關 · Sono遊戲</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans HK", sans-serif;
+  background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 50%, #0a0a1a 100%);
+  color: #fff; min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 24px 16px; overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation; user-select: none;
+}
+
+h1 {
+  font-size: 2em; margin-bottom: 2px;
+  background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #a29bfe);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 3px; text-align: center; width: 100%;
+}
+.subtitle { color: #888; margin-bottom: 20px; font-size: 0.88em; text-align: center; }
+
+/* Scoreboard */
+.scoreboard {
+  display: flex; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; justify-content: center;
+}
+.score-item {
+  background: rgba(30,30,50,0.85); border-radius: 14px; padding: 10px 20px;
+  border: 1px solid #333; backdrop-filter: blur(4px);
+  text-align: center; min-width: 80px;
+}
+.score-label { font-size: 0.7em; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+.score-num { font-size: 1.6em; font-weight: 900; margin-top: 2px; }
+.score-item.win .score-num { color: #6bff6b; }
+.score-item.lose .score-num { color: #ff6b6b; }
+.score-item.draw .score-num { color: #feca57; }
+
+/* Status */
+.status {
+  font-size: 1em; font-weight: 700; color: #ccc; margin-bottom: 14px; text-align: center;
+  min-height: 1.5em;
+}
+.status.thinking { color: #a29bfe; }
+
+/* Board */
+.board {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  width: min(300px, 80vw); margin: 0 auto 20px;
+  background: rgba(255,255,255,0.03); padding: 10px; border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.cell {
+  aspect-ratio: 1; border-radius: 14px;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.6em; font-weight: 900; cursor: pointer;
+  transition: all 0.2s; position: relative;
+  min-height: 0; min-width: 0;
+}
+.cell:hover:not(.taken) { background: rgba(255,255,255,0.06); border-color: rgba(162,155,254,0.3); transform: scale(1.03); }
+.cell.taken { cursor: not-allowed; }
+.cell.x { color: #ff6b6b; }
+.cell.o { color: #48dbfb; }
+.cell.win-cell { 
+  animation: winPulse 0.6s ease-in-out infinite alternate;
+  border-color: rgba(254,202,87,0.5) !important;
+  box-shadow: 0 0 20px rgba(254,202,87,0.2);
+}
+@keyframes winPulse { to { transform: scale(1.06); } }
+
+/* Buttons */
+.btn-row { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; justify-content: center; }
+.btn {
+  padding: 11px 24px; border-radius: 25px; border: none;
+  font-size: 0.92em; font-weight: 700; font-family: inherit; cursor: pointer;
+  transition: all 0.2s; color: #fff;
+}
+.btn:active { transform: scale(0.97); }
+.btn-restart {
+  background: linear-gradient(135deg, #ff6b6b, #feca57);
+  box-shadow: 0 4px 20px rgba(255,107,107,0.2);
+}
+.btn-restart:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(255,107,107,0.3); }
+.btn-diff {
+  padding: 8px 18px; border-radius: 20px; border: 1px solid #333;
+  background: rgba(255,255,255,0.04); color: #888;
+  font-size: 0.85em; font-family: inherit; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-diff.active {
+  background: linear-gradient(135deg, rgba(162,155,254,0.2), rgba(72,219,251,0.2));
+  border-color: #a29bfe; color: #fff;
+  box-shadow: 0 0 15px rgba(162,155,254,0.15);
+}
+
+/* Back link */
+.back-link { margin-top: 20px; color: #666; font-size: 0.8em; text-decoration: none; }
+.back-link:hover { color: #a29bfe; }
+
+/* Win overlay */
+.win-overlay {
+  display: none; position: fixed; inset: 0; z-index: 999;
+  background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+  flex-direction: column; align-items: center; justify-content: center;
+}
+.win-overlay.show { display: flex; }
+.win-box {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border-radius: 20px; padding: 32px; text-align: center;
+  border: 2px solid rgba(107,255,107,0.3);
+  box-shadow: 0 0 60px rgba(107,255,107,0.15);
+  max-width: 360px; width: 90%;
+  animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.win-overlay.draw .win-box { border-color: rgba(254,202,87,0.3); box-shadow: 0 0 40px rgba(254,202,87,0.1); }
+.win-overlay.lose .win-box { border-color: rgba(255,107,107,0.3); box-shadow: 0 0 40px rgba(255,107,107,0.1); }
+@keyframes popIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.win-emoji { font-size: 3em; display: block; margin-bottom: 8px; }
+.win-title {
+  font-size: 1.6em; font-weight: 900; margin-bottom: 6px;
+  background: linear-gradient(90deg, #6bff6b, #48dbfb);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.win-overlay.lose .win-title {
+  background: linear-gradient(90deg, #ff6b6b, #feca57);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.win-overlay.draw .win-title {
+  background: linear-gradient(90deg, #feca57, #ff6b9d);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.win-comment { color: #aaa; font-size: 0.9em; margin-bottom: 16px; line-height: 1.5; }
+.win-stats { color: #888; font-size: 0.78em; margin-bottom: 20px; }
+.win-btn {
+  padding: 12px 36px; border-radius: 25px; border: none;
+  font-size: 1em; font-weight: 700; font-family: inherit; cursor: pointer;
+  color: #0a0a1a;
+  background: linear-gradient(135deg, #6bff6b, #48dbfb);
+  box-shadow: 0 4px 20px rgba(107,255,107,0.25);
+  transition: all 0.2s;
+}
+.win-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(107,255,107,0.35); }
+.win-btn:active { transform: scale(0.97); }
+
+@media (max-width: 400px) {
+  h1 { font-size: 1.5em; }
+  .board { width: min(280px, 85vw); gap: 6px; }
+  .cell { font-size: 2.2em; }
+  .score-item { padding: 8px 14px; min-width: 70px; }
+  .score-num { font-size: 1.3em; }
+}
+</style>
+</head>
+<body>
+
+<h1>❌ 過三關 ⭕</h1>
+<div class="subtitle">井字遊戲 · 對戰 AI · 贏到佢我就話你叻 🤖</div>
+
+<div class="scoreboard">
+  <div class="score-item win"><div class="score-label">🏆 贏</div><div class="score-num" id="winCount">0</div></div>
+  <div class="score-item draw"><div class="score-label">🤝 和</div><div class="score-num" id="drawCount">0</div></div>
+  <div class="score-item lose"><div class="score-label">😢 輸</div><div class="score-num" id="loseCount">0</div></div>
+</div>
+
+<div class="btn-row">
+  <button class="btn-diff active" data-diff="hard" onclick="setDifficulty('hard',this)">🔥 困難</button>
+  <button class="btn-diff" data-diff="medium" onclick="setDifficulty('medium',this)">⚡ 中等</button>
+  <button class="btn-diff" data-diff="easy" onclick="setDifficulty('easy',this)">🌱 簡單</button>
+</div>
+
+<div class="status" id="status">輪到你喇！撳格仔出手 👇</div>
+
+<div class="board" id="board"></div>
+
+<div class="btn-row">
+  <button class="btn btn-restart" onclick="resetGame()">🔄 重新開始</button>
+</div>
+
+<a href="../" class="back-link">← 返回 Sono 首頁</a>
+
+<!-- Win Overlay -->
+<div class="win-overlay" id="winOverlay">
+  <div class="win-box">
+    <span class="win-emoji" id="winEmoji"></span>
+    <div class="win-title" id="winTitle"></div>
+    <div class="win-comment" id="winComment"></div>
+    <div class="win-stats" id="winStats"></div>
+    <button class="win-btn" onclick="closeWinAndReset()">🔄 再嚟一鋪！</button>
+  </div>
+</div>
+
+<script>
+// ── State ──
+let board = Array(9).fill('');
+let currentPlayer = 'X';  // human = X
+let gameActive = true;
+let difficulty = 'hard';
+let scores = { win: 0, draw: 0, lose: 0 };
+
+// ── DOM refs ──
+const boardEl = document.getElementById('board');
+const statusEl = document.getElementById('status');
+
+// ── Init board ──
+function buildBoard() {
+  boardEl.innerHTML = '';
+  for (let i = 0; i < 9; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.dataset.index = i;
+    cell.addEventListener('click', () => handleCellClick(i, cell));
+    // Touch support
+    cell.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      handleCellClick(i, cell);
+    });
+    boardEl.appendChild(cell);
+  }
+}
+
+function handleCellClick(index, cell) {
+  if (!gameActive || board[index] !== '' || currentPlayer !== 'X') return;
+  // Human move
+  board[index] = 'X';
+  cell.textContent = '✕';
+  cell.classList.add('taken', 'x');
+  
+  if (checkWin()) {
+    endGame('win');
+    return;
+  }
+  if (board.every(c => c !== '')) {
+    endGame('draw');
+    return;
+  }
+  
+  // AI turn
+  currentPlayer = 'O';
+  statusEl.textContent = 'AI 諗緊… 🤔';
+  statusEl.classList.add('thinking');
+  
+  // Small delay so AI doesn't feel instantaneous
+  setTimeout(() => {
+    aiMove();
+    if (checkWin()) {
+      endGame('lose');
+      return;
+    }
+    if (board.every(c => c !== '')) {
+      endGame('draw');
+      return;
+    }
+    currentPlayer = 'X';
+    statusEl.textContent = '輪到你喇！撳格仔出手 👇';
+    statusEl.classList.remove('thinking');
+  }, 250 + Math.random() * 300);
+}
+
+// ── AI (Minimax) ──
+function aiMove() {
+  if (difficulty === 'easy') {
+    // Random move (sometimes)
+    if (Math.random() < 0.5) {
+      const empty = board.map((c,i) => c === '' ? i : -1).filter(i => i >= 0);
+      const r = empty[Math.floor(Math.random() * empty.length)];
+      board[r] = 'O';
+      updateCellUI(r, 'o');
+      return;
+    }
+  }
+  
+  if (difficulty === 'medium') {
+    // 50% minimax, 50% random
+    if (Math.random() < 0.5) {
+      const empty = board.map((c,i) => c === '' ? i : -1).filter(i => i >= 0);
+      const r = empty[Math.floor(Math.random() * empty.length)];
+      board[r] = 'O';
+      updateCellUI(r, 'o');
+      return;
+    }
+  }
+  
+  // Minimax
+  let bestScore = -Infinity;
+  let bestMove = -1;
+  for (let i = 0; i < 9; i++) {
+    if (board[i] === '') {
+      board[i] = 'O';
+      let score = minimax(false, -Infinity, Infinity);
+      board[i] = '';
+      if (score > bestScore) { bestScore = score; bestMove = i; }
+    }
+  }
+  board[bestMove] = 'O';
+  updateCellUI(bestMove, 'o');
+}
+
+function minimax(isMaximizing, alpha, beta) {
+  const winner = getWinner();
+  if (winner === 'O') return 10;
+  if (winner === 'X') return -10;
+  if (board.every(c => c !== '')) return 0;
+  
+  if (isMaximizing) {
+    let best = -Infinity;
+    for (let i = 0; i < 9; i++) {
+      if (board[i] === '') {
+        board[i] = 'O';
+        best = Math.max(best, minimax(false, alpha, beta));
+        board[i] = '';
+        alpha = Math.max(alpha, best);
+        if (beta <= alpha) break;
+      }
+    }
+    return best;
+  } else {
+    let best = Infinity;
+    for (let i = 0; i < 9; i++) {
+      if (board[i] === '') {
+        board[i] = 'X';
+        best = Math.min(best, minimax(true, alpha, beta));
+        board[i] = '';
+        beta = Math.min(beta, best);
+        if (beta <= alpha) break;
+      }
+    }
+    return best;
+  }
+}
+
+function updateCellUI(index, player) {
+  const cells = boardEl.children;
+  cells[index].textContent = player === 'o' ? '◯' : '✕';
+  cells[index].classList.add('taken', player);
+}
+
+// ── Check win ──
+const winLines = [
+  [0,1,2],[3,4,5],[6,7,8],
+  [0,3,6],[1,4,7],[2,5,8],
+  [0,4,8],[2,4,6]
+];
+
+function getWinner() {
+  for (const [a,b,c] of winLines) {
+    if (board[a] && board[a] === board[b] && board[a] === board[c]) return board[a];
+  }
+  return null;
+}
+
+function checkWin() {
+  for (const [a,b,c] of winLines) {
+    if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+      [a,b,c].forEach(i => boardEl.children[i].classList.add('win-cell'));
+      return true;
+    }
+  }
+  return false;
+}
+
+// ── End game ──
+function endGame(result) {
+  gameActive = false;
+  if (result === 'win') {
+    scores.win++;
+    document.getElementById('winCount').textContent = scores.win;
+    showOverlay('win');
+    statusEl.textContent = '';
+  } else if (result === 'lose') {
+    scores.lose++;
+    document.getElementById('loseCount').textContent = scores.lose;
+    showOverlay('lose');
+    statusEl.textContent = '';
+  } else {
+    scores.draw++;
+    document.getElementById('drawCount').textContent = scores.draw;
+    showOverlay('draw');
+    statusEl.textContent = '';
+  }
+  statusEl.classList.remove('thinking');
+}
+
+function showOverlay(result) {
+  const overlay = document.getElementById('winOverlay');
+  overlay.className = 'win-overlay ' + result + ' show';
+  
+  const comments = {
+    win: ['嘩！你竟然贏到 AI？你係人肉超級電腦嚟㗎？！🧠⚡', '傳奇級表現！Sono AI 表示投降 🙌', '冇可能… 你一定出千！🤯', '你係咪睇穿咗個矩陣？太屈機喇！'],
+    lose: ['AI 話多謝你陪佢玩 😏', '下次應該有用… 或者唔會 🤖', '唔緊要！輸俾 AI 唔醜樣！', '棋差一著啫～再嚟過！'],
+    draw: ['打和！勢均力敵呀吓 🤝', '你同 AI 嘅級數差唔多喎～', '旗鼓相當！再戰三百回合？']
+  };
+  const pool = comments[result];
+  const comment = pool[Math.floor(Math.random() * pool.length)];
+  
+  document.getElementById('winEmoji').textContent = result === 'win' ? '🏆' : result === 'lose' ? '🤖' : '🤝';
+  document.getElementById('winTitle').textContent = result === 'win' ? '你贏咗！' : result === 'lose' ? 'AI 贏咗' : '打和！';
+  document.getElementById('winComment').textContent = comment;
+  document.getElementById('winStats').textContent = `戰績：${scores.win}勝 ${scores.draw}和 ${scores.lose}負`;
+}
+
+function closeWinAndReset() {
+  document.getElementById('winOverlay').classList.remove('show');
+  resetGame();
+}
+
+// ── Reset ──
+function resetGame() {
+  board = Array(9).fill('');
+  currentPlayer = 'X';
+  gameActive = true;
+  buildBoard();
+  statusEl.textContent = '輪到你喇！撳格仔出手 👇';
+  statusEl.classList.remove('thinking');
+}
+
+// ── Difficulty ──
+function setDifficulty(d, btn) {
+  difficulty = d;
+  document.querySelectorAll('.btn-diff').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  resetGame();
+}
+
+// ── Start ──
+buildBoard();
+</script>
+</body>
+</html>
