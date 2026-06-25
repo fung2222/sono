@@ -324,7 +324,7 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
       <span class="ts-emoji">💬</span>
       <span class="ts-label">Sono Chat</span>
     </div>
-    <div class="card tool-sm">
+    <div class="card tool-sm" id="sonoCreateTrigger">
       <span class="ts-emoji">🎨</span>
       <span class="ts-label">Sono 創作</span>
     </div>
@@ -419,6 +419,36 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
       <button class="sq-btn" onclick="window.open('https://lite.duckduckgo.com/lite/?q=USD+HKD+匯率','_blank')" style="padding:8px 14px;border:1px solid #333;border-radius:8px;background:transparent;color:#888;font-size:0.8em;font-family:inherit;cursor:pointer;">💰 匯率</button>
       <button class="sq-btn" onclick="window.open('https://lite.duckduckgo.com/lite/?q=香港新聞','_blank')" style="padding:8px 14px;border:1px solid #333;border-radius:8px;background:transparent;color:#888;font-size:0.8em;font-family:inherit;cursor:pointer;">📰 新聞</button>
     </div>
+  </div>
+</div>
+
+<!-- ══════ Sono 創作 Modal ══════ -->
+<div id="createModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:520px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:95vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:1.3em;color:#fff;">🎨 Sono 創作</h2>
+      <button id="createClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <p style="color:#666;font-size:0.75em;margin-bottom:14px;">AI 圖像生成 · 輸入描述即可創作</p>
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <input id="createPrompt" type="text" style="flex:1;padding:14px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:12px;color:#fff;font-size:0.95em;font-family:inherit;outline:none;" placeholder="用文字描述你想創作的畫面..." autofocus>
+      <button id="createGen" style="padding:14px 20px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b9d,#a29bfe);color:#fff;font-weight:700;cursor:pointer;font-size:0.95em;white-space:nowrap;">✨ 生成</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+      <button class="create-preset" onclick="document.getElementById('createPrompt').value='Hong Kong Victoria Harbour at night, neon lights, cyberpunk style';" style="padding:6px 12px;border:1px solid #333;border-radius:8px;background:transparent;color:#666;font-size:0.72em;font-family:inherit;cursor:pointer;">🌃 香港夜景</button>
+      <button class="create-preset" onclick="document.getElementById('createPrompt').value='cute cat astronaut floating in space, stars, colorful nebula';" style="padding:6px 12px;border:1px solid #333;border-radius:8px;background:transparent;color:#666;font-size:0.72em;font-family:inherit;cursor:pointer;">🐱 太空貓</button>
+      <button class="create-preset" onclick="document.getElementById('createPrompt').value='Japanese anime style, cherry blossoms, girl with pink hair, studio ghibli';" style="padding:6px 12px;border:1px solid #333;border-radius:8px;background:transparent;color:#666;font-size:0.72em;font-family:inherit;cursor:pointer;">🌸 動漫風</button>
+      <button class="create-preset" onclick="document.getElementById('createPrompt').value='futuristic city with flying cars, sunset, highly detailed';" style="padding:6px 12px;border:1px solid #333;border-radius:8px;background:transparent;color:#666;font-size:0.72em;font-family:inherit;cursor:pointer;">🚀 未來城市</button>
+    </div>
+    <div id="createResult" style="display:none;text-align:center;">
+      <div id="createLoading" style="padding:40px;color:#666;">🎨 AI 創作中...</div>
+      <img id="createImage" src="" alt="AI generated" style="max-width:100%;border-radius:12px;display:none;" loading="lazy">
+      <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button id="createDownload" style="display:none;padding:10px 20px;border:1px solid #333;border-radius:10px;background:transparent;color:#a29bfe;font-size:0.85em;cursor:pointer;">⬇ 下載</button>
+        <button id="createRetry" style="display:none;padding:10px 20px;border:1px solid #333;border-radius:10px;background:transparent;color:#888;font-size:0.85em;cursor:pointer;">🔄 再試</button>
+      </div>
+    </div>
+    <div id="createError" style="display:none;background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.25);border-radius:10px;padding:16px;text-align:center;color:#ff6b6b;font-size:0.85em;"></div>
   </div>
 </div>
 
@@ -772,6 +802,80 @@ if (navigator.geolocation) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
   }
+})();
+
+// ══════ Sono 創作 Modal ══════
+(function(){
+  var modal = document.getElementById('createModal');
+  var promptInput = document.getElementById('createPrompt');
+  var genBtn = document.getElementById('createGen');
+  var resultDiv = document.getElementById('createResult');
+  var loadingDiv = document.getElementById('createLoading');
+  var img = document.getElementById('createImage');
+  var downloadBtn = document.getElementById('createDownload');
+  var retryBtn = document.getElementById('createRetry');
+  var errorDiv = document.getElementById('createError');
+
+  document.getElementById('sonoCreateTrigger').onclick = function(){
+    modal.style.display = 'flex';
+    setTimeout(function(){ promptInput.focus(); }, 100);
+  };
+  document.getElementById('createClose').onclick = function(){ modal.style.display = 'none'; };
+  modal.onclick = function(e){ if(e.target===modal) modal.style.display = 'none'; };
+
+  async function generate() {
+    var prompt = promptInput.value.trim();
+    if (!prompt) return;
+    // Reset
+    resultDiv.style.display = 'block';
+    loadingDiv.style.display = 'block';
+    img.style.display = 'none';
+    downloadBtn.style.display = 'none';
+    retryBtn.style.display = 'none';
+    errorDiv.style.display = 'none';
+    genBtn.disabled = true;
+
+    try {
+      var url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt) + '?width=768&height=768&nologo=true&seed=' + Math.floor(Math.random()*100000);
+      // Preload image
+      var testImg = new Image();
+      testImg.onload = function(){
+        loadingDiv.style.display = 'none';
+        img.src = url;
+        img.style.display = 'block';
+        downloadBtn.style.display = 'inline-block';
+        retryBtn.style.display = 'inline-block';
+        genBtn.disabled = false;
+      };
+      testImg.onerror = function(){
+        // Pollinations sometimes needs a moment
+        setTimeout(function(){
+          loadingDiv.style.display = 'none';
+          img.src = url;
+          img.style.display = 'block';
+          downloadBtn.style.display = 'inline-block';
+          retryBtn.style.display = 'inline-block';
+          genBtn.disabled = false;
+        }, 3000);
+      };
+      testImg.src = url;
+    } catch(e) {
+      loadingDiv.style.display = 'none';
+      errorDiv.style.display = 'block';
+      errorDiv.textContent = '生成失敗，請重試';
+      genBtn.disabled = false;
+    }
+  }
+
+  genBtn.onclick = generate;
+  promptInput.addEventListener('keydown', function(e){ if(e.key==='Enter') generate(); });
+  retryBtn.onclick = generate;
+  downloadBtn.onclick = function(){
+    var a = document.createElement('a');
+    a.href = img.src;
+    a.download = 'sono-creation-' + Date.now() + '.png';
+    a.click();
+  };
 })();
 
 </script>
