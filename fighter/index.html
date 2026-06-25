@@ -618,7 +618,6 @@ function initGame() {
   document.querySelector('h1').textContent = 'STICKMAN FIGHTER';
   updateUI();
   document.querySelectorAll('.ps-btn').forEach(b => b.disabled = false);
-  document.getElementById('movesToggle').disabled = false;
 }
 
 // Round rect helper (used by speech bubble)
@@ -1099,7 +1098,6 @@ function killFighter(fighter) {
   }
 
   document.querySelectorAll('.ps-btn').forEach(b => b.disabled = true);
-  document.getElementById('movesToggle').disabled = true;
   updateUI();
 }
 
