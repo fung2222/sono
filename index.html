@@ -32,7 +32,7 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 /* Chat header bar */
 .chat-bar { display: flex; align-items: center; gap: 10px; padding: 12px 16px; cursor: pointer; transition: background 0.2s; }
 .chat-bar:hover { background: rgba(255,255,255,0.02); }
-.chat-bar .chat-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #ff9dbc, #c48bfe); display: flex; align-items: center; justify-content: center; font-size: 1.1em; flex-shrink: 0; font-weight: 700; color: #fff; }
+.chat-bar .chat-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #ff9dbc, #c48bfe); display: flex; align-items: center; justify-content: center; font-size: 0.85em; flex-shrink: 0; font-weight: 700; color: #fff; }
 .chat-bar .chat-prompt { flex: 1; color: #666; font-size: 0.92em; }
 .chat-bar .chat-actions { display: flex; gap: 6px; }
 .chat-bar .chat-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(255,255,255,0.06); color: #888; cursor: pointer; font-size: 0.9em; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
@@ -175,7 +175,7 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 <!-- ══════ AI Chat Widget ══════ -->
 <div class="chat-widget" id="chatWidget">
   <div class="chat-bar" id="chatBar" onclick="toggleChat()">
-    <div class="chat-avatar">蓉</div>
+    <div class="chat-avatar">AI</div>
     <div class="chat-prompt" id="chatPrompt">同 Sono蘇蓉 傾偈…</div>
     <div class="chat-actions">
       <button class="chat-btn" title="設定" onclick="event.stopPropagation();openSettings()">⚙️</button>
