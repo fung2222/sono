@@ -158,7 +158,7 @@
 
   /* Restart button above log */
   .restart-bar {
-    max-width: 640px; width: 100%; display: flex; justify-content: center; margin-bottom: 4px;
+    max-width: 640px; width: 100%; display: flex; justify-content: center; gap: 10px; margin-bottom: 4px;
   }
   .btn-restart {
     padding: 8px 20px;
@@ -262,9 +262,9 @@
     letter-spacing: 3px;
   }
   .weapon-sub { color: #888; font-size: 0.85em; margin-top: -10px; }
-  .weapon-options { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .weapon-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 320px; justify-content: center; }
   .weapon-card {
-    width: 140px; padding: 20px 12px;
+    width: 100%; padding: 20px 12px;
     background: linear-gradient(135deg, #1a1a2e, #16213e);
     border: 2px solid #333; border-radius: 16px;
     cursor: pointer; text-align: center;
@@ -277,6 +277,19 @@
   .weapon-icon { font-size: 2.8em; margin-bottom: 8px; display: block; }
   .weapon-name { font-size: 1em; font-weight: 700; color: #fff; margin-bottom: 4px; }
   .weapon-desc { font-size: 0.68em; color: #888; line-height: 1.4; }
+
+  /* Defend button */
+  .defend-btn {
+    padding: 10px 16px; margin-top: 8px;
+    background: linear-gradient(135deg, #feca57, #e17055);
+    border: none; color: #1a1a2e; border-radius: 10px;
+    cursor: pointer; font-weight: 700; font-size: 0.85em;
+    box-shadow: 0 2px 10px rgba(254,202,87,0.3);
+    transition: transform 0.08s;
+    touch-action: none; user-select: none;
+  }
+  .defend-btn:active { transform: scale(0.92); filter: brightness(1.3); }
+  .defend-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
   #arenaWrap { position: relative; display: inline-block; margin-bottom: 10px; }
 
@@ -309,6 +322,11 @@
         <span class="weapon-icon">🔮</span>
         <div class="weapon-name">魔法</div>
         <div class="weapon-desc">範圍攻擊<br>必殺附帶燃燒<br>吸血 15%</div>
+      </div>
+      <div class="weapon-card" onclick="selectWeapon('fist')">
+        <span class="weapon-icon">👊</span>
+        <div class="weapon-name">拳套</div>
+        <div class="weapon-desc">極速連擊<br>攻速 x2<br>每擊 +2 怒氣</div>
       </div>
     </div>
   </div>
@@ -375,6 +393,7 @@
         ✕
       </button>
     </div>
+    <button class="defend-btn" id="defendBtn" data-action="defend">🛡️ 防禦</button>
   </div>
 
   <div class="moves-panel" id="movesPanel">
@@ -390,7 +409,7 @@
 
   <div class="restart-bar">
     <button class="btn-restart" id="restartBtn">重新開始</button>
-    <a href="../" class="btn-home">🏠 回到首頁</a>
+    <a href="../" class="btn-home">回到首頁</a>
   </div>
 
   <div class="log" id="log" style="display:none"></div>
@@ -455,6 +474,13 @@ const WEAPONS = {
     aoeRadius: 60, lifesteal: 0.15, burnDmg: 3,
     desc: '範圍攻擊｜吸血15%｜燃燒'
   },
+  fist: {
+    name: '拳套', icon: '👊',
+    slashDmg: 4, slashRange: 75, slashCrit: 0.1,
+    slashSpeed: 0.5, extraCharge: 1,
+    rangedDmg: 0, rangedCount: 0,
+    desc: '極速連擊｜攻速x2｜+2怒氣'
+  },
 };
 
 function selectWeapon(type) {
@@ -516,7 +542,7 @@ function initGame() {
   // Update title
   document.querySelector('h1').textContent = weapon ? `${WEAPONS[weapon].icon} STICKMAN FIGHTER · ${WEAPONS[weapon].name}` : '⚔️ STICKMAN FIGHTER';
   updateUI();
-  document.querySelectorAll('.ps-btn').forEach(b => b.disabled = false);
+  document.querySelectorAll('.ps-btn, .defend-btn').forEach(b => b.disabled = false);
 }
 
 // Round rect helper (used by speech bubble)
@@ -996,7 +1022,7 @@ function killFighter(fighter) {
     scores.aiLosses++;
   }
 
-  document.querySelectorAll('.ps-btn').forEach(b => b.disabled = true);
+  document.querySelectorAll('.ps-btn, .defend-btn').forEach(b => b.disabled = true);
   updateUI();
 }
 
@@ -1019,8 +1045,9 @@ function performAction(action, fighter) {
 
   switch (action) {
     case 'slash': {
-      setPose(fighter, 'slash', 16);
       const w = (fighter===player && weapon) ? WEAPONS[weapon] : null;
+      const slashDur = (w && w.slashSpeed) ? Math.floor(16 * w.slashSpeed) : 16;
+      setPose(fighter, 'slash', slashDur);
       let slashRange = fighter.enraged ? 180 : (w && w.slashRange ? w.slashRange : 95);
       let baseDmg = fighter.enraged ? 22 + Math.floor(Math.random()*10) : 16 + Math.floor(Math.random()*7);
       if (w && w.slashDmg) baseDmg += w.slashDmg;
@@ -1045,7 +1072,7 @@ function performAction(action, fighter) {
       } else {
         addLog(`${isPlayer?'👤':'🤖'} ■ 斬擊揮空！`, 'system');
       }
-      fighter.charge = Math.min(3, fighter.charge+1);
+      fighter.charge = Math.min(3, fighter.charge + 1 + (w && w.extraCharge ? w.extraCharge : 0));
       break;
     }
     case 'ranged': {
@@ -1492,6 +1519,7 @@ function update() {
 }
 
 function render() {
+  if (!player || !ai) return; // Wait for weapon selection
   ctx.save();
   if (screenShake > 0) {
     ctx.translate((Math.random()-0.5)*screenShake, (Math.random()-0.5)*screenShake);
