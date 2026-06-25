@@ -1384,6 +1384,7 @@ function moveFighter(fighter, dir) {
 }
 
 function update() {
+  if (!player || !ai) return; // Wait for weapon selection
   if (slowMoFrames > 0) {
     slowMoFrames--;
     if (animFrame%3 !== 0) { animFrame++; return; }
