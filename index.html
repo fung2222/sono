@@ -134,6 +134,24 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .card.ai-card:hover { border-color: #a29bfe; box-shadow: 0 10px 30px rgba(162,155,254,0.12); }
 .coming-soon { display: inline-block; background: rgba(255,255,255,0.06); color: #666; font-size: 0.72em; padding: 3px 10px; border-radius: 10px; margin-top: 8px; }
 
+/* ══════ Game Accordion ══════ */
+.game-list { display: flex; flex-direction: column; gap: 8px; }
+.game-item { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 14px; border: 1px solid rgba(255,255,255,0.06); overflow: hidden; cursor: pointer; transition: border-color 0.3s, box-shadow 0.3s; }
+.game-item:hover { border-color: rgba(107,255,107,0.25); box-shadow: 0 4px 20px rgba(107,255,107,0.06); }
+.game-item.open { border-color: rgba(107,255,107,0.35); box-shadow: 0 4px 25px rgba(107,255,107,0.1); }
+.game-header { display: flex; align-items: center; gap: 14px; padding: 16px 18px; }
+.game-logo { width: 44px; height: 44px; flex-shrink: 0; }
+.game-info { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.game-name { font-size: 1.05em; font-weight: 700; color: #e0e0e0; }
+.game-tag { font-size: 0.7em; font-weight: 600; color: #6bff6b; background: rgba(107,255,107,0.1); padding: 2px 8px; border-radius: 8px; align-self: flex-start; }
+.game-chevron { width: 20px; height: 20px; color: #555; flex-shrink: 0; transition: transform 0.3s; }
+.game-item.open .game-chevron { transform: rotate(180deg); color: #6bff6b; }
+.game-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; padding: 0 18px; }
+.game-item.open .game-body { max-height: 120px; padding: 0 18px 16px; }
+.game-desc { font-size: 0.85em; color: #888; line-height: 1.6; margin-bottom: 12px; }
+.game-play-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 20px; background: linear-gradient(135deg, #6bff6b, #00d4ff); color: #0a0a1a; border-radius: 20px; font-size: 0.85em; font-weight: 700; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+.game-play-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(107,255,107,0.3); }
+
 .section-label { font-size: 0.78em; color: #555; text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 10px; padding-left: 4px; }
 
 /* Footer */
@@ -148,6 +166,9 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
   .card-grid { grid-template-columns: 1fr; }
   .chat-body { height: 340px; }
   .msg { max-width: 90%; font-size: 0.85em; }
+  .game-logo { width: 36px; height: 36px; }
+  .game-name { font-size: 0.95em; }
+  .game-header { padding: 14px 14px; }
 }
 </style>
 </head>
@@ -254,22 +275,84 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 
 <!-- ══════ Tab 2: Sono 遊戲 ══════ -->
 <div class="tab-panel" id="tab-games">
-  <div class="card-grid">
-    <a href="fighter/" class="card games">
-      <span class="card-emoji">🥊</span>
-      <h4>Stickman Fighter</h4>
-      <p>街機風格格鬥遊戲 · 虛擬搖桿 + PS 菱形掣 · 大競技場對戰</p>
-    </a>
-    <a href="rps-battle/" class="card games">
-      <span class="card-emoji">✊</span>
-      <h4>猜拳火柴人</h4>
-      <p>剪刀石頭佈 · 火柴人動畫對戰 · 搞笑語音</p>
-    </a>
-    <a href="memory/" class="card games">
-      <span class="card-emoji">🧠</span>
-      <h4>記憶配對</h4>
-      <p>翻卡配對 · 考你記憶力 · 簡單/困難模式</p>
-    </a>
+  <div class="game-list">
+
+    <!-- ── Stickman Fighter ── -->
+    <div class="game-item" onclick="this.classList.toggle('open')">
+      <div class="game-header">
+        <svg class="game-logo" viewBox="0 0 48 48" fill="none">
+          <defs><linearGradient id="gf1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6bff6b"/><stop offset="100%" stop-color="#00d4ff"/></linearGradient></defs>
+          <circle cx="24" cy="10" r="5" stroke="url(#gf1)" stroke-width="2" fill="none"/>
+          <line x1="24" y1="15" x2="24" y2="30" stroke="url(#gf1)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="24" y1="20" x2="14" y2="16" stroke="url(#gf1)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="24" y1="20" x2="34" y2="24" stroke="url(#gf1)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="24" y1="30" x2="16" y2="42" stroke="url(#gf1)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="24" y1="30" x2="32" y2="42" stroke="url(#gf1)" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="32" cy="22" r="3" fill="#ff6b9d" opacity="0.9"/>
+          <circle cx="35" cy="18" r="2" fill="#ff6b9d" opacity="0.5"/>
+          <circle cx="30" cy="16" r="1.5" fill="#ff6b9d" opacity="0.4"/>
+        </svg>
+        <div class="game-info">
+          <span class="game-name">Stickman Fighter</span>
+          <span class="game-tag">格鬥</span>
+        </div>
+        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="game-body">
+        <p class="game-desc">街機風格格鬥遊戲 · 虛擬搖桿 + PS 菱形掣 · 大競技場對戰 · 粒子爆炸特效</p>
+        <a href="fighter/" class="game-play-btn" onclick="event.stopPropagation()">🎮 立即遊玩</a>
+      </div>
+    </div>
+
+    <!-- ── 猜拳火柴人 ── -->
+    <div class="game-item" onclick="this.classList.toggle('open')">
+      <div class="game-header">
+        <svg class="game-logo" viewBox="0 0 48 48" fill="none">
+          <defs><linearGradient id="gf2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffd93d"/><stop offset="100%" stop-color="#ff6b9d"/></linearGradient></defs>
+          <rect x="8" y="10" width="10" height="16" rx="3" stroke="url(#gf2)" stroke-width="2" fill="none"/>
+          <rect x="18" y="6" width="12" height="18" rx="3" stroke="url(#gf2)" stroke-width="2" fill="none"/>
+          <rect x="34" y="22" width="8" height="10" rx="2" stroke="url(#gf2)" stroke-width="2" fill="#ffd93d" opacity="0.2"/>
+          <line x1="14" y1="30" x2="14" y2="40" stroke="url(#gf2)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="24" y1="26" x2="24" y2="40" stroke="url(#gf2)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="38" y1="34" x2="38" y2="40" stroke="url(#gf2)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div class="game-info">
+          <span class="game-name">猜拳火柴人</span>
+          <span class="game-tag">派對</span>
+        </div>
+        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="game-body">
+        <p class="game-desc">剪刀石頭佈 · 火柴人動畫對戰 · 搞笑語音 · 三局兩勝制</p>
+        <a href="rps-battle/" class="game-play-btn" onclick="event.stopPropagation()">🎮 立即遊玩</a>
+      </div>
+    </div>
+
+    <!-- ── 記憶配對 ── -->
+    <div class="game-item" onclick="this.classList.toggle('open')">
+      <div class="game-header">
+        <svg class="game-logo" viewBox="0 0 48 48" fill="none">
+          <defs><linearGradient id="gf3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#a29bfe"/><stop offset="100%" stop-color="#6c5ce7"/></linearGradient></defs>
+          <rect x="8" y="14" width="14" height="18" rx="3" stroke="url(#gf3)" stroke-width="2" fill="none"/>
+          <rect x="26" y="14" width="14" height="18" rx="3" stroke="url(#gf3)" stroke-width="2" fill="none"/>
+          <text x="15" y="26" text-anchor="middle" font-size="8" fill="url(#gf3)">?</text>
+          <text x="33" y="26" text-anchor="middle" font-size="8" fill="url(#gf3)">?</text>
+          <path d="M14 38 Q24 42 34 38" stroke="url(#gf3)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <circle cx="24" cy="8" r="1" fill="#a29bfe" opacity="0.6"/>
+          <circle cx="24" cy="12" r="1" fill="#a29bfe" opacity="0.4"/>
+        </svg>
+        <div class="game-info">
+          <span class="game-name">記憶配對</span>
+          <span class="game-tag">智力</span>
+        </div>
+        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="game-body">
+        <p class="game-desc">翻卡配對 · 考你記憶力 · 簡單/困難模式 · 計時挑戰</p>
+        <a href="memory/" class="game-play-btn" onclick="event.stopPropagation()">🎮 立即遊玩</a>
+      </div>
+    </div>
+
   </div>
 </div>
 
