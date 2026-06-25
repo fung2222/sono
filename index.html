@@ -104,11 +104,11 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 /* ── Weather Bar ── */
 .weather-bar { display: flex; flex-direction: column; gap: 6px; padding: 14px 18px; margin-bottom: 14px; background: linear-gradient(135deg, rgba(120,160,190,0.06), rgba(162,155,254,0.06)); border-radius: 14px; border: 1px solid rgba(255,255,255,0.05); }
 .weather-bar .weather-top { display: flex; align-items: center; gap: 10px; }
-.weather-bar .weather-icon { font-size: 2em; line-height: 1; }
-.weather-bar .weather-temp { font-size: 1.4em; font-weight: 900; color: #fff; line-height: 1; }
-.weather-bar .weather-desc { font-size: 0.8em; color: #7eb8d4; }
-.weather-bar .weather-meta { font-size: 0.7em; color: #666; white-space: nowrap; }
-.weather-bar .weather-bottom { display: flex; align-items: center; gap: 8px; font-size: 0.78em; }
+.weather-bar .weather-icon { font-size: 2.4em; line-height: 1; }
+.weather-bar .weather-temp { font-size: 1.68em; font-weight: 900; color: #fff; line-height: 1; }
+.weather-bar .weather-desc { font-size: 0.96em; color: #7eb8d4; }
+.weather-bar .weather-meta { font-size: 0.84em; color: #666; white-space: nowrap; }
+.weather-bar .weather-bottom { display: flex; align-items: center; gap: 8px; font-size: 0.94em; }
 .weather-bar .weather-location { color: #a29bfe; }
 .weather-bar .weather-sep { color: #333; }
 .weather-bar .weather-date { color: #666; }
@@ -319,24 +319,18 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
   </div>
 
   <div class="section-label">🤖 AI 工具</div>
-  <div class="card-grid">
-    <div class="card ai-card" id="sonoChatTrigger" style="cursor:pointer;">
-      <span class="card-emoji">💬</span>
-      <h4>Sono Chat</h4>
-      <p>點擊展開頁頂對話框 · 即時 AI 對話 · 粵語支援</p>
-      <span class="coming-soon" style="background:rgba(107,255,107,0.1);color:#6bff6b;">已上線 ↑</span>
+  <div class="tool-grid">
+    <div class="card tool-sm" id="sonoChatTrigger">
+      <span class="ts-emoji">💬</span>
+      <span class="ts-label">Sono Chat</span>
     </div>
-    <div class="card ai-card">
-      <span class="card-emoji">🎨</span>
-      <h4>Sono 創作</h4>
-      <p>AI 圖像生成 · 音樂創作 · 影片製作</p>
-      <span class="coming-soon">Coming Soon</span>
+    <div class="card tool-sm">
+      <span class="ts-emoji">🎨</span>
+      <span class="ts-label">Sono 創作</span>
     </div>
-    <div class="card ai-card">
-      <span class="card-emoji">🧠</span>
-      <h4>Sono 分析</h4>
-      <p>AI 趨勢預測 · 數據洞察 · 自動化報告</p>
-      <span class="coming-soon">Coming Soon</span>
+    <div class="card tool-sm">
+      <span class="ts-emoji">🧠</span>
+      <span class="ts-label">Sono 分析</span>
     </div>
   </div>
 
