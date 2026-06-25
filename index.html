@@ -104,7 +104,9 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 /* ── Tab: Daily ── */
 .weather-bar { display: flex; align-items: center; gap: 10px; padding: 12px 16px; margin-bottom: 14px; background: linear-gradient(135deg, rgba(255,107,157,0.08), rgba(162,155,254,0.08)); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); }
 .weather-bar .weather-icon { font-size: 1.8em; }
+.weather-bar .weather-main-info { display: flex; flex-direction: column; line-height: 1.2; }
 .weather-bar .weather-temp { font-size: 1.4em; font-weight: 900; color: #ff9dbc; }
+.weather-bar .weather-location { font-size: 0.65em; color: #666; }
 .weather-bar .weather-humidity { font-size: 0.85em; color: #888; }
 .weather-bar .weather-spacer { flex: 1; }
 .weather-bar .weather-datetime { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
@@ -134,6 +136,11 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .card.games:hover   { border-color: #6bff6b; box-shadow: 0 10px 30px rgba(107,255,107,0.12); }
 .card.toolbox { border-top: 3px solid #00d4ff; }
 .card.toolbox:hover { border-color: #00d4ff; box-shadow: 0 10px 30px rgba(0,212,255,0.12); }
+.card.tool-sm { border-radius: 12px; padding: 14px 12px; cursor: pointer; transition: all 0.25s; text-align: center; min-width: 90px; flex: 1; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 6px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); }
+.card.tool-sm:hover { background: rgba(0,212,255,0.08); border-color: rgba(0,212,255,0.25); transform: translateY(-2px); }
+.card.tool-sm .ts-emoji { font-size: 1.6em; }
+.card.tool-sm .ts-label { font-size: 0.75em; color: #ccc; font-weight: 600; }
+.tool-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
 .card.ai-card { border-top: 3px solid #a29bfe; }
 .card.ai-card:hover { border-color: #a29bfe; box-shadow: 0 10px 30px rgba(162,155,254,0.12); }
 .coming-soon { display: inline-block; background: rgba(255,255,255,0.06); color: #666; font-size: 0.72em; padding: 3px 10px; border-radius: 10px; margin-top: 8px; }
@@ -206,7 +213,10 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 <!-- ══════ Weather Bar ══════ -->
 <div class="weather-bar" id="weatherBar">
   <span class="weather-icon" id="weatherIcon">⛅</span>
-  <span class="weather-temp" id="weatherTemp">--°C</span>
+  <div class="weather-main-info">
+    <span class="weather-temp" id="weatherTemp">--°C</span>
+    <span class="weather-location" id="weatherLocation">香港, 中國</span>
+  </div>
   <span class="weather-humidity" id="weatherHumidity"></span>
   <span class="weather-spacer"></span>
   <div class="weather-datetime">
@@ -291,12 +301,29 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 
 <!-- ══════ Tab 3: Sono 工具箱 ══════ -->
 <div class="tab-panel" id="tab-toolbox">
+
+  <div class="section-label">🛠️ 實用工具</div>
+  <div class="tool-grid">
+    <div class="card tool-sm" id="weatherTrigger">
+      <span class="ts-emoji">🌤️</span>
+      <span class="ts-label">全球天氣</span>
+    </div>
+    <div class="card tool-sm" id="currencyTrigger">
+      <span class="ts-emoji">💰</span>
+      <span class="ts-label">貨幣匯率</span>
+    </div>
+    <div class="card tool-sm" id="searchTrigger">
+      <span class="ts-emoji">🔍</span>
+      <span class="ts-label">Sono 搜尋</span>
+    </div>
+  </div>
+
   <div class="section-label">🤖 AI 工具</div>
   <div class="card-grid">
-    <div class="card ai-card">
+    <div class="card ai-card" id="sonoChatTrigger" style="cursor:pointer;">
       <span class="card-emoji">💬</span>
       <h4>Sono Chat</h4>
-      <p>頁頂對話框 · 即時 AI 對話 · 粵語支援</p>
+      <p>點擊展開頁頂對話框 · 即時 AI 對話 · 粵語支援</p>
       <span class="coming-soon" style="background:rgba(107,255,107,0.1);color:#6bff6b;">已上線 ↑</span>
     </div>
     <div class="card ai-card">
@@ -313,30 +340,6 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
     </div>
   </div>
 
-  <div class="section-label">🛠️ 實用工具</div>
-  <div class="card-grid">
-    <div class="card toolbox" id="weatherTrigger" style="cursor:pointer;">
-      <span class="card-emoji">🌤️</span>
-      <h4>全球天氣</h4>
-      <p>查詢世界各地天氣 · Open-Meteo 免費數據</p>
-    </div>
-    <div class="card toolbox" id="currencyTrigger" style="cursor:pointer;">
-      <span class="card-emoji">💰</span>
-      <h4>貨幣匯率</h4>
-      <p>即時匯率轉換 · 18種貨幣 · 市場價格參考</p>
-    </div>
-    <div class="card toolbox" id="searchTrigger" style="cursor:pointer;">
-      <span class="card-emoji">🔍</span>
-      <h4>Sono 搜尋</h4>
-      <p>DuckDuckGo 私隱搜尋 · 無限次使用</p>
-    </div>
-    <div class="card toolbox">
-      <span class="card-emoji">📊</span>
-      <h4>數據面板</h4>
-      <p>個人化數據追蹤與分析</p>
-      <span class="coming-soon">Coming Soon</span>
-    </div>
-  </div>
 </div>
 
 <!-- Footer -->
@@ -734,6 +737,21 @@ fetchWeather();
   document.getElementById('searchClose').onclick = function(){ modal.style.display='none'; };
   modal.onclick = function(e){ if(e.target===this) modal.style.display='none'; };
   document.getElementById('searchForm').addEventListener('submit', function(){ setTimeout(function(){ modal.style.display='none'; }, 200); });
+})();
+
+// ══════ Sono Chat Trigger ══════
+(function(){
+  var trigger = document.getElementById('sonoChatTrigger');
+  if (trigger) {
+    trigger.onclick = function(){
+      var chatWidget = document.getElementById('chatWidget');
+      if (chatWidget && !chatWidget.classList.contains('expanded')) {
+        toggleChat();
+      }
+      // Scroll to top to see the chat widget
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+  }
 })();
 
 </script>
