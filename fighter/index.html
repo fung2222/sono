@@ -251,10 +251,41 @@
   .move-btn.crs { background: #3498db; }
   .move-btn.tri { background: #2ecc71; }
   .move-btn.def2 { background: linear-gradient(135deg, #feca57, #e17055); border-radius: 50%; }
+  .move-label { flex: 1; font-weight: 600; }
+  .move-detail { color: #666; font-size: 0.9em; text-align: right; }
   .move-key {
     background: #555; color: #fff; padding: 2px 6px;
     border-radius: 3px; font-size: 0.8em; font-weight: 700;
   }
+
+  /* Moves Modal */
+  .moves-modal {
+    position: fixed; inset: 0; z-index: 110;
+    background: rgba(0,0,0,0.8); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .moves-modal-content {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 2px solid #a29bfe; border-radius: 16px;
+    padding: 24px; max-width: 380px; width: 90%;
+    box-shadow: 0 0 40px rgba(162,155,254,0.3);
+  }
+  .moves-modal-title {
+    font-size: 1.2em; font-weight: 900; color: #fff;
+    text-align: center; margin-bottom: 4px;
+  }
+  .moves-modal-sub {
+    font-size: 0.75em; color: #a29bfe;
+    text-align: center; margin-bottom: 16px;
+  }
+  .moves-close-btn {
+    display: block; margin: 16px auto 0;
+    padding: 10px 30px;
+    background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+    border: none; color: #fff; border-radius: 10px;
+    cursor: pointer; font-weight: 700; font-size: 0.9em;
+  }
+  .moves-close-btn:active { transform: scale(0.95); }
 
   /* Death overlay */
   #deathOverlay {
@@ -419,17 +450,23 @@
     <a href="../" class="btn-home">回到首頁</a>
   </div>
 
-  <div class="moves-panel" id="movesPanel" style="display:none">
-    <div class="moves-grid">
-      <div class="move-item"><span class="move-btn sq">■</span> 斬擊</div>
-      <div class="move-item"><span class="move-btn cir">●</span> 射擊</div>
-      <div class="move-item"><span class="move-btn crs">✕</span> 跳躍</div>
-      <div class="move-item"><span class="move-btn tri">▲</span> 必殺 (3⚡)</div>
-      <div class="move-item"><span class="move-btn def2">🛡️</span> 防禦</div>
+  <div class="log" id="log" style="display:none"></div>
+
+  <!-- Moves Modal -->
+  <div id="movesModal" class="moves-modal" style="display:none">
+    <div class="moves-modal-content">
+      <div class="moves-modal-title">📜 出招表</div>
+      <div class="moves-modal-sub" id="movesWeaponLabel"></div>
+      <div class="moves-grid">
+        <div class="move-item"><span class="move-btn sq">■</span> <span class="move-label">斬擊</span><span class="move-detail" id="moveSlash"></span></div>
+        <div class="move-item"><span class="move-btn cir">●</span> <span class="move-label">射擊</span><span class="move-detail" id="moveRanged"></span></div>
+        <div class="move-item"><span class="move-btn crs">✕</span> <span class="move-label">跳躍</span><span class="move-detail">空中移動</span></div>
+        <div class="move-item"><span class="move-btn tri">▲</span> <span class="move-label">必殺技</span><span class="move-detail">需3⚡儲氣</span></div>
+        <div class="move-item"><span class="move-btn def2">🛡️</span> <span class="move-label">防禦</span><span class="move-detail">減傷75%</span></div>
+      </div>
+      <button class="moves-close-btn" id="movesClose">✕ 關閉</button>
     </div>
   </div>
-
-  <div class="log" id="log" style="display:none"></div>
 
 <script>
 // ============================================================
@@ -500,6 +537,8 @@ const WEAPONS = {
   },
 };
 
+let gamePaused = false;
+
 function selectWeapon(type) {
   weapon = type;
   document.getElementById('weaponOverlay').classList.add('hidden');
@@ -507,8 +546,26 @@ function selectWeapon(type) {
 }
 
 function toggleMoves() {
-  const panel = document.getElementById('movesPanel');
-  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+  const modal = document.getElementById('movesModal');
+  if (modal.style.display === 'none' || !modal.style.display) {
+    // Pause game
+    gamePaused = true;
+    // Update weapon-specific moves
+    if (weapon && WEAPONS[weapon]) {
+      const w = WEAPONS[weapon];
+      document.getElementById('movesWeaponLabel').textContent = w.icon + ' ' + w.name + ' · ' + w.desc;
+      document.getElementById('moveSlash').textContent = w.slashDmg ? '傷害+' + w.slashDmg + (w.slashCrit?' 暴擊'+Math.round(w.slashCrit*100)+'%':'') : '基本';
+      document.getElementById('moveRanged').textContent = w.rangedCount ? w.rangedCount+'連發' : '基本';
+    } else {
+      document.getElementById('movesWeaponLabel').textContent = '';
+      document.getElementById('moveSlash').textContent = '近戰攻擊';
+      document.getElementById('moveRanged').textContent = '遠程攻擊';
+    }
+    modal.style.display = 'flex';
+  } else {
+    modal.style.display = 'none';
+    gamePaused = false;
+  }
 }
 
 let gameOver = false;
@@ -545,9 +602,10 @@ function createFighter(x, isAI) {
 let player, ai;
 
 function initGame() {
+  gamePaused = false;
   player = createFighter(180, false);
   ai = createFighter(460, true);
-  ai.aiMode = Math.floor(Math.random() * 3); // 0=aggressive, 1=kiter, 2=random
+  ai.aiMode = Math.floor(Math.random() * 3);
   gameOver = false;
   projectiles = [];
   particles = [];
@@ -1411,6 +1469,7 @@ function moveFighter(fighter, dir) {
 
 function update() {
   if (!player || !ai) return; // Wait for weapon selection
+  if (gamePaused) return;
   if (slowMoFrames > 0) {
     slowMoFrames--;
     if (animFrame%3 !== 0) { animFrame++; return; }
@@ -1657,6 +1716,7 @@ restartBtn.addEventListener('click', () => {
 });
 
 document.getElementById('movesToggle').addEventListener('click', toggleMoves);
+document.getElementById('movesClose').addEventListener('click', toggleMoves);
 document.getElementById('weaponBtn').addEventListener('click', () => {
   document.getElementById('weaponOverlay').classList.remove('hidden');
 });
