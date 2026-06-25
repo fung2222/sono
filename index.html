@@ -1,897 +1,501 @@
-<!DOCTYPE html>
-<html lang="zh-HK">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0a0a1a">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="Sono蘇蓉">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="apple-touch-icon" href="favicon.png">
-<title>Sono蘇蓉</title>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; line-height: 1.7; min-height: 100vh; }
-.container { max-width: 800px; margin: 0 auto; padding: 20px; }
-
-/* Logo */
-.logo-area { text-align: center; padding: 24px 0 6px; }
-.logo { font-size: 2.8em; font-weight: 900; background: linear-gradient(135deg, #ff6b9d, #c44569, #a29bfe, #6c5ce7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 4px; }
-.subtitle { font-size: 1em; font-weight: 700; background: linear-gradient(90deg, #ffd93d, #ff6b9d, #a29bfe, #6bff6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 4px 0; }
-
-/* ══════ Chat Widget ══════ */
-.chat-widget { margin: 16px 0 20px; border-radius: 16px; background: linear-gradient(135deg, #1a1a2e, #16213e); border: 1px solid rgba(255,255,255,0.06); overflow: hidden; transition: all 0.3s; }
-.chat-widget.expanded { border-color: rgba(255,107,157,0.25); box-shadow: 0 4px 30px rgba(255,107,157,0.08); }
-
-/* Chat header bar */
-.chat-bar { display: flex; align-items: center; gap: 10px; padding: 12px 16px; cursor: pointer; transition: background 0.2s; }
-.chat-bar:hover { background: rgba(255,255,255,0.02); }
-.chat-bar .chat-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #ff9dbc, #c48bfe); display: flex; align-items: center; justify-content: center; font-size: 0.85em; flex-shrink: 0; font-weight: 700; color: #fff; }
-.chat-bar .chat-prompt { flex: 1; color: #666; font-size: 0.92em; }
-.chat-bar .chat-actions { display: flex; gap: 6px; }
-.chat-bar .chat-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(255,255,255,0.06); color: #888; cursor: pointer; font-size: 0.9em; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
-.chat-bar .chat-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
-
-/* Chat body (hidden by default) */
-.chat-body { display: none; flex-direction: column; height: 380px; }
-.chat-widget.expanded .chat-body { display: flex; }
-.chat-widget.expanded .chat-bar { border-bottom: 1px solid rgba(255,255,255,0.06); cursor: default; }
-
-/* Messages area */
-.chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-.chat-messages::-webkit-scrollbar { width: 4px; }
-.chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
-
-/* Message bubbles */
-.msg { max-width: 85%; padding: 10px 14px; border-radius: 14px; font-size: 0.9em; line-height: 1.6; animation: msgIn 0.25s ease; word-break: break-word; }
-@keyframes msgIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-.msg.assistant { align-self: flex-start; background: rgba(255,255,255,0.06); border-bottom-left-radius: 4px; color: #ddd; }
-.msg.user { align-self: flex-end; background: linear-gradient(135deg, #ff6b9d, #c44569); border-bottom-right-radius: 4px; color: #fff; }
-.msg.system { align-self: center; background: transparent; color: #555; font-size: 0.8em; text-align: center; max-width: 100%; }
-.msg.typing { align-self: flex-start; background: rgba(255,255,255,0.06); border-bottom-left-radius: 4px; color: #888; }
-.msg.typing .dots { display: flex; gap: 4px; }
-.msg.typing .dots span { width: 6px; height: 6px; border-radius: 50%; background: #888; animation: bounce 1.4s infinite ease-in-out; }
-.msg.typing .dots span:nth-child(2) { animation-delay: 0.15s; }
-.msg.typing .dots span:nth-child(3) { animation-delay: 0.3s; }
-@keyframes bounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
-
-/* Chat input */
-.chat-input-wrap { display: flex; gap: 8px; padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.06); }
-.chat-input-wrap input { flex: 1; padding: 10px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); color: #e0e0e0; font-size: 0.9em; font-family: inherit; outline: none; transition: border-color 0.2s; }
-.chat-input-wrap input:focus { border-color: #ff6b9d; }
-.chat-input-wrap input::placeholder { color: #555; }
-.chat-input-wrap .send-btn { width: 40px; height: 40px; border-radius: 50%; border: none; background: linear-gradient(135deg, #ff6b9d, #c44569); color: #fff; cursor: pointer; font-size: 1em; transition: all 0.2s; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-.chat-input-wrap .send-btn:hover { transform: scale(1.05); box-shadow: 0 4px 15px rgba(255,107,157,0.35); }
-.chat-input-wrap .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-
-/* Settings modal */
-.settings-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center; }
-.settings-overlay.show { display: flex; }
-.settings-card { background: #1a1a2e; border-radius: 16px; padding: 28px; max-width: 400px; width: 90%; }
-.settings-card h3 { color: #ff6b9d; margin-bottom: 16px; font-size: 1.1em; }
-.settings-card label { display: block; color: #aaa; font-size: 0.82em; margin-bottom: 4px; margin-top: 12px; }
-.settings-card input, .settings-card select { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); color: #e0e0e0; font-size: 0.9em; font-family: inherit; outline: none; }
-.settings-card input:focus { border-color: #a29bfe; }
-.settings-card .btn-row { display: flex; gap: 8px; margin-top: 20px; }
-.settings-card .btn-row button { flex: 1; padding: 10px; border-radius: 10px; border: none; font-size: 0.9em; cursor: pointer; font-family: inherit; font-weight: 600; }
-.settings-card .btn-save { background: linear-gradient(135deg, #ff6b9d, #c44569); color: #fff; }
-.settings-card .btn-cancel { background: rgba(255,255,255,0.08); color: #aaa; }
-.settings-card .hint { font-size: 0.75em; color: #666; margin-top: 10px; line-height: 1.5; }
-
-/* ══════ Tab Bar ══════ */
-.tab-bar { display: flex; gap: 4px; margin: 4px 0 0; background: rgba(255,255,255,0.03); border-radius: 14px; padding: 4px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.tab-bar::-webkit-scrollbar { height: 0; }
-.tab-btn { flex: 1; min-width: 90px; padding: 8px 14px; border: none; border-radius: 11px; cursor: pointer; font-size: 0.9em; font-weight: 700; font-family: inherit; transition: all 0.3s; text-align: center; white-space: nowrap; background: transparent; color: #888; }
-.tab-btn:hover { background: rgba(255,255,255,0.04); color: #aaa; }
-.tab-btn .tab-emoji { display: block; font-size: 1.8em; margin-bottom: 1px; }
-.tab-btn .tab-label { font-size: 1.27em; }
-
-.tab-btn.active[data-tab="daily"]  { background: rgba(255,107,157,0.15); color: #ff6b9d; box-shadow: 0 0 20px rgba(255,107,157,0.12); }
-.tab-btn.active[data-tab="games"]  { background: rgba(107,255,107,0.12); color: #6bff6b; box-shadow: 0 0 20px rgba(107,255,107,0.1); }
-.tab-btn.active[data-tab="toolbox"] { background: rgba(0,212,255,0.12); color: #00d4ff; box-shadow: 0 0 20px rgba(0,212,255,0.1); }
-
-/* Tab panels */
-.tab-panel { display: none; animation: fadeIn 0.35s ease; }
-.tab-panel.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-.report-list { display: grid; gap: 12px; }
-.report-item { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 18px 20px; border-left: 4px solid #ff6b9d; transition: transform 0.2s, box-shadow 0.2s; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: #e0e0e0; }
-.report-item:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.4); border-left-color: #00d4ff; }
-.report-item .date-num { font-size: 2em; font-weight: 900; color: #ff6b9d; min-width: 65px; text-align: center; }
-.report-item .info { flex: 1; margin-left: 14px; }
-.report-item .info h3 { font-size: 1.05em; color: #fff; margin-bottom: 2px; }
-.report-item .info .weekday { font-size: 0.82em; color: #a29bfe; margin-bottom: 5px; }
-.report-item .info .desc { font-size: 0.82em; color: #888; }
-.report-item .arrow { font-size: 1.4em; color: #555; }
-.report-history-link { text-align: center; margin-top: 20px; }
-.report-history-link a { color: #a29bfe; text-decoration: none; border: 1px solid #333; padding: 8px 20px; border-radius: 20px; transition: all 0.3s; font-size: 0.9em; }
-.report-history-link a:hover { background: #1a1a3a; border-color: #a29bfe; }
-
-/* ── Tab: Cards ── */
-.card-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
-.card { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 14px; padding: 22px; text-decoration: none; color: #e0e0e0; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; border: 1px solid rgba(255,255,255,0.06); display: block; }
-.card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-.card .card-emoji { font-size: 2.2em; margin-bottom: 10px; display: block; }
-.card h4 { font-size: 1.05em; color: #fff; margin-bottom: 5px; }
-.card p { font-size: 0.84em; color: #888; line-height: 1.5; }
-.card.games   { border-top: 3px solid #6bff6b; }
-.card.games:hover   { border-color: #6bff6b; box-shadow: 0 10px 30px rgba(107,255,107,0.12); }
-.card.toolbox { border-top: 3px solid #00d4ff; }
-.card.toolbox:hover { border-color: #00d4ff; box-shadow: 0 10px 30px rgba(0,212,255,0.12); }
-.card.tool-sm { border-radius: 12px; padding: 14px 12px; cursor: pointer; transition: all 0.25s; text-align: center; min-width: 90px; flex: 1; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 6px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); }
-.card.tool-sm:hover { background: rgba(0,212,255,0.08); border-color: rgba(0,212,255,0.25); transform: translateY(-2px); }
-.card.tool-sm .ts-emoji { font-size: 1.6em; }
-.card.tool-sm .ts-label { font-size: 0.75em; color: #ccc; font-weight: 600; }
-.tool-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-.card.ai-card { border-top: 3px solid #a29bfe; }
-.card.ai-card:hover { border-color: #a29bfe; box-shadow: 0 10px 30px rgba(162,155,254,0.12); }
-.coming-soon { display: inline-block; background: rgba(255,255,255,0.06); color: #666; font-size: 0.72em; padding: 3px 10px; border-radius: 10px; margin-top: 8px; }
-
-/* ══════ Game Accordion ══════ */
-.game-list { display: flex; flex-direction: column; gap: 8px; }
-.game-item { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 14px; border: 1px solid rgba(255,255,255,0.06); overflow: hidden; cursor: pointer; transition: border-color 0.3s, box-shadow 0.3s; }
-.game-item:hover { border-color: rgba(107,255,107,0.25); box-shadow: 0 4px 20px rgba(107,255,107,0.06); }
-.game-item.open { border-color: rgba(107,255,107,0.35); box-shadow: 0 4px 25px rgba(107,255,107,0.1); }
-.game-header { display: flex; align-items: center; gap: 14px; padding: 16px 18px; cursor: pointer; }
-.game-logo { width: 44px; height: 44px; flex-shrink: 0; }
-.game-info { flex: 1; display: flex; flex-direction: column; gap: 3px; }
-.game-name { font-size: 1.05em; font-weight: 700; color: #e0e0e0; }
-.game-tag { font-size: 0.7em; font-weight: 600; color: #6bff6b; background: rgba(107,255,107,0.1); padding: 2px 8px; border-radius: 8px; align-self: flex-start; }
-.game-chevron { width: 20px; height: 20px; color: #555; flex-shrink: 0; transition: transform 0.3s; }
-.game-item.open .game-chevron { transform: rotate(180deg); color: #6bff6b; }
-.game-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; padding: 0 18px; }
-.game-item.open .game-body { max-height: 120px; padding: 0 18px 16px; }
-.game-desc { font-size: 0.85em; color: #888; line-height: 1.6; margin-bottom: 12px; }
-.game-play-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 20px; background: linear-gradient(135deg, #6bff6b, #00d4ff); color: #0a0a1a; border-radius: 20px; font-size: 0.85em; font-weight: 700; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
-.game-play-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(107,255,107,0.3); }
-
-.section-label { font-size: 0.78em; color: #ccc; text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 10px; padding-left: 4px; }
-
-/* Footer */
-.footer { text-align: center; padding: 40px 20px; color: #555; font-size: 0.85em; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 40px; }
-
-@media (max-width: 600px) {
-  .logo { font-size: 2.2em; }
-  .tab-btn { padding: 6px 10px; font-size: 0.75em; min-width: 75px; }
-  .tab-btn .tab-emoji { font-size: 1.6em; }
-  .tab-btn .tab-label { font-size: 1.1em; }
-  .report-item .date-num { font-size: 1.5em; min-width: 45px; }
-  .card-grid { grid-template-columns: 1fr; }
-  .chat-body { height: 340px; }
-  .msg { max-width: 90%; font-size: 0.85em; }
-  .game-logo { width: 36px; height: 36px; }
-  .game-name { font-size: 0.95em; }
-  .game-header { padding: 14px 14px; }
-}
-</style>
-</head>
-<body>
-<div class="container">
-
-<!-- Logo -->
-<div class="logo-area">
-  <div class="logo">Sono蘇蓉</div>
-  <div class="subtitle">科技與未來 · 太空與超自然</div>
-</div>
-
-<!-- ══════ AI Chat Widget ══════ -->
-<div class="chat-widget" id="chatWidget">
-  <div class="chat-bar" id="chatBar" onclick="toggleChat()">
-    <div class="chat-avatar">AI</div>
-    <div class="chat-prompt" id="chatPrompt">同 Sono蘇蓉 傾偈…</div>
-    <div class="chat-actions">
-      <button class="chat-btn" title="設定" onclick="event.stopPropagation();openSettings()">⚙️</button>
-      <button class="chat-btn" id="chatToggleIcon" title="展開">▼</button>
-    </div>
-  </div>
-  <div class="chat-body">
-    <div class="chat-messages" id="chatMessages">
-      <div class="msg system">👋 你好！我係 Sono蘇蓉，有咩可以幫你？</div>
-    </div>
-    <div class="chat-input-wrap">
-      <input type="text" id="chatInput" placeholder="輸入訊息…" onkeydown="if(event.key==='Enter')sendMessage()">
-      <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
-    </div>
-  </div>
-</div>
-
-<!-- Settings Modal -->
-<div class="settings-overlay" id="settingsOverlay">
-  <div class="settings-card">
-    <h3>⚙️ AI 聊天設定</h3>
-    <label>API 端點 (OpenAI 兼容)</label>
-    <input type="text" id="apiEndpoint" placeholder="https://openrouter.ai/api/v1/chat/completions">
-    <label>API Key</label>
-    <input type="password" id="apiKey" placeholder="sk-or-...">
-    <label>Model</label>
-    <input type="text" id="apiModel" placeholder="google/gemma-4-31b-it:free">
-    <p class="hint">💡 已預設 OpenRouter + Gemma 4（免費）。想轉 model 可改，支援任何 OpenAI 兼容 API。</p>
-    <div class="btn-row">
-      <button class="btn-cancel" onclick="closeSettings()">取消</button>
-      <button class="btn-save" onclick="saveSettings()">儲存</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══════ Tab Bar ══════ -->
-<div class="tab-bar">
-  <button class="tab-btn active" data-tab="daily" onclick="switchTab('daily')">
-    <span class="tab-emoji">📰</span>
-    <span class="tab-label">Sono 每日</span>
-  </button>
-  <button class="tab-btn" data-tab="games" onclick="switchTab('games')">
-    <span class="tab-emoji">🎮</span>
-    <span class="tab-label">Sono 遊戲</span>
-  </button>
-  <button class="tab-btn" data-tab="toolbox" onclick="switchTab('toolbox')">
-    <span class="tab-emoji">🧰</span>
-    <span class="tab-label">Sono 工具箱</span>
-  </button>
-</div>
-
-<!-- ══════ Tab 1: Sono 每日 ══════ -->
-<div class="tab-panel active" id="tab-daily">
-  <div class="section-label">📰 瀏覽日報</div>
-  <div class="report-list">
-      <a href="reports/suno_20260625.html" class="report-item">
-        <div class="date-num">25</div>
-        <div class="info">
-          <h3>2026年6月25日</h3>
-          <div class="weekday">星期四</div>
-          <div class="desc">Nvidia AI突破唔靠晶片 | OpenAI+Broadcom推AI晶片 | Oracle裁員2.1萬 | Webb+Hubble聯手銀河發現 | Pentagon第三批UFO檔案</div>
-        </div>
-        <div class="arrow">→</div>
-      </a>
-      
-    <a href="reports/suno_20260624.html" class="report-item">
-      <div class="date-num">24</div>
-      <div class="info">
-        <h3>2026年6月24日</h3>
-        <div class="weekday">星期三</div>
-        <div class="desc">Nvidia數據中心新架構 · OpenAI+Broadcom晶片 · Oracle AI裁員 · Roman望遠鏡抵達 · PURSUE系統啟動</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a href="reports/suno_20260623.html" class="report-item">
-      <div class="date-num">23</div>
-      <div class="info">
-        <h3>2026年6月23日</h3>
-        <div class="weekday">星期二</div>
-        <div class="desc">AI 突破總覽 · NASA 羅曼望遠鏡抵達 · Stanford 量子突破 · 逆齡基因療法測試 · 英國首相辭職</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-  </div>
-  <div class="report-history-link">
-    <a href="reports/">📅 查看所有日報</a>
-  </div>
-</div>
-
-<!-- ══════ Tab 2: Sono 遊戲 ══════ -->
-<div class="tab-panel" id="tab-games">
-  <div class="section-label">🎮 AI遊戲</div>
-  <div class="game-list">
-
-    <!-- ── Stickman Fighter ── -->
-    <div class="game-item">
-      <div class="game-header" onclick="toggleGame(this)">
-        <svg class="game-logo" viewBox="0 0 48 48" fill="none">
-          <defs><linearGradient id="gf1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6bff6b"/><stop offset="100%" stop-color="#00d4ff"/></linearGradient></defs>
-          <circle cx="24" cy="10" r="5" stroke="url(#gf1)" stroke-width="2" fill="none"/>
-          <line x1="24" y1="15" x2="24" y2="30" stroke="url(#gf1)" stroke-width="2" stroke-linecap="round"/>
-          <line x1="24" y1="20" x2="14" y2="16" stroke="url(#gf1)" stroke-width="2" stroke-linecap="round"/>
-          <line x1="24" y1="20" x2="34" y2="24" stroke="url(#gf1)" stroke-width="2" stroke-linecap="round"/>
-          <line x1="24" y1="30" x2="16" y2="42" stroke="url(#gf1)" stroke-width="2" stroke-linecap="round"/>
-          <line x1="24" y1="30" x2="32" y2="42" stroke="url(#gf1)" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="32" cy="22" r="3" fill="#ff6b9d" opacity="0.9"/>
-          <circle cx="35" cy="18" r="2" fill="#ff6b9d" opacity="0.5"/>
-          <circle cx="30" cy="16" r="1.5" fill="#ff6b9d" opacity="0.4"/>
-        </svg>
-        <div class="game-info">
-          <span class="game-name">Stickman Fighter</span>
-          <span class="game-tag">格鬥</span>
-        </div>
-        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="game-body">
-        <p class="game-desc">街機風格格鬥遊戲 · 虛擬搖桿 + PS 菱形掣 · 大競技場對戰 · 粒子爆炸特效</p>
-        <a href="fighter/" class="game-play-btn">🎮 立即遊玩</a>
-      </div>
-    </div>
-
-    <!-- ── 猜拳火柴人 ── -->
-    <div class="game-item">
-      <div class="game-header" onclick="toggleGame(this)">
-        <svg class="game-logo" viewBox="0 0 48 48" fill="none">
-          <defs><linearGradient id="gf2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffd93d"/><stop offset="100%" stop-color="#ff6b9d"/></linearGradient></defs>
-          <rect x="8" y="10" width="10" height="16" rx="3" stroke="url(#gf2)" stroke-width="2" fill="none"/>
-          <rect x="18" y="6" width="12" height="18" rx="3" stroke="url(#gf2)" stroke-width="2" fill="none"/>
-          <rect x="34" y="22" width="8" height="10" rx="2" stroke="url(#gf2)" stroke-width="2" fill="#ffd93d" opacity="0.2"/>
-          <line x1="14" y1="30" x2="14" y2="40" stroke="url(#gf2)" stroke-width="2" stroke-linecap="round"/>
-          <line x1="24" y1="26" x2="24" y2="40" stroke="url(#gf2)" stroke-width="2" stroke-linecap="round"/>
-          <line x1="38" y1="34" x2="38" y2="40" stroke="url(#gf2)" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <div class="game-info">
-          <span class="game-name">猜拳火柴人</span>
-          <span class="game-tag">派對</span>
-        </div>
-        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="game-body">
-        <p class="game-desc">剪刀石頭佈 · 火柴人動畫對戰 · 搞笑語音 · 三局兩勝制</p>
-        <a href="rps-battle/" class="game-play-btn">🎮 立即遊玩</a>
-      </div>
-    </div>
-
-    <!-- ── 記憶配對 ── -->
-    <div class="game-item">
-      <div class="game-header" onclick="toggleGame(this)">
-        <svg class="game-logo" viewBox="0 0 48 48" fill="none">
-          <defs><linearGradient id="gf3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#a29bfe"/><stop offset="100%" stop-color="#6c5ce7"/></linearGradient></defs>
-          <rect x="8" y="14" width="14" height="18" rx="3" stroke="url(#gf3)" stroke-width="2" fill="none"/>
-          <rect x="26" y="14" width="14" height="18" rx="3" stroke="url(#gf3)" stroke-width="2" fill="none"/>
-          <text x="15" y="26" text-anchor="middle" font-size="8" fill="url(#gf3)">?</text>
-          <text x="33" y="26" text-anchor="middle" font-size="8" fill="url(#gf3)">?</text>
-          <path d="M14 38 Q24 42 34 38" stroke="url(#gf3)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <circle cx="24" cy="8" r="1" fill="#a29bfe" opacity="0.6"/>
-          <circle cx="24" cy="12" r="1" fill="#a29bfe" opacity="0.4"/>
-        </svg>
-        <div class="game-info">
-          <span class="game-name">記憶配對</span>
-          <span class="game-tag">智力</span>
-        </div>
-        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="game-body">
-        <p class="game-desc">翻卡配對 · 考你記憶力 · 簡單/困難模式 · 計時挑戰</p>
-        <a href="memory/" class="game-play-btn">🎮 立即遊玩</a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ══════ Tab 3: Sono 工具箱 ══════ -->
-<div class="tab-panel" id="tab-toolbox">
-
-  <div class="section-label">🛠️ 實用工具</div>
-  <div class="tool-grid">
-    <div class="card tool-sm" id="weatherTrigger">
-      <span class="ts-emoji">🌤️</span>
-      <span class="ts-label">全球天氣</span>
-    </div>
-    <div class="card tool-sm" id="currencyTrigger">
-      <span class="ts-emoji">💰</span>
-      <span class="ts-label">貨幣匯率</span>
-    </div>
-    <div class="card tool-sm" id="searchTrigger">
-      <span class="ts-emoji">🔍</span>
-      <span class="ts-label">Sono 搜尋</span>
-    </div>
-  </div>
-
-  <div class="section-label">🤖 AI 工具</div>
-  <div class="tool-grid">
-    <div class="card tool-sm" id="sonoChatTrigger">
-      <span class="ts-emoji">💬</span>
-      <span class="ts-label">Sono Chat</span>
-    </div>
-    <div class="card tool-sm" id="sonoCreateTrigger">
-      <span class="ts-emoji">🎨</span>
-      <span class="ts-label">Sono 創作</span>
-    </div>
-    <div class="card tool-sm">
-      <span class="ts-emoji">🧠</span>
-      <span class="ts-label">Sono 分析</span>
-    </div>
-  </div>
-
-</div>
-
-<!-- Footer -->
-<div class="footer">
-  Powered by <strong>Sono蘇蓉 AI</strong>
-</div>
-
-</div>
-
-<!-- ══════ Currency Converter Modal ══════ -->
-<div id="currencyModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
-  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:480px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:90vh;overflow-y:auto;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-      <h2 style="font-size:1.3em;color:#fff;">💰 貨幣匯率</h2>
-      <button id="currencyClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
-    </div>
-    <div style="display:flex;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.06);">
-      <div><div style="color:#888;font-size:0.75em;">基準匯率</div><div id="mBaseRate" style="color:#6bff6b;font-size:1em;font-weight:700;">--</div></div>
-      <div style="color:#666;font-size:0.7em;" id="mUpdateTime">載入中...</div>
-    </div>
-    <select id="mFrom" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;margin-bottom:10px;">
-      <option value="HKD">🇭🇰 HKD 港元</option><option value="USD">🇺🇸 USD 美元</option><option value="EUR">🇪🇺 EUR 歐元</option><option value="GBP">🇬🇧 GBP 英鎊</option><option value="JPY">🇯🇵 JPY 日圓</option><option value="CNY">🇨🇳 CNY 人民幣</option><option value="TWD">🇹🇼 TWD 新台幣</option><option value="KRW">🇰🇷 KRW 韓圜</option><option value="SGD">🇸🇬 SGD 新加坡元</option><option value="AUD">🇦🇺 AUD 澳元</option>
-    </select>
-    <input id="mAmount" type="number" value="1" step="any" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:1.1em;font-family:inherit;margin-bottom:10px;outline:none;" placeholder="輸入金額">
-    <button id="mSwap" style="display:block;margin:0 auto 10px;width:36px;height:36px;border-radius:50%;border:1px solid #333;background:rgba(255,255,255,0.04);color:#a29bfe;font-size:1em;cursor:pointer;">⇄</button>
-    <select id="mTo" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;margin-bottom:16px;">
-      <option value="USD">🇺🇸 USD 美元</option><option value="HKD" selected>🇭🇰 HKD 港元</option><option value="EUR">🇪🇺 EUR 歐元</option><option value="GBP">🇬🇧 GBP 英鎊</option><option value="JPY">🇯🇵 JPY 日圓</option><option value="CNY">🇨🇳 CNY 人民幣</option><option value="TWD">🇹🇼 TWD 新台幣</option><option value="KRW">🇰🇷 KRW 韓圜</option><option value="SGD">🇸🇬 SGD 新加坡元</option><option value="AUD">🇦🇺 AUD 澳元</option>
-    </select>
-    <div style="background:rgba(107,255,107,0.06);border:1px solid rgba(107,255,107,0.15);border-radius:12px;padding:16px;text-align:center;">
-      <div style="color:#888;font-size:0.75em;margin-bottom:4px;">兌換結果</div>
-      <div id="mResult" style="font-size:2em;font-weight:900;background:linear-gradient(90deg,#6bff6b,#a29bfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">--</div>
-      <div id="mResultSub" style="color:#666;font-size:0.7em;margin-top:4px;"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════ Global Weather Modal ══════ -->
-<div id="weatherModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
-  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:480px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:90vh;overflow-y:auto;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-      <h2 style="font-size:1.3em;color:#fff;">🌤️ 全球天氣</h2>
-      <button id="weatherClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
-    </div>
-    <p style="color:#666;font-size:0.75em;margin-bottom:12px;">Open-Meteo 免費數據 · 中英文城市名皆可 · 即時天氣 + 5 日預測</p>
-    <div style="display:flex;gap:8px;margin-bottom:16px;">
-      <input id="wCity" type="text" value="香港" style="flex:1;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;outline:none;" placeholder="輸入城市名（中英文皆可）">
-      <button id="wSearch" style="padding:12px 18px;border:none;border-radius:10px;background:linear-gradient(135deg,#ff6b9d,#a29bfe);color:#fff;font-weight:700;cursor:pointer;">查詢</button>
-    </div>
-    <div id="wResult" style="display:none;">
-      <div style="text-align:center;padding:20px 0;">
-        <div id="wIcon" style="font-size:3.5em;margin-bottom:8px;"></div>
-        <div id="wTemp" style="font-size:2.5em;font-weight:900;color:#fff;"></div>
-        <div id="wDesc" style="color:#888;font-size:0.9em;margin-top:4px;"></div>
-        <div id="wCityName" style="color:#a29bfe;font-size:0.85em;margin-top:2px;"></div>
-      </div>
-      <div id="wExtra" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0;"></div>
-      <div id="wForecast" style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06);">
-        <div style="color:#888;font-size:0.78em;margin-bottom:8px;">📅 未來 5 天</div>
-        <div id="wForecastGrid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;"></div>
-      </div>
-    </div>
-    <div id="wLoading" style="display:none;text-align:center;padding:40px;color:#666;">載入中...</div>
-    <div id="wError" style="display:none;background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.25);border-radius:10px;padding:16px;text-align:center;color:#ff6b6b;font-size:0.85em;"></div>
-  </div>
-</div>
-
-<!-- ══════ Search Modal ══════ -->
-<div id="searchModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
-  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:500px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-      <h2 style="font-size:1.3em;color:#fff;">🔍 Sono 搜尋</h2>
-      <button id="searchClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
-    </div>
-    <p style="color:#888;font-size:0.8em;margin-bottom:12px;">由 DuckDuckGo 提供 · 尊重私隱 · 無限次使用</p>
-    <form id="searchForm" action="https://lite.duckduckgo.com/lite/" method="GET" target="_blank">
-      <div style="display:flex;gap:8px;">
-        <input name="q" type="text" style="flex:1;padding:14px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:12px;color:#fff;font-size:1em;font-family:inherit;outline:none;" placeholder="輸入搜尋關鍵字..." autofocus>
-        <button type="submit" style="padding:14px 20px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b9d,#a29bfe);color:#fff;font-weight:700;cursor:pointer;font-size:1em;">🔍</button>
-      </div>
-    </form>
-    <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
-      <button class="sq-btn" onclick="window.open('https://lite.duckduckgo.com/lite/?q=今日天氣','_blank')" style="padding:8px 14px;border:1px solid #333;border-radius:8px;background:transparent;color:#888;font-size:0.8em;font-family:inherit;cursor:pointer;">🌤️ 今日天氣</button>
-      <button class="sq-btn" onclick="window.open('https://lite.duckduckgo.com/lite/?q=比特幣價格','_blank')" style="padding:8px 14px;border:1px solid #333;border-radius:8px;background:transparent;color:#888;font-size:0.8em;font-family:inherit;cursor:pointer;">₿ 比特幣</button>
-      <button class="sq-btn" onclick="window.open('https://lite.duckduckgo.com/lite/?q=USD+HKD+匯率','_blank')" style="padding:8px 14px;border:1px solid #333;border-radius:8px;background:transparent;color:#888;font-size:0.8em;font-family:inherit;cursor:pointer;">💰 匯率</button>
-      <button class="sq-btn" onclick="window.open('https://lite.duckduckgo.com/lite/?q=香港新聞','_blank')" style="padding:8px 14px;border:1px solid #333;border-radius:8px;background:transparent;color:#888;font-size:0.8em;font-family:inherit;cursor:pointer;">📰 新聞</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══════ Sono 創作 Modal ══════ -->
-<div id="createModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
-  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:520px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:95vh;overflow-y:auto;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-      <h2 style="font-size:1.3em;color:#fff;">🎨 Sono 創作</h2>
-      <button id="createClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
-    </div>
-    <p style="color:#666;font-size:0.75em;margin-bottom:14px;">AI 圖像生成 · 輸入描述即可創作</p>
-    <div style="display:flex;gap:8px;margin-bottom:12px;">
-      <input id="createPrompt" type="text" style="flex:1;padding:14px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:12px;color:#fff;font-size:0.95em;font-family:inherit;outline:none;" placeholder="用文字描述你想創作的畫面..." autofocus>
-      <button id="createGen" style="padding:14px 20px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b9d,#a29bfe);color:#fff;font-weight:700;cursor:pointer;font-size:0.95em;white-space:nowrap;">✨ 生成</button>
-    </div>
-    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
-      <button class="create-preset" onclick="document.getElementById('createPrompt').value='Hong Kong Victoria Harbour at night, neon lights, cyberpunk style';" style="padding:6px 12px;border:1px solid #333;border-radius:8px;background:transparent;color:#666;font-size:0.72em;font-family:inherit;cursor:pointer;">🌃 香港夜景</button>
-      <button class="create-preset" onclick="document.getElementById('createPrompt').value='cute cat astronaut floating in space, stars, colorful nebula';" style="padding:6px 12px;border:1px solid #333;border-radius:8px;background:transparent;color:#666;font-size:0.72em;font-family:inherit;cursor:pointer;">🐱 太空貓</button>
-      <button class="create-preset" onclick="document.getElementById('createPrompt').value='Japanese anime style, cherry blossoms, girl with pink hair, studio ghibli';" style="padding:6px 12px;border:1px solid #333;border-radius:8px;background:transparent;color:#666;font-size:0.72em;font-family:inherit;cursor:pointer;">🌸 動漫風</button>
-      <button class="create-preset" onclick="document.getElementById('createPrompt').value='futuristic city with flying cars, sunset, highly detailed';" style="padding:6px 12px;border:1px solid #333;border-radius:8px;background:transparent;color:#666;font-size:0.72em;font-family:inherit;cursor:pointer;">🚀 未來城市</button>
-    </div>
-    <div id="createResult" style="display:none;text-align:center;">
-      <div id="createLoading" style="padding:40px;color:#666;">🎨 AI 創作中...</div>
-      <img id="createImage" src="" alt="AI generated" style="max-width:100%;border-radius:12px;display:none;" loading="lazy">
-      <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
-        <button id="createDownload" style="display:none;padding:10px 20px;border:1px solid #333;border-radius:10px;background:transparent;color:#a29bfe;font-size:0.85em;cursor:pointer;">⬇ 下載</button>
-        <button id="createRetry" style="display:none;padding:10px 20px;border:1px solid #333;border-radius:10px;background:transparent;color:#888;font-size:0.85em;cursor:pointer;">🔄 再試</button>
-      </div>
-    </div>
-    <div id="createError" style="display:none;background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.25);border-radius:10px;padding:16px;text-align:center;color:#ff6b6b;font-size:0.85em;"></div>
-  </div>
-</div>
-
-<script>
-// ══════ Tab Switching ══════
-function switchTab(tabName) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelector(`.tab-btn[data-tab="${tabName}"]`).classList.add('active');
-  document.getElementById('tab-' + tabName).classList.add('active');
-  try { localStorage.setItem('sono_last_tab', tabName); } catch(e) {}
-}
-(function() {
-  var last = 'daily';
-  try { last = localStorage.getItem('sono_last_tab') || 'daily'; } catch(e) {}
-  switchTab(last);
-})();
-
-// ══════ Game Accordion ══════
-function toggleGame(header) {
-  var item = header.parentElement;
-  var wasOpen = item.classList.contains('open');
-  // Close all
-  document.querySelectorAll('.game-item').forEach(function(el) { el.classList.remove('open'); });
-  // Toggle clicked (open if was closed, close if was open)
-  if (!wasOpen) item.classList.add('open');
-}
-
-// ══════ Chat Widget ══════
-var chatExpanded = false;
-var isWaiting = false;
-
-function toggleChat() {
-  chatExpanded = !chatExpanded;
-  var w = document.getElementById('chatWidget');
-  var icon = document.getElementById('chatToggleIcon');
-  if (chatExpanded) {
-    w.classList.add('expanded');
-    icon.textContent = '▲';
-    setTimeout(function() {
-      document.getElementById('chatInput').focus();
-      scrollChat();
-    }, 100);
-  } else {
-    w.classList.remove('expanded');
-    icon.textContent = '▼';
-  }
-}
-
-function scrollChat() {
-  var el = document.getElementById('chatMessages');
-  el.scrollTop = el.scrollHeight;
-}
-
-function addMessage(role, text) {
-  var div = document.createElement('div');
-  div.className = 'msg ' + role;
-  div.textContent = text;
-  document.getElementById('chatMessages').appendChild(div);
-  scrollChat();
-}
-
-function showTyping() {
-  var div = document.createElement('div');
-  div.className = 'msg typing';
-  div.id = 'typing-indicator';
-  div.innerHTML = '<div class="dots"><span></span><span></span><span></span></div>';
-  document.getElementById('chatMessages').appendChild(div);
-  scrollChat();
-}
-
-function hideTyping() {
-  var el = document.getElementById('typing-indicator');
-  if (el) el.remove();
-}
-
-async function sendMessage() {
-  if (isWaiting) return;
-  var input = document.getElementById('chatInput');
-  var text = input.value.trim();
-  if (!text) return;
-
-  // Auto-expand if collapsed
-  if (!chatExpanded) toggleChat();
-
-  addMessage('user', text);
-  input.value = '';
-  document.getElementById('sendBtn').disabled = true;
-  isWaiting = true;
-
-  // Update prompt bar
-  document.getElementById('chatPrompt').textContent = text.length > 30 ? text.slice(0,30)+'…' : text;
-
-  // Get API config — default: OpenRouter + Gemma 4 (free)
-  var endpoint = localStorage.getItem('sono_api_endpoint') || 'https://openrouter.ai/api/v1/chat/completions';
-  // Auto-fix any broken/old endpoint
-  if (endpoint && !endpoint.includes('/chat/completions')) {
-    endpoint = 'https://openrouter.ai/api/v1/chat/completions';
-    localStorage.setItem('sono_api_endpoint', endpoint);
-  }
-  var apiKey = localStorage.getItem('sono_api_key') || '';
-  var model = localStorage.getItem('sono_api_model') || 'google/gemma-4-31b-it:free';
-  // Auto-fix old model name
-  if (model === 'google/gemini-2.0-flash-001') {
-    model = 'google/gemma-4-31b-it:free';
-    localStorage.setItem('sono_api_model', model);
-  }
-
-  if (!apiKey) {
-    hideTyping();
-    addMessage('system', '⚠️ 未設定 API Key！請撳右上角 ⚙️ 設定');
-    isWaiting = false;
-    document.getElementById('sendBtn').disabled = false;
-    return;
-  }
-
-  showTyping();
-
-  try {
-    var resp = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
-      body: JSON.stringify({
-        model: model,
-        messages: [
-          { role: 'system', content: '你係 Sono蘇蓉，一個友善、聰明嘅女性 AI 助手。用繁體中文回答，語氣溫暖親切、精簡扼要。用戶係香港人，名叫嘉豐。' },
-          { role: 'user', content: text }
-        ],
-        max_tokens: 800,
-        temperature: 0.7
-      })
-    });
-
-    hideTyping();
-
-    if (!resp.ok) {
-      var errText = await resp.text();
-      addMessage('system', '❌ API 錯誤 (' + resp.status + ')：請檢查設定。' + (errText.length < 200 ? '\n' + errText : ''));
-    } else {
-      var data = await resp.json();
-      var reply = data.choices[0].message.content;
-      addMessage('assistant', reply);
-    }
-  } catch(e) {
-    hideTyping();
-    addMessage('system', '❌ 連線失敗：' + e.message);
-  }
-
-  isWaiting = false;
-  document.getElementById('sendBtn').disabled = false;
-  document.getElementById('chatInput').focus();
-}
-
-// ══════ Settings ══════
-function openSettings() {
-  document.getElementById('apiEndpoint').value = localStorage.getItem('sono_api_endpoint') || 'https://openrouter.ai/api/v1/chat/completions';
-  document.getElementById('apiKey').value = localStorage.getItem('sono_api_key') || '';
-  document.getElementById('apiModel').value = localStorage.getItem('sono_api_model') || 'google/gemma-4-31b-it:free';
-  document.getElementById('settingsOverlay').classList.add('show');
-}
-
-function closeSettings() {
-  document.getElementById('settingsOverlay').classList.remove('show');
-}
-
-function saveSettings() {
-  localStorage.setItem('sono_api_endpoint', document.getElementById('apiEndpoint').value.trim());
-  localStorage.setItem('sono_api_key', document.getElementById('apiKey').value.trim());
-  localStorage.setItem('sono_api_model', document.getElementById('apiModel').value.trim() || 'gpt-4o');
-  closeSettings();
-  if (!chatExpanded) toggleChat();
-  setTimeout(function() {
-    addMessage('system', '✅ 設定已儲存！你可以開始同我傾偈啦～');
-  }, 300);
-}
-
-// Close settings on overlay click
-document.getElementById('settingsOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeSettings();
-});
-// ══════ Currency Converter Modal ══════
-(function(){
-  var mRates = {};
-  var mFrom = document.getElementById('mFrom');
-  var mTo = document.getElementById('mTo');
-  var mAmt = document.getElementById('mAmount');
-  var mResult = document.getElementById('mResult');
-  var mResultSub = document.getElementById('mResultSub');
-  var mBaseRate = document.getElementById('mBaseRate');
-  var mUpdate = document.getElementById('mUpdateTime');
-  var modal = document.getElementById('currencyModal');
-
-  document.getElementById('currencyTrigger').onclick = function(){ modal.style.display='flex'; mConvert(); };
-  document.getElementById('currencyClose').onclick = function(){ modal.style.display='none'; };
-  modal.onclick = function(e){ if(e.target===this) modal.style.display='none'; };
-
-  function mConvert() {
-    var f = mFrom.value, t = mTo.value, a = parseFloat(mAmt.value) || 0;
-    var fr = mRates[f] || 1, tr = mRates[t];
-    if (!tr) { mResult.textContent = '--'; return; }
-    var r = a / fr * tr;
-    var big = r>1000 || t==='VND'||t==='IDR'||t==='KRW';
-    mResult.textContent = (big ? r.toLocaleString('zh-HK',{maxFraction:0}) : r.toLocaleString('zh-HK',{minFraction:2,maxFraction:2})) + ' ' + t;
-    mResultSub.textContent = '1 ' + f + ' = ' + (tr/fr).toFixed(6) + ' ' + t;
-    mBaseRate.textContent = '1 ' + f + ' = ' + (tr/fr).toFixed(6) + ' ' + t;
-  }
-
-  async function mFetch() {
-    try {
-      var r = await fetch('https://api.frankfurter.app/latest?from='+mFrom.value);
-      var d = await r.json();
-      mRates = d.rates; mRates[mFrom.value]=1;
-      mUpdate.textContent = '更新: '+new Date(d.date).toLocaleDateString('zh-HK');
-    } catch(e){
-      mRates = {USD:1,EUR:0.92,GBP:0.79,JPY:149.5,CNY:7.24,HKD:7.82,TWD:32.1,KRW:1375,SGD:1.34,AUD:1.53};
-      mUpdate.textContent = '離線模式';
-    }
-    mConvert();
-  }
-
-  mFrom.onchange = mFetch;
-  mTo.onchange = mConvert;
-  mAmt.oninput = mConvert;
-  document.getElementById('mSwap').onclick = function(){
-    var tmp = mFrom.value; mFrom.value = mTo.value; mTo.value = tmp;
-    mFetch();
-  };
-
-  mFetch();
-})();
-
-// ══════ Global Weather Modal ══════
-(function(){
-  var modal = document.getElementById('weatherModal');
-  document.getElementById('weatherTrigger').onclick = function(){ modal.style.display='flex'; doWeather(); };
-  document.getElementById('weatherClose').onclick = function(){ modal.style.display='none'; };
-  modal.onclick = function(e){ if(e.target===this) modal.style.display='none'; };
-  document.getElementById('wSearch').onclick = doWeather;
-  document.getElementById('wCity').onkeydown = function(e){ if(e.key==='Enter') doWeather(); };
-
-  var wmo = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',61:'🌧️',80:'🌦️',95:'⛈️',96:'⛈️'};
-
-  async function doWeather(){
-    var city = document.getElementById('wCity').value.trim();
-    if(!city) return;
-    document.getElementById('wLoading').style.display='block';
-    document.getElementById('wResult').style.display='none';
-    document.getElementById('wError').style.display='none';
-    try {
-      // Use Nominatim for geocoding (supports Chinese + English)
-      var geo = await fetch('https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(city)+'&format=json&limit=1&accept-language=zh');
-      var gd = await geo.json();
-      if(!gd||!gd[0]) throw new Error('找不到城市「'+city+'」，試下用英文名');
-      var loc = gd[0];
-      // Use Open-Meteo for weather
-      var w = await fetch('https://api.open-meteo.com/v1/forecast?latitude='+loc.lat+'&longitude='+loc.lon+'&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto&forecast_days=5');
-      var wd = await w.json();
-      var c = wd.current;
-      document.getElementById('wIcon').textContent = wmo[c.weather_code]||'☀️';
-      document.getElementById('wTemp').textContent = c.temperature_2m+'°C';
-      document.getElementById('wDesc').textContent = '體感 '+c.apparent_temperature+'°C · 💧'+c.relative_humidity_2m+'% · 🌀'+c.wind_speed_10m+'km/h';
-      document.getElementById('wCityName').textContent = loc.display_name.split(',')[0];
-      var extra = document.getElementById('wExtra');
-      extra.innerHTML = '';
-      var items = [['💧 濕度',c.relative_humidity_2m+'%'],['🌡️ 體感',c.apparent_temperature+'°C'],['🌀 風速',c.wind_speed_10m+'km/h'],['📊 天氣碼',c.weather_code]];
-      items.forEach(function(x){ extra.innerHTML += '<div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;"><div style="color:#888;font-size:0.7em;">'+x[0]+'</div><div style="color:#fff;font-size:1.1em;font-weight:700;">'+x[1]+'</div></div>'; });
-      var fg = document.getElementById('wForecastGrid');
-      fg.innerHTML = '';
-      var days = ['日','一','二','三','四','五','六'];
-      var today = new Date();
-      wd.daily.time.forEach(function(t,i){
-        var d = new Date(t+'T12:00:00');
-        var dn = (i===0)?'今日':days[d.getDay()];
-        fg.innerHTML += '<div style="background:rgba(255,255,255,0.03);padding:8px 4px;border-radius:6px;text-align:center;"><div style="color:#888;font-size:0.7em;">'+dn+'</div><div style="font-size:1.2em;">'+(wmo[wd.daily.weather_code[i]]||'☀️')+'</div><div style="color:#fff;font-size:0.8em;font-weight:700;">'+wd.daily.temperature_2m_max[i]+'°</div><div style="color:#888;font-size:0.7em;">'+wd.daily.temperature_2m_min[i]+'°</div></div>';
-      });
-      document.getElementById('wLoading').style.display='none';
-      document.getElementById('wResult').style.display='block';
-    } catch(e){
-      document.getElementById('wLoading').style.display='none';
-      document.getElementById('wError').style.display='block';
-      document.getElementById('wError').textContent = '❌ '+e.message;
-    }
-  }
-})();
-
-// ══════ Search Modal ══════
-(function(){
-  var modal = document.getElementById('searchModal');
-  document.getElementById('searchTrigger').onclick = function(){ modal.style.display='flex'; setTimeout(function(){ modal.querySelector('input').focus(); },100); };
-  document.getElementById('searchClose').onclick = function(){ modal.style.display='none'; };
-  modal.onclick = function(e){ if(e.target===this) modal.style.display='none'; };
-  document.getElementById('searchForm').addEventListener('submit', function(){ setTimeout(function(){ modal.style.display='none'; }, 200); });
-})();
-
-// ══════ Sono Chat Trigger ══════
-(function(){
-  var trigger = document.getElementById('sonoChatTrigger');
-  if (trigger) {
-    trigger.onclick = function(){
-      var chatWidget = document.getElementById('chatWidget');
-      if (chatWidget && !chatWidget.classList.contains('expanded')) {
-        toggleChat();
-      }
-      // Scroll to top to see the chat widget
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-  }
-})();
-
-// ══════ Sono 創作 Modal ══════
-(function(){
-  var modal = document.getElementById('createModal');
-  var promptInput = document.getElementById('createPrompt');
-  var genBtn = document.getElementById('createGen');
-  var resultDiv = document.getElementById('createResult');
-  var loadingDiv = document.getElementById('createLoading');
-  var img = document.getElementById('createImage');
-  var downloadBtn = document.getElementById('createDownload');
-  var retryBtn = document.getElementById('createRetry');
-  var errorDiv = document.getElementById('createError');
-
-  document.getElementById('sonoCreateTrigger').onclick = function(){
-    modal.style.display = 'flex';
-    setTimeout(function(){ promptInput.focus(); }, 100);
-  };
-  document.getElementById('createClose').onclick = function(){ modal.style.display = 'none'; };
-  modal.onclick = function(e){ if(e.target===modal) modal.style.display = 'none'; };
-
-  async function generate() {
-    var prompt = promptInput.value.trim();
-    if (!prompt) return;
-    // Reset
-    resultDiv.style.display = 'block';
-    loadingDiv.style.display = 'block';
-    img.style.display = 'none';
-    downloadBtn.style.display = 'none';
-    retryBtn.style.display = 'none';
-    errorDiv.style.display = 'none';
-    genBtn.disabled = true;
-
-    try {
-      var url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt) + '?width=768&height=768&nologo=true&seed=' + Math.floor(Math.random()*100000);
-      // Preload image
-      var testImg = new Image();
-      testImg.onload = function(){
-        loadingDiv.style.display = 'none';
-        img.src = url;
-        img.style.display = 'block';
-        downloadBtn.style.display = 'inline-block';
-        retryBtn.style.display = 'inline-block';
-        genBtn.disabled = false;
-      };
-      testImg.onerror = function(){
-        // Pollinations sometimes needs a moment
-        setTimeout(function(){
-          loadingDiv.style.display = 'none';
-          img.src = url;
-          img.style.display = 'block';
-          downloadBtn.style.display = 'inline-block';
-          retryBtn.style.display = 'inline-block';
-          genBtn.disabled = false;
-        }, 3000);
-      };
-      testImg.src = url;
-    } catch(e) {
-      loadingDiv.style.display = 'none';
-      errorDiv.style.display = 'block';
-      errorDiv.textContent = '生成失敗，請重試';
-      genBtn.disabled = false;
-    }
-  }
-
-  genBtn.onclick = generate;
-  promptInput.addEventListener('keydown', function(e){ if(e.key==='Enter') generate(); });
-  retryBtn.onclick = generate;
-  downloadBtn.onclick = function(){
-    var a = document.createElement('a');
-    a.href = img.src;
-    a.download = 'sono-creation-' + Date.now() + '.png';
-    a.click();
-  };
-})();
-
-</script>
-</body>
-</html>
+1|<!DOCTYPE html>
+2|<html lang="zh-HK">
+3|<head>
+4|<meta charset="UTF-8">
+5|<meta name="viewport" content="width=device-width, initial-scale=1.0">
+6|<meta name="theme-color" content="#0a0a1a">
+7|<meta name="apple-mobile-web-app-capable" content="yes">
+8|<meta name="apple-mobile-web-app-status-bar-style" content="black">
+9|<meta name="apple-mobile-web-app-title" content="Sono蘇蓉">
+10|<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+11|<meta http-equiv="Pragma" content="no-cache">
+12|<meta http-equiv="Expires" content="0">
+13|<link rel="icon" type="image/svg+xml" href="favicon.svg">
+14|<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+15|<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+16|<link rel="apple-touch-icon" href="favicon.png">
+17|<title>Sono蘇蓉</title>
+18|<style>
+19|* { margin: 0; padding: 0; box-sizing: border-box; }
+20|body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; line-height: 1.7; min-height: 100vh; }
+21|.container { max-width: 800px; margin: 0 auto; padding: 20px; }
+22|
+23|/* Logo */
+24|.logo-area { text-align: center; padding: 24px 0 6px; }
+25|.logo { font-size: 2.8em; font-weight: 900; background: linear-gradient(135deg, #ff6b9d, #c44569, #a29bfe, #6c5ce7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 4px; }
+26|.subtitle { font-size: 1em; font-weight: 700; background: linear-gradient(90deg, #ffd93d, #ff6b9d, #a29bfe, #6bff6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 4px 0; }
+27|
+28|/* ══════ Chat Widget ══════ */
+29|.chat-widget { margin: 16px 0 20px; border-radius: 16px; background: linear-gradient(135deg, #1a1a2e, #16213e); border: 1px solid rgba(255,255,255,0.06); overflow: hidden; transition: all 0.3s; }
+30|.chat-widget.expanded { border-color: rgba(255,107,157,0.25); box-shadow: 0 4px 30px rgba(255,107,157,0.08); }
+31|
+32|/* Chat header bar */
+33|.chat-bar { display: flex; align-items: center; gap: 10px; padding: 12px 16px; cursor: pointer; transition: background 0.2s; }
+34|.chat-bar:hover { background: rgba(255,255,255,0.02); }
+35|.chat-bar .chat-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #ff9dbc, #c48bfe); display: flex; align-items: center; justify-content: center; font-size: 0.85em; flex-shrink: 0; font-weight: 700; color: #fff; }
+36|.chat-bar .chat-prompt { flex: 1; color: #666; font-size: 0.92em; }
+37|.chat-bar .chat-actions { display: flex; gap: 6px; }
+38|.chat-bar .chat-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(255,255,255,0.06); color: #888; cursor: pointer; font-size: 0.9em; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+39|.chat-bar .chat-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+40|
+41|/* Chat body (hidden by default) */
+42|.chat-body { display: none; flex-direction: column; height: 380px; }
+43|.chat-widget.expanded .chat-body { display: flex; }
+44|.chat-widget.expanded .chat-bar { border-bottom: 1px solid rgba(255,255,255,0.06); cursor: default; }
+45|
+46|/* Messages area */
+47|.chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+48|.chat-messages::-webkit-scrollbar { width: 4px; }
+49|.chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+50|
+51|/* Message bubbles */
+52|.msg { max-width: 85%; padding: 10px 14px; border-radius: 14px; font-size: 0.9em; line-height: 1.6; animation: msgIn 0.25s ease; word-break: break-word; }
+53|@keyframes msgIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+54|.msg.assistant { align-self: flex-start; background: rgba(255,255,255,0.06); border-bottom-left-radius: 4px; color: #ddd; }
+55|.msg.user { align-self: flex-end; background: linear-gradient(135deg, #ff6b9d, #c44569); border-bottom-right-radius: 4px; color: #fff; }
+56|.msg.system { align-self: center; background: transparent; color: #555; font-size: 0.8em; text-align: center; max-width: 100%; }
+57|.msg.typing { align-self: flex-start; background: rgba(255,255,255,0.06); border-bottom-left-radius: 4px; color: #888; }
+58|.msg.typing .dots { display: flex; gap: 4px; }
+59|.msg.typing .dots span { width: 6px; height: 6px; border-radius: 50%; background: #888; animation: bounce 1.4s infinite ease-in-out; }
+60|.msg.typing .dots span:nth-child(2) { animation-delay: 0.15s; }
+61|.msg.typing .dots span:nth-child(3) { animation-delay: 0.3s; }
+62|@keyframes bounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
+63|
+64|/* Chat input */
+65|.chat-input-wrap { display: flex; gap: 8px; padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.06); }
+66|.chat-input-wrap input { flex: 1; padding: 10px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); color: #e0e0e0; font-size: 0.9em; font-family: inherit; outline: none; transition: border-color 0.2s; }
+67|.chat-input-wrap input:focus { border-color: #ff6b9d; }
+68|.chat-input-wrap input::placeholder { color: #555; }
+69|.chat-input-wrap .send-btn { width: 40px; height: 40px; border-radius: 50%; border: none; background: linear-gradient(135deg, #ff6b9d, #c44569); color: #fff; cursor: pointer; font-size: 1em; transition: all 0.2s; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+70|.chat-input-wrap .send-btn:hover { transform: scale(1.05); box-shadow: 0 4px 15px rgba(255,107,157,0.35); }
+71|.chat-input-wrap .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+72|
+73|/* Settings modal */
+74|.settings-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center; }
+75|.settings-overlay.show { display: flex; }
+76|.settings-card { background: #1a1a2e; border-radius: 16px; padding: 28px; max-width: 400px; width: 90%; }
+77|.settings-card h3 { color: #ff6b9d; margin-bottom: 16px; font-size: 1.1em; }
+78|.settings-card label { display: block; color: #aaa; font-size: 0.82em; margin-bottom: 4px; margin-top: 12px; }
+79|.settings-card input, .settings-card select { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); color: #e0e0e0; font-size: 0.9em; font-family: inherit; outline: none; }
+80|.settings-card input:focus { border-color: #a29bfe; }
+81|.settings-card .btn-row { display: flex; gap: 8px; margin-top: 20px; }
+82|.settings-card .btn-row button { flex: 1; padding: 10px; border-radius: 10px; border: none; font-size: 0.9em; cursor: pointer; font-family: inherit; font-weight: 600; }
+83|.settings-card .btn-save { background: linear-gradient(135deg, #ff6b9d, #c44569); color: #fff; }
+84|.settings-card .btn-cancel { background: rgba(255,255,255,0.08); color: #aaa; }
+85|.settings-card .hint { font-size: 0.75em; color: #666; margin-top: 10px; line-height: 1.5; }
+86|
+87|/* ══════ Tab Bar ══════ */
+88|.tab-bar { display: flex; gap: 4px; margin: 4px 0 0; background: rgba(255,255,255,0.03); border-radius: 14px; padding: 4px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+89|.tab-bar::-webkit-scrollbar { height: 0; }
+90|.tab-btn { flex: 1; min-width: 90px; padding: 8px 14px; border: none; border-radius: 11px; cursor: pointer; font-size: 0.9em; font-weight: 700; font-family: inherit; transition: all 0.3s; text-align: center; white-space: nowrap; background: transparent; color: #888; }
+91|.tab-btn:hover { background: rgba(255,255,255,0.04); color: #aaa; }
+92|.tab-btn .tab-emoji { display: block; font-size: 1.8em; margin-bottom: 1px; }
+93|.tab-btn .tab-label { font-size: 1.27em; }
+94|
+95|.tab-btn.active[data-tab="daily"]  { background: rgba(255,107,157,0.15); color: #ff6b9d; box-shadow: 0 0 20px rgba(255,107,157,0.12); }
+96|.tab-btn.active[data-tab="games"]  { background: rgba(107,255,107,0.12); color: #6bff6b; box-shadow: 0 0 20px rgba(107,255,107,0.1); }
+97|.tab-btn.active[data-tab="toolbox"] { background: rgba(0,212,255,0.12); color: #00d4ff; box-shadow: 0 0 20px rgba(0,212,255,0.1); }
+98|
+99|/* Tab panels */
+100|.tab-panel { display: none; animation: fadeIn 0.35s ease; }
+101|.tab-panel.active { display: block; }
+102|@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+103|
+104|.report-list { display: grid; gap: 12px; }
+105|.report-item { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 18px 20px; border-left: 4px solid #ff6b9d; transition: transform 0.2s, box-shadow 0.2s; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: #e0e0e0; }
+106|.report-item:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.4); border-left-color: #00d4ff; }
+107|.report-item .date-num { font-size: 2em; font-weight: 900; color: #ff6b9d; min-width: 65px; text-align: center; }
+108|.report-item .info { flex: 1; margin-left: 14px; }
+109|.report-item .info h3 { font-size: 1.05em; color: #fff; margin-bottom: 2px; }
+110|.report-item .info .weekday { font-size: 0.82em; color: #a29bfe; margin-bottom: 5px; }
+111|.report-item .info .desc { font-size: 0.82em; color: #888; }
+112|.report-item .arrow { font-size: 1.4em; color: #555; }
+113|.report-history-link { text-align: center; margin-top: 20px; }
+114|.report-history-link a { color: #a29bfe; text-decoration: none; border: 1px solid #333; padding: 8px 20px; border-radius: 20px; transition: all 0.3s; font-size: 0.9em; }
+115|.report-history-link a:hover { background: #1a1a3a; border-color: #a29bfe; }
+116|
+117|/* ── Tab: Cards ── */
+118|.card-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+119|.card { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 14px; padding: 22px; text-decoration: none; color: #e0e0e0; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; border: 1px solid rgba(255,255,255,0.06); display: block; }
+120|.card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+121|.card .card-emoji { font-size: 2.2em; margin-bottom: 10px; display: block; }
+122|.card h4 { font-size: 1.05em; color: #fff; margin-bottom: 5px; }
+123|.card p { font-size: 0.84em; color: #888; line-height: 1.5; }
+124|.card.games   { border-top: 3px solid #6bff6b; }
+125|.card.games:hover   { border-color: #6bff6b; box-shadow: 0 10px 30px rgba(107,255,107,0.12); }
+126|.card.toolbox { border-top: 3px solid #00d4ff; }
+127|.card.toolbox:hover { border-color: #00d4ff; box-shadow: 0 10px 30px rgba(0,212,255,0.12); }
+128|.card.tool-sm { border-radius: 12px; padding: 14px 12px; cursor: pointer; transition: all 0.25s; text-align: center; min-width: 90px; flex: 1; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 6px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); }
+129|.card.tool-sm:hover { background: rgba(0,212,255,0.08); border-color: rgba(0,212,255,0.25); transform: translateY(-2px); }
+130|.card.tool-sm .ts-emoji { font-size: 1.6em; }
+131|.card.tool-sm .ts-label { font-size: 0.75em; color: #ccc; font-weight: 600; }
+132|.tool-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+133|.card.ai-card { border-top: 3px solid #a29bfe; }
+134|.card.ai-card:hover { border-color: #a29bfe; box-shadow: 0 10px 30px rgba(162,155,254,0.12); }
+135|.coming-soon { display: inline-block; background: rgba(255,255,255,0.06); color: #666; font-size: 0.72em; padding: 3px 10px; border-radius: 10px; margin-top: 8px; }
+136|
+137|/* ══════ Game Accordion ══════ */
+138|.game-list { display: flex; flex-direction: column; gap: 8px; }
+139|.game-item { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 14px; border: 1px solid rgba(255,255,255,0.06); overflow: hidden; cursor: pointer; transition: border-color 0.3s, box-shadow 0.3s; }
+140|.game-item:hover { border-color: rgba(107,255,107,0.25); box-shadow: 0 4px 20px rgba(107,255,107,0.06); }
+141|.game-item.open { border-color: rgba(107,255,107,0.35); box-shadow: 0 4px 25px rgba(107,255,107,0.1); }
+142|.game-header { display: flex; align-items: center; gap: 14px; padding: 16px 18px; cursor: pointer; }
+143|.game-logo { width: 44px; height: 44px; flex-shrink: 0; }
+144|.game-info { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+145|.game-name { font-size: 1.05em; font-weight: 700; color: #e0e0e0; }
+146|.game-tag { font-size: 0.7em; font-weight: 600; color: #6bff6b; background: rgba(107,255,107,0.1); padding: 2px 8px; border-radius: 8px; align-self: flex-start; }
+147|.game-chevron { width: 20px; height: 20px; color: #555; flex-shrink: 0; transition: transform 0.3s; }
+148|.game-item.open .game-chevron { transform: rotate(180deg); color: #6bff6b; }
+149|.game-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; padding: 0 18px; }
+150|.game-item.open .game-body { max-height: 120px; padding: 0 18px 16px; }
+151|.game-desc { font-size: 0.85em; color: #888; line-height: 1.6; margin-bottom: 12px; }
+152|.game-play-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 20px; background: linear-gradient(135deg, #6bff6b, #00d4ff); color: #0a0a1a; border-radius: 20px; font-size: 0.85em; font-weight: 700; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+153|.game-play-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(107,255,107,0.3); }
+154|
+155|.section-label { font-size: 0.78em; color: #ccc; text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 10px; padding-left: 4px; }
+156|
+157|/* Footer */
+158|.footer { text-align: center; padding: 40px 20px; color: #555; font-size: 0.85em; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 40px; }
+159|
+160|@media (max-width: 600px) {
+161|  .logo { font-size: 2.2em; }
+162|  .tab-btn { padding: 6px 10px; font-size: 0.75em; min-width: 75px; }
+163|  .tab-btn .tab-emoji { font-size: 1.6em; }
+164|  .tab-btn .tab-label { font-size: 1.1em; }
+165|  .report-item .date-num { font-size: 1.5em; min-width: 45px; }
+166|  .card-grid { grid-template-columns: 1fr; }
+167|  .chat-body { height: 340px; }
+168|  .msg { max-width: 90%; font-size: 0.85em; }
+169|  .game-logo { width: 36px; height: 36px; }
+170|  .game-name { font-size: 0.95em; }
+171|  .game-header { padding: 14px 14px; }
+172|}
+173|</style>
+174|</head>
+175|<body>
+176|<div class="container">
+177|
+178|<!-- Logo -->
+179|<div class="logo-area">
+180|  <div class="logo">Sono蘇蓉</div>
+181|  <div class="subtitle">科技與未來 · 太空與超自然</div>
+182|</div>
+183|
+184|<!-- ══════ AI Chat Widget ══════ -->
+185|<div class="chat-widget" id="chatWidget">
+186|  <div class="chat-bar" id="chatBar" onclick="toggleChat()">
+187|    <div class="chat-avatar">AI</div>
+188|    <div class="chat-prompt" id="chatPrompt">同 Sono蘇蓉 傾偈…</div>
+189|    <div class="chat-actions">
+190|      <button class="chat-btn" title="設定" onclick="event.stopPropagation();openSettings()">⚙️</button>
+191|      <button class="chat-btn" id="chatToggleIcon" title="展開">▼</button>
+192|    </div>
+193|  </div>
+194|  <div class="chat-body">
+195|    <div class="chat-messages" id="chatMessages">
+196|      <div class="msg system">👋 你好！我係 Sono蘇蓉，有咩可以幫你？</div>
+197|    </div>
+198|    <div class="chat-input-wrap">
+199|      <input type="text" id="chatInput" placeholder="輸入訊息…" onkeydown="if(event.key==='Enter')sendMessage()">
+200|      <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
+201|    </div>
+202|  </div>
+203|</div>
+204|
+205|<!-- Settings Modal -->
+206|<div class="settings-overlay" id="settingsOverlay">
+207|  <div class="settings-card">
+208|    <h3>⚙️ AI 聊天設定</h3>
+209|    <label>API 端點 (OpenAI 兼容)</label>
+210|    <input type="text" id="apiEndpoint" placeholder="https://openrouter.ai/api/v1/chat/completions">
+211|    <label>API Key</label>
+212|    <input type="password" id="apiKey" placeholder="sk-or-...">
+213|    <label>Model</label>
+214|    <input type="text" id="apiModel" placeholder="google/gemma-4-31b-it:free">
+215|    <p class="hint">💡 已預設 OpenRouter + Gemma 4（免費）。想轉 model 可改，支援任何 OpenAI 兼容 API。</p>
+216|    <div class="btn-row">
+217|      <button class="btn-cancel" onclick="closeSettings()">取消</button>
+218|      <button class="btn-save" onclick="saveSettings()">儲存</button>
+219|    </div>
+220|  </div>
+221|</div>
+222|
+223|<!-- ══════ Tab Bar ══════ -->
+224|<div class="tab-bar">
+225|  <button class="tab-btn active" data-tab="daily" onclick="switchTab('daily')">
+226|    <span class="tab-emoji">📰</span>
+227|    <span class="tab-label">Sono 每日</span>
+228|  </button>
+229|  <button class="tab-btn" data-tab="games" onclick="switchTab('games')">
+230|    <span class="tab-emoji">🎮</span>
+231|    <span class="tab-label">Sono 遊戲</span>
+232|  </button>
+233|  <button class="tab-btn" data-tab="toolbox" onclick="switchTab('toolbox')">
+234|    <span class="tab-emoji">🧰</span>
+235|    <span class="tab-label">Sono 工具箱</span>
+236|  </button>
+237|</div>
+238|
+239|<!-- ══════ Tab 1: Sono 每日 ══════ -->
+240|<div class="tab-panel active" id="tab-daily">
+241|  <div class="section-label">📰 瀏覽日報</div>
+242|  <div class="report-list">
+243|      <a href="reports/sono_20260625.html" class="report-item">
+244|        <div class="date-num">25</div>
+245|        <div class="info">
+246|          <h3>2026年6月25日</h3>
+247|          <div class="weekday">星期四</div>
+248|          <div class="desc">Nvidia AI突破唔靠晶片 | OpenAI+Broadcom推AI晶片 | Oracle裁員2.1萬 | Webb+Hubble聯手銀河發現 | Pentagon第三批UFO檔案</div>
+249|        </div>
+250|        <div class="arrow">→</div>
+251|      </a>
+252|      
+253|    <a href="reports/sono_20260624.html" class="report-item">
+254|      <div class="date-num">24</div>
+255|      <div class="info">
+256|        <h3>2026年6月24日</h3>
+257|        <div class="weekday">星期三</div>
+258|        <div class="desc">Nvidia數據中心新架構 · OpenAI+Broadcom晶片 · Oracle AI裁員 · Roman望遠鏡抵達 · PURSUE系統啟動</div>
+259|      </div>
+260|      <div class="arrow">→</div>
+261|    </a>
+262|    <a href="reports/sono_20260623.html" class="report-item">
+263|      <div class="date-num">23</div>
+264|      <div class="info">
+265|        <h3>2026年6月23日</h3>
+266|        <div class="weekday">星期二</div>
+267|        <div class="desc">AI 突破總覽 · NASA 羅曼望遠鏡抵達 · Stanford 量子突破 · 逆齡基因療法測試 · 英國首相辭職</div>
+268|      </div>
+269|      <div class="arrow">→</div>
+270|    </a>
+271|  </div>
+272|  <div class="report-history-link">
+273|    <a href="reports/">📅 查看所有日報</a>
+274|  </div>
+275|</div>
+276|
+277|<!-- ══════ Tab 2: Sono 遊戲 ══════ -->
+278|<div class="tab-panel" id="tab-games">
+279|  <div class="section-label">🎮 AI遊戲</div>
+280|  <div class="game-list">
+281|
+282|    <!-- ── Stickman Fighter ── -->
+283|    <div class="game-item">
+284|      <div class="game-header" onclick="toggleGame(this)">
+285|        <svg class="game-logo" viewBox="0 0 48 48" fill="none">
+286|          <defs><linearGradient id="gf1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6bff6b"/><stop offset="100%" stop-color="#00d4ff"/></linearGradient></defs>
+287|          <circle cx="24" cy="10" r="5" stroke="url(#gf1)" stroke-width="2" fill="none"/>
+288|          <line x1="24" y1="15" x2="24" y2="30" stroke="url(#gf1)" stroke-width="2" stroke-linecap="round"/>
+289|          <line x1="24" y1="20" x2="14" y2="16" stroke="url(#gf1)" stroke-width="2" stroke-linecap="round"/>
+290|          <line x1="24" y1="20" x2="34" y2="24" stroke="url(#gf1)" stroke-width="2" stroke-linecap="round"/>
+291|          <line x1="24" y1="30" x2="16" y2="42" stroke="url(#gf1)" stroke-width="2" stroke-linecap="round"/>
+292|          <line x1="24" y1="30" x2="32" y2="42" stroke="url(#gf1)" stroke-width="2" stroke-linecap="round"/>
+293|          <circle cx="32" cy="22" r="3" fill="#ff6b9d" opacity="0.9"/>
+294|          <circle cx="35" cy="18" r="2" fill="#ff6b9d" opacity="0.5"/>
+295|          <circle cx="30" cy="16" r="1.5" fill="#ff6b9d" opacity="0.4"/>
+296|        </svg>
+297|        <div class="game-info">
+298|          <span class="game-name">Stickman Fighter</span>
+299|          <span class="game-tag">格鬥</span>
+300|        </div>
+301|        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+302|      </div>
+303|      <div class="game-body">
+304|        <p class="game-desc">街機風格格鬥遊戲 · 虛擬搖桿 + PS 菱形掣 · 大競技場對戰 · 粒子爆炸特效</p>
+305|        <a href="fighter/" class="game-play-btn">🎮 立即遊玩</a>
+306|      </div>
+307|    </div>
+308|
+309|    <!-- ── 猜拳火柴人 ── -->
+310|    <div class="game-item">
+311|      <div class="game-header" onclick="toggleGame(this)">
+312|        <svg class="game-logo" viewBox="0 0 48 48" fill="none">
+313|          <defs><linearGradient id="gf2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffd93d"/><stop offset="100%" stop-color="#ff6b9d"/></linearGradient></defs>
+314|          <rect x="8" y="10" width="10" height="16" rx="3" stroke="url(#gf2)" stroke-width="2" fill="none"/>
+315|          <rect x="18" y="6" width="12" height="18" rx="3" stroke="url(#gf2)" stroke-width="2" fill="none"/>
+316|          <rect x="34" y="22" width="8" height="10" rx="2" stroke="url(#gf2)" stroke-width="2" fill="#ffd93d" opacity="0.2"/>
+317|          <line x1="14" y1="30" x2="14" y2="40" stroke="url(#gf2)" stroke-width="2" stroke-linecap="round"/>
+318|          <line x1="24" y1="26" x2="24" y2="40" stroke="url(#gf2)" stroke-width="2" stroke-linecap="round"/>
+319|          <line x1="38" y1="34" x2="38" y2="40" stroke="url(#gf2)" stroke-width="2" stroke-linecap="round"/>
+320|        </svg>
+321|        <div class="game-info">
+322|          <span class="game-name">猜拳火柴人</span>
+323|          <span class="game-tag">派對</span>
+324|        </div>
+325|        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+326|      </div>
+327|      <div class="game-body">
+328|        <p class="game-desc">剪刀石頭佈 · 火柴人動畫對戰 · 搞笑語音 · 三局兩勝制</p>
+329|        <a href="rps-battle/" class="game-play-btn">🎮 立即遊玩</a>
+330|      </div>
+331|    </div>
+332|
+333|    <!-- ── 記憶配對 ── -->
+334|    <div class="game-item">
+335|      <div class="game-header" onclick="toggleGame(this)">
+336|        <svg class="game-logo" viewBox="0 0 48 48" fill="none">
+337|          <defs><linearGradient id="gf3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#a29bfe"/><stop offset="100%" stop-color="#6c5ce7"/></linearGradient></defs>
+338|          <rect x="8" y="14" width="14" height="18" rx="3" stroke="url(#gf3)" stroke-width="2" fill="none"/>
+339|          <rect x="26" y="14" width="14" height="18" rx="3" stroke="url(#gf3)" stroke-width="2" fill="none"/>
+340|          <text x="15" y="26" text-anchor="middle" font-size="8" fill="url(#gf3)">?</text>
+341|          <text x="33" y="26" text-anchor="middle" font-size="8" fill="url(#gf3)">?</text>
+342|          <path d="M14 38 Q24 42 34 38" stroke="url(#gf3)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+343|          <circle cx="24" cy="8" r="1" fill="#a29bfe" opacity="0.6"/>
+344|          <circle cx="24" cy="12" r="1" fill="#a29bfe" opacity="0.4"/>
+345|        </svg>
+346|        <div class="game-info">
+347|          <span class="game-name">記憶配對</span>
+348|          <span class="game-tag">智力</span>
+349|        </div>
+350|        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+351|      </div>
+352|      <div class="game-body">
+353|        <p class="game-desc">翻卡配對 · 考你記憶力 · 簡單/困難模式 · 計時挑戰</p>
+354|        <a href="memory/" class="game-play-btn">🎮 立即遊玩</a>
+355|      </div>
+356|    </div>
+357|
+358|  </div>
+359|</div>
+360|
+361|<!-- ══════ Tab 3: Sono 工具箱 ══════ -->
+362|<div class="tab-panel" id="tab-toolbox">
+363|
+364|  <div class="section-label">🛠️ 實用工具</div>
+365|  <div class="tool-grid">
+366|    <div class="card tool-sm" id="weatherTrigger">
+367|      <span class="ts-emoji">🌤️</span>
+368|      <span class="ts-label">全球天氣</span>
+369|    </div>
+370|    <div class="card tool-sm" id="currencyTrigger">
+371|      <span class="ts-emoji">💰</span>
+372|      <span class="ts-label">貨幣匯率</span>
+373|    </div>
+374|    <div class="card tool-sm" id="searchTrigger">
+375|      <span class="ts-emoji">🔍</span>
+376|      <span class="ts-label">Sono 搜尋</span>
+377|    </div>
+378|  </div>
+379|
+380|  <div class="section-label">🤖 AI 工具</div>
+381|  <div class="tool-grid">
+382|    <div class="card tool-sm" id="sonoChatTrigger">
+383|      <span class="ts-emoji">💬</span>
+384|      <span class="ts-label">Sono Chat</span>
+385|    </div>
+386|    <div class="card tool-sm" id="sonoCreateTrigger">
+387|      <span class="ts-emoji">🎨</span>
+388|      <span class="ts-label">Sono 創作</span>
+389|    </div>
+390|    <div class="card tool-sm">
+391|      <span class="ts-emoji">🧠</span>
+392|      <span class="ts-label">Sono 分析</span>
+393|    </div>
+394|  </div>
+395|
+396|</div>
+397|
+398|<!-- Footer -->
+399|<div class="footer">
+400|  Powered by <strong>Sono蘇蓉 AI</strong>
+401|</div>
+402|
+403|</div>
+404|
+405|<!-- ══════ Currency Converter Modal ══════ -->
+406|<div id="currencyModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
+407|  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:480px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:90vh;overflow-y:auto;">
+408|    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+409|      <h2 style="font-size:1.3em;color:#fff;">💰 貨幣匯率</h2>
+410|      <button id="currencyClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+411|    </div>
+412|    <div style="display:flex;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.06);">
+413|      <div><div style="color:#888;font-size:0.75em;">基準匯率</div><div id="mBaseRate" style="color:#6bff6b;font-size:1em;font-weight:700;">--</div></div>
+414|      <div style="color:#666;font-size:0.7em;" id="mUpdateTime">載入中...</div>
+415|    </div>
+416|    <select id="mFrom" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;margin-bottom:10px;">
+417|      <option value="HKD">🇭🇰 HKD 港元</option><option value="USD">🇺🇸 USD 美元</option><option value="EUR">🇪🇺 EUR 歐元</option><option value="GBP">🇬🇧 GBP 英鎊</option><option value="JPY">🇯🇵 JPY 日圓</option><option value="CNY">🇨🇳 CNY 人民幣</option><option value="TWD">🇹🇼 TWD 新台幣</option><option value="KRW">🇰🇷 KRW 韓圜</option><option value="SGD">🇸🇬 SGD 新加坡元</option><option value="AUD">🇦🇺 AUD 澳元</option>
+418|    </select>
+419|    <input id="mAmount" type="number" value="1" step="any" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:1.1em;font-family:inherit;margin-bottom:10px;outline:none;" placeholder="輸入金額">
+420|    <button id="mSwap" style="display:block;margin:0 auto 10px;width:36px;height:36px;border-radius:50%;border:1px solid #333;background:rgba(255,255,255,0.04);color:#a29bfe;font-size:1em;cursor:pointer;">⇄</button>
+421|    <select id="mTo" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;margin-bottom:16px;">
+422|      <option value="USD">🇺🇸 USD 美元</option><option value="HKD" selected>🇭🇰 HKD 港元</option><option value="EUR">🇪🇺 EUR 歐元</option><option value="GBP">🇬🇧 GBP 英鎊</option><option value="JPY">🇯🇵 JPY 日圓</option><option value="CNY">🇨🇳 CNY 人民幣</option><option value="TWD">🇹🇼 TWD 新台幣</option><option value="KRW">🇰🇷 KRW 韓圜</option><option value="SGD">🇸🇬 SGD 新加坡元</option><option value="AUD">🇦🇺 AUD 澳元</option>
+423|    </select>
+424|    <div style="background:rgba(107,255,107,0.06);border:1px solid rgba(107,255,107,0.15);border-radius:12px;padding:16px;text-align:center;">
+425|      <div style="color:#888;font-size:0.75em;margin-bottom:4px;">兌換結果</div>
+426|      <div id="mResult" style="font-size:2em;font-weight:900;background:linear-gradient(90deg,#6bff6b,#a29bfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">--</div>
+427|      <div id="mResultSub" style="color:#666;font-size:0.7em;margin-top:4px;"></div>
+428|    </div>
+429|  </div>
+430|</div>
+431|
+432|<!-- ══════ Global Weather Modal ══════ -->
+433|<div id="weatherModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
+434|  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:480px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:90vh;overflow-y:auto;">
+435|    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+436|      <h2 style="font-size:1.3em;color:#fff;">🌤️ 全球天氣</h2>
+437|      <button id="weatherClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+438|    </div>
+439|    <p style="color:#666;font-size:0.75em;margin-bottom:12px;">Open-Meteo 免費數據 · 中英文城市名皆可 · 即時天氣 + 5 日預測</p>
+440|    <div style="display:flex;gap:8px;margin-bottom:16px;">
+441|      <input id="wCity" type="text" value="香港" style="flex:1;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;outline:none;" placeholder="輸入城市名（中英文皆可）">
+442|      <button id="wSearch" style="padding:12px 18px;border:none;border-radius:10px;background:linear-gradient(135deg,#ff6b9d,#a29bfe);color:#fff;font-weight:700;cursor:pointer;">查詢</button>
+443|    </div>
+444|    <div id="wResult" style="display:none;">
+445|      <div style="text-align:center;padding:20px 0;">
+446|        <div id="wIcon" style="font-size:3.5em;margin-bottom:8px;"></div>
+447|        <div id="wTemp" style="font-size:2.5em;font-weight:900;color:#fff;"></div>
+448|        <div id="wDesc" style="color:#888;font-size:0.9em;margin-top:4px;"></div>
+449|        <div id="wCityName" style="color:#a29bfe;font-size:0.85em;margin-top:2px;"></div>
+450|      </div>
+451|      <div id="wExtra" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0;"></div>
+452|      <div id="wForecast" style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06);">
+453|        <div style="color:#888;font-size:0.78em;margin-bottom:8px;">📅 未來 5 天</div>
+454|        <div id="wForecastGrid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;"></div>
+455|      </div>
+456|    </div>
+457|    <div id="wLoading" style="display:none;text-align:center;padding:40px;color:#666;">載入中...</div>
+458|    <div id="wError" style="display:none;background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.25);border-radius:10px;padding:16px;text-align:center;color:#ff6b6b;font-size:0.85em;"></div>
+459|  </div>
+460|</div>
+461|
+462|<!-- ══════ Search Modal ══════ -->
+463|<div id="searchModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
+464|  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:500px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);">
+465|    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+466|      <h2 style="font-size:1.3em;color:#fff;">🔍 Sono 搜尋</h2>
+467|      <button id="searchClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+468|    </div>
+469|    <p style="color:#888;font-size:0.8em;margin-bottom:12px;">由 DuckDuckGo 提供 · 尊重私隱 · 無限次使用</p>
+470|    <form id="searchForm" action="https://lite.duckduckgo.com/lite/" method="GET" target="_blank">
+471|      <div style="display:flex;gap:8px;">
+472|        <input name="q" type="text" style="flex:1;padding:14px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:12px;color:#fff;font-size:1em;font-family:inherit;outline:none;" placeholder="輸入搜尋關鍵字..." autofocus>
+473|        <button type="submit" style="padding:14px 20px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b9d,#a29bfe);color:#fff;font-weight:700;cursor:pointer;font-size:1em;">🔍</button>
+474|      </div>
+475|    </form>
+476|    <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
+477|      <button class="sq-btn" onclick="window.open('https://lite.duckduckgo.com/lite/?q=今日天氣','_blank')" style="padding:8px 14px;border:1px solid #333;border-radius:8px;background:transparent;color:#888;font-size:0.8em;font-family:inherit;cursor:pointer;">🌤️ 今日天氣</button>
+478|      <button class="sq-btn" onclick="window.open('https://lite.duckduckgo.com/lite/?q=比特幣價格','_blank')" style="padding:8px 14px;border:1px solid #333;border-radius:8px;background:transparent;color:#888;font-size:0.8em;font-family:inherit;cursor:pointer;">₿ 比特幣</button>
+479|      <button class="sq-btn" onclick="window.open('https://lite.duckduckgo.com/lite/?q=USD+HKD+匯率','_blank')" style="padding:8px 14px;border:1px solid #333;border-radius:8px;background:transparent;color:#888;font-size:0.8em;font-family:inherit;cursor:pointer;">💰 匯率</button>
+480|      <button class="sq-btn" onclick="window.open('https://lite.duckduckgo.com/lite/?q=香港新聞','_blank')" style="padding:8px 14px;border:1px solid #333;border-radius:8px;background:transparent;color:#888;font-size:0.8em;font-family:inherit;cursor:pointer;">📰 新聞</button>
+481|    </div>
+482|  </div>
+483|</div>
+484|
+485|<!-- ══════ Sono 創作 Modal ══════ -->
+486|<div id="createModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
+487|  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:520px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:95vh;overflow-y:auto;">
+488|    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+489|      <h2 style="font-size:1.3em;color:#fff;">🎨 Sono 創作</h2>
+490|      <button id="createClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+491|    </div>
+492|    <p style="color:#666;font-size:0.75em;margin-bottom:14px;">AI 圖像生成 · 輸入描述即可創作</p>
+493|    <div style="display:flex;gap:8px;margin-bottom:12px;">
+494|      <input id="createPrompt" type="text" style="flex:1;padding:14px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:12px;color:#fff;font-size:0.95em;font-family:inherit;outline:none;" placeholder="用文字描述你想創作的畫面..." autofocus>
+495|      <button id="createGen" style="padding:14px 20px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b9d,#a29bfe);color:#fff;font-weight:700;cursor:pointer;font-size:0.95em;white-space:nowrap;">✨ 生成</button>
+496|    </div>
+497|    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+498|      <button class="create-preset" onclick="document.getElementById('createPrompt').value='Hong Kong Victoria Harbour at night, neon lights, cyberpunk style';" style="padding:6px 12px;border:1px solid #333;border-radius:8px;background:transparent;color:#666;font-size:0.72em;font-family:inherit;cursor:pointer;">🌃 香港夜景</button>
+499|      <button class="create-preset" onclick="document.getElementById('createPrompt').value='cute cat astronaut floating in space, stars, colorful nebula';" style="padding:6px 12px;border:1px solid #333;border-radius:8px;background:transparent;color:#666;font-size:0.72em;font-family:inherit;cursor:pointer;">🐱 太空貓</button>
+500|      <button class="create-preset" onclick="document.getElementById('createPrompt').value='Japanese anime style, cherry blossoms, girl with pink hair, studio ghibli';" style="padding:6px 12px;border:1px solid #333;border-radius:8px;background:transparent;color:#666;font-size:0.72em;font-family:inherit;cursor:pointer;">🌸 動漫風</button>
+501|
