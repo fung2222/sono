@@ -169,6 +169,17 @@
     transition: transform 0.1s;
   }
   .btn-restart:active { transform: scale(0.95); }
+  .btn-home {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+    border: none; color: #fff; border-radius: 8px;
+    cursor: pointer; font-weight: 700; font-size: 0.85em;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(162,155,254,0.3);
+    transition: transform 0.1s;
+  }
+  .btn-home:active { transform: scale(0.95); }
 
   .log {
     max-width: 640px; width: 100%;
@@ -181,6 +192,41 @@
   .log-player { color: #feca57; }
   .log-ai { color: #48dbfb; }
   .log-system { color: #888; font-style: italic; }
+
+  /* Move list */
+  .moves-panel {
+    max-width: 640px; width: 100%;
+    background: rgba(20,20,40,0.8);
+    border: 1px solid #333; border-radius: 10px;
+    padding: 10px 14px; margin-bottom: 6px;
+  }
+  .moves-title {
+    font-size: 0.75em; color: #888; margin-bottom: 6px;
+    font-weight: 700; letter-spacing: 1px;
+  }
+  .moves-grid {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    justify-content: center;
+  }
+  .move-item {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 0.72em; color: #aaa;
+    background: rgba(255,255,255,0.03);
+    padding: 4px 8px; border-radius: 6px;
+  }
+  .move-btn {
+    width: 22px; height: 22px; border-radius: 3px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.8em; font-weight: 700; color: #fff;
+  }
+  .move-btn.sq { background: #e056a0; }
+  .move-btn.cir { background: #e74c3c; border-radius: 50%; }
+  .move-btn.crs { background: #3498db; }
+  .move-btn.tri { background: #2ecc71; }
+  .move-key {
+    background: #555; color: #fff; padding: 2px 6px;
+    border-radius: 3px; font-size: 0.8em; font-weight: 700;
+  }
 
   /* Death overlay */
   #deathOverlay {
@@ -201,6 +247,37 @@
     100% { transform: scale(1); opacity: 1; }
   }
 
+  /* Weapon Select Overlay */
+  #weaponOverlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(0,0,0,0.85);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 20px;
+  }
+  #weaponOverlay.hidden { display: none; }
+  .weapon-title {
+    font-size: 1.6em; font-weight: 900;
+    background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #a29bfe);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: 3px;
+  }
+  .weapon-sub { color: #888; font-size: 0.85em; margin-top: -10px; }
+  .weapon-options { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .weapon-card {
+    width: 140px; padding: 20px 12px;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 2px solid #333; border-radius: 16px;
+    cursor: pointer; text-align: center;
+    transition: all 0.25s;
+  }
+  .weapon-card:hover {
+    border-color: #a29bfe; transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(162,155,254,0.25);
+  }
+  .weapon-icon { font-size: 2.8em; margin-bottom: 8px; display: block; }
+  .weapon-name { font-size: 1em; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .weapon-desc { font-size: 0.68em; color: #888; line-height: 1.4; }
+
   #arenaWrap { position: relative; display: inline-block; margin-bottom: 10px; }
 
   @media (max-width: 480px) {
@@ -213,6 +290,29 @@
 </style>
 </head>
 <body>
+  <!-- Weapon Select Overlay -->
+  <div id="weaponOverlay">
+    <div class="weapon-title">⚔️ 選擇武器</div>
+    <div class="weapon-sub">揀一款武器開始戰鬥</div>
+    <div class="weapon-options">
+      <div class="weapon-card" onclick="selectWeapon('sword')">
+        <span class="weapon-icon">⚔️</span>
+        <div class="weapon-name">劍</div>
+        <div class="weapon-desc">強化斬擊<br>範圍 +30%<br>暴擊機率 20%</div>
+      </div>
+      <div class="weapon-card" onclick="selectWeapon('gun')">
+        <span class="weapon-icon">🔫</span>
+        <div class="weapon-name">手槍</div>
+        <div class="weapon-desc">強化射擊<br>雙發連射<br>射速 +50%</div>
+      </div>
+      <div class="weapon-card" onclick="selectWeapon('magic')">
+        <span class="weapon-icon">🔮</span>
+        <div class="weapon-name">魔法</div>
+        <div class="weapon-desc">範圍攻擊<br>必殺附帶燃燒<br>吸血 15%</div>
+      </div>
+    </div>
+  </div>
+
   <h1>⚔️ STICKMAN FIGHTER</h1>
 
   <div class="top-bar">
@@ -277,8 +377,20 @@
     </div>
   </div>
 
+  <div class="moves-panel" id="movesPanel">
+    <div class="moves-title">📜 出招表</div>
+    <div class="moves-grid">
+      <div class="move-item"><span class="move-btn sq">■</span> 斬擊</div>
+      <div class="move-item"><span class="move-btn cir">●</span> 射擊</div>
+      <div class="move-item"><span class="move-btn crs">✕</span> 跳躍</div>
+      <div class="move-item"><span class="move-btn tri">▲</span> 必殺 (3⚡)</div>
+      <div class="move-item"><span class="move-key">S</span> 防禦</div>
+    </div>
+  </div>
+
   <div class="restart-bar">
     <button class="btn-restart" id="restartBtn">重新開始</button>
+    <a href="../" class="btn-home">🏠 回到首頁</a>
   </div>
 
   <div class="log" id="log" style="display:none"></div>
@@ -320,6 +432,36 @@ const restartBtn = document.getElementById('restartBtn');
 const triBtn = document.getElementById('triBtn');
 const deathOverlay = document.getElementById('deathOverlay');
 const deathText = document.getElementById('deathText');
+
+let weapon = null;
+
+const WEAPONS = {
+  sword: {
+    name: '劍', icon: '⚔️',
+    slashDmg: 8, slashRange: 120, slashCrit: 0.2,
+    rangedDmg: 0, rangedCount: 0,
+    desc: '強化斬擊｜暴擊20%'
+  },
+  gun: {
+    name: '手槍', icon: '🔫',
+    slashDmg: 0, slashRange: 0,
+    rangedDmg: 6, rangedCount: 2, rangedSpeed: 0.5,
+    desc: '雙發連射｜射速+50%'
+  },
+  magic: {
+    name: '魔法', icon: '🔮',
+    slashDmg: 10, slashRange: 100, slashCrit: 0,
+    rangedDmg: 0, rangedCount: 0,
+    aoeRadius: 60, lifesteal: 0.15, burnDmg: 3,
+    desc: '範圍攻擊｜吸血15%｜燃燒'
+  },
+};
+
+function selectWeapon(type) {
+  weapon = type;
+  document.getElementById('weaponOverlay').classList.add('hidden');
+  initGame();
+}
 
 let gameOver = false;
 let projectiles = [];
@@ -370,7 +512,9 @@ function initGame() {
   const modeNames = ['埋身肉搏', '拉打遊擊', '隨機發揮'];
   logCache = [];
   logEl.innerHTML = '';
-  addLog(`⚔️ 對戰開始！AI 模式：${modeNames[ai.aiMode]}`, 'system');
+  addLog(`⚔️ ${weapon ? WEAPONS[weapon].icon + ' ' + WEAPONS[weapon].name + ' · ' : ''}對戰開始！AI 模式：${modeNames[ai.aiMode]}`, 'system');
+  // Update title
+  document.querySelector('h1').textContent = weapon ? `${WEAPONS[weapon].icon} STICKMAN FIGHTER · ${WEAPONS[weapon].name}` : '⚔️ STICKMAN FIGHTER';
   updateUI();
   document.querySelectorAll('.ps-btn').forEach(b => b.disabled = false);
 }
@@ -777,7 +921,15 @@ function applyDamage(target, dmg, attacker, bigKnockback = false) {
   // Minimal pose disruption — just flash, don't stop
   target.hitFlash = 8;
 
-  if (attacker) attacker.charge = Math.min(3, attacker.charge+1);
+  if (attacker) {
+    attacker.charge = Math.min(3, attacker.charge+1);
+    // Magic lifesteal
+    if (attacker===player && weapon==='magic' && attacker.hp < attacker.maxHp) {
+      const heal = Math.floor(dmg * WEAPONS.magic.lifesteal);
+      attacker.hp = Math.min(attacker.maxHp, attacker.hp + heal);
+      if (heal > 0) spawnParticles(attacker.x, attacker.y-30, '#2ecc71', 6);
+    }
+  }
 
   // Enrage trigger: < 30% HP
   if (target.hp <= 60 && target.hp > 0 && !target.enraged) {
@@ -868,30 +1020,48 @@ function performAction(action, fighter) {
   switch (action) {
     case 'slash': {
       setPose(fighter, 'slash', 16);
-      const slashRange = fighter.enraged ? 180 : 95;
+      const w = (fighter===player && weapon) ? WEAPONS[weapon] : null;
+      let slashRange = fighter.enraged ? 180 : (w && w.slashRange ? w.slashRange : 95);
+      let baseDmg = fighter.enraged ? 22 + Math.floor(Math.random()*10) : 16 + Math.floor(Math.random()*7);
+      if (w && w.slashDmg) baseDmg += w.slashDmg;
+      const isCrit = w && w.slashCrit && Math.random() < w.slashCrit;
+      if (isCrit) baseDmg = Math.floor(baseDmg * 1.8);
+
       if (dist < slashRange) {
-        const dmg = defender.defending ? 4 : (fighter.enraged ? 22 + Math.floor(Math.random()*10) : 16 + Math.floor(Math.random()*7));
+        const dmg = defender.defending ? Math.floor(baseDmg*0.25) : baseDmg;
         const label = isPlayer?'👤':'🤖';
-        addLog(`${label} ■ ${fighter.enraged?'⚡暴風斬':'斬擊'}！`, isPlayer?'player':'ai');
-        spawnParticles(fighter.x+20*fighter.facing, fighter.y-20, fighter.enraged?'#ff4444':'#ff9f43', fighter.enraged?20:8);
+        const critTag = isCrit ? '💥暴擊！' : '';
+        const enrTag = fighter.enraged ? '⚡暴風' : '';
+        addLog(`${label} ■ ${enrTag}${w?w.icon+' ':''}斬擊${critTag}！`, isPlayer?'player':'ai');
+        spawnParticles(fighter.x+20*fighter.facing, fighter.y-20, isCrit?'#ffd93d':(fighter.enraged?'#ff4444':'#ff9f43'), isCrit?20:(fighter.enraged?20:8));
         setTimeout(() => { if (!gameOver) applyDamage(defender, dmg, fighter, fighter.enraged); }, 100);
+        // Magic: AoE slash
+        if (w && w.aoeRadius) {
+          const aoeDmg = Math.floor(dmg * 0.6);
+          addLog(`🔮 魔法衝擊波！(${aoeDmg})`, isPlayer?'player':'ai');
+          spawnParticles(defender.x, defender.y-15, '#a29bfe', 20);
+          setTimeout(() => { if (!gameOver) applyDamage(defender, aoeDmg, fighter, true); }, 200);
+        }
       } else {
-        addLog(`${isPlayer?'👤':'🤖'} ■ ${fighter.enraged?'暴風':'斬擊'}揮空！`, 'system');
+        addLog(`${isPlayer?'👤':'🤖'} ■ 斬擊揮空！`, 'system');
       }
       fighter.charge = Math.min(3, fighter.charge+1);
       break;
     }
     case 'ranged': {
       setPose(fighter, 'ranged', 16);
-      const projCount = fighter.enraged ? 3 : 1;
+      const w = (fighter===player && weapon) ? WEAPONS[weapon] : null;
+      const projCount = fighter.enraged ? 3 : (w && w.rangedCount ? w.rangedCount : 1);
+      const speedDelay = w && w.rangedSpeed ? 160 * w.rangedSpeed : 160;
       for (let pi = 0; pi < projCount; pi++) {
         setTimeout(() => {
           if (!gameOver) {
             spawnProjectile(fighter.x+28*fighter.facing, fighter.y-32 + pi*8 - 8, fighter.facing, fighter);
           }
-        }, 160 + pi*80);
+        }, speedDelay + pi*80);
       }
-      addLog(`${isPlayer?'👤':'🤖'} ● ${fighter.enraged?'⚡連射':'射擊'}！`, isPlayer?'player':'ai');
+      const wName = w && w.rangedCount ? w.icon+' ' : '';
+      addLog(`${isPlayer?'👤':'🤖'} ● ${wName}${fighter.enraged?'⚡連射':'射擊'}！`, isPlayer?'player':'ai');
       fighter.charge = Math.min(3, fighter.charge+1);
       spawnParticles(fighter.x+28*fighter.facing, fighter.y-32, fighter.enraged?'#ff4444':'#48dbfb', fighter.enraged?15:5);
       break;
@@ -1423,13 +1593,17 @@ document.addEventListener('keydown', (e) => {
 });
 document.addEventListener('keyup', (e) => { keysDown[e.key] = false; });
 
-restartBtn.addEventListener('click', initGame);
+restartBtn.addEventListener('click', () => {
+  weapon = null;
+  document.querySelector('h1').textContent = '⚔️ STICKMAN FIGHTER';
+  document.getElementById('weaponOverlay').classList.remove('hidden');
+});
 
 // ============================================================
 // START
 // ============================================================
 deathOverlay.classList.remove('show');
-initGame();
+// Show weapon select first; game starts after selection
 gameLoop();
 </script>
 </body>
