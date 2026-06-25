@@ -453,8 +453,8 @@
       <div class="moves-modal-title">招式表</div>
       <div class="moves-modal-sub" id="movesWeaponLabel"></div>
       <div class="moves-list">
-        <div class="moves-list-item"><div class="ml-btn sq">■</div><div class="ml-info"><div class="ml-name">斬擊</div><div class="ml-desc" id="moveSlash"></div></div></div>
-        <div class="moves-list-item"><div class="ml-btn cir">●</div><div class="ml-info"><div class="ml-name">射擊</div><div class="ml-desc" id="moveRanged"></div></div></div>
+        <div class="moves-list-item"><div class="ml-btn sq">■</div><div class="ml-info"><div class="ml-name">普攻</div><div class="ml-desc" id="moveSlash"></div></div></div>
+        <div class="moves-list-item"><div class="ml-btn cir">●</div><div class="ml-info"><div class="ml-name">特技</div><div class="ml-desc" id="moveRanged"></div></div></div>
         <div class="moves-list-item"><div class="ml-btn crs">✕</div><div class="ml-info"><div class="ml-name">跳躍</div><div class="ml-desc">空中移動</div></div></div>
         <div class="moves-list-item"><div class="ml-btn tri">▲</div><div class="ml-info"><div class="ml-name">必殺技</div><div class="ml-desc">需3⚡儲氣</div></div></div>
         <div class="moves-list-item"><div class="ml-btn def">🛡️</div><div class="ml-info"><div class="ml-name">防禦</div><div class="ml-desc">減傷75%</div></div></div>
@@ -1134,7 +1134,7 @@ function performAction(action, fighter) {
         const label = isPlayer?'👤':'🤖';
         const critTag = isCrit ? '💥暴擊！' : '';
         const enrTag = fighter.enraged ? '⚡暴風' : '';
-        addLog(`${label} ■ ${enrTag}${w?w.icon+' ':''}斬擊${critTag}！`, isPlayer?'player':'ai');
+        addLog(`${label} ■ ${enrTag}${w?w.icon+' ':''}普攻${critTag}！`, isPlayer?'player':'ai');
         spawnParticles(fighter.x+20*fighter.facing, fighter.y-20, isCrit?'#ffd93d':(fighter.enraged?'#ff4444':'#ff9f43'), isCrit?20:(fighter.enraged?20:8));
         setTimeout(() => { if (!gameOver) applyDamage(defender, dmg, fighter, fighter.enraged); }, 100);
         // Magic: AoE slash
@@ -1145,7 +1145,7 @@ function performAction(action, fighter) {
           setTimeout(() => { if (!gameOver) applyDamage(defender, aoeDmg, fighter, true); }, 200);
         }
       } else {
-        addLog(`${isPlayer?'👤':'🤖'} ■ 斬擊揮空！`, 'system');
+        addLog(`${isPlayer?'👤':'🤖'} ■ 普攻揮空！`, 'system');
       }
       fighter.charge = Math.min(3, fighter.charge + 1 + (w && w.extraCharge ? w.extraCharge : 0));
       break;
@@ -1163,7 +1163,7 @@ function performAction(action, fighter) {
         }, speedDelay + pi*80);
       }
       const wName = w && w.rangedCount ? w.icon+' ' : '';
-      addLog(`${isPlayer?'👤':'🤖'} ● ${wName}${fighter.enraged?'⚡連射':'射擊'}！`, isPlayer?'player':'ai');
+      addLog(`${isPlayer?'👤':'🤖'} ● ${wName}${fighter.enraged?'⚡連射':'特技'}！`, isPlayer?'player':'ai');
       fighter.charge = Math.min(3, fighter.charge+1);
       spawnParticles(fighter.x+28*fighter.facing, fighter.y-32, fighter.enraged?'#ff4444':'#48dbfb', fighter.enraged?15:5);
       break;
