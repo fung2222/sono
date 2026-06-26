@@ -511,6 +511,7 @@ const deathOverlay = document.getElementById('deathOverlay');
 const deathText = document.getElementById('deathText');
 
 let weapon = null;
+let aiWeapon = null;
 
 const WEAPONS = {
   sword: {
@@ -610,6 +611,12 @@ function initGame() {
   player = createFighter(180, false);
   ai = createFighter(460, true);
   ai.aiMode = Math.floor(Math.random() * 3);
+  
+  // AI picks random weapon (different from player)
+  const allWeapons = ['sword', 'gun', 'magic', 'fist'];
+  const availableWeapons = allWeapons.filter(w => w !== weapon);
+  aiWeapon = availableWeapons[Math.floor(Math.random() * availableWeapons.length)];
+  
   gameOver = false;
   projectiles = [];
   particles = [];
@@ -622,7 +629,7 @@ function initGame() {
   const modeNames = ['埋身肉搏', '拉打遊擊', '隨機發揮'];
   logCache = [];
   logEl.innerHTML = '';
-  addLog(`⚔️ ${weapon ? WEAPONS[weapon].icon + ' ' + WEAPONS[weapon].name + ' · ' : ''}對戰開始！AI 模式：${modeNames[ai.aiMode]}`, 'system');
+  addLog(`⚔️ ${weapon ? WEAPONS[weapon].icon + ' ' + WEAPONS[weapon].name + ' · ' : ''}對戰開始！AI 模式：${modeNames[ai.aiMode]}${aiWeapon ? ' · AI 武器：' + WEAPONS[aiWeapon].icon + ' ' + WEAPONS[aiWeapon].name : ''}`, 'system');
   // Update title
   document.querySelector('h1').textContent = 'STICKMAN FIGHTER';
   updateUI();
@@ -1145,7 +1152,8 @@ function applyDamage(target, dmg, attacker, bigKnockback = false) {
   if (attacker) {
     attacker.charge = Math.min(3, attacker.charge+0.5);
     // Magic lifesteal
-    if (attacker===player && weapon==='magic' && attacker.hp < attacker.maxHp) {
+    const attackerWeapon = attacker===player ? weapon : aiWeapon;
+    if (attackerWeapon==='magic' && attacker.hp < attacker.maxHp) {
       const heal = Math.floor(dmg * WEAPONS.magic.lifesteal);
       attacker.hp = Math.min(attacker.maxHp, attacker.hp + heal);
       if (heal > 0) spawnParticles(attacker.x, attacker.y-30, '#2ecc71', 6);
@@ -1240,7 +1248,8 @@ function performAction(action, fighter) {
 
   switch (action) {
     case 'slash': {
-      const w = (fighter===player && weapon) ? WEAPONS[weapon] : null;
+      const w = (fighter===player && weapon) ? WEAPONS[weapon] : (fighter===ai && aiWeapon ? WEAPONS[aiWeapon] : null);
+      const fighterWeapon = isPlayer ? weapon : aiWeapon;
       // 步槍 ■ = 單發射擊
       if (isPlayer && weapon === 'gun') {
         setPose(fighter, 'ranged', 14);
@@ -1279,7 +1288,8 @@ function performAction(action, fighter) {
       break;
     }
     case 'ranged': {
-      const w = (fighter===player && weapon) ? WEAPONS[weapon] : null;
+      const w = (fighter===player && weapon) ? WEAPONS[weapon] : (fighter===ai && aiWeapon ? WEAPONS[aiWeapon] : null);
+      const fighterWeapon = isPlayer ? weapon : aiWeapon;
       // 雙刀 ● = 七旋斬
       if (isPlayer && weapon === 'sword') {
         setPose(fighter, 'slash', 20);
