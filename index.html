@@ -456,6 +456,14 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
       <span class="ts-emoji">⏰</span>
       <span class="ts-label">世界時鐘</span>
     </div>
+    <div class="card tool-sm" id="qrTrigger">
+      <span class="ts-emoji">📱</span>
+      <span class="ts-label">QR Code</span>
+    </div>
+    <div class="card tool-sm" id="ghostTrigger">
+      <span class="ts-emoji">👻</span>
+      <span class="ts-label">靈體探測</span>
+    </div>
   </div>
 
   <div class="section-label">🤖 AI 工具</div>
@@ -1185,6 +1193,215 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
       '</div>';
     }).join('');
     list.innerHTML = html;
+  }
+})();
+</script>
+
+
+<!-- ══════ QR Code Generator Modal ══════ -->
+<div id="qrModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:480px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:1.3em;color:#fff;">📱 QR Code 生成器</h2>
+      <button id="qrClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <p style="color:#666;font-size:0.75em;margin-bottom:12px;">輸入文字或 URL 生成 QR Code</p>
+    <input type="text" id="qrInput" placeholder="輸入文字或 URL..." value="https://fung2222.github.io/sono/" style="width:100%;padding:14px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:1em;font-family:inherit;outline:none;margin-bottom:12px;">
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <select id="qrSize" style="flex:1;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;">
+        <option value="150">小 (150px)</option>
+        <option value="250" selected>中 (250px)</option>
+        <option value="400">大 (400px)</option>
+      </select>
+      <button id="qrGo" style="padding:12px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#6bff6b,#00d4ff);color:#0a0a1a;font-weight:700;cursor:pointer;">生成</button>
+    </div>
+    <div id="qrResult" style="display:none;text-align:center;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:20px;">
+      <img id="qrImage" src="" alt="QR Code" style="max-width:100%;border-radius:8px;background:#fff;padding:8px;">
+      <button id="qrDownload" style="display:block;width:100%;margin-top:12px;padding:10px;border:1px solid #333;border-radius:8px;background:transparent;color:#6bff6b;font-size:0.9em;cursor:pointer;">⬇️ 下載 QR Code</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ Ghost Detector Modal ══════ -->
+<div id="ghostModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a2e);border-radius:16px;max-width:480px;width:100%;padding:24px;border:1px solid rgba(107,255,107,0.2);max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:1.3em;color:#fff;">👻 靈體探測器</h2>
+      <button id="ghostClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <p style="color:#666;font-size:0.75em;margin-bottom:16px;">EMF 電磁場探測 · 靈體感應模擬</p>
+    
+    <div style="text-align:center;padding:20px 0;">
+      <div id="ghostEmoji" style="font-size:4em;margin-bottom:12px;transition:transform 0.3s;">📡</div>
+      <div id="ghostStatus" style="font-size:1.1em;color:#6bff6b;font-weight:600;">待機中</div>
+      <div id="ghostLevel" style="color:#888;font-size:0.85em;margin-top:6px;">訊號強度: 0%</div>
+    </div>
+    
+    <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(107,255,107,0.2);border-radius:12px;padding:16px;margin:16px 0;">
+      <div style="color:#888;font-size:0.75em;margin-bottom:8px;">EMF 波形</div>
+      <canvas id="ghostCanvas" width="400" height="80" style="width:100%;height:80px;background:rgba(0,20,0,0.5);border-radius:6px;"></canvas>
+    </div>
+    
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px 0;">
+      <div style="background:rgba(107,255,107,0.06);border:1px solid rgba(107,255,107,0.15);border-radius:10px;padding:12px;text-align:center;">
+        <div style="color:#888;font-size:0.7em;">頻率</div>
+        <div id="ghostFreq" style="color:#6bff6b;font-size:1em;font-weight:700;margin-top:4px;">-- Hz</div>
+      </div>
+      <div style="background:rgba(162,155,254,0.06);border:1px solid rgba(162,155,254,0.15);border-radius:10px;padding:12px;text-align:center;">
+        <div style="color:#888;font-size:0.7em;">溫度</div>
+        <div id="ghostTemp" style="color:#a29bfe;font-size:1em;font-weight:700;margin-top:4px;">--°C</div>
+      </div>
+      <div style="background:rgba(255,107,157,0.06);border:1px solid rgba(255,107,157,0.15);border-radius:10px;padding:12px;text-align:center;">
+        <div style="color:#888;font-size:0.7em;">距離</div>
+        <div id="ghostDist" style="color:#ff6b9d;font-size:1em;font-weight:700;margin-top:4px;">-- m</div>
+      </div>
+    </div>
+    
+    <button id="ghostStart" style="display:block;width:100%;padding:14px;border:none;border-radius:10px;background:linear-gradient(135deg,#6bff6b,#00d4ff);color:#0a0a1a;font-weight:700;font-size:1em;cursor:pointer;margin-top:12px;">🔍 開始探測</button>
+    <div style="color:#555;font-size:0.7em;text-align:center;margin-top:12px;">⚠️ 僅供娛樂，非科學儀器</div>
+  </div>
+</div>
+
+
+<script>
+// ══════ QR Code Generator ══════
+(function(){
+  var modal = document.getElementById('qrModal');
+  document.getElementById('qrTrigger').onclick = function(){ modal.style.display='flex'; };
+  document.getElementById('qrClose').onclick = function(){ modal.style.display='none'; };
+  modal.onclick = function(e){ if(e.target===this) modal.style.display='none'; };
+  
+  document.getElementById('qrGo').onclick = function(){
+    var text = document.getElementById('qrInput').value.trim();
+    if(!text){ alert('請輸入文字或 URL'); return; }
+    var size = document.getElementById('qrSize').value;
+    var url = 'https://api.qrserver.com/v1/create-qr-code/?size=' + size + 'x' + size + '&data=' + encodeURIComponent(text);
+    var img = document.getElementById('qrImage');
+    img.src = url;
+    document.getElementById('qrResult').style.display = 'block';
+  };
+  
+  document.getElementById('qrDownload').onclick = function(){
+    var img = document.getElementById('qrImage');
+    if(!img.src) return;
+    var a = document.createElement('a');
+    a.href = img.src;
+    a.download = 'qr-code.png';
+    a.click();
+  };
+})();
+
+// ══════ Ghost Detector ══════
+(function(){
+  var modal = document.getElementById('ghostModal');
+  var scanning = false;
+  var interval = null;
+  var canvasInterval = null;
+  var level = 0;
+  
+  document.getElementById('ghostTrigger').onclick = function(){ modal.style.display='flex'; };
+  document.getElementById('ghostClose').onclick = function(){
+    modal.style.display='none';
+    stopScan();
+  };
+  modal.onclick = function(e){
+    if(e.target===this){
+      modal.style.display='none';
+      stopScan();
+    }
+  };
+  
+  document.getElementById('ghostStart').onclick = function(){
+    if(scanning){
+      stopScan();
+    } else {
+      startScan();
+    }
+  };
+  
+  function startScan(){
+    scanning = true;
+    document.getElementById('ghostStart').textContent = '⏹ 停止探測';
+    document.getElementById('ghostStart').style.background = 'linear-gradient(135deg,#ff6b9d,#c44569)';
+    document.getElementById('ghostStart').style.color = '#fff';
+    document.getElementById('ghostStatus').textContent = '探測中...';
+    
+    interval = setInterval(function(){
+      // Simulate EMF reading
+      var spike = Math.random() < 0.15; // 15% chance of spike
+      if(spike){
+        level = 60 + Math.random() * 40;
+        document.getElementById('ghostEmoji').textContent = '👻';
+        document.getElementById('ghostEmoji').style.transform = 'scale(1.2) rotate(10deg)';
+        document.getElementById('ghostStatus').textContent = '⚠️ 偵測到靈體活動！';
+        document.getElementById('ghostStatus').style.color = '#ff6b6b';
+        
+        // Vibrate if supported
+        if(navigator.vibrate) navigator.vibrate([100, 50, 100]);
+        
+        setTimeout(function(){
+          document.getElementById('ghostEmoji').style.transform = 'scale(1) rotate(0deg)';
+        }, 300);
+      } else {
+        level = Math.random() * 30;
+        document.getElementById('ghostEmoji').textContent = '📡';
+        document.getElementById('ghostStatus').textContent = '探測中...';
+        document.getElementById('ghostStatus').style.color = '#6bff6b';
+      }
+      
+      document.getElementById('ghostLevel').textContent = '訊號強度: ' + Math.round(level) + '%';
+      document.getElementById('ghostFreq').textContent = Math.round(50 + level * 2) + ' Hz';
+      document.getElementById('ghostTemp').textContent = (20 - level * 0.1).toFixed(1) + '°C';
+      document.getElementById('ghostDist').textContent = level > 50 ? Math.round(10 - level * 0.1) + ' m' : '-- m';
+    }, 500);
+    
+    // Canvas animation
+    var canvas = document.getElementById('ghostCanvas');
+    var ctx = canvas.getContext('2d');
+    var phase = 0;
+    
+    canvasInterval = setInterval(function(){
+      ctx.fillStyle = 'rgba(0,20,0,0.3)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.strokeStyle = level > 50 ? '#ff6b6b' : '#6bff6b';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      
+      for(var x = 0; x < canvas.width; x++){
+        var y = canvas.height / 2 + Math.sin((x + phase) * 0.05) * (10 + level * 0.5) + (Math.random() - 0.5) * level * 0.3;
+        if(x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      phase += 5;
+    }, 50);
+  }
+  
+  function stopScan(){
+    scanning = false;
+    if(interval) clearInterval(interval);
+    if(canvasInterval) clearInterval(canvasInterval);
+    interval = null;
+    canvasInterval = null;
+    level = 0;
+    
+    document.getElementById('ghostStart').textContent = '🔍 開始探測';
+    document.getElementById('ghostStart').style.background = 'linear-gradient(135deg,#6bff6b,#00d4ff)';
+    document.getElementById('ghostStart').style.color = '#0a0a1a';
+    document.getElementById('ghostStatus').textContent = '待機中';
+    document.getElementById('ghostStatus').style.color = '#6bff6b';
+    document.getElementById('ghostLevel').textContent = '訊號強度: 0%';
+    document.getElementById('ghostEmoji').textContent = '📡';
+    document.getElementById('ghostFreq').textContent = '-- Hz';
+    document.getElementById('ghostTemp').textContent = '--°C';
+    document.getElementById('ghostDist').textContent = '-- m';
+    
+    // Clear canvas
+    var canvas = document.getElementById('ghostCanvas');
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'rgba(0,20,0,0.5)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 })();
 </script>
