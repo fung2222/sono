@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>火柴人格鬥 Stickman Fighter</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans HK", sans-serif;
+    background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 50%, #0a0a1a 100%);
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  h1 {
+    font-size: 2em;
+    margin-bottom: 6px;
+    background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #a29bfe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 3px;
+    text-align: center;
+    width: 100%;
+  }
+  .subtitle { color: #888; margin-bottom: 12px; font-size: 0.85em; text-align: center; width: 100%; }
+
+  /* HP Bars */
+  .hp-bars {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 640px;
+    margin-bottom: 10px;
+    gap: 16px;
+  }
+  .hp-container {
+    flex: 1;
+    background: rgba(30,30,50,0.8);
+    border-radius: 10px;
+    padding: 8px 12px;
+    border: 1px solid #333;
+    backdrop-filter: blur(4px);
+  }
+  .hp-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85em;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .hp-bar {
+    height: 18px;
+    background: #222;
+    border-radius: 9px;
+    overflow: hidden;
+    position: relative;
+  }
+  .hp-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff6b6b, #feca57);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 9px;
+    box-shadow: 0 0 12px rgba(255,107,107,0.5);
+  }
+  .ai .hp-fill {
+    background: linear-gradient(90deg, #48dbfb, #a29bfe);
+    box-shadow: 0 0 12px rgba(72,219,251,0.5);
+  }
+  .charge-bar {
+    height: 6px;
+    background: #222;
+    border-radius: 3px;
+    margin-top: 4px;
+    overflow: hidden;
+  }
+  .charge-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #feca57, #ff6b6b);
+    transition: width 0.3s ease;
+    border-radius: 3px;
+  }
+  .charge-label { font-size: 0.75em; color: #feca57; margin-top: 2px; }
+
+  #arena {
+    background: linear-gradient(180deg, #0f1419 0%, #1a1a2e 100%);
+    border: 2px solid #333;
+    border-radius: 12px;
+    box-shadow: 0 0 40px rgba(255,107,107,0.15), inset 0 0 60px rgba(0,0,0,0.3);
+    margin-bottom: 12px;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Gamepad Layout */
+  .gamepad {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 640px;
+    width: 100%;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  /* D-Pad (Left side, no up) */
+  .dpad {
+    display: grid;
+    grid-template-areas:
+      ". . ."
+      "left down right";
+    grid-template-columns: repeat(3, 56px);
+    grid-template-rows: 30px repeat(1, 56px);
+    gap: 6px;
+  }
+  .dpad-btn {
+    width: 56px;
+    height: 56px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #2d3436, #1a1a2e);
+    color: #ccc;
+    font-size: 1.5em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.08s;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+    user-select: none;
+    touch-action: none;
+  }
+  .dpad-btn.active {
+    transform: scale(0.88);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    background: linear-gradient(145deg, #4a5052, #3a3a5e);
+    color: #feca57;
+  }
+  .dpad-btn.left { grid-area: left; }
+  .dpad-btn.down { grid-area: down; }
+  .dpad-btn.right { grid-area: right; }
+
+  /* Right side - Action Buttons */
+  .right-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .action-btns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .act-btn {
+    width: 68px;
+    height: 68px;
+    border: 2px solid;
+    border-radius: 50%;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    user-select: none;
+    touch-action: none;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.08s;
+  }
+  .act-btn.active { transform: scale(0.88); filter: brightness(1.3); }
+  .act-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .act-btn .icon { font-size: 1.5em; line-height: 1; }
+  .act-btn .label { font-size: 0.65em; letter-spacing: 1px; }
+
+  .act-btn.slash {
+    background: radial-gradient(circle at 30% 30%, #ff6b6b, #c0392b);
+    border-color: #ff6b6b;
+    box-shadow: 0 3px 12px rgba(255,107,107,0.4);
+  }
+  .act-btn.ranged {
+    background: radial-gradient(circle at 30% 30%, #48dbfb, #0984e3);
+    border-color: #48dbfb;
+    box-shadow: 0 3px 12px rgba(72,219,251,0.4);
+  }
+  .act-btn.defend {
+    background: radial-gradient(circle at 30% 30%, #feca57, #f39c12);
+    border-color: #feca57;
+    box-shadow: 0 3px 12px rgba(254,202,87,0.4);
+  }
+  .act-btn.ultimate {
+    background: radial-gradient(circle at 30% 30%, #a29bfe, #6c5ce7);
+    border-color: #a29bfe;
+    box-shadow: 0 3px 12px rgba(162,155,254,0.4);
+  }
+  .act-btn.ultimate.ready {
+    animation: ultimatePulse 1.2s infinite;
+    border-color: #fff;
+  }
+  @keyframes ultimatePulse {
+    0%, 100% { box-shadow: 0 3px 12px rgba(162,155,254,0.4); }
+    50% { box-shadow: 0 3px 35px rgba(162,155,254,1), 0 0 50px rgba(255,255,255,0.4); }
+  }
+
+  /* Jump button - bigger, on the right */
+  .jump-btn {
+    width: 80px;
+    height: 80px;
+    border: 2px solid #55efc4;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #55efc4, #00b894);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    user-select: none;
+    touch-action: none;
+    box-shadow: 0 3px 15px rgba(85,239,196,0.4);
+    transition: transform 0.08s;
+  }
+  .jump-btn.active { transform: scale(0.88); filter: brightness(1.3); }
+  .jump-btn .icon { font-size: 1.8em; line-height: 1; }
+  .jump-btn .label { font-size: 0.7em; letter-spacing: 1px; }
+
+  /* Log */
+  .log {
+    max-width: 640px;
+    width: 100%;
+    background: rgba(15,20,25,0.9);
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 10px 12px;
+    max-height: 130px;
+    overflow-y: auto;
+    font-size: 0.85em;
+    line-height: 1.5;
+  }
+  .log-entry { margin-bottom: 4px; }
+  .log-player { color: #feca57; }
+  .log-ai { color: #48dbfb; }
+  .log-system { color: #888; font-style: italic; }
+
+  .restart-btn {
+    margin-top: 12px;
+    padding: 12px 32px;
+    background: linear-gradient(135deg, #ff6b6b, #feca57);
+    border: none;
+    color: #fff;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1em;
+    display: none;
+    box-shadow: 0 4px 15px rgba(255,107,107,0.4);
+    transition: transform 0.15s;
+  }
+  .restart-btn:active { transform: scale(0.95); }
+  .restart-btn.show { display: block; }
+
+  .hint {
+    color: #555;
+    font-size: 0.75em;
+    margin-top: 8px;
+    text-align: center;
+    max-width: 640px;
+  }
+
+  /* Screen flash */
+  #screenFlash {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 100;
+  }
+
+  @media (max-width: 480px) {
+    .dpad { grid-template-columns: repeat(3, 48px); }
+    .dpad-btn { width: 48px; height: 48px; font-size: 1.3em; }
+    .act-btn { width: 60px; height: 60px; }
+    .act-btn .icon { font-size: 1.3em; }
+    .jump-btn { width: 70px; height: 70px; }
+  }
+</style>
+</head>
+<body>
+  <h1>⚔️ STICKMAN FIGHTER</h1>
+  <div class="subtitle">火柴人格鬥</div>
+
+  <div class="hp-bars">
+    <div class="hp-container">
+      <div class="hp-label"><span>👤 你</span><span id="playerHp">100</span></div>
+      <div class="hp-bar"><div class="hp-fill" id="playerHpFill" style="width:100%"></div></div>
+      <div class="charge-bar"><div class="charge-fill" id="playerChargeFill" style="width:0%"></div></div>
+      <div class="charge-label">⚡ 大絕 <span id="playerCharge">0</span>/3</div>
+    </div>
+    <div class="hp-container ai">
+      <div class="hp-label"><span>🤖 AI</span><span id="aiHp">100</span></div>
+      <div class="hp-bar"><div class="hp-fill" id="aiHpFill" style="width:100%"></div></div>
+      <div class="charge-bar"><div class="charge-fill" id="aiChargeFill" style="width:0%"></div></div>
+      <div class="charge-label">⚡ 大絕 <span id="aiCharge">0</span>/3</div>
+    </div>
+  </div>
+
+  <canvas id="arena" width="640" height="320"></canvas>
+
+  <div class="gamepad">
+    <!-- D-Pad: Left, Down, Right only -->
+    <div class="dpad">
+      <button class="dpad-btn left" data-dir="left">⬅</button>
+      <button class="dpad-btn down" data-dir="down">⬇</button>
+      <button class="dpad-btn right" data-dir="right">➡</button>
+    </div>
+
+    <!-- Right side: Jump + Action Buttons -->
+    <div class="right-controls">
+      <button class="jump-btn" id="jumpBtn">
+        <span class="icon">⬆</span>
+        <span class="label">跳躍</span>
+      </button>
+      <div class="action-btns">
+        <button class="act-btn slash" data-action="slash">
+          <span class="icon">⚔️</span>
+          <span class="label">斬擊</span>
+        </button>
+        <button class="act-btn ranged" data-action="ranged">
+          <span class="icon">🏹</span>
+          <span class="label">遠攻</span>
+        </button>
+        <button class="act-btn defend" data-action="defend">
+          <span class="icon">🛡️</span>
+          <span class="label">防禦</span>
+        </button>
+        <button class="act-btn ultimate" id="ultBtn" data-action="ultimate">
+          <span class="icon">💥</span>
+          <span class="label">大招</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="log" id="log"></div>
+  <button class="restart-btn" id="restartBtn">🔄 再嚟一局</button>
+  <div class="hint">⬅左移 ⬇蹲/後退 ➡右移 ｜ ⚔️斬擊 🏹遠攻 🛡️防禦 💥大招<br>鍵盤：A/D/←→ 移動 ｜ W/↑ 跳躍 ｜ J斬擊 K遠攻 L防禦 U大招</div>
+
+  <div id="screenFlash"></div>
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const GROUND_Y = 260;
+const ARENA_W = 640;
+const ARENA_H = 320;
+const MOVE_SPEED = 5;
+const JUMP_FORCE = -13;
+const GRAVITY = 0.65;
+
+// ============================================================
+// TTS 對白
+// ============================================================
+const VOICE_LINES = {
+  player: { hit: '接住', die: '我頂唔住啦' },
+  ai: { hit: '唔好', die: '我畀你屈死啦' },
+};
+
+function speak(text, character) {
+  if (!text || !('speechSynthesis' in window)) return;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'zh-HK';
+  u.rate = 1.0;
+  u.pitch = character === 'ai' ? 0.85 : 1.15;
+  u.volume = 1;
+  speechSynthesis.speak(u);
+}
+
+// ============================================================
+// STATE
+// ============================================================
+const canvas = document.getElementById('arena');
+const ctx = canvas.getContext('2d');
+const logEl = document.getElementById('log');
+const restartBtn = document.getElementById('restartBtn');
+const ultBtn = document.getElementById('ultBtn');
+const screenFlash = document.getElementById('screenFlash');
+
+let gameOver = false;
+let projectiles = [];
+let particles = [];
+let animFrame = 0;
+let screenShake = 0;
+let slowMoFrames = 0;
+
+function createFighter(x, isAI) {
+  return {
+    hp: 100, maxHp: 100,
+    x, y: GROUND_Y,
+    vx: 0, vy: 0,
+    facing: isAI ? -1 : 1,
+    charge: 0,
+    defending: false,
+    crouching: false,
+    pose: 'idle',
+    poseTimer: 0,
+    hitFlash: 0,
+    isAI,
+    color: isAI ? '#48dbfb' : '#feca57',
+    targetPose: 'idle',
+    animProgress: 1,
+    // AI state
+    aiThinkTimer: 0,
+    aiMoveDir: 0,
+    aiActionCooldown: 0,
+  };
+}
+
+let player, ai;
+
+function initGame() {
+  player = createFighter(180, false);
+  ai = createFighter(460, true);
+  gameOver = false;
+  projectiles = [];
+  particles = [];
+  screenShake = 0;
+  slowMoFrames = 0;
+  logEl.innerHTML = '';
+  updateUI();
+  addLog('⚔️ 對戰開始！', 'system');
+  restartBtn.classList.remove('show');
+  document.querySelectorAll('.act-btn, .dpad-btn, .jump-btn').forEach(b => b.disabled = false);
+}
+
+// ============================================================
+// DRAWING — Longer limbs, smoother
+// ============================================================
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+function getPosePoints(pose, facing) {
+  const f = facing;
+  // Longer limbs: arms ~25-45px, legs ~50-55px
+  const poses = {
+    idle: {
+      head: {x: 0, y: -65},
+      neck: {x: 0, y: -48},
+      hip: {x: 0, y: -5},
+      armL: {x: -22*f, y: -22},
+      armR: {x: 22*f, y: -22},
+      legL: {x: -15, y: 50},
+      legR: {x: 15, y: 50},
+    },
+    slash: {
+      head: {x: 5*f, y: -62},
+      neck: {x: 3*f, y: -45},
+      hip: {x: 0, y: -5},
+      armL: {x: -15*f, y: -25},
+      armR: {x: 45*f, y: -38},
+      legL: {x: -18, y: 50},
+      legR: {x: 22*f, y: 48},
+    },
+    ranged: {
+      head: {x: 2*f, y: -65},
+      neck: {x: 1*f, y: -48},
+      hip: {x: 0, y: -5},
+      armL: {x: -12*f, y: -30},
+      armR: {x: 42*f, y: -32},
+      legL: {x: -14, y: 50},
+      legR: {x: 14, y: 50},
+    },
+    defend: {
+      head: {x: -3*f, y: -58},
+      neck: {x: -2*f, y: -42},
+      hip: {x: 0, y: -2},
+      armL: {x: 10*f, y: -42},
+      armR: {x: 15*f, y: -35},
+      legL: {x: -18, y: 48},
+      legR: {x: 12, y: 50},
+    },
+    ultimate: {
+      head: {x: 0, y: -70},
+      neck: {x: 0, y: -52},
+      hip: {x: 0, y: -8},
+      armL: {x: -38*f, y: -60},
+      armR: {x: 38*f, y: -60},
+      legL: {x: -25, y: 45},
+      legR: {x: 25, y: 45},
+    },
+    hit: {
+      head: {x: -8*f, y: -58},
+      neck: {x: -5*f, y: -42},
+      hip: {x: -3*f, y: -3},
+      armL: {x: -25*f, y: -8},
+      armR: {x: -12*f, y: 5},
+      legL: {x: -12, y: 50},
+      legR: {x: 20, y: 48},
+    },
+    jump: {
+      head: {x: 0, y: -65},
+      neck: {x: 0, y: -48},
+      hip: {x: 0, y: -5},
+      armL: {x: -25*f, y: -38},
+      armR: {x: 25*f, y: -38},
+      legL: {x: -12, y: 35},
+      legR: {x: 12, y: 35},
+    },
+    walk: {
+      head: {x: 3*f, y: -64},
+      neck: {x: 2*f, y: -47},
+      hip: {x: 0, y: -5},
+      armL: {x: -20*f, y: -15},
+      armR: {x: 20*f, y: -28},
+      legL: {x: -22, y: 48},
+      legR: {x: 22, y: 48},
+    },
+    crouch: {
+      head: {x: 0, y: -45},
+      neck: {x: 0, y: -32},
+      hip: {x: 0, y: 5},
+      armL: {x: -18*f, y: -12},
+      armR: {x: 18*f, y: -12},
+      legL: {x: -22, y: 30},
+      legR: {x: 22, y: 30},
+    },
+  };
+  return poses[pose] || poses.idle;
+}
+
+function interpolatePoints(a, b, t) {
+  const result = {};
+  for (const key of Object.keys(a)) {
+    result[key] = {
+      x: lerp(a[key].x, b[key].x, t),
+      y: lerp(a[key].y, b[key].y, t),
+    };
+  }
+  return result;
+}
+
+function drawStickman(fighter) {
+  const { x, y, color, facing, charge, defending, hitFlash } = fighter;
+  
+  const t = Math.min(1, fighter.animProgress);
+  const eased = t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
+  const fromPoints = getPosePoints(fighter.pose, facing);
+  const toPoints = getPosePoints(fighter.targetPose, facing);
+  const pts = interpolatePoints(fromPoints, toPoints, eased);
+
+  ctx.save();
+  
+  let drawColor = color;
+  if (hitFlash > 0) {
+    drawColor = hitFlash % 4 < 2 ? '#fff' : '#ff4444';
+  }
+  
+  ctx.strokeStyle = drawColor;
+  ctx.fillStyle = drawColor;
+  ctx.lineWidth = 4;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  // Shadow
+  ctx.save();
+  ctx.fillStyle = 'rgba(0,0,0,0.3)';
+  ctx.beginPath();
+  ctx.ellipse(x, GROUND_Y + 52, 22, 6, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // Head
+  ctx.beginPath();
+  ctx.arc(x + pts.head.x, y + pts.head.y, 15, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(x + pts.head.x + 6*facing, y + pts.head.y - 2, 2.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Body
+  ctx.beginPath();
+  ctx.moveTo(x + pts.neck.x, y + pts.neck.y);
+  ctx.lineTo(x + pts.hip.x, y + pts.hip.y);
+  ctx.stroke();
+
+  // Arms (with elbow for more natural look)
+  drawLimb(x + pts.neck.x, y + pts.neck.y + 5, x + pts.armL.x, y + pts.armL.y, -facing * 5);
+  drawLimb(x + pts.neck.x, y + pts.neck.y + 5, x + pts.armR.x, y + pts.armR.y, facing * 5);
+
+  // Legs (with knee)
+  drawLimb(x + pts.hip.x, y + pts.hip.y, x + pts.legL.x, y + pts.legL.y, 0, true);
+  drawLimb(x + pts.hip.x, y + pts.hip.y, x + pts.legR.x, y + pts.legR.y, 0, true);
+
+  // Weapon for slash
+  if (fighter.targetPose === 'slash' && eased > 0.2) {
+    const wx = x + pts.armR.x;
+    const wy = y + pts.armR.y;
+    // Sword blade
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(wx, wy);
+    ctx.lineTo(wx + 32*facing, wy - 18);
+    ctx.stroke();
+    // Glow
+    ctx.strokeStyle = 'rgba(255,159,67,0.6)';
+    ctx.lineWidth = 10;
+    ctx.beginPath();
+    ctx.moveTo(wx, wy);
+    ctx.lineTo(wx + 32*facing, wy - 18);
+    ctx.stroke();
+    // Slash arc effect
+    if (eased > 0.4 && eased < 0.8) {
+      ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(wx, wy, 40, -Math.PI*0.8*facing, Math.PI*0.3*facing, facing < 0);
+      ctx.stroke();
+    }
+  }
+
+  // Ranged energy
+  if (fighter.targetPose === 'ranged' && eased > 0.5) {
+    const gx = x + pts.armR.x;
+    const gy = y + pts.armR.y;
+    ctx.fillStyle = 'rgba(72,219,251,0.7)';
+    ctx.beginPath();
+    ctx.arc(gx, gy, 10, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(72,219,251,0.3)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(gx, gy, 16, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+
+  // Defend shield
+  if (defending) {
+    ctx.strokeStyle = 'rgba(254,202,87,0.8)';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.arc(x + 12*facing, y - 15, 36, -Math.PI*0.7, Math.PI*0.7);
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(254,202,87,0.15)';
+    ctx.beginPath();
+    ctx.arc(x + 12*facing, y - 15, 36, -Math.PI*0.7, Math.PI*0.7);
+    ctx.lineTo(x + 12*facing, y - 15);
+    ctx.fill();
+  }
+
+  // Ultimate aura
+  if (charge >= 3) {
+    const pulse = Math.sin(animFrame * 0.1) * 0.3 + 0.7;
+    ctx.strokeStyle = `rgba(162,155,254,${pulse * 0.6})`;
+    ctx.lineWidth = 2;
+    for (let i = 0; i < 3; i++) {
+      ctx.beginPath();
+      ctx.arc(x, y - 15, 32 + i * 12 + Math.sin(animFrame * 0.05 + i) * 4, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  }
+
+  ctx.restore();
+}
+
+function drawLimb(x1, y1, x2, y2, bendDir, isLeg = false) {
+  // Draw with a slight bend (elbow/knee)
+  const mx = (x1 + x2) / 2 + bendDir;
+  const my = (y1 + y2) / 2 + (isLeg ? -3 : 5);
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.quadraticCurveTo(mx, my, x2, y2);
+  ctx.stroke();
+}
+
+// Particles
+function spawnParticles(x, y, color, count, spread = 1) {
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x, y,
+      vx: (Math.random() - 0.5) * 10 * spread,
+      vy: (Math.random() - 0.5) * 10 * spread - 3,
+      life: 1,
+      color,
+      size: Math.random() * 5 + 2,
+      type: 'normal',
+    });
+  }
+}
+
+function spawnUltimateParticles(x, y) {
+  // Big dramatic particles
+  for (let i = 0; i < 60; i++) {
+    const angle = (Math.PI * 2 * i) / 60;
+    const speed = Math.random() * 15 + 5;
+    particles.push({
+      x, y: y - 20,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      life: 1.5,
+      color: ['#a29bfe', '#fff', '#fd79a8', '#ffeaa7'][Math.floor(Math.random()*4)],
+      size: Math.random() * 8 + 3,
+      type: 'ultimate',
+    });
+  }
+  // Ring particles
+  for (let r = 0; r < 3; r++) {
+    for (let i = 0; i < 20; i++) {
+      const angle = (Math.PI * 2 * i) / 20;
+      const radius = 30 + r * 25;
+      particles.push({
+        x: x + Math.cos(angle) * radius,
+        y: y - 20 + Math.sin(angle) * radius * 0.5,
+        vx: Math.cos(angle) * 3,
+        vy: Math.sin(angle) * 3 - 2,
+        life: 1.2,
+        color: '#a29bfe',
+        size: 4,
+        type: 'ultimate',
+      });
+    }
+  }
+}
+
+function drawParticles() {
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.type !== 'ultimate') p.vy += 0.25;
+    else p.vy += 0.1;
+    p.life -= p.type === 'ultimate' ? 0.02 : 0.03;
+    if (p.life <= 0) { particles.splice(i, 1); continue; }
+    ctx.globalAlpha = Math.min(1, p.life);
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size * Math.min(1, p.life), 0, Math.PI * 2);
+    ctx.fill();
+    // Glow for ultimate
+    if (p.type === 'ultimate' && p.life > 0.5) {
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.life * 0.3;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+  ctx.globalAlpha = 1;
+}
+
+// Projectiles
+function spawnProjectile(x, y, dir, owner) {
+  projectiles.push({
+    x, y, vx: dir * 10, owner,
+    color: owner === player ? '#feca57' : '#48dbfb',
+    life: 80, size: 7,
+  });
+}
+
+function drawProjectiles() {
+  for (let i = projectiles.length - 1; i >= 0; i--) {
+    const p = projectiles[i];
+    p.x += p.vx;
+    p.life--;
+    if (p.life <= 0 || p.x < -20 || p.x > ARENA_W + 20) { projectiles.splice(i, 1); continue; }
+    
+    // Trail
+    ctx.globalAlpha = 0.3;
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x - p.vx * 1, p.y, p.size * 0.7, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(p.x - p.vx * 2, p.y, p.size * 0.4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    
+    // Glow
+    ctx.fillStyle = p.color.replace(')', ',0.3)').replace('#', 'rgba(');
+    const rgb = hexToRgb(p.color);
+    ctx.fillStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},0.3)`;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
+    ctx.fill();
+    // Core
+    ctx.fillStyle = '#fff';
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size * 0.6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Collision
+    const target = p.owner === player ? ai : player;
+    if (Math.abs(p.x - target.x) < 28 && Math.abs(p.y - (target.y - 15)) < 45) {
+      const dmg = target.defending ? 3 : 12 + Math.floor(Math.random() * 5);
+      applyDamage(target, dmg, p.owner);
+      spawnParticles(p.x, p.y, p.color, 10);
+      projectiles.splice(i, 1);
+    }
+  }
+}
+
+function hexToRgb(hex) {
+  const r = parseInt(hex.slice(1,3), 16);
+  const g = parseInt(hex.slice(3,5), 16);
+  const b = parseInt(hex.slice(5,7), 16);
+  return {r, g, b};
+}
+
+// ============================================================
+// COMBAT — no action lock!
+// ============================================================
+function applyDamage(target, dmg, attacker) {
+  target.hp = Math.max(0, target.hp - dmg);
+  target.hitFlash = 10;
+  target.defending = false;
+  
+  const dir = target === player ? -1 : 1;
+  target.vx = dir * 6;
+  
+  target.pose = target.targetPose;
+  target.targetPose = 'hit';
+  target.animProgress = 0;
+  target.poseTimer = 15;
+  
+  if (attacker) {
+    attacker.charge = Math.min(3, attacker.charge + 1);
+  }
+  
+  const char = target.isAI ? 'ai' : 'player';
+  const charLabel = target.isAI ? '🤖' : '👤';
+  if (target.hp <= 0) {
+    speak(VOICE_LINES[char].die, char);
+    addLog(`${charLabel}：「${VOICE_LINES[char].die}」`, char);
+    addLog(`💀 ${target.isAI ? 'AI' : '你'} 被擊敗！`, 'system');
+    screenShake = 20;
+    slowMoFrames = 30;
+    spawnParticles(target.x, target.y - 20, target.color, 30, 2);
+  } else {
+    speak(VOICE_LINES[char].hit, char);
+    addLog(`${charLabel}：「${VOICE_LINES[char].hit}」(-${dmg})`, char);
+    screenShake = 5;
+  }
+  
+  spawnParticles(target.x, target.y - 20, target.color, 8);
+  updateUI();
+}
+
+function setPose(fighter, pose, duration) {
+  fighter.pose = fighter.targetPose;
+  fighter.targetPose = pose;
+  fighter.animProgress = 0;
+  fighter.poseTimer = duration;
+}
+
+function performAction(action, fighter) {
+  if (gameOver || fighter.hp <= 0) return;
+  
+  const defender = fighter === player ? ai : player;
+  const isPlayer = fighter === player;
+  const dist = Math.abs(fighter.x - defender.x);
+
+  if (action !== 'defend') fighter.defending = false;
+  if (action === 'crouch') { fighter.crouching = true; return; }
+
+  switch (action) {
+    case 'slash': {
+      setPose(fighter, 'slash', 18);
+      if (dist < 90) {
+        const dmg = defender.defending ? 4 : 15 + Math.floor(Math.random() * 6);
+        setTimeout(() => { if (!gameOver) applyDamage(defender, dmg, fighter); }, 120);
+        addLog(`${isPlayer ? '👤' : '🤖'} ⚔️ 斬擊！`, isPlayer ? 'player' : 'ai');
+      } else {
+        addLog(`${isPlayer ? '👤' : '🤖'} ⚔️ 斬擊揮空！`, 'system');
+      }
+      fighter.charge = Math.min(3, fighter.charge + 1);
+      break;
+    }
+    case 'ranged': {
+      setPose(fighter, 'ranged', 18);
+      setTimeout(() => {
+        if (!gameOver) spawnProjectile(fighter.x + 25 * fighter.facing, fighter.y - 30, fighter.facing, fighter);
+      }, 180);
+      addLog(`${isPlayer ? '👤' : '🤖'} 🏹 遠距離攻擊！`, isPlayer ? 'player' : 'ai');
+      fighter.charge = Math.min(3, fighter.charge + 1);
+      break;
+    }
+    case 'defend': {
+      fighter.defending = true;
+      setPose(fighter, 'defend', 45);
+      addLog(`${isPlayer ? '👤' : '🤖'} 🛡️ 防禦！`, isPlayer ? 'player' : 'ai');
+      break;
+    }
+    case 'ultimate': {
+      if (fighter.charge < 3) {
+        addLog(`${isPlayer ? '👤' : '🤖'} 💥 大招未儲滿！（${fighter.charge}/3）`, 'system');
+        return;
+      }
+      fighter.charge = 0;
+      setPose(fighter, 'ultimate', 50);
+      screenShake = 15;
+      slowMoFrames = 15;
+      
+      // Screen flash
+      flashScreen('#a29bfe');
+      
+      // Huge particle explosion at fighter position
+      spawnUltimateParticles(fighter.x, fighter.y);
+      
+      addLog(`${isPlayer ? '👤' : '🤖'} 💥💥💥 大招！！！`, isPlayer ? 'player' : 'ai');
+      
+      setTimeout(() => {
+        if (gameOver) return;
+        flashScreen('#fff');
+        screenShake = 25;
+        spawnUltimateParticles(fighter.x, fighter.y);
+        
+        if (dist < 180) {
+          const dmg = defender.defending ? 20 : 40 + Math.floor(Math.random() * 15);
+          applyDamage(defender, dmg, fighter);
+          addLog(`💥 大招命中！！！(-${dmg})`, isPlayer ? 'player' : 'ai');
+        } else {
+          addLog(`💥 大招打空！距離太遠！`, 'system');
+        }
+      }, 400);
+      updateUI();
+      break;
+    }
+  }
+  
+  updateUI();
+  
+  if (fighter.hp <= 0 || defender.hp <= 0) {
+    endGame(defender.hp <= 0 ? fighter : defender);
+  }
+}
+
+function flashScreen(color) {
+  screenFlash.style.background = color;
+  screenFlash.style.opacity = '0.6';
+  setTimeout(() => { screenFlash.style.opacity = '0'; }, 150);
+}
+
+function moveFighter(fighter, dir) {
+  if (gameOver || fighter.hp <= 0) return;
+  if (dir === 'left') fighter.vx = -MOVE_SPEED;
+  else if (dir === 'right') fighter.vx = MOVE_SPEED;
+  else if (dir === 'down') {
+    // Back away from opponent
+    const other = fighter === player ? ai : player;
+    fighter.vx = (fighter.x < other.x ? -1 : 1) * MOVE_SPEED * 1.5;
+    fighter.crouching = true;
+    setPose(fighter, 'crouch', 10);
+  } else if (dir === 'jump') {
+    if (fighter.y >= GROUND_Y - 1) {
+      fighter.vy = JUMP_FORCE;
+      setPose(fighter, 'jump', 30);
+    }
+  }
+}
+
+// ============================================================
+// AI — Autonomous movement + attacking
+// ============================================================
+function updateAI() {
+  if (gameOver || ai.hp <= 0) return;
+  
+  const dist = Math.abs(ai.x - player.x);
+  
+  // Movement AI - always active
+  ai.aiThinkTimer--;
+  if (ai.aiThinkTimer <= 0) {
+    ai.aiThinkTimer = 20 + Math.floor(Math.random() * 30);
+    
+    if (ai.hp < 25 && Math.random() < 0.4) {
+      // Low HP: sometimes retreat
+      ai.aiMoveDir = ai.x < player.x ? -1 : 1;
+    } else if (dist > 150) {
+      // Far: approach
+      ai.aiMoveDir = ai.x < player.x ? 1 : -1;
+    } else if (dist < 60) {
+      // Too close: sometimes back off
+      ai.aiMoveDir = Math.random() < 0.4 ? (ai.x < player.x ? -1 : 1) : 0;
+    } else {
+      // Medium range: mix of approach and hold
+      ai.aiMoveDir = Math.random() < 0.6 ? (ai.x < player.x ? 1 : -1) : 0;
+    }
+    
+    // Random jump
+    if (Math.random() < 0.15 && ai.y >= GROUND_Y - 1) {
+      moveFighter(ai, 'jump');
+    }
+  }
+  
+  // Apply movement
+  if (ai.aiMoveDir !== 0) {
+    ai.vx += ai.aiMoveDir * 1.5;
+    if (Math.abs(ai.vx) > MOVE_SPEED * 0.8) ai.vx = ai.aiMoveDir * MOVE_SPEED * 0.8;
+  }
+  
+  // Attack AI
+  ai.aiActionCooldown--;
+  if (ai.aiActionCooldown <= 0) {
+    const actions = [];
+    
+    if (ai.charge >= 3 && dist < 180 && Math.random() < 0.5) {
+      actions.push('ultimate');
+    }
+    if (dist < 90) {
+      actions.push('slash', 'slash', 'slash');
+      if (Math.random() < 0.3) actions.push('defend');
+    }
+    if (dist > 100) {
+      actions.push('ranged', 'ranged');
+    }
+    if (player.charge >= 3 && Math.random() < 0.4) {
+      actions.push('defend');
+    }
+    actions.push('ranged');
+    
+    if (actions.length > 0) {
+      const action = actions[Math.floor(Math.random() * actions.length)];
+      performAction(action, ai);
+      ai.aiActionCooldown = 25 + Math.floor(Math.random() * 35);
+    }
+  }
+}
+
+// ============================================================
+// UI
+// ============================================================
+function updateUI() {
+  document.getElementById('playerHp').textContent = Math.max(0, player.hp);
+  document.getElementById('aiHp').textContent = Math.max(0, ai.hp);
+  document.getElementById('playerHpFill').style.width = Math.max(0, player.hp) + '%';
+  document.getElementById('aiHpFill').style.width = Math.max(0, ai.hp) + '%';
+  document.getElementById('playerCharge').textContent = player.charge;
+  document.getElementById('aiCharge').textContent = ai.charge;
+  document.getElementById('playerChargeFill').style.width = (player.charge / 3 * 100) + '%';
+  document.getElementById('aiChargeFill').style.width = (ai.charge / 3 * 100) + '%';
+  
+  if (player.charge >= 3) ultBtn.classList.add('ready');
+  else ultBtn.classList.remove('ready');
+}
+
+function addLog(text, type = 'system') {
+  const div = document.createElement('div');
+  div.className = 'log-entry log-' + type;
+  div.textContent = text;
+  logEl.appendChild(div);
+  logEl.scrollTop = logEl.scrollHeight;
+  while (logEl.children.length > 50) logEl.removeChild(logEl.firstChild);
+}
+
+function endGame(winner) {
+  if (gameOver) return;
+  gameOver = true;
+  const playerWon = winner === player;
+  addLog(playerWon ? '🎉 你贏咗！' : '💀 你輸咗！', 'system');
+  restartBtn.classList.add('show');
+  document.querySelectorAll('.act-btn, .dpad-btn, .jump-btn').forEach(b => b.disabled = true);
+}
+
+// ============================================================
+// GAME LOOP
+// ============================================================
+function update() {
+  if (slowMoFrames > 0) {
+    slowMoFrames--;
+    if (animFrame % 3 !== 0) return; // Slow motion effect
+  }
+  
+  animFrame++;
+  
+  // AI autonomous behavior
+  updateAI();
+  
+  [player, ai].forEach(f => {
+    f.x += f.vx;
+    f.y += f.vy;
+    f.vy += GRAVITY;
+    f.vx *= 0.82;
+    
+    if (f.y > GROUND_Y) {
+      f.y = GROUND_Y;
+      f.vy = 0;
+      if (f.targetPose === 'jump') {
+        f.pose = 'jump';
+        f.targetPose = 'idle';
+        f.animProgress = 0;
+      }
+    }
+    
+    f.x = Math.max(30, Math.min(ARENA_W - 30, f.x));
+    
+    const other = f === player ? ai : player;
+    f.facing = other.x > f.x ? 1 : -1;
+    
+    if (f.animProgress < 1) {
+      f.animProgress += 0.14;
+      if (f.animProgress >= 1) {
+        f.animProgress = 1;
+        f.pose = f.targetPose;
+      }
+    }
+    
+    if (f.poseTimer > 0) {
+      f.poseTimer--;
+      if (f.poseTimer <= 0 && f.targetPose !== 'idle' && f.targetPose !== 'defend') {
+        f.pose = f.targetPose;
+        f.targetPose = 'idle';
+        f.animProgress = 0;
+      }
+    }
+    
+    if (f.defending && f.poseTimer <= 0) {
+      f.defending = false;
+      f.pose = 'defend';
+      f.targetPose = 'idle';
+      f.animProgress = 0;
+    }
+    
+    if (f.hitFlash > 0) f.hitFlash--;
+  });
+  
+  // Idle breathing
+  [player, ai].forEach(f => {
+    if (f.targetPose === 'idle' && f.animProgress >= 1 && f.y >= GROUND_Y - 1 && f.poseTimer <= 0) {
+      const breathOffset = Math.sin(animFrame * 0.04) * 1.5;
+      f.y = GROUND_Y + breathOffset * 0.3;
+    }
+  });
+  
+  // Screen shake decay
+  if (screenShake > 0) screenShake *= 0.85;
+  if (screenShake < 0.5) screenShake = 0;
+}
+
+function render() {
+  ctx.save();
+  
+  // Screen shake
+  if (screenShake > 0) {
+    const shakeX = (Math.random() - 0.5) * screenShake;
+    const shakeY = (Math.random() - 0.5) * screenShake;
+    ctx.translate(shakeX, shakeY);
+  }
+  
+  ctx.clearRect(-20, -20, ARENA_W + 40, ARENA_H + 40);
+  
+  // Background
+  const grad = ctx.createLinearGradient(0, 0, 0, ARENA_H);
+  grad.addColorStop(0, '#0f1419');
+  grad.addColorStop(1, '#1a1a2e');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, ARENA_W, ARENA_H);
+  
+  // Ground
+  ctx.strokeStyle = '#444';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(0, GROUND_Y + 52);
+  ctx.lineTo(ARENA_W, GROUND_Y + 52);
+  ctx.stroke();
+  
+  // Ground lines
+  ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i < ARENA_W; i += 40) {
+    ctx.beginPath();
+    ctx.moveTo(i, GROUND_Y + 54);
+    ctx.lineTo(i + 20, ARENA_H);
+    ctx.stroke();
+  }
+  
+  drawStickman(player);
+  drawStickman(ai);
+  drawProjectiles();
+  drawParticles();
+  
+  ctx.restore();
+}
+
+function gameLoop() {
+  if (!gameOver) update();
+  render();
+  requestAnimationFrame(gameLoop);
+}
+
+// ============================================================
+// INPUT — Multi-touch support
+// ============================================================
+// Action buttons - use touchstart for instant response
+document.querySelectorAll('.act-btn').forEach(btn => {
+  const handleAction = (e) => {
+    e.preventDefault();
+    if (!btn.disabled) {
+      btn.classList.add('active');
+      performAction(btn.dataset.action, player);
+      setTimeout(() => btn.classList.remove('active'), 120);
+    }
+  };
+  btn.addEventListener('touchstart', handleAction, {passive: false});
+  btn.addEventListener('mousedown', handleAction);
+});
+
+// Jump button
+const jumpBtn = document.getElementById('jumpBtn');
+const handleJump = (e) => {
+  e.preventDefault();
+  if (!jumpBtn.disabled) {
+    jumpBtn.classList.add('active');
+    moveFighter(player, 'jump');
+    setTimeout(() => jumpBtn.classList.remove('active'), 120);
+  }
+};
+jumpBtn.addEventListener('touchstart', handleJump, {passive: false});
+jumpBtn.addEventListener('mousedown', handleJump);
+
+// D-Pad - hold to move (multi-touch friendly)
+const activeKeys = new Set();
+document.querySelectorAll('.dpad-btn').forEach(btn => {
+  const dir = btn.dataset.dir;
+  
+  const startMove = (e) => {
+    e.preventDefault();
+    if (btn.disabled) return;
+    btn.classList.add('active');
+    activeKeys.add(dir);
+  };
+  const stopMove = (e) => {
+    e.preventDefault();
+    btn.classList.remove('active');
+    activeKeys.delete(dir);
+  };
+  
+  btn.addEventListener('touchstart', startMove, {passive: false});
+  btn.addEventListener('mousedown', startMove);
+  btn.addEventListener('touchend', stopMove, {passive: false});
+  btn.addEventListener('touchcancel', stopMove, {passive: false});
+  btn.addEventListener('mouseup', stopMove);
+  btn.addEventListener('mouseleave', stopMove);
+});
+
+// Movement from held keys (runs every frame)
+function processHeldKeys() {
+  if (gameOver || player.hp <= 0) return;
+  if (activeKeys.has('left')) player.vx = -MOVE_SPEED;
+  if (activeKeys.has('right')) player.vx = MOVE_SPEED;
+  if (activeKeys.has('down')) {
+    const other = ai;
+    player.vx = (player.x < other.x ? -1 : 1) * MOVE_SPEED * 1.2;
+  }
+}
+
+// Run held key processing in game loop
+const origUpdate = update;
+update = function() {
+  processHeldKeys();
+  origUpdate();
+};
+
+// Keyboard
+const keysDown = {};
+document.addEventListener('keydown', (e) => {
+  if (keysDown[e.key]) return;
+  keysDown[e.key] = true;
+  
+  switch (e.key.toLowerCase()) {
+    case 'a': case 'arrowleft': activeKeys.add('left'); break;
+    case 'd': case 'arrowright': activeKeys.add('right'); break;
+    case 's': case 'arrowdown': activeKeys.add('down'); break;
+    case 'w': case 'arrowup': moveFighter(player, 'jump'); break;
+    case 'j': performAction('slash', player); break;
+    case 'k': performAction('ranged', player); break;
+    case 'l': performAction('defend', player); break;
+    case 'u': performAction('ultimate', player); break;
+  }
+});
+document.addEventListener('keyup', (e) => {
+  keysDown[e.key] = false;
+  switch (e.key.toLowerCase()) {
+    case 'a': case 'arrowleft': activeKeys.delete('left'); break;
+    case 'd': case 'arrowright': activeKeys.delete('right'); break;
+    case 's': case 'arrowdown': activeKeys.delete('down'); break;
+  }
+});
+
+restartBtn.addEventListener('click', initGame);
+
+// ============================================================
+// START
+// ============================================================
+initGame();
+gameLoop();
+</script>
+<a href="../" style="display:inline-flex;align-items:center;margin-top:16px;padding:10px 24px;color:#a29bfe;border:1px solid #333;border-radius:20px;text-decoration:none;font-size:0.9em;transition:all 0.3s;">← 回到 Sono 首頁</a>
+</body>
+</html>
