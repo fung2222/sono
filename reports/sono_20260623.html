@@ -61,13 +61,14 @@
   .weather-detail-item .value.alert { color: #ff6b6b; }
   .forecast-section { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(0,212,255,0.2); }
   .forecast-section h3 { color: #7eb8d4; font-size: 0.85em; margin-bottom: 8px; opacity: 0.8; }
-  .forecast-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .forecast-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 15px; }
   .forecast-day { background: rgba(120,160,190,0.06); padding: 8px 4px; border-radius: 6px; text-align: center; min-height: 85px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; }
-  .forecast-day .day { color: #888; font-size: 0.7em; margin-bottom: 3px; }
-  .forecast-day .ficon { font-size: 1.2em; margin: 2px 0; }
+  .forecast-day .weekday { color: #888; font-size: 0.7em; }
+  .forecast-day .date { color: #aaa; font-size: 0.75em; }
+  .forecast-day .ficon { font-size: 1.2em; }
   .forecast-day .ftemp { color: #fff; font-size: 0.8em; font-weight: bold; }
   .forecast-day .ftemp-lo { color: #888; font-size: 0.7em; }
-  .weather-links { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+  .weather-links { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
   .weather-link { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; background: rgba(120,160,190,0.1); border-radius: 15px; color: #7eb8d4; text-decoration: none; font-size: 0.8em; transition: background 0.2s; }
   .weather-link:hover { background: rgba(120,160,190,0.25); }
   .weather-insight { margin-top: 15px; padding: 15px; background: linear-gradient(135deg, rgba(255,107,157,0.08), rgba(162,155,254,0.08)); border-radius: 10px; border-left: 3px solid #ff6b9d; }
@@ -118,9 +119,9 @@
 .sc-sub { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; background:rgba(255,255,255,0.03); cursor:pointer; border-top:1px solid rgba(255,255,255,0.06); transition:background 0.3s; user-select:none; }
 .sc-sub:hover { background:rgba(255,255,255,0.06); }
 .sc-sub-title { font-size:1em; font-weight:600; color:#ddd; }
-.sc-sub-arrow { font-size:0.8em; color:#888; transition:transform 0.4s ease; }
-.sc-sub.open .sc-sub-arrow { transform:rotate(90deg); }
-.sc-sub.open .sc-sub-arrow { transform:rotate(90deg); }
+.sc-sub-arrow { font-size:0.7em; color:#888; transition:transform 0.4s ease; }
+.sc-sub.open .sc-sub-arrow { transform:rotate(180deg); }
+.sc-sub.open .sc-sub-arrow { transform:rotate(180deg); }
 .sc-sub-body { display:none; overflow:hidden; transition:max-height 0.5s ease; padding:0 20px; }
 .sc-sub-body.open { display:block; padding:15px 20px; padding:15px 20px; }
 .sc-sub-body .observation { margin:12px 0; padding-left:16px; border-left:3px solid #a29bfe; color:#ccc; font-size:0.9em; line-height:1.7; }
@@ -145,15 +146,12 @@
 <a href="../" style="text-decoration:none;display:block;">
 <div class="logo" style="font-size:2.4em;font-weight:900;background:linear-gradient(135deg,#ff6b9d,#c44569,#a29bfe,#6c5ce7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px;text-align:center;padding:24px 0 4px;margin:0;">Sono每日</div>
 </a>
-<div class="subtitle" style="text-align:center;color:#888;font-size:0.85em;margin-bottom:6px;">AI機械人 | 量子科技 | 超自然 | 宇宙 | 外星生命</div>
-</div>
-
-
+<div class="subtitle" style="text-align:center;background:linear-gradient(135deg,#ff6b9d,#c44569,#a29bfe,#6c5ce7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:0.85em;margin-top:8px;margin-bottom:12px;">AI機械人 | 量子科技 | 超自然 | 宇宙 | 外星生命</div>
 </div>
 
 <!-- WEATHER -->
 <div class="weather-box">
-  <h2>香港天氣<span style="font-size:0.7em;font-weight:600;color:#ccc;">2026年6月23日（星期二）</span></h2>
+  <h2 style="display:flex;justify-content:space-between;align-items:center;"><span>🌧️ 香港天氣</span><span style="font-size:0.7em;font-weight:600;color:#ccc;">2026年6月23日（星期二）</span></h2>
   <div class="weather-today">
     <div class="weather-main"><div class="icon">☀️</div><div class="temp">32</div><div class="temp-range">低 29 / 高 34</div><div class="desc">大致天晴酷熱</div></div>
     <div class="weather-details">
