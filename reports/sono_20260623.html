@@ -404,7 +404,9 @@
 document.querySelectorAll('.news-card').forEach(card => {
   card.addEventListener('click', function(e) {
     if (e.target.tagName === 'A') return;
-    this.classList.toggle('open');
+    var wasOpen = this.classList.contains('open');
+    document.querySelectorAll('.news-card').forEach(c => c.classList.remove('open'));
+    if (!wasOpen) this.classList.add('open');
   });
 });
 </script>
