@@ -545,6 +545,31 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
       </div>
     </div>
 
+    <!-- ── 2048 ── -->
+    <div class="game-item">
+      <div class="game-header" onclick="toggleGame(this)">
+        <svg class="game-logo" viewBox="0 0 48 48" fill="none">
+          <defs><linearGradient id="gf2048" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6bff6b"/><stop offset="100%" stop-color="#feca57"/></linearGradient></defs>
+          <rect x="6" y="6" width="36" height="36" rx="6" stroke="url(#gf2048)" stroke-width="2" fill="none"/>
+          <text x="16" y="20" fill="url(#gf2048)" font-size="12" font-weight="bold">2</text>
+          <text x="22" y="34" fill="url(#gf2048)" font-size="16" font-weight="bold">0</text>
+          <text x="10" y="38" fill="url(#gf2048)" font-size="8" font-weight="bold">4</text>
+          <text x="30" y="16" fill="url(#gf2048)" font-size="8" font-weight="bold">8</text>
+          <circle cx="36" cy="36" r="3" fill="#6bff6b" opacity="0.5"/>
+          <circle cx="10" cy="10" r="2" fill="#feca57" opacity="0.4"/>
+        </svg>
+        <div class="game-info">
+          <span class="game-name">2048</span>
+          <span class="game-tag">益智</span>
+        </div>
+        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="game-body">
+        <p class="game-desc">數字合併 · 滑動方塊合併相同數字 · 挑戰 2048 目標 · 鍵盤+觸屏雙控</p>
+        <a href="2048/" class="game-play-btn">🎮 立即遊玩</a>
+      </div>
+    </div>
+
 </div>
 <!-- ══════ Tab 3: Sono 工具箱 ══════ -->
 <div class="tab-panel" id="tab-toolbox">
