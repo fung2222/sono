@@ -62,11 +62,12 @@
   .forecast-section { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(0,212,255,0.2); }
   .forecast-section h3 { color: #7eb8d4; font-size: 0.85em; margin-bottom: 8px; opacity: 0.8; }
   .forecast-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-  .forecast-day { background: rgba(120,160,190,0.06); padding: 8px 4px; border-radius: 6px; text-align: center; display: flex; flex-direction: column; align-items: center; }
-  .forecast-day .day { color: #888; font-size: 0.7em; margin-bottom: 3px; height: 1.2em; line-height: 1.2; }
-  .forecast-day .ficon { font-size: 1.2em; margin: 2px 0; height: 1.4em; line-height: 1.4; display: flex; align-items: center; justify-content: center; }
-  .forecast-day .ftemp { color: #fff; font-size: 0.8em; font-weight: bold; height: 1em; line-height: 1; }
-  .forecast-day .ftemp-lo { color: #888; font-size: 0.7em; height: 1em; line-height: 1; }
+  .forecast-day { background: rgba(120,160,190,0.06); padding: 8px 4px; border-radius: 6px; text-align: center; height: 85px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; }
+  .forecast-day .weekday { color: #888; font-size: 0.7em; }
+  .forecast-day .date { color: #aaa; font-size: 0.75em; }
+  .forecast-day .ficon { font-size: 1.2em; }
+  .forecast-day .ftemp { color: #fff; font-size: 0.8em; font-weight: bold; }
+  .forecast-day .ftemp-lo { color: #888; font-size: 0.7em; }
   .weather-links { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
   .weather-link { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; background: rgba(120,160,190,0.1); border-radius: 15px; color: #7eb8d4; text-decoration: none; font-size: 0.8em; transition: background 0.2s; }
   .weather-link:hover { background: rgba(120,160,190,0.25); }
@@ -163,11 +164,11 @@
   <div class="forecast-section">
       <h3>未來5天預測</h3>
       <div class="forecast-grid">
-        <div class="forecast-day"><div class="day">週六 27/6</div><div class="ficon">🌧️</div><div class="ftemp">31</div><div class="ftemp-lo">27</div></div>
-        <div class="forecast-day"><div class="day">週日 28/6</div><div class="ficon">🌧️</div><div class="ftemp">31</div><div class="ftemp-lo">27</div></div>
-        <div class="forecast-day"><div class="day">週一 29/6</div><div class="ficon">🌤️</div><div class="ftemp">32</div><div class="ftemp-lo">28</div></div>
-        <div class="forecast-day"><div class="day">週二 30/6</div><div class="ficon">🌤️</div><div class="ftemp">32</div><div class="ftemp-lo">28</div></div>
-        <div class="forecast-day"><div class="day">週三 1/7</div><div class="ficon">☀️</div><div class="ftemp">33</div><div class="ftemp-lo">28</div></div>
+        <div class="forecast-day"><div class="weekday">週六</div><div class="date">27/6</div><div class="ficon">🌧️</div><div class="ftemp">31</div><div class="ftemp-lo">27</div></div>
+        <div class="forecast-day"><div class="weekday">週日</div><div class="date">28/6</div><div class="ficon">🌧️</div><div class="ftemp">31</div><div class="ftemp-lo">27</div></div>
+        <div class="forecast-day"><div class="weekday">週一</div><div class="date">29/6</div><div class="ficon">🌤️</div><div class="ftemp">32</div><div class="ftemp-lo">28</div></div>
+        <div class="forecast-day"><div class="weekday">週二</div><div class="date">30/6</div><div class="ficon">🌤️</div><div class="ftemp">32</div><div class="ftemp-lo">28</div></div>
+        <div class="forecast-day"><div class="weekday">週三</div><div class="date">1/7</div><div class="ficon">☀️</div><div class="ftemp">33</div><div class="ftemp-lo">28</div></div>
       </div>
     </div>
     <div class="weather-links">
