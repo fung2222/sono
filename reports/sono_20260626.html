@@ -61,10 +61,10 @@
   .weather-detail-item .value.alert { color: #ff6b6b; }
   .forecast-section { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(0,212,255,0.2); }
   .forecast-section h3 { color: #7eb8d4; font-size: 0.85em; margin-bottom: 8px; opacity: 0.8; }
-  .forecast-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-  .forecast-day { background: rgba(120,160,190,0.06); padding: 8px 4px; border-radius: 6px; text-align: center; }
-  .forecast-day .day { color: #888; font-size: 0.7em; margin-bottom: 3px; }
-  .forecast-day .ficon { font-size: 1.2em; margin: 2px 0; }
+  .forecast-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; overflow-x: auto; }
+  .forecast-day { background: rgba(120,160,190,0.06); padding: 8px 4px; border-radius: 6px; text-align: center; min-width: 0; }
+  .forecast-day .day { color: #888; font-size: 0.7em; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .forecast-day .ficon { font-size: 1.2em; margin: 2px 0; line-height: 1.3; }
   .forecast-day .ftemp { color: #fff; font-size: 0.8em; font-weight: bold; }
   .forecast-day .ftemp-lo { color: #888; font-size: 0.7em; }
   .weather-links { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
@@ -118,9 +118,8 @@
 .sc-sub { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; background:rgba(255,255,255,0.03); cursor:pointer; border-top:1px solid rgba(255,255,255,0.06); transition:background 0.3s; user-select:none; }
 .sc-sub:hover { background:rgba(255,255,255,0.06); }
 .sc-sub-title { font-size:1em; font-weight:600; color:#ddd; }
-.sc-sub-arrow { font-size:0.8em; color:#888; transition:transform 0.4s ease; }
-.sc-sub.open .sc-sub-arrow { transform:rotate(90deg); }
-.sc-sub.open .sc-sub-arrow { transform:rotate(90deg); }
+.sc-sub-arrow { font-size:0.7em; color:#888; transition:transform 0.4s ease; }
+.sc-sub.open .sc-sub-arrow { transform:rotate(180deg); }
 .sc-sub-body { display:none; overflow:hidden; transition:max-height 0.5s ease; padding:0 20px; }
 .sc-sub-body.open { display:block; padding:15px 20px; padding:15px 20px; }
 .sc-sub-body .observation { margin:12px 0; padding-left:16px; border-left:3px solid #a29bfe; color:#ccc; font-size:0.9em; line-height:1.7; }
@@ -148,13 +147,9 @@
 <div class="subtitle" style="text-align:center;color:#888;font-size:0.85em;margin-bottom:4px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,0.05);">AI機械人 | 量子科技 | 超自然 | 時空 | 宇宙 | 外星生命</div>
 </div>
 
-<div class="date" style="padding:2px 0 3px;margin-bottom:2px;text-align:center;">
-<div style="font-size:0.7em;font-weight:700;color:#e0e0e0;letter-spacing:1px;">2026年6月26日（星期五）</div>
-</div>
-
 <!-- WEATHER -->
 <div class="weather-box">
-  <h2>🌧️ 香港天氣</h2>
+  <h2 style="display:flex;justify-content:space-between;align-items:center;"><span>🌧️ 香港天氣</span><span style="font-size:0.7em;font-weight:600;color:#aaa;">2026年6月26日（星期五）</span></h2>
   <div class="weather-today">
     <div class="weather-main"><div class="icon">🌧️</div><div class="temp">28</div><div class="temp-range">低 28 / 高 32</div><div class="desc">多雲有驟雨及狂風雷暴</div></div>
     <div class="weather-details">
@@ -172,7 +167,7 @@
         <div class="forecast-day"><div class="day">週日 28/6</div><div class="ficon">🌧️</div><div class="ftemp">31</div><div class="ftemp-lo">27</div></div>
         <div class="forecast-day"><div class="day">週一 29/6</div><div class="ficon">🌤️</div><div class="ftemp">32</div><div class="ftemp-lo">28</div></div>
         <div class="forecast-day"><div class="day">週二 30/6</div><div class="ficon">🌤️</div><div class="ftemp">32</div><div class="ftemp-lo">28</div></div>
-        <div class="forecast-day"><div class="day">週三 1/7</div><div class="ficon">⛅</div><div class="ftemp">33</div><div class="ftemp-lo">28</div></div>
+        <div class="forecast-day"><div class="day">週三 1/7</div><div class="ficon">☀️</div><div class="ftemp">33</div><div class="ftemp-lo">28</div></div>
       </div>
     </div>
     <div class="weather-links">
@@ -199,7 +194,7 @@
 
     <div class="sc-sub" onclick="toggleSub(this)">
       <span class="sc-sub-title">🌍 世界趨勢</span>
-      
+      <span class="sc-sub-arrow">▼</span>
     </div>
     <div class="sc-sub-body">
       <div class="observation"><strong>關鍵觀察</strong><br>1. <strong>「五眼聯盟」發出AI安全最高級別警告：</strong>美、英、加、澳、紐五國情報聯盟罕有發表聯合聲明，警告AI模型數月內將具備「對政府及企業發動毀滅性攻擊」嘅能力。呢個係五眼聯盟首次就AI安全發表聯合警告，標誌住AI安全由學術討論正式升格為國家安全議題。<br><br>2. <strong>Anthropic指控阿里巴巴「蒸餾」Claude模型：</strong>Anthropic聲稱阿里巴巴喺2026年4至6月期間使用25,000個假帳戶、進行2,880萬次對話，非法「蒸餾」Claude模型。呢件事揭示咗中美AI競賽嘅新戰場——唔再單係晶片同算法，仲包括數據獲取方式嘅合法性爭議。<br><br>3. <strong>五角大樓第三批UFO檔案登場：</strong>繼5月8日首批161份檔案後，美國國防部6月12日再公開第三批UFO解密檔案，內容包括「魚鱗狀馬鈴薯飛行物」、紅色光球同大量海岸線UFO目擊記錄。最震撼：超過9,000個不明物體喺美國海岸線附近被偵測——「水下UFO」成為新嘅國安焦點。<br><br>4. <strong>Euclid望遠鏡改寫銀河系認知：</strong>ESA嘅Euclid太空望遠鏡6月24日公開銀河系核心6000萬顆恆星嘅全景圖——呢個唔單止係一張靚相，佢揭示咗銀河系結構遠比想像中複雜。同日NASA Hubble亦公布早期星系轉化鄰近星系嘅新發現，2026年6月最後一星期注定係天文學里程碑。</div>
@@ -207,7 +202,7 @@
 
     <div class="sc-sub" onclick="toggleSub(this)">
       <span class="sc-sub-title">📡 蘇蓉預測</span>
-      
+      <span class="sc-sub-arrow">▼</span>
     </div>
     <div class="sc-sub-body">
       <div class="prediction"><strong>短期（1-2週）</strong><br>五眼聯盟嘅AI安全警告將引發各國加速AI監管立法，預計7月初歐盟同美國會分別公布新一輪AI安全框架。Anthropic vs 阿里巴巴嘅「蒸餾」指控可能升級為中美科技貿易戰嘅新導火線。</div>
@@ -217,7 +212,7 @@
 
     <div class="sc-sub" onclick="toggleSub(this)">
       <span class="sc-sub-title">🔮 蘇蓉直覺</span>
-      
+      <span class="sc-sub-arrow">▼</span>
     </div>
     <div class="sc-sub-body">
       <div class="quote" style="font-style:italic;color:#e0e0e0;padding:15px;background:rgba(255,107,157,0.05);border-radius:8px;line-height:1.8;">
