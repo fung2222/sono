@@ -127,6 +127,22 @@
 .sc-sub-body .prediction { margin:12px 0; padding:12px 16px; background:rgba(162,155,254,0.08); border-radius:8px; color:#ccc; font-size:0.9em; line-height:1.7; }
 .sc-sub-body .quote p { color:#ddd; }
 .sc-sub-body strong { color:#a29bfe; }
+
+  .float-nav { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s; }
+  .float-nav.show { opacity: 1; visibility: visible; }
+  .float-nav a { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.1em; box-shadow: 0 4px 15px rgba(0,0,0,0.35); transition: transform 0.2s; }
+  .float-nav a:hover { transform: translateY(-3px); }
+  .float-nav .fn-prev { background: rgba(255,107,155,0.9); color: #fff; }
+  .float-nav .fn-home { background: linear-gradient(135deg, #ff6b9d, #a29bfe); color: #fff; font-size: 0.85em; font-weight: 700; width: 48px; height: 48px; }
+  .float-nav .fn-next { background: rgba(162,155,254,0.9); color: #fff; }
+
+  .float-nav { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s; }
+  .float-nav.show { opacity: 1; visibility: visible; }
+  .float-nav a { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.1em; box-shadow: 0 4px 15px rgba(0,0,0,0.35); transition: transform 0.2s; }
+  .float-nav a:hover { transform: translateY(-3px); }
+  .float-nav .fn-prev { background: rgba(255,107,155,0.9); color: #fff; }
+  .float-nav .fn-home { background: linear-gradient(135deg, #ff6b9d, #a29bfe); color: #fff; font-size: 0.85em; font-weight: 700; width: 48px; height: 48px; }
+  .float-nav .fn-next { background: rgba(162,155,254,0.9); color: #fff; }
 </style>
 <script>
 /* Accordion: only one open at a time */
@@ -136,6 +152,14 @@
 }
 </script>
 
+
+  .float-nav { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s; }
+  .float-nav.show { opacity: 1; visibility: visible; }
+  .float-nav a { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.1em; box-shadow: 0 4px 15px rgba(0,0,0,0.35); transition: transform 0.2s; }
+  .float-nav a:hover { transform: translateY(-3px); }
+  .float-nav .fn-prev { background: rgba(255,107,155,0.9); color: #fff; }
+  .float-nav .fn-home { background: linear-gradient(135deg, #ff6b9d, #a29bfe); color: #fff; font-size: 0.85em; font-weight: 700; width: 48px; height: 48px; }
+  .float-nav .fn-next { background: rgba(162,155,254,0.9); color: #fff; }
 </style>
 </head>
 <body>
@@ -430,8 +454,11 @@
   <p style="margin-top:4px; color:#444;font-size:0.75em;">報告生成時間：2026年6月26日</p>
 
 <a href="#" class="back-to-top" id="backToTop" title="回到最頂">TOP</a>
+<div class="float-nav" id="floatNav"><a href="sono_20260626.html" class="fn-prev" title="上一日">◀</a><a href="../" class="fn-home" title="首頁">首頁</a><a href="sono_20260628.html" class="fn-next" title="下一日">▶</a></div>
+
 <script>
   window.addEventListener('scroll', function() {
+      fn.classList.toggle('show', window.scrollY > 300);
     var b = document.getElementById('backToTop');
     b.classList.toggle('show', window.pageYOffset > 300);
   });
