@@ -642,6 +642,26 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
       <div class="ts-icon-box"><span class="ts-emoji">👻</span></div>
       <span class="ts-label">靈體探測</span>
     </div>
+    <div class="card tool-sm" id="wheelTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🎲</span></div>
+      <span class="ts-label">命運輪盤</span>
+    </div>
+    <div class="card tool-sm" id="reactTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🎯</span></div>
+      <span class="ts-label">反應挑戰</span>
+    </div>
+    <div class="card tool-sm" id="fortuneTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">💭</span></div>
+      <span class="ts-label">今日運勢</span>
+    </div>
+    <div class="card tool-sm" id="ambientTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🎵</span></div>
+      <span class="ts-label">環境音效</span>
+    </div>
+    <div class="card tool-sm" id="quoteTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">📖</span></div>
+      <span class="ts-label">隨機金句</span>
+    </div>
   </div>
 
 </div>
@@ -1411,6 +1431,91 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
   </div>
 </div>
 
+
+<!-- ══════ Wheel of Fortune Modal ══════ -->
+<div id="wheelModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a2e);border-radius:16px;max-width:400px;width:100%;padding:24px;border:1px solid rgba(255,107,155,0.2);max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:1.3em;color:#fff;">🎲 命運輪盤</h2>
+      <button id="wheelClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <div id="wheelResult" style="text-align:center;font-size:3em;margin:20px 0;min-height:80px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;">🎰</div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;flex-wrap:wrap;">
+      <button class="wheel-cat active" data-cat="food" style="padding:6px 12px;border:1px solid #333;border-radius:14px;background:rgba(255,107,155,0.15);color:#ff6b9d;font-size:0.78em;cursor:pointer;">🍜 食咩</button>
+      <button class="wheel-cat" data-cat="do" style="padding:6px 12px;border:1px solid #333;border-radius:14px;background:transparent;color:#888;font-size:0.78em;cursor:pointer;">🎯 做咩</button>
+      <button class="wheel-cat" data-cat="luck" style="padding:6px 12px;border:1px solid #333;border-radius:14px;background:transparent;color:#888;font-size:0.78em;cursor:pointer;">🍀 運氣</button>
+    </div>
+    <button id="wheelSpin" style="display:block;width:100%;margin:0 auto;padding:12px;border:none;border-radius:25px;background:linear-gradient(135deg,#ff6b9d,#a29bfe);color:#fff;font-size:1em;cursor:pointer;font-weight:700;">🎰 轉動輪盤</button>
+  </div>
+</div>
+
+<!-- ══════ Reaction Test Modal ══════ -->
+<div id="reactModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a2e);border-radius:16px;max-width:400px;width:100%;padding:24px;border:1px solid rgba(0,212,255,0.2);max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:1.3em;color:#fff;">🎯 反應挑戰</h2>
+      <button id="reactClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <div id="reactBox" style="width:100%;height:200px;border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.1s;background:#1a2438;border:2px solid #333;user-select:none;">
+      <span id="reactMsg" style="color:#888;font-size:1.2em;">撳我開始</span>
+    </div>
+    <div id="reactScore" style="text-align:center;color:#00d4ff;font-size:1.2em;margin-top:14px;font-weight:700;"></div>
+    <p style="text-align:center;color:#555;font-size:0.7em;margin-top:8px;">變綠色即撳！測你反應有幾快</p>
+  </div>
+</div>
+
+<!-- ══════ Fortune Modal ══════ -->
+<div id="fortuneModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a2e);border-radius:16px;max-width:400px;width:100%;padding:24px;border:1px solid rgba(255,215,0,0.2);max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:1.3em;color:#fff;">💭 今日運勢</h2>
+      <button id="fortuneClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <div style="text-align:center;">
+      <div id="fortuneStars" style="font-size:2.5em;margin:10px 0;"></div>
+      <div id="fortuneLevel" style="font-size:1.4em;font-weight:700;color:#ffd93d;margin:8px 0;"></div>
+      <div id="fortuneText" style="color:#ccc;font-size:0.9em;line-height:1.7;margin:16px 0;"></div>
+      <div id="fortuneTip" style="padding:12px;background:rgba(255,107,155,0.08);border-radius:10px;color:#ff9dbc;font-size:0.85em;margin:12px 0;"></div>
+    </div>
+    <button id="fortuneRefresh" style="display:block;width:100%;margin:0 auto;padding:10px;border:none;border-radius:25px;background:linear-gradient(135deg,#ffd93d,#ff8c00);color:#0a0a1a;font-size:0.9em;cursor:pointer;font-weight:700;">🔄 重新抽籤</button>
+  </div>
+</div>
+
+<!-- ══════ Ambient Sound Modal ══════ -->
+<div id="ambientModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a2e);border-radius:16px;max-width:400px;width:100%;padding:24px;border:1px solid rgba(107,255,107,0.2);max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:1.3em;color:#fff;">🎵 環境音效</h2>
+      <button id="ambientClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <div id="ambientStatus" style="text-align:center;color:#6bff6b;font-size:0.9em;margin-bottom:14px;">🎵 揀一個環境音效</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <button class="ambient-btn" data-type="rain" style="padding:16px;border:1px solid #333;border-radius:14px;background:transparent;color:#fff;font-size:0.9em;cursor:pointer;">🌧️ 雨聲</button>
+      <button class="ambient-btn" data-type="ocean" style="padding:16px;border:1px solid #333;border-radius:14px;background:transparent;color:#fff;font-size:0.9em;cursor:pointer;">🌊 海浪</button>
+      <button class="ambient-btn" data-type="cafe" style="padding:16px;border:1px solid #333;border-radius:14px;background:transparent;color:#fff;font-size:0.9em;cursor:pointer;">☕ 咖啡廳</button>
+      <button class="ambient-btn" data-type="fire" style="padding:16px;border:1px solid #333;border-radius:14px;background:transparent;color:#fff;font-size:0.9em;cursor:pointer;">🔥 營火</button>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:14px;">
+      <input type="range" id="ambientVolume" min="0" max="100" value="50" style="flex:1;accent-color:#6bff6b;">
+      <button id="ambientStop" style="padding:10px 18px;border:1px solid #333;border-radius:25px;background:transparent;color:#ff6b6b;font-size:0.85em;cursor:pointer;">⏹ 停止</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ Random Quote Modal ══════ -->
+<div id="quoteModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a2e);border-radius:16px;max-width:400px;width:100%;padding:24px;border:1px solid rgba(162,155,254,0.2);max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:1.3em;color:#fff;">📖 隨機金句</h2>
+      <button id="quoteClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <div id="quoteText" style="text-align:center;color:#e0e0e0;font-size:1.2em;line-height:1.8;padding:20px;background:rgba(162,155,254,0.05);border-radius:12px;margin:10px 0;font-style:italic;min-height:80px;display:flex;align-items:center;justify-content:center;"></div>
+    <div id="quoteAuthor" style="text-align:center;color:#a29bfe;font-size:0.9em;margin:8px 0;"></div>
+    <button id="quoteRefresh" style="display:block;width:100%;margin:0 auto;padding:10px;border:none;border-radius:25px;background:linear-gradient(135deg,#a29bfe,#6c5ce7);color:#fff;font-size:0.9em;cursor:pointer;font-weight:700;">🔄 下一句</button>
+  </div>
+</div>
+
+
 <!-- ══════ Ghost Detector Modal ══════ -->
 <div id="ghostModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
   <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a2e);border-radius:16px;max-width:480px;width:100%;padding:24px;border:1px solid rgba(107,255,107,0.2);max-height:90vh;overflow-y:auto;">
@@ -1724,6 +1829,145 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
 
 
 <script>
+
+// ══════ Wheel of Fortune ══════
+(function(){
+  var modal=document.getElementById('wheelModal');
+  var result=document.getElementById('wheelResult');
+  var cat='food';
+  var items={food:['茶餐廳A餐','日本拉麵','米線','漢堡包','壽司','雲吞麵','車仔麵','咖喱飯','Pizza','打邊爐','燒味飯','韓式炸雞'],do:['睇Netflix','打機','出街行下','瞓覺','睇書','做運動','同朋友傾計','煮嘢食','聽歌','清潔房間'],luck:['大吉🍀','中吉👍','小吉😊','平穩😐','小心⚠️','不宜決定🙅']};
+  var spinning=false;
+  document.getElementById('wheelTrigger').onclick=function(){modal.style.display='flex';};
+  document.getElementById('wheelClose').onclick=function(){modal.style.display='none';};
+  modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
+  document.querySelectorAll('.wheel-cat').forEach(function(b){b.onclick=function(){document.querySelectorAll('.wheel-cat').forEach(function(x){x.classList.remove('active');x.style.background='transparent';x.style.color='#888';});this.classList.add('active');this.style.background='rgba(255,107,155,0.15)';this.style.color='#ff6b9d';cat=this.dataset.cat;};});
+  document.getElementById('wheelSpin').onclick=function(){
+    if(spinning)return;spinning=true;
+    var list=items[cat],idx=0,count=0;
+    var t=setInterval(function(){idx=(idx+1)%list.length;result.textContent=list[idx];count++;if(count>15+Math.floor(Math.random()*10)){clearInterval(t);spinning=false;}},80+Math.random()*40);
+  };
+})();
+
+// ══════ Reaction Test ══════
+(function(){
+  var modal=document.getElementById('reactModal');
+  var box=document.getElementById('reactBox');
+  var msg=document.getElementById('reactMsg');
+  var score=document.getElementById('reactScore');
+  var waiting=false,startTime=0,best=999;
+  document.getElementById('reactTrigger').onclick=function(){modal.style.display='flex';resetBox();};
+  document.getElementById('reactClose').onclick=function(){modal.style.display='none';};
+  modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
+  function resetBox(){waiting=false;box.style.background='#1a2438';msg.textContent='撳我開始';msg.style.color='#888';}
+  box.onclick=function(){
+    if(!waiting){waiting=true;box.style.background='#c44569';msg.textContent='等變綠...';msg.style.color='#fff';var d=1000+Math.random()*3000;setTimeout(function(){if(!waiting)return;startTime=Date.now();box.style.background='#6bff6b';msg.textContent='撳！！！';msg.style.color='#0a0a1a';},d);return;}
+    var rt=Date.now()-startTime;waiting=false;
+    if(rt<best)best=rt;
+    var emoji=rt<200?'⚡':rt<300?'🔥':rt<400?'👍':'🐢';
+    score.innerHTML=emoji+' '+rt+'ms<br><span style="font-size:0.7em;color:#888;">最佳: '+best+'ms</span>';
+    resetBox();
+  };
+})();
+
+// ══════ Daily Fortune ══════
+(function(){
+  var modal=document.getElementById('fortuneModal');
+  var stars=document.getElementById('fortuneStars');
+  var level=document.getElementById('fortuneLevel');
+  var text=document.getElementById('fortuneText');
+  var tip=document.getElementById('fortuneTip');
+  var fortunes=[
+    {s:5,l:'大吉 🍀',t:'今日運勢極佳！機會處處，勇敢踏出一步，會有意外收穫。',p:'開運提示：著紅色衫，向東南方行'},
+    {s:4,l:'中吉 👍',t:'運勢穩步上升，保持耐心，好事會自然發生。',p:'開運提示：飲杯熱茶，放鬆心情'},
+    {s:4,l:'中吉 ✨',t:'今日適合做決定，直覺會帶你行啱方向。',p:'開運提示：聽一首鍾意嘅歌'},
+    {s:3,l:'小吉 😊',t:'平平淡淡都係一種幸福。今日適合休息充電。',p:'開運提示：早啲返屋企，享受me-time'},
+    {s:3,l:'小吉 🌤️',t:'可能會有小驚喜，保持開放心態迎接新事物。',p:'開運提示：同朋友傾下計'},
+    {s:2,l:'平穩 😐',t:'今日無大事，穩住陣腳，明天會更好。',p:'開運提示：避開爭論，保持低調'},
+    {s:2,l:'注意 ⚠️',t:'小心駛得萬年船。今日做決定前再三思考。',p:'開運提示：check清楚細節先簽名'},
+    {s:1,l:'不宜 🙅',t:'今日唔適合做重大決定，最好按兵不動。',p:'開運提示：留喺安全區，唔好冒險'}
+  ];
+  function draw(){
+    var f=fortunes[Math.floor(Math.random()*fortunes.length)];
+    stars.textContent='⭐'.repeat(f.s)+'☆'.repeat(5-f.s);
+    level.textContent=f.l;
+    text.textContent=f.t;
+    tip.textContent=f.p;
+  }
+  document.getElementById('fortuneTrigger').onclick=function(){modal.style.display='flex';draw();};
+  document.getElementById('fortuneClose').onclick=function(){modal.style.display='none';};
+  modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
+  document.getElementById('fortuneRefresh').onclick=draw;
+})();
+
+// ══════ Ambient Sound ══════
+(function(){
+  var modal=document.getElementById('ambientModal');
+  var status=document.getElementById('ambientStatus');
+  var vol=document.getElementById('ambientVolume');
+  var ctx=null,noise=null,gain=null,active=null;
+  document.getElementById('ambientTrigger').onclick=function(){modal.style.display='flex';};
+  document.getElementById('ambientClose').onclick=function(){modal.style.display='none';stopSound();};
+  modal.onclick=function(e){if(e.target===this){modal.style.display='none';stopSound();}};
+  function stopSound(){if(noise){try{noise.stop();}catch(e){}noise=null;}if(gain)gain.disconnect();active=null;status.textContent='🎵 揀一個環境音效';}
+  function playNoise(type){
+    stopSound();
+    ctx=new(window.AudioContext||window.webkitAudioContext)();
+    gain=ctx.createGain();gain.gain.value=vol.value/100;gain.connect(ctx.destination);
+    var sr=ctx.sampleRate,buf=ctx.createBuffer(1,sr*2,sr),d=buf.getChannelData(0);
+    for(var i=0;i<d.length;i++){
+      if(type==='rain')d[i]=(Math.random()*2-1)*0.3+Math.sin(i*0.003)*0.2;
+      else if(type==='ocean')d[i]=Math.sin(i*0.0001)*0.5+(Math.random()*2-1)*0.15;
+      else if(type==='cafe')d[i]=(Math.random()*2-1)*0.1+Math.sin(i*0.0005)*0.05;
+      else if(type==='fire')d[i]=(Math.random()*2-1)*0.25+Math.sin(i*0.008)*0.15;
+    }
+    noise=ctx.createBufferSource();noise.buffer=buf;noise.loop=true;noise.connect(gain);noise.start();
+    var labels={rain:'🌧️ 雨聲',ocean:'🌊 海浪',cafe:'☕ 咖啡廳',fire:'🔥 營火'};
+    status.textContent='▶ '+labels[type]+' 播放中';
+    active=type;
+  }
+  vol.oninput=function(){if(gain)gain.gain.value=this.value/100;};
+  document.getElementById('ambientStop').onclick=stopSound;
+  document.querySelectorAll('.ambient-btn').forEach(function(b){
+    b.onclick=function(){
+      document.querySelectorAll('.ambient-btn').forEach(function(x){x.style.background='transparent';x.style.color='#fff';});
+      if(active===this.dataset.type){stopSound();return;}
+      this.style.background='rgba(107,255,107,0.15)';this.style.color='#6bff6b';
+      playNoise(this.dataset.type);
+    };
+  });
+})();
+
+// ══════ Random Quote ══════
+(function(){
+  var modal=document.getElementById('quoteModal');
+  var text=document.getElementById('quoteText');
+  var author=document.getElementById('quoteAuthor');
+  var quotes=[
+    {q:'人生最困難嘅唔係面對失敗，而係面對成功之後點樣保持清醒。',a:'— 李嘉誠'},
+    {q:'機會係留俾有準備嘅人。',a:'— 巴斯德'},
+    {q:'唔好等到有晒答案先行動，有時答案係行出嚟嘅。',a:'— 喬布斯'},
+    {q:'成功唔係終點，失敗都唔係末日，最重要係有繼續前行嘅勇氣。',a:'— 邱吉爾'},
+    {q:'今日嘅努力，係聽日嘅基石。',a:'— 匿名'},
+    {q:'你永遠唔會知自己可以做咩，除非你嘗試。',a:'— 愛默生'},
+    {q:'生活唔係等待暴風雨過去，而係學會喺雨中跳舞。',a:'— 薇薇安·格林'},
+    {q:'最美好嘅嘢係睇唔到亦摸唔到嘅，要用心去感受。',a:'— 小王子'},
+    {q:'相信自己，你已經行咗一半路。',a:'— 羅斯福'},
+    {q:'人生最浪費嘅一日，就係冇笑過嘅一日。',a:'— 尚福爾'},
+    {q:'唔好擔心失敗，擔心你連試都唔試。',a:'— 匿名'},
+    {q:'每一個專家都曾經係初學者。',a:'— 海倫·海斯'}
+  ];
+  function show(){
+    var q=quotes[Math.floor(Math.random()*quotes.length)];
+    text.textContent='"'+q.q+'"';author.textContent=q.a;
+  }
+  document.getElementById('quoteTrigger').onclick=function(){modal.style.display='flex';show();};
+  document.getElementById('quoteClose').onclick=function(){modal.style.display='none';};
+  modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
+  document.getElementById('quoteRefresh').onclick=show;
+})();
+
+
+
 // ══════ World Map ══════
 (function(){
   var modal = document.getElementById('mapModal');
