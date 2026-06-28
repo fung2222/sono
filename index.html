@@ -170,11 +170,35 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 @media (max-width: 600px) {
   .tool-grid {
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    gap: 8px;
+  }
+  
+  .card.tool-sm {
+    padding: 12px 4px 10px !important;
+    min-width: 0;
   }
   
   .card.tool-sm .ts-emoji {
-    font-size: 1.8em;
+    font-size: 1.55em;
+  }
+  
+  .card.tool-sm .ts-label {
+    font-size: 0.68em;
+    line-height: 1.15;
+  }
+}
+
+@media (max-width: 360px) {
+  .tool-grid {
+    gap: 6px;
+  }
+  
+  .card.tool-sm {
+    padding: 10px 3px 8px !important;
+  }
+  
+  .card.tool-sm .ts-emoji {
+    font-size: 1.4em;
   }
 }
 .card.ai-card { border-top: 3px solid #a29bfe; }
