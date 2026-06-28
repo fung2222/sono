@@ -2094,14 +2094,12 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
 })();
 </script>
 
-</body>
-</html>
 <!-- MTR Modal -->
-<div id="mtr-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); z-index:9999; align-items:center; justify-content:center;">
-  <div style="background:#1a1a1a; width:90%; max-width:380px; border-radius:16px; padding:20px; position:relative;">
-    <span onclick="document.getElementById('mtr-modal').style.display='none'" style="position:absolute; top:12px; right:16px; font-size:22px; cursor:pointer;">&times;</span>
+<div id="mtr-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#1a1a1a;width:90%;max-width:380px;border-radius:16px;padding:20px;position:relative;">
+    <span onclick="document.getElementById('mtr-modal').style.display='none'" style="position:absolute;top:12px;right:16px;font-size:22px;cursor:pointer;">&times;</span>
     <h3 style="margin:0 0 16px 0;">🚇 港鐵實時狀態</h3>
-    <select id="mtr-line" onchange="updateMTRStatus()" style="width:100%; padding:10px; border-radius:8px; background:#2a2a2a; color:#eee; border:none; font-size:15px;">
+    <select id="mtr-line" onchange="updateMTRStatus()" style="width:100%;padding:10px;border-radius:8px;background:#2a2a2a;color:#eee;border:none;font-size:15px;">
       <option value="">請選擇港鐵線</option>
       <option value="觀塘線">觀塘線</option>
       <option value="荃灣線">荃灣線</option>
@@ -2111,30 +2109,19 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
       <option value="南港島線">南港島線</option>
       <option value="屯馬線">屯馬線</option>
     </select>
-    <div id="mtr-result" style="margin-top:16px; min-height:70px;"></div>
-    <div id="mtr-time" style="margin-top:8px; font-size:12px; color:#888;"></div>
+    <div id="mtr-result" style="margin-top:16px;min-height:70px;"></div>
+    <div id="mtr-time" style="margin-top:8px;font-size:12px;color:#888;"></div>
   </div>
 </div>
 
 <script>
-function openMTRModal() {
-  document.getElementById('mtr-modal').style.display = 'flex';
-}
-function updateMTRStatus() {
-  const line = document.getElementById('mtr-line').value;
-  const result = document.getElementById('mtr-result');
-  const time = document.getElementById('mtr-time');
-  if (!line) { result.innerHTML = ''; time.innerHTML = ''; return; }
-  
-  const statuses = ["正常","輕微延誤","嚴重延誤","暫停服務"];
-  const status = statuses[Math.floor(Math.random()*statuses.length)];
-  let html = '';
-  if (status === "正常") html = `<p style="color:#4ade80;font-size:17px;">✅ ${line} 服務正常</p>`;
-  else if (status === "輕微延誤") html = `<p style="color:#fbbf24;font-size:17px;">⚠️ ${line} 輕微延誤</p>`;
-  else if (status === "嚴重延誤") html = `<p style="color:#f87171;font-size:17px;">❌ ${line} 嚴重延誤</p>`;
-  else html = `<p style="color:#f87171;font-size:17px;">🛑 ${line} 暫停服務</p>`;
-  
-  result.innerHTML = html;
-  time.innerHTML = `最後更新：${new Date().toLocaleTimeString('zh-HK')}`;
-}
+function openMTRModal(){document.getElementById('mtr-modal').style.display='flex';}
+function updateMTRStatus(){const line=document.getElementById('mtr-line').value;const result=document.getElementById('mtr-result');const time=document.getElementById('mtr-time');if(!line){result.innerHTML='';time.innerHTML='';return;}
+const statuses=["正常","輕微延誤","嚴重延誤","暫停服務"];const status=statuses[Math.floor(Math.random()*statuses.length)];
+let html="";if(status==="正常")html=`<p style="color:#4ade80;font-size:17px;">✅ ${line} 服務正常</p>`;else if(status==="輕微延誤")html=`<p style="color:#fbbf24;font-size:17px;">⚠️ ${line} 輕微延誤</p>`;else if(status==="嚴重延誤")html=`<p style="color:#f87171;font-size:17px;">❌ ${line} 嚴重延誤</p>`;else html=`<p style="color:#f87171;font-size:17px;">🛑 ${line} 暫停服務</p>`;
+result.innerHTML=html;time.innerHTML=`最後更新：${new Date().toLocaleTimeString('zh-HK')}`;}
 </script>
+</body>
+</html>
+<!-- MTR Modal -->
+<div id="mtr-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); z-index:9999; align-items:center; justify-content:center;">
