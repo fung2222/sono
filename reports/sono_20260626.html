@@ -143,6 +143,14 @@
   .float-nav .fn-prev { background: rgba(255,107,155,0.9); color: #fff; }
   .float-nav .fn-home { background: linear-gradient(135deg, #ff6b9d, #a29bfe); color: #fff; font-size: 0.85em; font-weight: 700; width: 48px; height: 48px; }
   .float-nav .fn-next { background: rgba(162,155,254,0.9); color: #fff; }
+
+  .float-nav { position: fixed; right: 20px; bottom: 180px; display: flex; flex-direction: column; gap: 8px; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s; align-items: center; }
+  .float-nav.show { opacity: 1; visibility: visible; }
+  .float-nav a { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 0.9em; box-shadow: 0 3px 12px rgba(0,0,0,0.3); transition: transform 0.2s; }
+  .float-nav a:hover { transform: scale(1.1); }
+  .float-nav .fn-prev { background: rgba(255,107,155,0.85); color: #fff; }
+  .float-nav .fn-home { background: linear-gradient(135deg, #ff6b9d, #a29bfe); color: #fff; font-size: 0.75em; font-weight: 700; width: 42px; height: 42px; }
+  .float-nav .fn-next { background: rgba(162,155,254,0.85); color: #fff; }
 </style>
 <script>
 /* Accordion: only one open at a time */
@@ -451,7 +459,7 @@
 <script>
   var fn = document.getElementById('floatNav');
   window.addEventListener('scroll', function() {
-      if(fn) fn.classList.toggle('show', window.scrollY > 300);
+      if(fn) if(fn) fn.classList.toggle('show', window.scrollY > 300);
     var b = document.getElementById('backToTop');
     b.classList.toggle('show', window.pageYOffset > 300);
   });
