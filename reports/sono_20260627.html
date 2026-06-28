@@ -450,8 +450,9 @@
 <div class="float-nav" id="floatNav"><a href="sono_20260626.html" class="fn-prev" title="上一日">◀</a><a href="../" class="fn-home" title="首頁">首頁</a><a href="sono_20260628.html" class="fn-next" title="下一日">▶</a></div>
 
 <script>
+  var fn = document.getElementById('floatNav');
   window.addEventListener('scroll', function() {
-      fn.classList.toggle('show', window.scrollY > 300);
+      if(fn) fn.classList.toggle('show', window.scrollY > 300);
     var b = document.getElementById('backToTop');
     b.classList.toggle('show', window.pageYOffset > 300);
   });
