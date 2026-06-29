@@ -132,14 +132,44 @@
 
 
 
-  .float-nav { position: fixed; right: 20px; bottom: 95px; left: auto; display: flex; flex-direction: column; gap: 8px; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s; align-items: center; }
+    .float-nav { 
+    position: fixed; 
+    right: 18px; 
+    bottom: 85px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+    z-index: 1000; 
+    opacity: 0; 
+    visibility: hidden; 
+    transition: all 0.3s; 
+  }
   .float-nav.show { opacity: 1; visibility: visible; }
-  .float-nav a, .float-nav span { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 0.9em; box-shadow: 0 3px 12px rgba(0,0,0,0.3); color: #fff; }
+  .float-nav a { 
+    width: 42px; 
+    height: 42px; 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    text-decoration: none; 
+    font-size: 0.85em; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.35); 
+    color: #fff; 
+    transition: transform 0.2s;
+  }
   .float-nav a:hover { transform: scale(1.1); }
-  .float-nav .fn-prev { background: rgba(255,107,155,0.85); }
-  .float-nav .fn-home { background: linear-gradient(135deg, #ff6b9d, #a29bfe); font-size: 0.75em; font-weight: 700; width: 42px; height: 42px; }
-  .float-nav .fn-next { background: rgba(162,155,254,0.85); }
-  .float-nav .fn-disabled { opacity: 0.2; cursor: default; background: rgba(255,255,255,0.1); }
+  .float-nav .fn-home { 
+    background: linear-gradient(135deg, #ff6b9d, #a29bfe); 
+    font-weight: 700; 
+    font-size: 0.8em;
+  }
+  .float-nav .fn-top { 
+    background: rgba(255,255,255,0.12); 
+    border: 1px solid rgba(255,255,255,0.25);
+    font-size: 0.75em;
+    font-weight: 600;
+  }
 </style>
 <script>
 /* Accordion: only one open at a time */
@@ -432,7 +462,7 @@
   <p style="margin-top:4px; color:#444;font-size:0.75em;">報告生成時間：2026年6月29日</p>
 
 <a href="#" class="back-to-top" id="backToTop" title="回到最頂">TOP</a>
-<div class="float-nav" id="floatNav"><a href="sono_20260628.html" class="fn-prev" title="上一日">◀</a><a href="../" class="fn-home" title="首頁">首頁</a><span class="fn-disabled">▶</span></div>
+<div class="float-nav" id="floatNav"><a href="../" class="fn-home" title="首頁">首頁</a><a href="#" class="fn-top" id="floatTop" title="返回頂部">TOP</a></div>
 
 <script>
   var fn = document.getElementById('floatNav');
@@ -471,5 +501,12 @@ function toggleSub(sub) {
 }
 </script>
 
-</div></body>
+</div>
+<script>
+document.getElementById('floatTop').addEventListener('click', function(e) {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+</script>
+</body>
 </html><!-- cache bust: ***60629000001 -->
