@@ -1,0 +1,19 @@
+<svg class="game-logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grps" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6bff6b"/>
+      <stop offset="100%" stop-color="#00d4ff"/>
+    </linearGradient>
+  </defs>
+  <!-- Rock -->
+  <circle cx="14" cy="24" r="7" fill="none" stroke="url(#grps)" stroke-width="2"/>
+  <!-- Scissors -->
+  <line x1="34" y1="17" x2="42" y2="17" stroke="url(#grps)" stroke-width="2" stroke-linecap="round"/>
+  <line x1="34" y1="31" x2="42" y2="31" stroke="url(#grps)" stroke-width="2" stroke-linecap="round"/>
+  <line x1="30" y1="24" x2="38" y2="24" stroke="url(#grps)" stroke-width="2" stroke-linecap="round"/>
+  <!-- Stickman -->
+  <circle cx="24" cy="12" r="4" fill="none" stroke="url(#grps)" stroke-width="2"/>
+  <line x1="24" y1="16" x2="24" y2="32" stroke="url(#grps)" stroke-width="2" stroke-linecap="round"/>
+  <line x1="24" y1="20" x2="18" y2="28" stroke="url(#grps)" stroke-width="2" stroke-linecap="round"/>
+  <line x1="24" y1="20" x2="30" y2="28" stroke="url(#grps)" stroke-width="2" stroke-linecap="round"/>
+</svg>
