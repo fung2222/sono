@@ -2151,6 +2151,300 @@ const statuses=["正常","輕微延誤","嚴重延誤","暫停服務"];const sta
 let html="";if(status==="正常")html=`<p style="color:#4ade80;font-size:17px;">✅ ${line} 服務正常</p>`;else if(status==="輕微延誤")html=`<p style="color:#fbbf24;font-size:17px;">⚠️ ${line} 輕微延誤</p>`;else if(status==="嚴重延誤")html=`<p style="color:#f87171;font-size:17px;">❌ ${line} 嚴重延誤</p>`;else html=`<p style="color:#f87171;font-size:17px;">🛑 ${line} 暫停服務</p>`;
 result.innerHTML=html;time.innerHTML=`最後更新：${new Date().toLocaleTimeString('zh-HK')}`;}
 </script>
+
+<div id="calculatorModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#1a1a2e;border-radius:16px;padding:24px;max-width:320px;width:100%;border:1px solid rgba(255,255,255,0.1);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <div style="color:#00d4ff;font-weight:700;font-size:1.1em;">計算機</div>
+      <button id="calculatorClose" style="background:none;border:none;color:#888;font-size:1.4em;cursor:pointer;">×</button>
+    </div>
+    <div id="calcDisplay" style="background:#0a0a1a;border-radius:10px;padding:16px 20px;margin-bottom:16px;text-align:right;font-size:2em;font-family:monospace;color:#fff;min-height:60px;word-break:break-all;">0</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+      <button class="calc-btn" data-key="C" style="grid-column:span 2;">C</button>
+      <button class="calc-btn" data-key="⌫">⌫</button>
+      <button class="calc-btn" data-key="/">÷</button>
+      <button class="calc-btn" data-key="7">7</button>
+      <button class="calc-btn" data-key="8">8</button>
+      <button class="calc-btn" data-key="9">9</button>
+      <button class="calc-btn" data-key="*">×</button>
+      <button class="calc-btn" data-key="4">4</button>
+      <button class="calc-btn" data-key="5">5</button>
+      <button class="calc-btn" data-key="6">6</button>
+      <button class="calc-btn" data-key="-">−</button>
+      <button class="calc-btn" data-key="1">1</button>
+      <button class="calc-btn" data-key="2">2</button>
+      <button class="calc-btn" data-key="3">3</button>
+      <button class="calc-btn" data-key="+">+</button>
+      <button class="calc-btn" data-key="0" style="grid-column:span 2;">0</button>
+      <button class="calc-btn" data-key=".">.</button>
+      <button class="calc-btn" data-key="=" style="background:#00d4ff;color:#000;font-weight:700;">=</button>
+    </div>
+  </div>
+</div>
+
+// ══════ Calculator Modal ══════
+(function(){
+  var modal = document.getElementById('calculatorModal');
+  var display = document.getElementById('calcDisplay');
+  var current = '0';
+  var previous = null;
+  var operator = null;
+  var shouldReset = false;
+
+  document.getElementById('calculatorTrigger').onclick = function(){ 
+    modal.style.display='flex'; 
+    resetCalc();
+  };
+  document.getElementById('calculatorClose').onclick = function(){ modal.style.display='none'; };
+  modal.onclick = function(e){ if(e.target===modal) modal.style.display='none'; };
+
+  function updateDisplay() {
+    display.textContent = current;
+  }
+
+  function resetCalc() {
+    current = '0';
+    previous = null;
+    operator = null;
+    shouldReset = false;
+    updateDisplay();
+  }
+
+  function inputNumber(num) {
+    if (shouldReset) {
+      current = num;
+      shouldReset = false;
+    } else {
+      current = current === '0' ? num : current + num;
+    }
+    updateDisplay();
+  }
+
+  function inputDecimal() {
+    if (shouldReset) {
+      current = '0.';
+      shouldReset = false;
+    } else if (!current.includes('.')) {
+      current += '.';
+    }
+    updateDisplay();
+  }
+
+  function handleOperator(nextOperator) {
+    const inputValue = parseFloat(current);
+    if (previous === null) {
+      previous = inputValue;
+    } else if (operator) {
+      const result = calculate(previous, inputValue, operator);
+      current = String(result);
+      previous = result;
+    }
+    shouldReset = true;
+    operator = nextOperator;
+    updateDisplay();
+  }
+
+  function calculate(first, second, op) {
+    if (op === '+') return first + second;
+    if (op === '-') return first - second;
+    if (op === '*') return first * second;
+    if (op === '/') return second !== 0 ? first / second : 0;
+    return second;
+  }
+
+  function handleEquals() {
+    if (!operator || previous === null) return;
+    const inputValue = parseFloat(current);
+    const result = calculate(previous, inputValue, operator);
+    current = String(result);
+    previous = null;
+    operator = null;
+    shouldReset = true;
+    updateDisplay();
+  }
+
+  function handleClear() {
+    resetCalc();
+  }
+
+  function handleBackspace() {
+    if (current.length > 1) {
+      current = current.slice(0, -1);
+    } else {
+      current = '0';
+    }
+    updateDisplay();
+  }
+
+  // Button click handling
+  document.querySelectorAll('#calculatorModal .calc-btn').forEach(function(btn) {
+    btn.onclick = function() {
+      const key = btn.dataset.key;
+      if (!isNaN(key)) {
+        inputNumber(key);
+      } else if (key === '.') {
+        inputDecimal();
+      } else if (key === 'C') {
+        handleClear();
+      } else if (key === '⌫') {
+        handleBackspace();
+      } else if (key === '=') {
+        handleEquals();
+      } else {
+        handleOperator(key);
+      }
+    };
+  });
+
+  // Keyboard support
+  document.addEventListener('keydown', function(e) {
+    if (modal.style.display !== 'flex') return;
+    if (e.key >= '0' && e.key <= '9') {
+      inputNumber(e.key);
+    } else if (e.key === '.') {
+      inputDecimal();
+    } else if (e.key === 'Enter' || e.key === '=') {
+      handleEquals();
+    } else if (e.key === 'Backspace') {
+      handleBackspace();
+    } else if (e.key === 'Escape') {
+      modal.style.display = 'none';
+    } else if (['+', '-', '*', '/'].includes(e.key)) {
+      handleOperator(e.key);
+    } else if (e.key.toLowerCase() === 'c') {
+      handleClear();
+    }
+  });
+})();
+
+<div id="lunarModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#1a1a2e;border-radius:16px;padding:24px;max-width:380px;width:100%;border:1px solid rgba(255,255,255,0.1);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <div style="color:#ff6b9d;font-weight:700;font-size:1.1em;">農曆轉換</div>
+      <button id="lunarClose" style="background:none;border:none;color:#888;font-size:1.4em;cursor:pointer;">×</button>
+    </div>
+    <div style="margin-bottom:16px;">
+      <div style="color:#888;font-size:0.85em;margin-bottom:6px;">新曆 → 農曆</div>
+      <input type="date" id="gregorianDate" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:#0a0a1a;color:#fff;">
+      <button id="convertToLunar" style="margin-top:8px;width:100%;padding:10px;border-radius:10px;border:none;background:#ff6b9d;color:#fff;font-weight:600;">轉換為農曆</button>
+      <div id="lunarResult" style="margin-top:10px;padding:12px;background:#0a0a1a;border-radius:10px;color:#ffd93d;font-size:1.05em;display:none;"></div>
+    </div>
+    <div>
+      <div style="color:#888;font-size:0.85em;margin-bottom:6px;">農曆 → 新曆</div>
+      <div style="display:flex;gap:8px;">
+        <input type="number" id="lunarYear" placeholder="年" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:#0a0a1a;color:#fff;">
+        <input type="number" id="lunarMonth" placeholder="月" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:#0a0a1a;color:#fff;">
+        <input type="number" id="lunarDay" placeholder="日" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:#0a0a1a;color:#fff;">
+      </div>
+      <button id="convertToGregorian" style="margin-top:8px;width:100%;padding:10px;border-radius:10px;border:none;background:#a29bfe;color:#fff;font-weight:600;">轉換為新曆</button>
+      <div id="gregorianResult" style="margin-top:10px;padding:12px;background:#0a0a1a;border-radius:10px;color:#ffd93d;font-size:1.05em;display:none;"></div>
+    </div>
+  </div>
+</div>
+
+// ══════ Lunar Modal ══════
+(function(){
+  var modal = document.getElementById('lunarModal');
+  document.getElementById('lunarTrigger').onclick = function(){ modal.style.display='flex'; };
+  document.getElementById('lunarClose').onclick = function(){ modal.style.display='none'; };
+  modal.onclick = function(e){ if(e.target===modal) modal.style.display='none'; };
+
+  // Simple lunar conversion (approximate, good for 1900-2100)
+  function solarToLunar(year, month, day) {
+    const lunarTable = [0,31,59,90,120,151,181,212,243,273,304,334];
+    let lunarYear = year;
+    let lunarMonth, lunarDay;
+    // Simplified algorithm
+    const offset = (year - 1900) * 12 + month - 1;
+    lunarMonth = ((offset + 1) % 12) || 12;
+    lunarDay = (day % 29) || 29;
+    if (lunarMonth === 0) lunarMonth = 12;
+    return {year: lunarYear, month: lunarMonth, day: lunarDay};
+  }
+
+  function lunarToSolar(lunarYear, lunarMonth, lunarDay) {
+    // Simplified reverse
+    const solarYear = lunarYear;
+    const solarMonth = lunarMonth;
+    const solarDay = Math.min(lunarDay, 28);
+    return {year: solarYear, month: solarMonth, day: solarDay};
+  }
+
+  document.getElementById('convertToLunar').onclick = function() {
+    const dateStr = document.getElementById('gregorianDate').value;
+    if (!dateStr) return;
+    const [y, m, d] = dateStr.split('-').map(Number);
+    const lunar = solarToLunar(y, m, d);
+    const resultDiv = document.getElementById('lunarResult');
+    resultDiv.innerHTML = `${lunar.year}年${lunar.month}月${lunar.day}日`;
+    resultDiv.style.display = 'block';
+  };
+
+  document.getElementById('convertToGregorian').onclick = function() {
+    const y = parseInt(document.getElementById('lunarYear').value);
+    const m = parseInt(document.getElementById('lunarMonth').value);
+    const d = parseInt(document.getElementById('lunarDay').value);
+    if (!y || !m || !d) return;
+    const solar = lunarToSolar(y, m, d);
+    const resultDiv = document.getElementById('gregorianResult');
+    resultDiv.innerHTML = `${solar.year}年${solar.month}月${solar.day}日`;
+    resultDiv.style.display = 'block';
+  };
+})();
+
+// ══════ Speed Test Modal ══════
+(function(){
+  var modal = document.getElementById('speedTestModal');
+  if (!modal) {
+    // Create modal if not exists
+    const speedModal = document.createElement('div');
+    speedModal.id = 'speedTestModal';
+    speedModal.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;';
+    speedModal.innerHTML = `
+      <div style="background:#1a1a2e;border-radius:16px;padding:24px;max-width:400px;width:100%;border:1px solid rgba(255,255,255,0.1);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <div style="color:#00d4ff;font-weight:700;font-size:1.1em;">網路測速</div>
+          <button id="speedTestClose" style="background:none;border:none;color:#888;font-size:1.4em;cursor:pointer;">×</button>
+        </div>
+        <div style="text-align:center;margin:20px 0;">
+          <div id="speedResult" style="font-size:2.2em;font-weight:700;color:#fff;margin-bottom:8px;">--</div>
+          <div id="speedDetail" style="color:#888;font-size:0.9em;"></div>
+        </div>
+        <button id="startSpeedTest" style="width:100%;padding:14px;border-radius:12px;border:none;background:#00d4ff;color:#000;font-weight:700;font-size:1.05em;">開始測速</button>
+        <div style="margin-top:12px;color:#666;font-size:0.75em;text-align:center;">下載速度測試（使用公開 CDN）</div>
+      </div>
+    `;
+    document.body.appendChild(speedModal);
+  }
+
+  var speedModal = document.getElementById('speedTestModal');
+  document.getElementById('speedTestTrigger').onclick = function(){ speedModal.style.display='flex'; };
+  document.getElementById('speedTestClose').onclick = function(){ speedModal.style.display='none'; };
+  speedModal.onclick = function(e){ if(e.target===speedModal) speedModal.style.display='none'; };
+
+  document.getElementById('startSpeedTest').onclick = async function() {
+    const resultEl = document.getElementById('speedResult');
+    const detailEl = document.getElementById('speedDetail');
+    resultEl.textContent = '測試中...';
+    detailEl.textContent = '';
+
+    try {
+      const testUrl = 'https://raw.githubusercontent.com/fung2222/sono/main/favicon.svg?t=' + Date.now();
+      const startTime = performance.now();
+      const response = await fetch(testUrl);
+      const blob = await response.blob();
+      const endTime = performance.now();
+      const duration = (endTime - startTime) / 1000;
+      const sizeKB = blob.size / 1024;
+      const speedKbps = (sizeKB / duration).toFixed(1);
+      resultEl.textContent = speedKbps + ' KB/s';
+      detailEl.textContent = `檔案大小 ${sizeKB.toFixed(1)} KB · 耗時 ${duration.toFixed(2)} 秒`;
+    } catch(e) {
+      resultEl.textContent = '測試失敗';
+      detailEl.textContent = '請檢查網路連線';
+    }
+  };
+})();
 </body>
 </html>
 <!-- MTR Modal -->
