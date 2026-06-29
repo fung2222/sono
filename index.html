@@ -236,7 +236,11 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .game-play-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 20px; background: linear-gradient(135deg, #6bff6b, #00d4ff); color: #0a0a1a; border-radius: 20px; font-size: 0.85em; font-weight: 700; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
 .game-play-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(107,255,107,0.3); }
 
-.section-label { font-size: 0.78em; color: #ccc; text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 10px; padding-left: 4px; }
+.section-label {
+#tab-toolbox .section-label:first-of-type {
+  margin-top: 0;
+}
+ font-size: 0.78em; color: #ccc; text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 10px; padding-left: 4px; }
 
 /* Footer */
 .footer { text-align: center; padding: 40px 20px; color: #555; font-size: 0.85em; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 40px; }
