@@ -1145,8 +1145,26 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 
 
 
+
+
 <script>
-// 計算機 (進階版)
+function switchTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+}
+</script>
+
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+}
+
+// 計算機
 document.getElementById('calculatorTrigger').onclick = function() {
   const html = `
     <div style="background:#1a1a2e;border-radius:16px;padding:20px;width:280px;max-width:90vw;">
@@ -1197,7 +1215,7 @@ document.getElementById('calculatorTrigger').onclick = function() {
   };
 };
 
-// 網絡測速 (加公司選擇)
+// 網絡測速
 document.getElementById('speedTestTrigger').onclick = function() {
   const html = `
     <div style="background:#1a1a2e;border-radius:16px;padding:24px;width:300px;text-align:center;">
@@ -1226,7 +1244,7 @@ document.getElementById('speedTestTrigger').onclick = function() {
   };
 };
 
-// 農曆轉換 (修復顯示問題)
+// 農曆轉換
 document.getElementById('lunarTrigger').onclick = function() {
   const html = `
     <div style="background:#1a1a2e;border-radius:16px;padding:24px;width:320px;">
@@ -1240,7 +1258,6 @@ document.getElementById('lunarTrigger').onclick = function() {
   m.innerHTML = html;
   document.body.appendChild(m);
   m.onclick = e => { if (e.target === m) m.remove(); };
-  
   document.getElementById('lunarBtn').onclick = function() {
     const d = document.getElementById('gDate').value;
     const out = document.getElementById('lunarOut');
