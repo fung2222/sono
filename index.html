@@ -63,7 +63,7 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 @keyframes bounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
 
 /* Chat input */
-.chat-input-wrap { display: flex; gap: 8px; padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.06); }
+.chat-input-wrap { display: flex; gap: 14px; padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.06); }
 .chat-input-wrap input { flex: 1; padding: 10px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); color: #e0e0e0; font-size: 0.9em; font-family: inherit; outline: none; transition: border-color 0.2s; }
 .chat-input-wrap input:focus { border-color: #ff6b9d; }
 .chat-input-wrap input::placeholder { color: #555; }
@@ -79,7 +79,7 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .settings-card label { display: block; color: #aaa; font-size: 0.82em; margin-bottom: 4px; margin-top: 12px; }
 .settings-card input, .settings-card select { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); color: #e0e0e0; font-size: 0.9em; font-family: inherit; outline: none; }
 .settings-card input:focus { border-color: #a29bfe; }
-.settings-card .btn-row { display: flex; gap: 8px; margin-top: 20px; }
+.settings-card .btn-row { display: flex; gap: 14px; margin-top: 20px; }
 .settings-card .btn-row button { flex: 1; padding: 10px; border-radius: 10px; border: none; font-size: 0.9em; cursor: pointer; font-family: inherit; font-weight: 600; }
 .settings-card .btn-save { background: linear-gradient(135deg, #ff6b9d, #c44569); color: #fff; }
 .settings-card .btn-cancel { background: rgba(255,255,255,0.08); color: #aaa; }
@@ -164,7 +164,7 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .tool-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  gap: 14px;
   margin-bottom: 16px;
 }
 
@@ -180,7 +180,7 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 @media (max-width: 600px) {
   .tool-grid {
     grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+    gap: 14px;
   }
   
   .card.tool-sm {
@@ -216,7 +216,7 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .coming-soon { display: inline-block; background: rgba(255,255,255,0.06); color: #666; font-size: 0.72em; padding: 3px 10px; border-radius: 10px; margin-top: 8px; }
 
 /* ══════ Game Accordion ══════ */
-.game-list { display: flex; flex-direction: column; gap: 8px; }
+.game-list { display: flex; flex-direction: column; gap: 14px; }
 .game-item { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 14px; border: 1px solid rgba(255,255,255,0.06); overflow: hidden; cursor: pointer; transition: border-color 0.3s, box-shadow 0.3s; }
 .game-item:hover { border-color: rgba(107,255,107,0.25); box-shadow: 0 4px 20px rgba(107,255,107,0.06); }
 .game-item.open { border-color: rgba(107,255,107,0.35); box-shadow: 0 4px 25px rgba(107,255,107,0.1); }
