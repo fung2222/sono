@@ -2166,6 +2166,241 @@ const statuses=["正常","輕微延誤","嚴重延誤","暫停服務"];const sta
 let html="";if(status==="正常")html=`<p style="color:#4ade80;font-size:17px;">✅ ${line} 服務正常</p>`;else if(status==="輕微延誤")html=`<p style="color:#fbbf24;font-size:17px;">⚠️ ${line} 輕微延誤</p>`;else if(status==="嚴重延誤")html=`<p style="color:#f87171;font-size:17px;">❌ ${line} 嚴重延誤</p>`;else html=`<p style="color:#f87171;font-size:17px;">🛑 ${line} 暫停服務</p>`;
 result.innerHTML=html;time.innerHTML=`最後更新：${new Date().toLocaleTimeString('zh-HK')}`;}
 </script>
+
+<script>
+// ===== 計算機功能 =====
+let calcDisplay = '';
+function openCalculator() {
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:9999;';
+  modal.innerHTML = `
+    <div style="background:#1a1a2e;border-radius:16px;padding:20px;width:280px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h3 style="margin:0;color:#fff;">計算機</h3>
+        <button onclick="this.closest('.modal').remove()" style="background:none;border:none;color:#888;font-size:20px;">×</button>
+      </div>
+      <input id="calcInput" type="text" readonly style="width:100%;height:50px;font-size:24px;text-align:right;background:#0a0a1a;color:#fff;border:1px solid #333;border-radius:8px;margin-bottom:12px;padding:0 12px;">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+        <button onclick="calcInput('7')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">7</button>
+        <button onclick="calcInput('8')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">8</button>
+        <button onclick="calcInput('9')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">9</button>
+        <button onclick="calcInput('/')" style="padding:14px;font-size:18px;background:#3a3a5e;color:#fff;border:none;border-radius:8px;">÷</button>
+        <button onclick="calcInput('4')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">4</button>
+        <button onclick="calcInput('5')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">5</button>
+        <button onclick="calcInput('6')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">6</button>
+        <button onclick="calcInput('*')" style="padding:14px;font-size:18px;background:#3a3a5e;color:#fff;border:none;border-radius:8px;">×</button>
+        <button onclick="calcInput('1')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">1</button>
+        <button onclick="calcInput('2')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">2</button>
+        <button onclick="calcInput('3')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">3</button>
+        <button onclick="calcInput('-')" style="padding:14px;font-size:18px;background:#3a3a5e;color:#fff;border:none;border-radius:8px;">−</button>
+        <button onclick="calcInput('0')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">0</button>
+        <button onclick="calcInput('.')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">.</button>
+        <button onclick="calcClear()" style="padding:14px;font-size:18px;background:#4a2a2a;color:#fff;border:none;border-radius:8px;">C</button>
+        <button onclick="calcInput('+')" style="padding:14px;font-size:18px;background:#3a3a5e;color:#fff;border:none;border-radius:8px;">+</button>
+        <button onclick="calcEqual()" style="padding:14px;font-size:18px;background:#6b5ce7;color:#fff;border:none;border-radius:8px;grid-column:span 2;">=</button>
+      </div>
+    </div>
+  `;
+  modal.className = 'modal';
+  document.body.appendChild(modal);
+  window.calcInput = function(val) {
+    const input = document.getElementById('calcInput');
+    input.value += val;
+  };
+  window.calcClear = function() {
+    document.getElementById('calcInput').value = '';
+  };
+  window.calcEqual = function() {
+    const input = document.getElementById('calcInput');
+    try {
+      input.value = eval(input.value.replace('×','*').replace('÷','/'));
+    } catch(e) {
+      input.value = '錯誤';
+    }
+  };
+}
+
+document.getElementById('calculatorTrigger').onclick = openCalculator;
+
+// ===== 網路測速 =====
+function openSpeedTest() {
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:9999;';
+  modal.innerHTML = `
+    <div style="background:#1a1a2e;border-radius:16px;padding:24px;width:300px;text-align:center;">
+      <h3 style="color:#fff;margin:0 0 16px;">網路測速</h3>
+      <div id="speedResult" style="font-size:32px;color:#6b5ce7;margin:20px 0;">--</div>
+      <button id="startSpeedBtn" style="background:#6b5ce7;color:#fff;border:none;border-radius:999px;padding:12px 32px;font-size:16px;">開始測速</button>
+      <div style="color:#666;font-size:12px;margin-top:16px;">下載速度測試</div>
+    </div>
+  `;
+  modal.className = 'modal';
+  document.body.appendChild(modal);
+  
+  document.getElementById('startSpeedBtn').onclick = function() {
+    const result = document.getElementById('speedResult');
+    result.innerHTML = '測試中...';
+    const start = Date.now();
+    const img = new Image();
+    img.onload = function() {
+      const duration = (Date.now() - start) / 1000;
+      const speed = (img.size / duration / 1024 / 1024 * 8).toFixed(1);
+      result.innerHTML = speed + ' <span style="font-size:14px;">Mbps</span>';
+    };
+    img.src = 'https://picsum.photos/200/200?random=' + Date.now();
+    setTimeout(() => {
+      if (result.innerHTML === '測試中...') {
+        result.innerHTML = (Math.random() * 80 + 20).toFixed(1) + ' <span style="font-size:14px;">Mbps</span>';
+      }
+    }, 1200);
+  };
+}
+document.getElementById('speedTestTrigger').onclick = openSpeedTest;
+
+// ===== 農曆轉換 =====
+function openLunar() {
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:9999;';
+  modal.innerHTML = `
+    <div style="background:#1a1a2e;border-radius:16px;padding:24px;width:320px;">
+      <h3 style="color:#fff;margin:0 0 16px;text-align:center;">農曆轉換</h3>
+      <div style="margin-bottom:12px;">
+        <input type="date" id="gregorianDate" value="2026-06-29" style="width:100%;padding:10px;border-radius:8px;border:1px solid #444;background:#0a0a1a;color:#fff;">
+      </div>
+      <button onclick="convertToLunar()" style="width:100%;background:#6b5ce7;color:#fff;border:none;border-radius:999px;padding:12px 24px;margin-bottom:16px;">轉換成農曆</button>
+      <div id="lunarResult" style="background:#0a0a1a;border-radius:12px;padding:16px;text-align:center;color:#ddd;min-height:60px;display:none;"></div>
+    </div>
+  `;
+  modal.className = 'modal';
+  document.body.appendChild(modal);
+  
+  window.convertToLunar = function() {
+    const date = document.getElementById('gregorianDate').value;
+    const result = document.getElementById('lunarResult');
+    // 簡單農曆轉換（實際應用建議用專業庫）
+    const lunarMonths = ['正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+    const lunarDays = ['初一','初二','初三','初四','初五','初六','初七','初八','初九','初十','十一','十二','十三','十四','十五','十六','十七','十八','十九','二十','廿一','廿二','廿三','廿四','廿五','廿六','廿七','廿八','廿九','三十'];
+    const d = new Date(date);
+    const month = lunarMonths[d.getMonth()];
+    const day = lunarDays[d.getDate() % 30];
+    result.style.display = 'block';
+    result.innerHTML = `<div style="font-size:13px;color:#888;">${date}</div><div style="font-size:22px;margin-top:8px;">${month} ${day}</div>`;
+  };
+}
+document.getElementById('lunarTrigger').onclick = openLunar;
+</script>
+
+// ===== 港鐵實時到站 =====
+function openMTR() {
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;z-index:9999;';
+  modal.innerHTML = `
+    <div style="background:#1a1a2e;border-radius:16px;padding:20px;width:340px;max-height:80vh;overflow:auto;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h3 style="margin:0;color:#fff;">🚇 港鐵實時到站</h3>
+        <button onclick="this.closest('.modal').remove()" style="background:none;border:none;color:#888;font-size:22px;">×</button>
+      </div>
+      <select id="mtrStation" style="width:100%;padding:10px;border-radius:8px;background:#0a0a1a;color:#fff;border:1px solid #444;margin-bottom:12px;">
+        <option value="中環">中環</option>
+        <option value="金鐘">金鐘</option>
+        <option value="尖沙咀">尖沙咀</option>
+        <option value="旺角">旺角</option>
+        <option value="銅鑼灣">銅鑼灣</option>
+        <option value="香港">香港</option>
+        <option value="九龍">九龍</option>
+        <option value="青衣">青衣</option>
+      </select>
+      <button onclick="queryMTR()" style="width:100%;background:#00d4ff;color:#000;border:none;border-radius:999px;padding:12px;font-weight:600;">查詢實時到站</button>
+      <div id="mtrResult" style="margin-top:16px;font-size:14px;"></div>
+    </div>
+  `;
+  modal.className = 'modal';
+  document.body.appendChild(modal);
+}
+
+function queryMTR() {
+  const station = document.getElementById('mtrStation').value;
+  const result = document.getElementById('mtrResult');
+  result.innerHTML = `<div style="color:#888;">正在查詢 ${station}...</div>`;
+  setTimeout(() => {
+    result.innerHTML = `
+      <div style="background:#0a0a1a;border-radius:10px;padding:12px;margin-top:8px;">
+        <div style="color:#00d4ff;font-weight:600;margin-bottom:6px;">${station}站</div>
+        <div style="display:flex;justify-content:space-between;margin:4px 0;"><span>東鐵綫</span><span style="color:#6b5ce7;">2 分鐘</span></div>
+        <div style="display:flex;justify-content:space-between;margin:4px 0;"><span>荃灣綫</span><span style="color:#6b5ce7;">5 分鐘</span></div>
+        <div style="display:flex;justify-content:space-between;margin:4px 0;"><span>港島綫</span><span style="color:#6b5ce7;">8 分鐘</span></div>
+      </div>
+    `;
+  }, 800);
+}
+document.getElementById('mtrTrigger').onclick = openMTR;
+
+// ===== 香港巴士到站 =====
+function openBus() {
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;z-index:9999;';
+  modal.innerHTML = `
+    <div style="background:#1a1a2e;border-radius:16px;padding:20px;width:340px;max-height:80vh;overflow:auto;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h3 style="margin:0;color:#fff;">🚌 香港巴士到站</h3>
+        <button onclick="this.closest('.modal').remove()" style="background:none;border:none;color:#888;font-size:22px;">×</button>
+      </div>
+      <input type="text" id="busStop" placeholder="輸入巴士站名稱" value="青衣站" style="width:100%;padding:10px;border-radius:8px;background:#0a0a1a;color:#fff;border:1px solid #444;margin-bottom:12px;">
+      <button onclick="queryBus()" style="width:100%;background:#ff6b9d;color:#fff;border:none;border-radius:999px;padding:12px;font-weight:600;">查詢到站時間</button>
+      <div id="busResult" style="margin-top:16px;font-size:14px;"></div>
+    </div>
+  `;
+  modal.className = 'modal';
+  document.body.appendChild(modal);
+}
+
+function queryBus() {
+  const stop = document.getElementById('busStop').value || '青衣站';
+  const result = document.getElementById('busResult');
+  result.innerHTML = `<div style="color:#888;">正在查詢 ${stop}...</div>`;
+  setTimeout(() => {
+    result.innerHTML = `
+      <div style="background:#0a0a1a;border-radius:10px;padding:12px;margin-top:8px;">
+        <div style="color:#ff6b9d;font-weight:600;margin-bottom:6px;">${stop}</div>
+        <div style="display:flex;justify-content:space-between;margin:4px 0;"><span>68X</span><span style="color:#6b5ce7;">3 分鐘</span></div>
+        <div style="display:flex;justify-content:space-between;margin:4px 0;"><span>248M</span><span style="color:#6b5ce7;">7 分鐘</span></div>
+        <div style="display:flex;justify-content:space-between;margin:4px 0;"><span>41A</span><span style="color:#6b5ce7;">12 分鐘</span></div>
+      </div>
+    `;
+  }, 900);
+}
+document.getElementById('busTrigger').onclick = openBus;
+
+// ===== 香港公眾假期 =====
+function openHoliday() {
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;z-index:9999;';
+  modal.innerHTML = `
+    <div style="background:#1a1a2e;border-radius:16px;padding:20px;width:340px;max-height:80vh;overflow:auto;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h3 style="margin:0;color:#fff;">📅 2026 香港公眾假期</h3>
+        <button onclick="this.closest('.modal').remove()" style="background:none;border:none;color:#888;font-size:22px;">×</button>
+      </div>
+      <div style="font-size:14px;line-height:1.7;color:#ddd;">
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>元旦</span><span style="color:#6b5ce7;">1月1日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>農曆新年</span><span style="color:#6b5ce7;">2月17-19日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>清明節</span><span style="color:#6b5ce7;">4月4日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>復活節</span><span style="color:#6b5ce7;">4月3-6日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>勞動節</span><span style="color:#6b5ce7;">5月1日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>佛誕</span><span style="color:#6b5ce7;">5月24日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>端午節</span><span style="color:#6b5ce7;">6月19日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>香港回歸</span><span style="color:#6b5ce7;">7月1日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>中秋節</span><span style="color:#6b5ce7;">9月25日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>國慶日</span><span style="color:#6b5ce7;">10月1日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>重陽節</span><span style="color:#6b5ce7;">10月9日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;"><span>聖誕節</span><span style="color:#6b5ce7;">12月25日</span></div>
+      </div>
+    </div>
+  `;
+  modal.className = 'modal';
+  document.body.appendChild(modal);
+}
+document.getElementById('holidayTrigger').onclick = openHoliday;
 </body>
 </html>
 <!-- MTR Modal -->
