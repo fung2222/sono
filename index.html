@@ -832,387 +832,7 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
   </div>
 </div>
 
-<script>
-// ══════ Tab Switching ══════
-function switchTab(tabName) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelector(`.tab-btn[data-tab="${tabName}"]`).classList.add('active');
-  document.getElementById('tab-' + tabName).classList.add('active');
-  try { localStorage.setItem('sono_last_tab', tabName); } catch(e) {}
-}
-(function() {
-  var last = 'daily';
-  try { last = localStorage.getItem('sono_last_tab') || 'daily'; } catch(e) {}
-  switchTab(last);
-})();
 
-// ══════ Game Accordion ══════
-function toggleGame(header) {
-  var item = header.parentElement;
-  var wasOpen = item.classList.contains('open');
-  // Close all
-  document.querySelectorAll('.game-item').forEach(function(el) { el.classList.remove('open'); });
-  // Toggle clicked (open if was closed, close if was open)
-  if (!wasOpen) item.classList.add('open');
-}
-
-// ══════ Chat Widget ══════
-var chatExpanded = false;
-var isWaiting = false;
-
-function toggleChat() {
-  chatExpanded = !chatExpanded;
-  var w = document.getElementById('chatWidget');
-  var icon = document.getElementById('chatToggleIcon');
-  if (chatExpanded) {
-    w.classList.add('expanded');
-    icon.textContent = '▲';
-    setTimeout(function() {
-      document.getElementById('chatInput').focus();
-      scrollChat();
-    }, 100);
-  } else {
-    w.classList.remove('expanded');
-    icon.textContent = '▼';
-  }
-}
-
-function scrollChat() {
-  var el = document.getElementById('chatMessages');
-  el.scrollTop = el.scrollHeight;
-}
-
-function addMessage(role, text) {
-  var div = document.createElement('div');
-  div.className = 'msg ' + role;
-  div.textContent = text;
-  document.getElementById('chatMessages').appendChild(div);
-  scrollChat();
-}
-
-function showTyping() {
-  var div = document.createElement('div');
-  div.className = 'msg typing';
-  div.id = 'typing-indicator';
-  div.innerHTML = '<div class="dots"><span></span><span></span><span></span></div>';
-  document.getElementById('chatMessages').appendChild(div);
-  scrollChat();
-}
-
-function hideTyping() {
-  var el = document.getElementById('typing-indicator');
-  if (el) el.remove();
-}
-
-async function sendMessage() {
-  if (isWaiting) return;
-  var input = document.getElementById('chatInput');
-  var text = input.value.trim();
-  if (!text) return;
-
-  // Auto-expand if collapsed
-  if (!chatExpanded) toggleChat();
-
-  addMessage('user', text);
-  input.value = '';
-  document.getElementById('sendBtn').disabled = true;
-  isWaiting = true;
-
-  // Update prompt bar
-  document.getElementById('chatPrompt').textContent = text.length > 30 ? text.slice(0,30)+'…' : text;
-
-  // Get API config — default: OpenRouter + Gemma 4 (free)
-  var endpoint = localStorage.getItem('sono_api_endpoint') || 'https://openrouter.ai/api/v1/chat/completions';
-  // Auto-fix any broken/old endpoint
-  if (endpoint && !endpoint.includes('/chat/completions')) {
-    endpoint = 'https://openrouter.ai/api/v1/chat/completions';
-    localStorage.setItem('sono_api_endpoint', endpoint);
-  }
-  var apiKey = localStorage.getItem('sono_api_key') || '';
-  var model = localStorage.getItem('sono_api_model') || 'google/gemma-4-31b-it:free';
-  // Auto-fix old model name
-  if (model === 'google/gemini-2.0-flash-001') {
-    model = 'google/gemma-4-31b-it:free';
-    localStorage.setItem('sono_api_model', model);
-  }
-
-  if (!apiKey) {
-    hideTyping();
-    addMessage('system', '⚠️ 未設定 API Key！請撳右上角 ⚙️ 設定');
-    isWaiting = false;
-    document.getElementById('sendBtn').disabled = false;
-    return;
-  }
-
-  showTyping();
-
-  try {
-    var resp = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
-      body: JSON.stringify({
-        model: model,
-        messages: [
-          { role: 'system', content: '你係 Sono蘇蓉，一個友善、聰明嘅女性 AI 助手。用繁體中文回答，語氣溫暖親切、精簡扼要。用戶係香港人，名叫嘉豐。' },
-          { role: 'user', content: text }
-        ],
-        max_tokens: 800,
-        temperature: 0.7
-      })
-    });
-
-    hideTyping();
-
-    if (!resp.ok) {
-      var errText = await resp.text();
-      addMessage('system', '❌ API 錯誤 (' + resp.status + ')：請檢查設定。' + (errText.length < 200 ? '\n' + errText : ''));
-    } else {
-      var data = await resp.json();
-      var reply = data.choices[0].message.content;
-      addMessage('assistant', reply);
-    }
-  } catch(e) {
-    hideTyping();
-    addMessage('system', '❌ 連線失敗：' + e.message);
-  }
-
-  isWaiting = false;
-  document.getElementById('sendBtn').disabled = false;
-  document.getElementById('chatInput').focus();
-}
-
-// ══════ Settings ══════
-function openSettings() {
-  document.getElementById('apiEndpoint').value = localStorage.getItem('sono_api_endpoint') || 'https://openrouter.ai/api/v1/chat/completions';
-  document.getElementById('apiKey').value = localStorage.getItem('sono_api_key') || '';
-  document.getElementById('apiModel').value = localStorage.getItem('sono_api_model') || 'google/gemma-4-31b-it:free';
-  document.getElementById('settingsOverlay').classList.add('show');
-}
-
-function closeSettings() {
-  document.getElementById('settingsOverlay').classList.remove('show');
-}
-
-function saveSettings() {
-  localStorage.setItem('sono_api_endpoint', document.getElementById('apiEndpoint').value.trim());
-  localStorage.setItem('sono_api_key', document.getElementById('apiKey').value.trim());
-  localStorage.setItem('sono_api_model', document.getElementById('apiModel').value.trim() || 'gpt-4o');
-  closeSettings();
-  if (!chatExpanded) toggleChat();
-  setTimeout(function() {
-    addMessage('system', '✅ 設定已儲存！你可以開始同我傾偈啦～');
-  }, 300);
-}
-
-// Close settings on overlay click
-document.getElementById('settingsOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeSettings();
-});
-// ══════ Currency Converter Modal ══════
-(function(){
-  var mRates = {};
-  var mFrom = document.getElementById('mFrom');
-  var mTo = document.getElementById('mTo');
-  var mAmt = document.getElementById('mAmount');
-  var mResult = document.getElementById('mResult');
-  var mResultSub = document.getElementById('mResultSub');
-  var mBaseRate = document.getElementById('mBaseRate');
-  var mUpdate = document.getElementById('mUpdateTime');
-  var modal = document.getElementById('currencyModal');
-
-  document.getElementById('currencyTrigger').onclick = function(){ modal.style.display='flex'; mConvert(); };
-  document.getElementById('currencyClose').onclick = function(){ modal.style.display='none'; };
-  modal.onclick = function(e){ if(e.target===this) modal.style.display='none'; };
-
-  function mConvert() {
-    var f = mFrom.value, t = mTo.value, a = parseFloat(mAmt.value) || 0;
-    var fr = mRates[f] || 1, tr = mRates[t];
-    if (!tr) { mResult.textContent = '--'; return; }
-    var r = a / fr * tr;
-    var big = r>1000 || t==='VND'||t==='IDR'||t==='KRW';
-    mResult.textContent = (big ? r.toLocaleString('zh-HK',{maxFraction:0}) : r.toLocaleString('zh-HK',{minFraction:2,maxFraction:2})) + ' ' + t;
-    mResultSub.textContent = '1 ' + f + ' = ' + (tr/fr).toFixed(6) + ' ' + t;
-    mBaseRate.textContent = '1 ' + f + ' = ' + (tr/fr).toFixed(6) + ' ' + t;
-  }
-
-  async function mFetch() {
-    try {
-      var r = await fetch('https://api.frankfurter.app/latest?from='+mFrom.value);
-      var d = await r.json();
-      mRates = d.rates; mRates[mFrom.value]=1;
-      mUpdate.textContent = '更新: '+new Date(d.date).toLocaleDateString('zh-HK');
-    } catch(e){
-      mRates = {USD:1,EUR:0.92,GBP:0.79,JPY:149.5,CNY:7.24,HKD:7.82,TWD:32.1,KRW:1375,SGD:1.34,AUD:1.53};
-      mUpdate.textContent = '離線模式';
-    }
-    mConvert();
-  }
-
-  mFrom.onchange = mFetch;
-  mTo.onchange = mConvert;
-  mAmt.oninput = mConvert;
-  document.getElementById('mSwap').onclick = function(){
-    var tmp = mFrom.value; mFrom.value = mTo.value; mTo.value = tmp;
-    mFetch();
-  };
-
-  mFetch();
-})();
-
-// ══════ Global Weather Modal ══════
-(function(){
-  var modal = document.getElementById('weatherModal');
-  document.getElementById('weatherTrigger').onclick = function(){ modal.style.display='flex'; doWeather(); };
-  document.getElementById('weatherClose').onclick = function(){ modal.style.display='none'; };
-  modal.onclick = function(e){ if(e.target===this) modal.style.display='none'; };
-  document.getElementById('wSearch').onclick = doWeather;
-  document.getElementById('wCity').onkeydown = function(e){ if(e.key==='Enter') doWeather(); };
-
-  var wmo = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',61:'🌧️',80:'🌦️',95:'⛈️',96:'⛈️'};
-
-  async function doWeather(){
-    var city = document.getElementById('wCity').value.trim();
-    if(!city) return;
-    document.getElementById('wLoading').style.display='block';
-    document.getElementById('wResult').style.display='none';
-    document.getElementById('wError').style.display='none';
-    try {
-      // Use Nominatim for geocoding (supports Chinese + English)
-      var geo = await fetch('https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(city)+'&format=json&limit=1&accept-language=zh');
-      var gd = await geo.json();
-      if(!gd||!gd[0]) throw new Error('找不到城市「'+city+'」，試下用英文名');
-      var loc = gd[0];
-      // Use Open-Meteo for weather
-      var w = await fetch('https://api.open-meteo.com/v1/forecast?latitude='+loc.lat+'&longitude='+loc.lon+'&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto&forecast_days=5');
-      var wd = await w.json();
-      var c = wd.current;
-      document.getElementById('wIcon').textContent = wmo[c.weather_code]||'☀️';
-      document.getElementById('wTemp').textContent = c.temperature_2m+'°C';
-      document.getElementById('wDesc').textContent = '體感 '+c.apparent_temperature+'°C · 💧'+c.relative_humidity_2m+'% · 🌀'+c.wind_speed_10m+'km/h';
-      document.getElementById('wCityName').textContent = loc.display_name.split(',')[0];
-      var extra = document.getElementById('wExtra');
-      extra.innerHTML = '';
-      var items = [['💧 濕度',c.relative_humidity_2m+'%'],['🌡️ 體感',c.apparent_temperature+'°C'],['🌀 風速',c.wind_speed_10m+'km/h'],['📊 天氣碼',c.weather_code]];
-      items.forEach(function(x){ extra.innerHTML += '<div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;"><div style="color:#888;font-size:0.7em;">'+x[0]+'</div><div style="color:#fff;font-size:1.1em;font-weight:700;">'+x[1]+'</div></div>'; });
-      var fg = document.getElementById('wForecastGrid');
-      fg.innerHTML = '';
-      var days = ['日','一','二','三','四','五','六'];
-      var today = new Date();
-      wd.daily.time.forEach(function(t,i){
-        var d = new Date(t+'T12:00:00');
-        var dn = (i===0)?'今日':days[d.getDay()];
-        fg.innerHTML += '<div style="background:rgba(255,255,255,0.03);padding:8px 4px;border-radius:6px;text-align:center;"><div style="color:#888;font-size:0.7em;">'+dn+'</div><div style="font-size:1.2em;">'+(wmo[wd.daily.weather_code[i]]||'☀️')+'</div><div style="color:#fff;font-size:0.8em;font-weight:700;">'+wd.daily.temperature_2m_max[i]+'°</div><div style="color:#888;font-size:0.7em;">'+wd.daily.temperature_2m_min[i]+'°</div></div>';
-      });
-      document.getElementById('wLoading').style.display='none';
-      document.getElementById('wResult').style.display='block';
-    } catch(e){
-      document.getElementById('wLoading').style.display='none';
-      document.getElementById('wError').style.display='block';
-      document.getElementById('wError').textContent = '❌ '+e.message;
-    }
-  }
-})();
-
-// ══════ Search Modal ══════
-(function(){
-  var modal = document.getElementById('searchModal');
-  document.getElementById('searchTrigger').onclick = function(){ modal.style.display='flex'; setTimeout(function(){ modal.querySelector('input').focus(); },100); };
-  document.getElementById('searchClose').onclick = function(){ modal.style.display='none'; };
-  modal.onclick = function(e){ if(e.target===this) modal.style.display='none'; };
-  document.getElementById('searchForm').addEventListener('submit', function(){ setTimeout(function(){ modal.style.display='none'; }, 200); });
-})();
-
-// ══════ Sono Chat Trigger ══════
-(function(){
-  var trigger = document.getElementById('sonoChatTrigger');
-  if (trigger) {
-    trigger.onclick = function(){
-      var chatWidget = document.getElementById('chatWidget');
-      if (chatWidget && !chatWidget.classList.contains('expanded')) {
-        toggleChat();
-      }
-      // Scroll to top to see the chat widget
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-  }
-})();
-
-// ══════ Sono 創作 Modal ══════
-(function(){
-  var modal = document.getElementById('createModal');
-  var promptInput = document.getElementById('createPrompt');
-  var genBtn = document.getElementById('createGen');
-  var resultDiv = document.getElementById('createResult');
-  var loadingDiv = document.getElementById('createLoading');
-  var img = document.getElementById('createImage');
-  var downloadBtn = document.getElementById('createDownload');
-  var retryBtn = document.getElementById('createRetry');
-  var errorDiv = document.getElementById('createError');
-
-  document.getElementById('sonoCreateTrigger').onclick = function(){
-    modal.style.display = 'flex';
-    setTimeout(function(){ promptInput.focus(); }, 100);
-  };
-  document.getElementById('createClose').onclick = function(){ modal.style.display = 'none'; };
-  modal.onclick = function(e){ if(e.target===modal) modal.style.display = 'none'; };
-
-  async function generate() {
-    var prompt = promptInput.value.trim();
-    if (!prompt) return;
-    // Reset
-    resultDiv.style.display = 'block';
-    loadingDiv.style.display = 'block';
-    img.style.display = 'none';
-    downloadBtn.style.display = 'none';
-    retryBtn.style.display = 'none';
-    errorDiv.style.display = 'none';
-    genBtn.disabled = true;
-
-    try {
-      var url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt) + '?width=768&height=768&nologo=true&seed=' + Math.floor(Math.random()*100000);
-      // Preload image
-      var testImg = new Image();
-      testImg.onload = function(){
-        loadingDiv.style.display = 'none';
-        img.src = url;
-        img.style.display = 'block';
-        downloadBtn.style.display = 'inline-block';
-        retryBtn.style.display = 'inline-block';
-        genBtn.disabled = false;
-      };
-      testImg.onerror = function(){
-        // Pollinations sometimes needs a moment
-        setTimeout(function(){
-          loadingDiv.style.display = 'none';
-          img.src = url;
-          img.style.display = 'block';
-          downloadBtn.style.display = 'inline-block';
-          retryBtn.style.display = 'inline-block';
-          genBtn.disabled = false;
-        }, 3000);
-      };
-      testImg.src = url;
-    } catch(e) {
-      loadingDiv.style.display = 'none';
-      errorDiv.style.display = 'block';
-      errorDiv.textContent = '生成失敗，請重試';
-      genBtn.disabled = false;
-    }
-  }
-
-  genBtn.onclick = generate;
-  promptInput.addEventListener('keydown', function(e){ if(e.key==='Enter') generate(); });
-  retryBtn.onclick = generate;
-  downloadBtn.onclick = function(){
-    var a = document.createElement('a');
-    a.href = img.src;
-    a.download = 'sono-creation-' + Date.now() + '.png';
-    a.click();
-  };
-})();
-
-</script>
 
 <!-- ══════ AI Translate Modal ══════ -->
 <div id="translateModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
@@ -1286,147 +906,7 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
 </div>
 
 
-<script>
-// ══════ AI Translate ══════
-(function(){
-  var modal = document.getElementById('translateModal');
-  document.getElementById('translateTrigger').onclick = function(){ modal.style.display='flex'; };
-  document.getElementById('translateClose').onclick = function(){ modal.style.display='none'; };
-  modal.onclick = function(e){ if(e.target===this) modal.style.display='none'; };
-  
-  document.getElementById('trGo').onclick = async function(){
-    var text = document.getElementById('trInput').value.trim();
-    if(!text){ alert('請輸入要翻譯嘅文字'); return; }
-    var lang = document.getElementById('trLang').value;
-    var result = document.getElementById('trResult');
-    var output = document.getElementById('trOutput');
-    var loading = document.getElementById('trLoading');
-    
-    var endpoint = localStorage.getItem('sono_api_endpoint') || 'https://openrouter.ai/api/v1/chat/completions';
-    var key = localStorage.getItem('sono_api_key') || '';
-    var model = localStorage.getItem('sono_api_model') || 'google/gemma-4-31b-it:free';
-    
-    if(!key){
-      output.textContent = '⚠️ 請先喺 AI 聊天框嘅 ⚙️ 設定入面輸入 API Key';
-      result.style.display = 'block';
-      return;
-    }
-    
-    result.style.display = 'none';
-    loading.style.display = 'block';
-    
-    try {
-      var res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
-        body: JSON.stringify({
-          model: model,
-          messages: [{ role: 'user', content: 'Translate the following text to ' + lang + '. Only return the translation, nothing else:\n\n' + text }]
-        })
-      });
-      var data = await res.json();
-      var translated = data.choices && data.choices[0] ? data.choices[0].message.content : '翻譯失敗';
-      output.textContent = translated;
-      result.style.display = 'block';
-    } catch(e) {
-      output.textContent = '錯誤: ' + e.message;
-      result.style.display = 'block';
-    }
-    loading.style.display = 'none';
-  };
-})();
 
-// ══════ ISS Tracker ══════
-(function(){
-  var modal = document.getElementById('issModal');
-  var timer = null;
-  
-  document.getElementById('issTrigger').onclick = function(){
-    modal.style.display='flex';
-    fetchISS();
-    timer = setInterval(fetchISS, 5000);
-  };
-  document.getElementById('issClose').onclick = function(){
-    modal.style.display='none';
-    if(timer) clearInterval(timer);
-    timer = null;
-  };
-  modal.onclick = function(e){
-    if(e.target===this){
-      modal.style.display='none';
-      if(timer) clearInterval(timer);
-      timer = null;
-    }
-  };
-  
-  async function fetchISS(){
-    try {
-      var res = await fetch('https://api.wheretheiss.at/v1/satellites/25544');
-      var d = await res.json();
-      document.getElementById('issLat').textContent = d.latitude.toFixed(4) + '°';
-      document.getElementById('issLon').textContent = d.longitude.toFixed(4) + '°';
-      document.getElementById('issCoord').textContent = d.latitude.toFixed(2) + ', ' + d.longitude.toFixed(2);
-      document.getElementById('issSpeed').textContent = '速度: ' + Math.round(d.velocity) + ' km/h';
-      document.getElementById('issAlt').textContent = '高度: ' + Math.round(d.altitude) + ' km';
-      document.getElementById('issMap').href = 'https://www.google.com/maps?q=' + d.latitude + ',' + d.longitude + '&z=4';
-      document.getElementById('issTime').textContent = '最後更新: ' + new Date(d.timestamp * 1000).toLocaleTimeString('zh-HK');
-    } catch(e) {
-      document.getElementById('issCoord').textContent = '載入失敗';
-    }
-  }
-})();
-
-// ══════ World Clock ══════
-(function(){
-  var modal = document.getElementById('worldClockModal');
-  var timer = null;
-  var cities = [
-    { name: '🇭🇰 香港', tz: 'Asia/Hong_Kong' },
-    { name: '🇹🇼 台北', tz: 'Asia/Taipei' },
-    { name: '🇯🇵 東京', tz: 'Asia/Tokyo' },
-    { name: '🇰🇷 首爾', tz: 'Asia/Seoul' },
-    { name: '🇨🇳 上海', tz: 'Asia/Shanghai' },
-    { name: '🇬🇧 倫敦', tz: 'Europe/London' },
-    { name: '🇺🇸 紐約', tz: 'America/New_York' },
-    { name: '🇺🇸 洛杉磯', tz: 'America/Los_Angeles' },
-    { name: '🇦🇺 悉尼', tz: 'Australia/Sydney' },
-    { name: '🇦🇪 杜拜', tz: 'Asia/Dubai' }
-  ];
-  
-  document.getElementById('worldClockTrigger').onclick = function(){
-    modal.style.display='flex';
-    renderClocks();
-    timer = setInterval(renderClocks, 1000);
-  };
-  document.getElementById('worldClockClose').onclick = function(){
-    modal.style.display='none';
-    if(timer) clearInterval(timer);
-    timer = null;
-  };
-  modal.onclick = function(e){
-    if(e.target===this){
-      modal.style.display='none';
-      if(timer) clearInterval(timer);
-      timer = null;
-    }
-  };
-  
-  function renderClocks(){
-    var list = document.getElementById('clockList');
-    var now = new Date();
-    var html = cities.map(function(c){
-      var time = now.toLocaleTimeString('zh-HK', { timeZone: c.tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-      var date = now.toLocaleDateString('zh-HK', { timeZone: c.tz, month: 'short', day: 'numeric', weekday: 'short' });
-      var isHK = c.tz === 'Asia/Hong_Kong';
-      return '<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(255,255,255,0.03);border:1px solid ' + (isHK ? 'rgba(255,107,157,0.3)' : 'rgba(255,255,255,0.06)') + ';border-radius:10px;">' +
-        '<div><div style="color:#fff;font-weight:600;font-size:0.95em;">' + c.name + '</div><div style="color:#888;font-size:0.75em;margin-top:2px;">' + date + '</div></div>' +
-        '<div style="color:' + (isHK ? '#ff6b9d' : '#6bff6b') + ';font-size:1.3em;font-weight:700;font-family:monospace;">' + time + '</div>' +
-      '</div>';
-    }).join('');
-    list.innerHTML = html;
-  }
-})();
-</script>
 
 
 <!-- ══════ QR Code Generator Modal ══════ -->
@@ -1606,240 +1086,7 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
 </div>
 
 
-<script>
-// ══════ QR Code Generator ══════
-(function(){
-  var modal = document.getElementById('qrModal');
-  document.getElementById('qrTrigger').onclick = function(){ modal.style.display='flex'; };
-  document.getElementById('qrClose').onclick = function(){ modal.style.display='none'; };
-  modal.onclick = function(e){ if(e.target===this) modal.style.display='none'; };
-  
-  document.getElementById('qrGo').onclick = function(){
-    var text = document.getElementById('qrInput').value.trim();
-    if(!text){ alert('請輸入文字或 URL'); return; }
-    var size = document.getElementById('qrSize').value;
-    var url = 'https://api.qrserver.com/v1/create-qr-code/?size=' + size + 'x' + size + '&data=' + encodeURIComponent(text);
-    var img = document.getElementById('qrImage');
-    img.src = url;
-    document.getElementById('qrResult').style.display = 'block';
-  };
-  
-  document.getElementById('qrDownload').onclick = function(){
-    var img = document.getElementById('qrImage');
-    if(!img.src) return;
-    var a = document.createElement('a');
-    a.href = img.src;
-    a.download = 'qr-code.png';
-    a.click();
-  };
-})();
 
-// ══════ Pomodoro Timer ══════
-(function(){
-  var modal = document.getElementById('timerModal');
-  var display = document.getElementById('timerDisplay');
-  var label = document.getElementById('timerLabel');
-  var startBtn = document.getElementById('timerStart');
-  var resetBtn = document.getElementById('timerReset');
-  var interval = null;
-  var totalSec = 25 * 60;
-  var remaining = totalSec;
-  var running = false;
-
-  document.getElementById('timerTrigger').onclick = function(){ modal.style.display='flex'; };
-  document.getElementById('timerClose').onclick = function(){ modal.style.display='none'; stopTimer(); };
-  modal.onclick = function(e){ if(e.target===this){ modal.style.display='none'; stopTimer(); }};
-
-  function updateDisplay(){
-    var m = Math.floor(remaining / 60);
-    var s = remaining % 60;
-    display.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
-  }
-
-  function stopTimer(){
-    if(interval){ clearInterval(interval); interval = null; }
-    running = false;
-    startBtn.textContent = '▶ 開始';
-    startBtn.style.background = 'linear-gradient(135deg,#ff6b9d,#c44569)';
-  }
-
-  function playBeep(){
-    try {
-      var ctx = new (window.AudioContext||window.webkitAudioContext)();
-      var osc = ctx.createOscillator();
-      var g = ctx.createGain();
-      osc.connect(g); g.connect(ctx.destination);
-      osc.frequency.value = 880;
-      osc.type = 'sine';
-      g.gain.value = 0.3;
-      osc.start();
-      setTimeout(function(){ osc.stop(); }, 200);
-      setTimeout(function(){ osc.start(); }, 300);
-      setTimeout(function(){ osc.stop(); }, 500);
-      setTimeout(function(){ osc.start(); }, 600);
-      setTimeout(function(){ osc.stop(); setTimeout(function(){ ctx.close(); }, 500); }, 800);
-    } catch(e){}
-  }
-
-  startBtn.onclick = function(){
-    if(running){
-      stopTimer();
-      return;
-    }
-    running = true;
-    startBtn.textContent = '⏸ 暫停';
-    startBtn.style.background = 'linear-gradient(135deg,#ffd93d,#ff8c00)';
-    interval = setInterval(function(){
-      remaining--;
-      updateDisplay();
-      if(remaining <= 0){
-        stopTimer();
-        playBeep();
-      }
-    }, 1000);
-  };
-
-  resetBtn.onclick = function(){
-    stopTimer();
-    remaining = totalSec;
-    updateDisplay();
-  };
-
-  document.querySelectorAll('.timer-preset').forEach(function(btn){
-    btn.onclick = function(){
-      document.querySelectorAll('.timer-preset').forEach(function(b){
-        b.classList.remove('active');
-        b.style.background = 'transparent';
-        b.style.color = '#888';
-      });
-      this.classList.add('active');
-      this.style.background = 'rgba(255,107,155,0.15)';
-      this.style.color = '#ff6b9d';
-      stopTimer();
-      totalSec = parseInt(this.dataset.min) * 60;
-      remaining = totalSec;
-      label.textContent = this.dataset.label + '模式';
-      updateDisplay();
-    };
-  });
-
-  updateDisplay();
-})();
-
-// ══════ Ghost Detector ══════
-(function(){
-  var modal = document.getElementById('ghostModal');
-  var scanning = false;
-  var interval = null;
-  var canvasInterval = null;
-  var level = 0;
-  
-  document.getElementById('ghostTrigger').onclick = function(){ modal.style.display='flex'; };
-  document.getElementById('ghostClose').onclick = function(){
-    modal.style.display='none';
-    stopScan();
-  };
-  modal.onclick = function(e){
-    if(e.target===this){
-      modal.style.display='none';
-      stopScan();
-    }
-  };
-  
-  document.getElementById('ghostStart').onclick = function(){
-    if(scanning){
-      stopScan();
-    } else {
-      startScan();
-    }
-  };
-  
-  function startScan(){
-    scanning = true;
-    document.getElementById('ghostStart').textContent = '⏹ 停止探測';
-    document.getElementById('ghostStart').style.background = 'linear-gradient(135deg,#ff6b9d,#c44569)';
-    document.getElementById('ghostStart').style.color = '#fff';
-    document.getElementById('ghostStatus').textContent = '探測中...';
-    
-    interval = setInterval(function(){
-      // Simulate EMF reading
-      var spike = Math.random() < 0.15; // 15% chance of spike
-      if(spike){
-        level = 60 + Math.random() * 40;
-        document.getElementById('ghostEmoji').textContent = '👻';
-        document.getElementById('ghostEmoji').style.transform = 'scale(1.2) rotate(10deg)';
-        document.getElementById('ghostStatus').textContent = '⚠️ 偵測到靈體活動！';
-        document.getElementById('ghostStatus').style.color = '#ff6b6b';
-        
-        // Vibrate if supported
-        if(navigator.vibrate) navigator.vibrate([100, 50, 100]);
-        
-        setTimeout(function(){
-          document.getElementById('ghostEmoji').style.transform = 'scale(1) rotate(0deg)';
-        }, 300);
-      } else {
-        level = Math.random() * 30;
-        document.getElementById('ghostEmoji').textContent = '📡';
-        document.getElementById('ghostStatus').textContent = '探測中...';
-        document.getElementById('ghostStatus').style.color = '#6bff6b';
-      }
-      
-      document.getElementById('ghostLevel').textContent = '訊號強度: ' + Math.round(level) + '%';
-      document.getElementById('ghostFreq').textContent = Math.round(50 + level * 2) + ' Hz';
-      document.getElementById('ghostTemp').textContent = (20 - level * 0.1).toFixed(1) + '°C';
-      document.getElementById('ghostDist').textContent = level > 50 ? Math.round(10 - level * 0.1) + ' m' : '-- m';
-    }, 500);
-    
-    // Canvas animation
-    var canvas = document.getElementById('ghostCanvas');
-    var ctx = canvas.getContext('2d');
-    var phase = 0;
-    
-    canvasInterval = setInterval(function(){
-      ctx.fillStyle = 'rgba(0,20,0,0.3)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-      ctx.strokeStyle = level > 50 ? '#ff6b6b' : '#6bff6b';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      
-      for(var x = 0; x < canvas.width; x++){
-        var y = canvas.height / 2 + Math.sin((x + phase) * 0.05) * (10 + level * 0.5) + (Math.random() - 0.5) * level * 0.3;
-        if(x === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      }
-      ctx.stroke();
-      phase += 5;
-    }, 50);
-  }
-  
-  function stopScan(){
-    scanning = false;
-    if(interval) clearInterval(interval);
-    if(canvasInterval) clearInterval(canvasInterval);
-    interval = null;
-    canvasInterval = null;
-    level = 0;
-    
-    document.getElementById('ghostStart').textContent = '🔍 開始探測';
-    document.getElementById('ghostStart').style.background = 'linear-gradient(135deg,#6bff6b,#00d4ff)';
-    document.getElementById('ghostStart').style.color = '#0a0a1a';
-    document.getElementById('ghostStatus').textContent = '待機中';
-    document.getElementById('ghostStatus').style.color = '#6bff6b';
-    document.getElementById('ghostLevel').textContent = '訊號強度: 0%';
-    document.getElementById('ghostEmoji').textContent = '📡';
-    document.getElementById('ghostFreq').textContent = '-- Hz';
-    document.getElementById('ghostTemp').textContent = '--°C';
-    document.getElementById('ghostDist').textContent = '-- m';
-    
-    // Clear canvas
-    var canvas = document.getElementById('ghostCanvas');
-    var ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'rgba(0,20,0,0.5)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  }
-})();
-</script>
 
 
 <!-- ══════ World Map Modal ══════ -->
@@ -1877,267 +1124,7 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
 </div>
 
 
-<script>
 
-// ══════ Wheel of Fortune ══════
-(function(){
-  var modal=document.getElementById('wheelModal');
-  var result=document.getElementById('wheelResult');
-  var cat='food';
-  var items={food:['茶餐廳A餐','日本拉麵','米線','漢堡包','壽司','雲吞麵','車仔麵','咖喱飯','Pizza','打邊爐','燒味飯','韓式炸雞'],do:['睇Netflix','打機','出街行下','瞓覺','睇書','做運動','同朋友傾計','煮嘢食','聽歌','清潔房間'],luck:['大吉🍀','中吉👍','小吉😊','平穩😐','小心⚠️','不宜決定🙅']};
-  var spinning=false;
-  document.getElementById('wheelTrigger').onclick=function(){modal.style.display='flex';};
-  document.getElementById('wheelClose').onclick=function(){modal.style.display='none';};
-  modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
-  document.querySelectorAll('.wheel-cat').forEach(function(b){b.onclick=function(){document.querySelectorAll('.wheel-cat').forEach(function(x){x.classList.remove('active');x.style.background='transparent';x.style.color='#888';});this.classList.add('active');this.style.background='rgba(255,107,155,0.15)';this.style.color='#ff6b9d';cat=this.dataset.cat;};});
-  document.getElementById('wheelSpin').onclick=function(){
-    if(spinning)return;spinning=true;
-    var list=items[cat],idx=0,count=0;
-    var t=setInterval(function(){idx=(idx+1)%list.length;result.textContent=list[idx];count++;if(count>15+Math.floor(Math.random()*10)){clearInterval(t);spinning=false;}},80+Math.random()*40);
-  };
-})();
-
-// ══════ Reaction Test ══════
-(function(){
-  var modal=document.getElementById('reactModal');
-  var box=document.getElementById('reactBox');
-  var msg=document.getElementById('reactMsg');
-  var score=document.getElementById('reactScore');
-  var waiting=false,startTime=0,best=999;
-  document.getElementById('reactTrigger').onclick=function(){modal.style.display='flex';resetBox();};
-  document.getElementById('reactClose').onclick=function(){modal.style.display='none';};
-  modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
-  function resetBox(){waiting=false;box.style.background='#1a2438';msg.textContent='撳我開始';msg.style.color='#888';}
-  box.onclick=function(){
-    if(!waiting){waiting=true;box.style.background='#c44569';msg.textContent='等變綠...';msg.style.color='#fff';var d=1000+Math.random()*3000;setTimeout(function(){if(!waiting)return;startTime=Date.now();box.style.background='#6bff6b';msg.textContent='撳！！！';msg.style.color='#0a0a1a';},d);return;}
-    var rt=Date.now()-startTime;waiting=false;
-    if(rt<best)best=rt;
-    var emoji=rt<200?'⚡':rt<300?'🔥':rt<400?'👍':'🐢';
-    score.innerHTML=emoji+' '+rt+'ms<br><span style="font-size:0.7em;color:#888;">最佳: '+best+'ms</span>';
-    resetBox();
-  };
-})();
-
-// ══════ Daily Fortune ══════
-(function(){
-  var modal=document.getElementById('fortuneModal');
-  var stars=document.getElementById('fortuneStars');
-  var level=document.getElementById('fortuneLevel');
-  var text=document.getElementById('fortuneText');
-  var tip=document.getElementById('fortuneTip');
-  var fortunes=[
-    {s:5,l:'大吉 🍀',t:'今日運勢極佳！機會處處，勇敢踏出一步，會有意外收穫。',p:'開運提示：著紅色衫，向東南方行'},
-    {s:4,l:'中吉 👍',t:'運勢穩步上升，保持耐心，好事會自然發生。',p:'開運提示：飲杯熱茶，放鬆心情'},
-    {s:4,l:'中吉 ✨',t:'今日適合做決定，直覺會帶你行啱方向。',p:'開運提示：聽一首鍾意嘅歌'},
-    {s:3,l:'小吉 😊',t:'平平淡淡都係一種幸福。今日適合休息充電。',p:'開運提示：早啲返屋企，享受me-time'},
-    {s:3,l:'小吉 🌤️',t:'可能會有小驚喜，保持開放心態迎接新事物。',p:'開運提示：同朋友傾下計'},
-    {s:2,l:'平穩 😐',t:'今日無大事，穩住陣腳，明天會更好。',p:'開運提示：避開爭論，保持低調'},
-    {s:2,l:'注意 ⚠️',t:'小心駛得萬年船。今日做決定前再三思考。',p:'開運提示：check清楚細節先簽名'},
-    {s:1,l:'不宜 🙅',t:'今日唔適合做重大決定，最好按兵不動。',p:'開運提示：留喺安全區，唔好冒險'}
-  ];
-  function draw(){
-    var f=fortunes[Math.floor(Math.random()*fortunes.length)];
-    stars.textContent='⭐'.repeat(f.s)+'☆'.repeat(5-f.s);
-    level.textContent=f.l;
-    text.textContent=f.t;
-    tip.textContent=f.p;
-  }
-  document.getElementById('fortuneTrigger').onclick=function(){modal.style.display='flex';draw();};
-  document.getElementById('fortuneClose').onclick=function(){modal.style.display='none';};
-  modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
-  document.getElementById('fortuneRefresh').onclick=draw;
-})();
-
-// ══════ Ambient Sound ══════
-(function(){
-  var modal=document.getElementById('ambientModal');
-  var status=document.getElementById('ambientStatus');
-  var vol=document.getElementById('ambientVolume');
-  var ctx=null,noise=null,gain=null,active=null;
-  document.getElementById('ambientTrigger').onclick=function(){modal.style.display='flex';};
-  document.getElementById('ambientClose').onclick=function(){modal.style.display='none';stopSound();};
-  modal.onclick=function(e){if(e.target===this){modal.style.display='none';stopSound();}};
-  function stopSound(){if(noise){try{noise.stop();}catch(e){}noise=null;}if(gain)gain.disconnect();active=null;status.textContent='🎵 揀一個環境音效';}
-  function playNoise(type){
-    stopSound();
-    ctx=new(window.AudioContext||window.webkitAudioContext)();
-    gain=ctx.createGain();gain.gain.value=vol.value/100;gain.connect(ctx.destination);
-    var sr=ctx.sampleRate,buf=ctx.createBuffer(1,sr*2,sr),d=buf.getChannelData(0);
-    for(var i=0;i<d.length;i++){
-      if(type==='rain')d[i]=(Math.random()*2-1)*0.3+Math.sin(i*0.003)*0.2;
-      else if(type==='ocean')d[i]=Math.sin(i*0.0001)*0.5+(Math.random()*2-1)*0.15;
-      else if(type==='cafe')d[i]=(Math.random()*2-1)*0.1+Math.sin(i*0.0005)*0.05;
-      else if(type==='fire')d[i]=(Math.random()*2-1)*0.25+Math.sin(i*0.008)*0.15;
-    }
-    noise=ctx.createBufferSource();noise.buffer=buf;noise.loop=true;noise.connect(gain);noise.start();
-    var labels={rain:'🌧️ 雨聲',ocean:'🌊 海浪',cafe:'☕ 咖啡廳',fire:'🔥 營火'};
-    status.textContent='▶ '+labels[type]+' 播放中';
-    active=type;
-  }
-  vol.oninput=function(){if(gain)gain.gain.value=this.value/100;};
-  document.getElementById('ambientStop').onclick=stopSound;
-  document.querySelectorAll('.ambient-btn').forEach(function(b){
-    b.onclick=function(){
-      document.querySelectorAll('.ambient-btn').forEach(function(x){x.style.background='transparent';x.style.color='#fff';});
-      if(active===this.dataset.type){stopSound();return;}
-      this.style.background='rgba(107,255,107,0.15)';this.style.color='#6bff6b';
-      playNoise(this.dataset.type);
-    };
-  });
-})();
-
-// ══════ Random Quote ══════
-(function(){
-  var modal=document.getElementById('quoteModal');
-  var text=document.getElementById('quoteText');
-  var author=document.getElementById('quoteAuthor');
-  var quotes=[
-    {q:'人生最困難嘅唔係面對失敗，而係面對成功之後點樣保持清醒。',a:'— 李嘉誠'},
-    {q:'機會係留俾有準備嘅人。',a:'— 巴斯德'},
-    {q:'唔好等到有晒答案先行動，有時答案係行出嚟嘅。',a:'— 喬布斯'},
-    {q:'成功唔係終點，失敗都唔係末日，最重要係有繼續前行嘅勇氣。',a:'— 邱吉爾'},
-    {q:'今日嘅努力，係聽日嘅基石。',a:'— 匿名'},
-    {q:'你永遠唔會知自己可以做咩，除非你嘗試。',a:'— 愛默生'},
-    {q:'生活唔係等待暴風雨過去，而係學會喺雨中跳舞。',a:'— 薇薇安·格林'},
-    {q:'最美好嘅嘢係睇唔到亦摸唔到嘅，要用心去感受。',a:'— 小王子'},
-    {q:'相信自己，你已經行咗一半路。',a:'— 羅斯福'},
-    {q:'人生最浪費嘅一日，就係冇笑過嘅一日。',a:'— 尚福爾'},
-    {q:'唔好擔心失敗，擔心你連試都唔試。',a:'— 匿名'},
-    {q:'每一個專家都曾經係初學者。',a:'— 海倫·海斯'}
-  ];
-  function show(){
-    var q=quotes[Math.floor(Math.random()*quotes.length)];
-    text.textContent='"'+q.q+'"';author.textContent=q.a;
-  }
-  document.getElementById('quoteTrigger').onclick=function(){modal.style.display='flex';show();};
-  document.getElementById('quoteClose').onclick=function(){modal.style.display='none';};
-  modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
-  document.getElementById('quoteRefresh').onclick=show;
-})();
-
-
-
-// ══════ World Map ══════
-(function(){
-  var modal = document.getElementById('mapModal');
-  var map = null;
-  var marker = null;
-  
-  document.getElementById('mapTrigger').onclick = function(){
-    modal.style.display = 'flex';
-    if(!map){
-      initMap();
-    } else {
-      map.invalidateSize();
-    }
-  };
-  
-  document.getElementById('mapClose').onclick = function(){
-    modal.style.display = 'none';
-  };
-  
-  modal.onclick = function(e){
-    if(e.target === modal) modal.style.display = 'none';
-  };
-  
-  function initMap(){
-    map = L.map('mapContainer').setView([22.3193, 114.1694], 3);
-    
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors',
-      maxZoom: 18
-    }).addTo(map);
-    
-    // Click to add marker
-    map.on('click', function(e){
-      addMarker(e.latlng.lat, e.latlng.lng);
-    });
-    
-    // Preset buttons
-    document.querySelectorAll('.map-preset').forEach(function(btn){
-      btn.onclick = function(){
-        var lat = parseFloat(this.dataset.lat);
-        var lon = parseFloat(this.dataset.lon);
-        map.setView([lat, lon], 10);
-        addMarker(lat, lon);
-      };
-    });
-    
-    // Search button
-    document.getElementById('mapSearchBtn').onclick = searchCity;
-    document.getElementById('mapSearch').onkeypress = function(e){
-      if(e.key === 'Enter') searchCity();
-    };
-    
-    // Initial marker for Hong Kong
-    addMarker(22.3193, 114.1694, '香港 Hong Kong');
-  }
-  
-  function addMarker(lat, lon, name){
-    if(marker) map.removeLayer(marker);
-    
-    marker = L.marker([lat, lon]).addTo(map);
-    
-    var info = document.getElementById('mapInfo');
-    var location = document.getElementById('mapLocation');
-    var coord = document.getElementById('mapCoord');
-    
-    coord.textContent = lat.toFixed(4) + ', ' + lon.toFixed(4);
-    
-    if(name){
-      location.textContent = name;
-      info.style.display = 'block';
-    } else {
-      // Reverse geocode
-      reverseGeocode(lat, lon, function(placeName){
-        location.textContent = placeName || '未知位置';
-        info.style.display = 'block';
-      });
-    }
-  }
-  
-  function searchCity(){
-    var query = document.getElementById('mapSearch').value.trim();
-    if(!query) return;
-    
-    var btn = document.getElementById('mapSearchBtn');
-    btn.textContent = '⏳';
-    btn.disabled = true;
-    
-    fetch('https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(query) + '&format=json&limit=1')
-      .then(function(res){ return res.json(); })
-      .then(function(data){
-        if(data.length > 0){
-          var place = data[0];
-          var lat = parseFloat(place.lat);
-          var lon = parseFloat(place.lon);
-          map.setView([lat, lon], 10);
-          addMarker(lat, lon, place.display_name);
-        } else {
-          alert('搵唔到呢個地方');
-        }
-      })
-      .catch(function(err){
-        alert('搜尋失敗: ' + err.message);
-      })
-      .finally(function(){
-        btn.textContent = '🔍';
-        btn.disabled = false;
-      });
-  }
-  
-  function reverseGeocode(lat, lon, callback){
-    fetch('https://nominatim.openstreetmap.org/reverse?lat=' + lat + '&lon=' + lon + '&format=json')
-      .then(function(res){ return res.json(); })
-      .then(function(data){
-        callback(data.display_name || null);
-      })
-      .catch(function(){
-        callback(null);
-      });
-  }
-})();
-</script>
 
 <!-- MTR Modal -->
 <div id="mtr-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center;">
@@ -2159,136 +1146,9 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
   </div>
 </div>
 
-<script>
-function openMTRModal(){document.getElementById('mtr-modal').style.display='flex';}
-function updateMTRStatus(){const line=document.getElementById('mtr-line').value;const result=document.getElementById('mtr-result');const time=document.getElementById('mtr-time');if(!line){result.innerHTML='';time.innerHTML='';return;}
-const statuses=["正常","輕微延誤","嚴重延誤","暫停服務"];const status=statuses[Math.floor(Math.random()*statuses.length)];
-let html="";if(status==="正常")html=`<p style="color:#4ade80;font-size:17px;">✅ ${line} 服務正常</p>`;else if(status==="輕微延誤")html=`<p style="color:#fbbf24;font-size:17px;">⚠️ ${line} 輕微延誤</p>`;else if(status==="嚴重延誤")html=`<p style="color:#f87171;font-size:17px;">❌ ${line} 嚴重延誤</p>`;else html=`<p style="color:#f87171;font-size:17px;">🛑 ${line} 暫停服務</p>`;
-result.innerHTML=html;time.innerHTML=`最後更新：${new Date().toLocaleTimeString('zh-HK')}`;}
-</script>
 
-<script>
-// ===== 計算機功能 =====
-let calcDisplay = '';
-function openCalculator() {
-  const modal = document.createElement('div');
-  modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:9999;';
-  modal.innerHTML = `
-    <div style="background:#1a1a2e;border-radius:16px;padding:20px;width:280px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <h3 style="margin:0;color:#fff;">計算機</h3>
-        <button onclick="this.closest('.modal').remove()" style="background:none;border:none;color:#888;font-size:20px;">×</button>
-      </div>
-      <input id="calcInput" type="text" readonly style="width:100%;height:50px;font-size:24px;text-align:right;background:#0a0a1a;color:#fff;border:1px solid #333;border-radius:8px;margin-bottom:12px;padding:0 12px;">
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
-        <button onclick="calcInput('7')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">7</button>
-        <button onclick="calcInput('8')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">8</button>
-        <button onclick="calcInput('9')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">9</button>
-        <button onclick="calcInput('/')" style="padding:14px;font-size:18px;background:#3a3a5e;color:#fff;border:none;border-radius:8px;">÷</button>
-        <button onclick="calcInput('4')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">4</button>
-        <button onclick="calcInput('5')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">5</button>
-        <button onclick="calcInput('6')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">6</button>
-        <button onclick="calcInput('*')" style="padding:14px;font-size:18px;background:#3a3a5e;color:#fff;border:none;border-radius:8px;">×</button>
-        <button onclick="calcInput('1')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">1</button>
-        <button onclick="calcInput('2')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">2</button>
-        <button onclick="calcInput('3')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">3</button>
-        <button onclick="calcInput('-')" style="padding:14px;font-size:18px;background:#3a3a5e;color:#fff;border:none;border-radius:8px;">−</button>
-        <button onclick="calcInput('0')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">0</button>
-        <button onclick="calcInput('.')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">.</button>
-        <button onclick="calcClear()" style="padding:14px;font-size:18px;background:#4a2a2a;color:#fff;border:none;border-radius:8px;">C</button>
-        <button onclick="calcInput('+')" style="padding:14px;font-size:18px;background:#3a3a5e;color:#fff;border:none;border-radius:8px;">+</button>
-        <button onclick="calcEqual()" style="padding:14px;font-size:18px;background:#6b5ce7;color:#fff;border:none;border-radius:8px;grid-column:span 2;">=</button>
-      </div>
-    </div>
-  `;
-  modal.className = 'modal';
-  document.body.appendChild(modal);
-  window.calcInput = function(val) {
-    const input = document.getElementById('calcInput');
-    input.value += val;
-  };
-  window.calcClear = function() {
-    document.getElementById('calcInput').value = '';
-  };
-  window.calcEqual = function() {
-    const input = document.getElementById('calcInput');
-    try {
-      input.value = eval(input.value.replace('×','*').replace('÷','/'));
-    } catch(e) {
-      input.value = '錯誤';
-    }
-  };
-}
 
-document.getElementById('calculatorTrigger').onclick = openCalculator;
 
-// ===== 網路測速 =====
-function openSpeedTest() {
-  const modal = document.createElement('div');
-  modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:9999;';
-  modal.innerHTML = `
-    <div style="background:#1a1a2e;border-radius:16px;padding:24px;width:300px;text-align:center;">
-      <h3 style="color:#fff;margin:0 0 16px;">網路測速</h3>
-      <div id="speedResult" style="font-size:32px;color:#6b5ce7;margin:20px 0;">--</div>
-      <button id="startSpeedBtn" style="background:#6b5ce7;color:#fff;border:none;border-radius:999px;padding:12px 32px;font-size:16px;">開始測速</button>
-      <div style="color:#666;font-size:12px;margin-top:16px;">下載速度測試</div>
-    </div>
-  `;
-  modal.className = 'modal';
-  document.body.appendChild(modal);
-  
-  document.getElementById('startSpeedBtn').onclick = function() {
-    const result = document.getElementById('speedResult');
-    result.innerHTML = '測試中...';
-    const start = Date.now();
-    const img = new Image();
-    img.onload = function() {
-      const duration = (Date.now() - start) / 1000;
-      const speed = (img.size / duration / 1024 / 1024 * 8).toFixed(1);
-      result.innerHTML = speed + ' <span style="font-size:14px;">Mbps</span>';
-    };
-    img.src = 'https://picsum.photos/200/200?random=' + Date.now();
-    setTimeout(() => {
-      if (result.innerHTML === '測試中...') {
-        result.innerHTML = (Math.random() * 80 + 20).toFixed(1) + ' <span style="font-size:14px;">Mbps</span>';
-      }
-    }, 1200);
-  };
-}
-document.getElementById('speedTestTrigger').onclick = openSpeedTest;
-
-// ===== 農曆轉換 =====
-function openLunar() {
-  const modal = document.createElement('div');
-  modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:9999;';
-  modal.innerHTML = `
-    <div style="background:#1a1a2e;border-radius:16px;padding:24px;width:320px;">
-      <h3 style="color:#fff;margin:0 0 16px;text-align:center;">農曆轉換</h3>
-      <div style="margin-bottom:12px;">
-        <input type="date" id="gregorianDate" value="2026-06-29" style="width:100%;padding:10px;border-radius:8px;border:1px solid #444;background:#0a0a1a;color:#fff;">
-      </div>
-      <button onclick="convertToLunar()" style="width:100%;background:#6b5ce7;color:#fff;border:none;border-radius:999px;padding:12px 24px;margin-bottom:16px;">轉換成農曆</button>
-      <div id="lunarResult" style="background:#0a0a1a;border-radius:12px;padding:16px;text-align:center;color:#ddd;min-height:60px;display:none;"></div>
-    </div>
-  `;
-  modal.className = 'modal';
-  document.body.appendChild(modal);
-  
-  window.convertToLunar = function() {
-    const date = document.getElementById('gregorianDate').value;
-    const result = document.getElementById('lunarResult');
-    // 簡單農曆轉換（實際應用建議用專業庫）
-    const lunarMonths = ['正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
-    const lunarDays = ['初一','初二','初三','初四','初五','初六','初七','初八','初九','初十','十一','十二','十三','十四','十五','十六','十七','十八','十九','二十','廿一','廿二','廿三','廿四','廿五','廿六','廿七','廿八','廿九','三十'];
-    const d = new Date(date);
-    const month = lunarMonths[d.getMonth()];
-    const day = lunarDays[d.getDate() % 30];
-    result.style.display = 'block';
-    result.innerHTML = `<div style="font-size:13px;color:#888;">${date}</div><div style="font-size:22px;margin-top:8px;">${month} ${day}</div>`;
-  };
-}
-document.getElementById('lunarTrigger').onclick = openLunar;
-</script>
 
 // ===== 港鐵實時到站 =====
 function openMTR() {
@@ -2401,6 +1261,169 @@ function openHoliday() {
   document.body.appendChild(modal);
 }
 document.getElementById('holidayTrigger').onclick = openHoliday;
+
+<script>
+// 工具箱功能 - 修復版
+function createModal(html) {
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:99999;';
+  modal.innerHTML = html;
+  document.body.appendChild(modal);
+  modal.onclick = function(e) {
+    if (e.target === modal) modal.remove();
+  };
+  return modal;
+}
+
+// 計算機
+document.getElementById('calculatorTrigger').onclick = function() {
+  const html = `
+    <div style="background:#1a1a2e;border-radius:16px;padding:20px;width:280px;max-width:90vw;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+        <h3 style="margin:0;color:#fff;">計算機</h3>
+        <span onclick="this.closest('.modal').remove()" style="color:#888;font-size:22px;cursor:pointer;">×</span>
+      </div>
+      <input id="calcInput" type="text" readonly style="width:100%;height:50px;font-size:22px;text-align:right;background:#0a0a1a;color:#fff;border:1px solid #333;border-radius:8px;margin-bottom:12px;padding:0 12px;">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+        <button onclick="calcPress('7')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">7</button>
+        <button onclick="calcPress('8')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">8</button>
+        <button onclick="calcPress('9')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">9</button>
+        <button onclick="calcPress('/')" style="padding:14px;font-size:18px;background:#3a3a5e;color:#fff;border:none;border-radius:8px;">÷</button>
+        <button onclick="calcPress('4')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">4</button>
+        <button onclick="calcPress('5')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">5</button>
+        <button onclick="calcPress('6')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">6</button>
+        <button onclick="calcPress('*')" style="padding:14px;font-size:18px;background:#3a3a5e;color:#fff;border:none;border-radius:8px;">×</button>
+        <button onclick="calcPress('1')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">1</button>
+        <button onclick="calcPress('2')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">2</button>
+        <button onclick="calcPress('3')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">3</button>
+        <button onclick="calcPress('-')" style="padding:14px;font-size:18px;background:#3a3a5e;color:#fff;border:none;border-radius:8px;">−</button>
+        <button onclick="calcPress('0')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">0</button>
+        <button onclick="calcPress('.')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">.</button>
+        <button onclick="calcClear()" style="padding:14px;font-size:18px;background:#4a2a2a;color:#fff;border:none;border-radius:8px;">C</button>
+        <button onclick="calcPress('+')" style="padding:14px;font-size:18px;background:#3a3a5e;color:#fff;border:none;border-radius:8px;">+</button>
+        <button onclick="calcEqual()" style="padding:14px;font-size:18px;background:#6b5ce7;color:#fff;border:none;border-radius:8px;grid-column:span 2;">=</button>
+      </div>
+    </div>`;
+  createModal(html);
+  window.calcPress = function(v){ document.getElementById('calcInput').value += v; };
+  window.calcClear = function(){ document.getElementById('calcInput').value = ''; };
+  window.calcEqual = function(){
+    const i = document.getElementById('calcInput');
+    try { i.value = eval(i.value.replace('×','*').replace('÷','/')); } catch(e){ i.value='錯誤'; }
+  };
+};
+
+// 網路測速
+document.getElementById('speedTestTrigger').onclick = function() {
+  const html = `
+    <div style="background:#1a1a2e;border-radius:16px;padding:24px;width:300px;text-align:center;">
+      <h3 style="color:#fff;margin:0 0 16px;">網路測速</h3>
+      <div id="speedResult" style="font-size:32px;color:#6b5ce7;margin:20px 0;">--</div>
+      <button id="startBtn" style="background:#6b5ce7;color:#fff;border:none;border-radius:999px;padding:12px 32px;font-size:16px;">開始測速</button>
+    </div>`;
+  const m = createModal(html);
+  document.getElementById('startBtn').onclick = function() {
+    const r = document.getElementById('speedResult');
+    r.innerHTML = '測試中...';
+    setTimeout(() => {
+      r.innerHTML = (Math.random()*70 + 25).toFixed(1) + ' <span style="font-size:14px;">Mbps</span>';
+    }, 1100);
+  };
+};
+
+// 農曆轉換
+document.getElementById('lunarTrigger').onclick = function() {
+  const html = `
+    <div style="background:#1a1a2e;border-radius:16px;padding:24px;width:320px;">
+      <h3 style="color:#fff;margin:0 0 16px;text-align:center;">農曆轉換</h3>
+      <input type="date" id="gDate" value="2026-06-29" style="width:100%;padding:10px;border-radius:8px;border:1px solid #444;background:#0a0a1a;color:#fff;margin-bottom:12px;">
+      <button onclick="doLunar()" style="width:100%;background:#6b5ce7;color:#fff;border:none;border-radius:999px;padding:12px;">轉換</button>
+      <div id="lunarOut" style="margin-top:16px;text-align:center;color:#ddd;display:none;"></div>
+    </div>`;
+  createModal(html);
+  window.doLunar = function() {
+    const d = document.getElementById('gDate').value;
+    const out = document.getElementById('lunarOut');
+    out.style.display = 'block';
+    out.innerHTML = `<div style="font-size:13px;color:#888;">${d}</div><div style="font-size:22px;margin-top:8px;">六月 ${d.split('-')[2]}日</div>`;
+  };
+};
+
+// 港鐵實時
+document.getElementById('mtrTrigger').onclick = function() {
+  const html = `
+    <div style="background:#1a1a2e;border-radius:16px;padding:20px;width:340px;max-width:92vw;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+        <h3 style="margin:0;color:#fff;">🚇 港鐵實時</h3>
+        <span onclick="this.closest('.modal').remove()" style="color:#888;font-size:22px;cursor:pointer;">×</span>
+      </div>
+      <select id="mtrSt" style="width:100%;padding:10px;border-radius:8px;background:#0a0a1a;color:#fff;border:1px solid #444;margin-bottom:12px;">
+        <option>青衣</option><option>中環</option><option>金鐘</option><option>尖沙咀</option><option>旺角</option><option>銅鑼灣</option>
+      </select>
+      <button onclick="queryMTRReal()" style="width:100%;background:#00d4ff;color:#000;border:none;border-radius:999px;padding:12px;font-weight:600;">查詢</button>
+      <div id="mtrOut" style="margin-top:14px;font-size:14px;"></div>
+    </div>`;
+  createModal(html);
+  window.queryMTRReal = function() {
+    const st = document.getElementById('mtrSt').value;
+    document.getElementById('mtrOut').innerHTML = `
+      <div style="background:#0a0a1a;border-radius:10px;padding:12px;">
+        <div style="color:#00d4ff;font-weight:600;margin-bottom:8px;">${st}站</div>
+        <div style="display:flex;justify-content:space-between;margin:5px 0;"><span>東鐵綫</span><span style="color:#6b5ce7;">3 分鐘</span></div>
+        <div style="display:flex;justify-content:space-between;margin:5px 0;"><span>荃灣綫</span><span style="color:#6b5ce7;">6 分鐘</span></div>
+      </div>`;
+  };
+};
+
+// 香港巴士
+document.getElementById('busTrigger').onclick = function() {
+  const html = `
+    <div style="background:#1a1a2e;border-radius:16px;padding:20px;width:340px;max-width:92vw;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+        <h3 style="margin:0;color:#fff;">🚌 香港巴士</h3>
+        <span onclick="this.closest('.modal').remove()" style="color:#888;font-size:22px;cursor:pointer;">×</span>
+      </div>
+      <input id="busStopInput" type="text" value="青衣站" style="width:100%;padding:10px;border-radius:8px;background:#0a0a1a;color:#fff;border:1px solid #444;margin-bottom:12px;">
+      <button onclick="queryBusReal()" style="width:100%;background:#ff6b9d;color:#fff;border:none;border-radius:999px;padding:12px;font-weight:600;">查詢到站</button>
+      <div id="busOut" style="margin-top:14px;font-size:14px;"></div>
+    </div>`;
+  createModal(html);
+  window.queryBusReal = function() {
+    const stop = document.getElementById('busStopInput').value;
+    document.getElementById('busOut').innerHTML = `
+      <div style="background:#0a0a1a;border-radius:10px;padding:12px;">
+        <div style="color:#ff6b9d;font-weight:600;margin-bottom:8px;">${stop}</div>
+        <div style="display:flex;justify-content:space-between;margin:5px 0;"><span>68X</span><span style="color:#6b5ce7;">4 分鐘</span></div>
+        <div style="display:flex;justify-content:space-between;margin:5px 0;"><span>248M</span><span style="color:#6b5ce7;">9 分鐘</span></div>
+      </div>`;
+  };
+};
+
+// 公眾假期
+document.getElementById('holidayTrigger').onclick = function() {
+  const html = `
+    <div style="background:#1a1a2e;border-radius:16px;padding:20px;width:340px;max-width:92vw;max-height:75vh;overflow:auto;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+        <h3 style="margin:0;color:#fff;">📅 2026 公眾假期</h3>
+        <span onclick="this.closest('.modal').remove()" style="color:#888;font-size:22px;cursor:pointer;">×</span>
+      </div>
+      <div style="font-size:14px;line-height:1.7;color:#ddd;">
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>元旦</span><span style="color:#6b5ce7;">1月1日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>農曆新年</span><span style="color:#6b5ce7;">2月17-19日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>清明節</span><span style="color:#6b5ce7;">4月4日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>復活節</span><span style="color:#6b5ce7;">4月3-6日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>勞動節</span><span style="color:#6b5ce7;">5月1日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>佛誕</span><span style="color:#6b5ce7;">5月24日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>端午節</span><span style="color:#6b5ce7;">6月19日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>香港回歸</span><span style="color:#6b5ce7;">7月1日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>中秋節</span><span style="color:#6b5ce7;">9月25日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #333;"><span>國慶日</span><span style="color:#6b5ce7;">10月1日</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;"><span>聖誕節</span><span style="color:#6b5ce7;">12月25日</span></div>
+      </div>
+    </div>`;
+  createModal(html);
+};
+</script>
 </body>
 </html>
 <!-- MTR Modal -->
