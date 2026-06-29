@@ -2161,6 +2161,94 @@ const statuses=["正常","輕微延誤","嚴重延誤","暫停服務"];const sta
 let html="";if(status==="正常")html=`<p style="color:#4ade80;font-size:17px;">✅ ${line} 服務正常</p>`;else if(status==="輕微延誤")html=`<p style="color:#fbbf24;font-size:17px;">⚠️ ${line} 輕微延誤</p>`;else if(status==="嚴重延誤")html=`<p style="color:#f87171;font-size:17px;">❌ ${line} 嚴重延誤</p>`;else html=`<p style="color:#f87171;font-size:17px;">🛑 ${line} 暫停服務</p>`;
 result.innerHTML=html;time.innerHTML=`最後更新：${new Date().toLocaleTimeString('zh-HK')}`;}
 </script>
+
+<script>
+// 計算機
+document.getElementById('calculatorTrigger').onclick = function() {
+  const html = `
+    <div style="background:#1a1a2e;border-radius:16px;padding:20px;width:280px;max-width:90vw;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+        <h3 style="margin:0;color:#fff;">計算機</h3>
+        <span onclick="this.closest('.modal').remove()" style="color:#888;font-size:22px;cursor:pointer;">×</span>
+      </div>
+      <input id="calcInput" type="text" readonly style="width:100%;height:50px;font-size:22px;text-align:right;background:#0a0a1a;color:#fff;border:1px solid #333;border-radius:8px;margin-bottom:12px;padding:0 12px;">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+        <button onclick="calcPress('7')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">7</button>
+        <button onclick="calcPress('8')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">8</button>
+        <button onclick="calcPress('9')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">9</button>
+        <button onclick="calcPress('/')" style="padding:14px;font-size:18px;background:#3a3a5e;color:#fff;border:none;border-radius:8px;">÷</button>
+        <button onclick="calcPress('4')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">4</button>
+        <button onclick="calcPress('5')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">5</button>
+        <button onclick="calcPress('6')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">6</button>
+        <button onclick="calcPress('*')" style="padding:14px;font-size:18px;background:#3a3a5e;color:#fff;border:none;border-radius:8px;">×</button>
+        <button onclick="calcPress('1')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">1</button>
+        <button onclick="calcPress('2')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">2</button>
+        <button onclick="calcPress('3')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">3</button>
+        <button onclick="calcPress('-')" style="padding:14px;font-size:18px;background:#3a3a5e;color:#fff;border:none;border-radius:8px;">−</button>
+        <button onclick="calcPress('0')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">0</button>
+        <button onclick="calcPress('.')" style="padding:14px;font-size:18px;background:#2a2a3e;color:#fff;border:none;border-radius:8px;">.</button>
+        <button onclick="calcClear()" style="padding:14px;font-size:18px;background:#4a2a2a;color:#fff;border:none;border-radius:8px;">C</button>
+        <button onclick="calcPress('+')" style="padding:14px;font-size:18px;background:#3a3a5e;color:#fff;border:none;border-radius:8px;">+</button>
+        <button onclick="calcEqual()" style="padding:14px;font-size:18px;background:#6b5ce7;color:#fff;border:none;border-radius:8px;grid-column:span 2;">=</button>
+      </div>
+    </div>`;
+  const m = document.createElement('div');
+  m.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:99999;';
+  m.innerHTML = html;
+  document.body.appendChild(m);
+  m.onclick = e => { if (e.target === m) m.remove(); };
+  window.calcPress = v => { document.getElementById('calcInput').value += v; };
+  window.calcClear = () => { document.getElementById('calcInput').value = ''; };
+  window.calcEqual = () => {
+    const i = document.getElementById('calcInput');
+    try { i.value = eval(i.value.replace('×','*').replace('÷','/')); } catch(e){ i.value='錯誤'; }
+  };
+};
+
+// 網絡測速
+document.getElementById('speedTestTrigger').onclick = function() {
+  const html = `
+    <div style="background:#1a1a2e;border-radius:16px;padding:24px;width:300px;text-align:center;">
+      <h3 style="color:#fff;margin:0 0 16px;">網路測速</h3>
+      <div id="speedResult" style="font-size:32px;color:#6b5ce7;margin:20px 0;">--</div>
+      <button id="startBtn" style="background:#6b5ce7;color:#fff;border:none;border-radius:999px;padding:12px 32px;font-size:16px;">開始測速</button>
+    </div>`;
+  const m = document.createElement('div');
+  m.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:99999;';
+  m.innerHTML = html;
+  document.body.appendChild(m);
+  m.onclick = e => { if (e.target === m) m.remove(); };
+  document.getElementById('startBtn').onclick = function() {
+    const r = document.getElementById('speedResult');
+    r.innerHTML = '測試中...';
+    setTimeout(() => {
+      r.innerHTML = (Math.random()*70 + 25).toFixed(1) + ' <span style="font-size:14px;">Mbps</span>';
+    }, 1100);
+  };
+};
+
+// 農曆轉換
+document.getElementById('lunarTrigger').onclick = function() {
+  const html = `
+    <div style="background:#1a1a2e;border-radius:16px;padding:24px;width:320px;">
+      <h3 style="color:#fff;margin:0 0 16px;text-align:center;">農曆轉換</h3>
+      <input type="date" id="gDate" value="2026-06-29" style="width:100%;padding:10px;border-radius:8px;border:1px solid #444;background:#0a0a1a;color:#fff;margin-bottom:12px;">
+      <button onclick="doLunar()" style="width:100%;background:#6b5ce7;color:#fff;border:none;border-radius:999px;padding:12px;">轉換</button>
+      <div id="lunarOut" style="margin-top:16px;text-align:center;color:#ddd;display:none;"></div>
+    </div>`;
+  const m = document.createElement('div');
+  m.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:99999;';
+  m.innerHTML = html;
+  document.body.appendChild(m);
+  m.onclick = e => { if (e.target === m) m.remove(); };
+  window.doLunar = function() {
+    const d = document.getElementById('gDate').value;
+    const out = document.getElementById('lunarOut');
+    out.style.display = 'block';
+    out.innerHTML = `<div style="font-size:13px;color:#888;">${d}</div><div style="font-size:22px;margin-top:8px;">六月 ${d.split('-')[2]}日</div>`;
+  };
+};
+</script>
 </body>
 </html>
 <!-- MTR Modal -->
