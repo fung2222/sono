@@ -251,6 +251,30 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
   .game-name { font-size: 0.95em; }
   .game-header { padding: 14px 14px; }
 }
+
+/* Force all tool cards to be exactly the same size */
+.card.tool-sm,
+.card.tool-sm * {
+  box-sizing: border-box;
+}
+
+.card.tool-sm {
+  min-height: 92px !important;
+  max-height: 92px !important;
+  padding: 14px 8px 10px !important;
+  margin: 0 !important;
+}
+
+.card.tool-sm .ts-emoji {
+  font-size: 1.8em !important;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.card.tool-sm .ts-label {
+  font-size: 0.72em !important;
+  line-height: 1.2;
+}
 </style>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
