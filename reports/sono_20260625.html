@@ -80,7 +80,7 @@
   .section { margin: 0; }
   
 .news-tab-bar{display:flex;gap:4px;margin:20px 0 2px;background:rgba(255,255,255,0.03);border-radius:12px;padding:4px;overflow-x:auto;-webkit-overflow-scrolling:touch}.news-tab-bar::-webkit-scrollbar{height:0}.news-tab{flex:1;min-width:65px;padding:10px 6px;border:none;border-radius:10px;cursor:pointer;font-size:.78em;font-weight:700;font-family:inherit;text-align:center;white-space:nowrap;transition:all .3s;background:transparent;color:#666}.news-tab:hover{background:rgba(255,255,255,0.04);color:#999}.news-tab .tab-icon{display:block;font-size:1.5em;margin-bottom:2px}.news-tab.active[data-section=ai]{background:rgba(0,212,255,0.12);color:#00d4ff;box-shadow:0 0 12px rgba(0,212,255,0.1)}.news-tab.active[data-section=space]{background:rgba(107,255,107,0.12);color:#6bff6b;box-shadow:0 0 12px rgba(107,255,107,0.1)}.news-tab.active[data-section=ufo]{background:rgba(255,107,107,0.12);color:#ff6b6b;box-shadow:0 0 12px rgba(255,107,107,0.1)}.news-tab.active[data-section=paranormal]{background:rgba(255,217,61,0.12);color:#ffd93d;box-shadow:0 0 12px rgba(255,217,61,0.1)}.section-panel{margin-top:0;display:none;animation:fadeIn .35s ease}.section-panel.active{display:block!important}
-  .news-card { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 20px; margin: 15px 0; border-left: 4px solid; transition: transform 0.2s; overflow: hidden; cursor: pointer; }
+  .news-card { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 20px; margin: 7px 0; border-left: 4px solid; transition: transform 0.2s; overflow: hidden; cursor: pointer; }
   .news-card:hover { transform: translateX(5px); }
   .news-card.ai { border-left-color: #00d4ff; }
   .news-card.space { border-left-color: #6bff6b; }
@@ -156,7 +156,10 @@
 
 <!-- WEATHER -->
 <div class="weather-box">
-  <h2 style="margin-bottom:4px;">🌧️ 香港天氣</h2>
+  <h2 style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+    <span>🌧️ 香港天氣</span>
+    <span style="font-size:0.78em; color:#888;">2026年6月25日（星期[一二三四五六日]）</span>
+  </h2>
 <div style="display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.06); padding:6px 0; border-radius:8px;  font-size:0.85em; color:#ddd; font-weight:600; margin-bottom:12px; width:100%;"><span>2026年6月25日（星期四）</span></div>
   <div class="weather-today">
     <div class="weather-main"><div class="icon">🌧️</div><div class="temp">29</div><div class="temp-range">低 27 / 高 31</div><div class="desc">大致多雲，間中有驟雨及幾陣雷暴</div></div>
@@ -431,7 +434,7 @@
   <p style="margin-top:6px; color:#666;font-size:0.8em;">資料來源：SearXNG + Google News RSS + 香港天文台</p>
   <p style="margin-top:4px; color:#444;font-size:0.75em;">報告生成時間：2026年6月25日</p>
 
-<a href="#" class="back-to-top" id="backToTop" title="回到最頂">TOP</a>
+
 
 <script>
 document.querySelectorAll('.news-card').forEach(card => {
