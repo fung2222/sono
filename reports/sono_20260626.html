@@ -440,16 +440,7 @@
 
 
 
-<script>
-document.querySelectorAll('.news-card').forEach(card => {
-  card.addEventListener('click', function(e) {
-    if (e.target.tagName === 'A') return;
-    var wasOpen = this.classList.contains('open');
-    document.querySelectorAll('.news-card').forEach(c => c.classList.remove('open'));
-    if (!wasOpen) this.classList.add('open');
-  });
-});
-</script>
+
 
 <script>function switchNewsTab(i){document.querySelectorAll(".news-tab").forEach(b=>b.classList.remove("active"));document.querySelectorAll(".section-panel").forEach(p=>{p.classList.remove("active");p.style.display="none"});document.querySelector('.news-tab[data-section="'+i+'"]').classList.add("active");var el=document.getElementById("panel-"+i);if(el){el.classList.add("active");el.style.display="block"}}</script>
 
