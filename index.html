@@ -293,7 +293,14 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 </style>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+// ══════ Tab Event Listener 初始化 �═════
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    switchTab(btn.dataset.tab);
+  });
+});
+</script>
 </head>
 <body>
 <div class="container">
@@ -345,15 +352,15 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 
 <!-- ══════ Tab Bar ══════ -->
 <div class="tab-bar">
-  <button class="tab-btn active" data-tab="daily" onclick="switchTab('daily')">
+  <button class="tab-btn active" data-tab="daily" >
     <span class="tab-emoji">📰</span>
     <span class="tab-label">Sono 每日</span>
   </button>
-  <button class="tab-btn" data-tab="games" onclick="switchTab('games')">
+  <button class="tab-btn" data-tab="games" >
     <span class="tab-emoji">🎮</span>
     <span class="tab-label">Sono 遊戲</span>
   </button>
-  <button class="tab-btn" data-tab="toolbox" onclick="switchTab('toolbox')">
+  <button class="tab-btn" data-tab="toolbox" >
     <span class="tab-emoji">🧰</span>
     <span class="tab-label">Sono 工具箱</span>
   </button>
@@ -1191,6 +1198,13 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
   };
 })();
 
+
+// ══════ Tab Event Listener 初始化 �═════
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    switchTab(btn.dataset.tab);
+  });
+});
 </script>
 
 <!-- ══════ AI Translate Modal ══════ -->
@@ -1405,6 +1419,13 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
     list.innerHTML = html;
   }
 })();
+
+// ══════ Tab Event Listener 初始化 �═════
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    switchTab(btn.dataset.tab);
+  });
+});
 </script>
 
 
@@ -1818,6 +1839,13 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 })();
+
+// ══════ Tab Event Listener 初始化 �═════
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    switchTab(btn.dataset.tab);
+  });
+});
 </script>
 
 
@@ -2116,6 +2144,13 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
       });
   }
 })();
+
+// ══════ Tab Event Listener 初始化 �═════
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    switchTab(btn.dataset.tab);
+  });
+});
 </script>
 
 <!-- MTR Modal -->
@@ -2144,6 +2179,13 @@ function updateMTRStatus(){const line=document.getElementById('mtr-line').value;
 const statuses=["正常","輕微延誤","嚴重延誤","暫停服務"];const status=statuses[Math.floor(Math.random()*statuses.length)];
 let html="";if(status==="正常")html=`<p style="color:#4ade80;font-size:17px;">✅ ${line} 服務正常</p>`;else if(status==="輕微延誤")html=`<p style="color:#fbbf24;font-size:17px;">⚠️ ${line} 輕微延誤</p>`;else if(status==="嚴重延誤")html=`<p style="color:#f87171;font-size:17px;">❌ ${line} 嚴重延誤</p>`;else html=`<p style="color:#f87171;font-size:17px;">🛑 ${line} 暫停服務</p>`;
 result.innerHTML=html;time.innerHTML=`最後更新：${new Date().toLocaleTimeString('zh-HK')}`;}
+
+// ══════ Tab Event Listener 初始化 �═════
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    switchTab(btn.dataset.tab);
+  });
+});
 </script>
 </body>
 </html>
