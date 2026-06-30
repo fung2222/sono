@@ -432,4 +432,16 @@
   <p style="margin-top:4px; color:#444;font-size:0.75em;">報告生成時間：2026年6月25日</p>
 
 <a href="#" class="back-to-top" id="backToTop" title="回到最頂">TOP</a>
+
+<script>
+document.querySelectorAll('.news-card').forEach(card => {
+  card.addEventListener('click', function(e) {
+    if (e.target.tagName === 'A') return;
+    var wasOpen = this.classList.contains('open');
+    document.querySelectorAll('.news-card').forEach(c => c.classList.remove('open'));
+    if (!wasOpen) this.classList.add('open');
+  });
+});
+</script>
+
 </html><!-- cache bust: ***60628003904 -->
