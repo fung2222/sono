@@ -156,8 +156,10 @@
 
 <!-- WEATHER -->
 <div class="weather-box">
-  <h2 style="margin-bottom:4px;">🌧️ 香港天氣</h2>
-<div style="display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.06); padding:6px 0; border-radius:8px;  font-size:0.85em; color:#ddd; font-weight:600; margin-bottom:12px; width:100%;"><span>2026年6月24日（星期三）</span></div>
+  <h2 style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+    <span>🌧️ 香港天氣</span>
+    <span style="font-size:0.78em; color:#888;">2026年6月24日（星期三）</span>
+  </h2>
   <div class="weather-today">
     <div class="weather-main"><div class="icon">🌧️</div><div class="temp">29</div><div class="temp-range">低 27 / 高 31</div><div class="desc">大致多雲，間中有驟雨及幾陣雷暴</div></div>
     <div class="weather-details">
@@ -167,6 +169,7 @@
       <div class="weather-detail-item"><div class="label">能見度</div><div class="value">中等</div></div>
     </div>
   </div>
+  <img src="/sono/reports/weather_banner_20260624.png" alt="Hong Kong Victoria Harbour partly cloudy showers" style="width:100%; max-height:280px; object-fit:cover; border-radius:12px; margin:16px 0 15px; display:block;">
   <div class="forecast-section">
       <h3>未來5天預測</h3>
       <div class="forecast-grid">
@@ -472,6 +475,42 @@ function toggleSub(sub) {
 }
 </script>
 
+
+
+
+<script>
+  window.addEventListener('scroll', function() {
+    var b = document.getElementById('backToTop');
+    b.classList.toggle('show', window.pageYOffset > 300);
+  });
+</script>
+
+<script>
+document.querySelectorAll('.news-card').forEach(card => {
+  card.addEventListener('click', function(e) {
+    if (e.target.tagName === 'A') return;
+    var wasOpen = this.classList.contains('open');
+    document.querySelectorAll('.news-card').forEach(c => c.classList.remove('open'));
+    if (!wasOpen) this.classList.add('open');
+  });
+});
+</script>
+
+<script>function switchNewsTab(i){document.querySelectorAll(".news-tab").forEach(b=>b.classList.remove("active"));document.querySelectorAll(".section-panel").forEach(p=>{p.classList.remove("active");p.style.display="none"});document.querySelector('.news-tab[data-section="'+i+'"]').classList.add("active");var el=document.getElementById("panel-"+i);if(el){el.classList.add("active");el.style.display="block"}}</script>
+
+<script>
+function toggleSub(sub) {
+  var allSubs = document.querySelectorAll('.sc-sub');
+  allSubs.forEach(function(s) {
+    if (s !== sub && s.classList.contains('open')) {
+      s.classList.remove('open');
+      s.nextElementSibling.classList.remove('open');
+    }
+  });
+  sub.classList.toggle('open');
+  sub.nextElementSibling.classList.toggle('open');
+}
+</script>
 
 <a href="#" class="back-to-top" id="backToTop" title="回到最頂">TOP</a>
 

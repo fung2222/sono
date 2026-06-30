@@ -170,6 +170,7 @@
       <div class="weather-detail-item"><div class="label">能見度</div><div class="value">中等</div></div>
     </div>
   </div>
+  <img src="/sono/reports/weather_banner_20260628.png" alt="Hong Kong Victoria Harbour partly cloudy showers" style="width:100%; max-height:280px; object-fit:cover; border-radius:12px; margin:16px 0 15px; display:block;">
   <div class="forecast-section">
       <h3>未來5天預測</h3>
       <div class="forecast-grid">
@@ -448,6 +449,42 @@ document.querySelectorAll('.news-card').forEach(card => {
 </script>
 
 <!-- cache bust: ***60628003904 -->
+<script>
+document.querySelectorAll('.news-card').forEach(card => {
+  card.addEventListener('click', function(e) {
+    if (e.target.tagName === 'A') return;
+    var wasOpen = this.classList.contains('open');
+    document.querySelectorAll('.news-card').forEach(c => c.classList.remove('open'));
+    if (!wasOpen) this.classList.add('open');
+  });
+});
+</script>
+
+<script>function switchNewsTab(i){document.querySelectorAll(".news-tab").forEach(b=>b.classList.remove("active"));document.querySelectorAll(".section-panel").forEach(p=>{p.classList.remove("active");p.style.display="none"});document.querySelector('.news-tab[data-section="'+i+'"]').classList.add("active");var el=document.getElementById("panel-"+i);if(el){el.classList.add("active");el.style.display="block"}}</script>
+
+<script>
+function toggleSub(sub) {
+  var allSubs = document.querySelectorAll('.sc-sub');
+  allSubs.forEach(function(s) {
+    if (s !== sub && s.classList.contains('open')) {
+      s.classList.remove('open');
+      s.nextElementSibling.classList.remove('open');
+    }
+  });
+  sub.classList.toggle('open');
+  sub.nextElementSibling.classList.toggle('open');
+}
+</script>
+
+<a href="#" class="back-to-top" id="backToTop" title="回到最頂">TOP</a>
+
+<script>
+  window.addEventListener('scroll', function() {
+    var b = document.getElementById('backToTop');
+    b.classList.toggle('show', window.pageYOffset > 300);
+  });
+</script>
+
 <script>
 document.querySelectorAll('.news-card').forEach(card => {
   card.addEventListener('click', function(e) {
