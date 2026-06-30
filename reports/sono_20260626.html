@@ -80,7 +80,7 @@
   .section { margin: 0; }
   
 .news-tab-bar{display:flex;gap:4px;margin:20px 0 2px;background:rgba(255,255,255,0.03);border-radius:12px;padding:4px;overflow-x:auto;-webkit-overflow-scrolling:touch}.news-tab-bar::-webkit-scrollbar{height:0}.news-tab{flex:1;min-width:65px;padding:10px 6px;border:none;border-radius:10px;cursor:pointer;font-size:.78em;font-weight:700;font-family:inherit;text-align:center;white-space:nowrap;transition:all .3s;background:transparent;color:#666}.news-tab:hover{background:rgba(255,255,255,0.04);color:#999}.news-tab .tab-icon{display:block;font-size:1.5em;margin-bottom:2px}.news-tab.active[data-section=ai]{background:rgba(0,212,255,0.12);color:#00d4ff;box-shadow:0 0 12px rgba(0,212,255,0.1)}.news-tab.active[data-section=space]{background:rgba(107,255,107,0.12);color:#6bff6b;box-shadow:0 0 12px rgba(107,255,107,0.1)}.news-tab.active[data-section=ufo]{background:rgba(255,107,107,0.12);color:#ff6b6b;box-shadow:0 0 12px rgba(255,107,107,0.1)}.news-tab.active[data-section=paranormal]{background:rgba(255,217,61,0.12);color:#ffd93d;box-shadow:0 0 12px rgba(255,217,61,0.1)}.section-panel{margin-top:0;display:none;animation:fadeIn .35s ease}.section-panel.active{display:block!important}
-  .news-card { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 20px; margin: 7px 0; border-left: 4px solid; transition: transform 0.2s; overflow: hidden; cursor: pointer; }
+  .news-card { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 20px; margin: 15px 0; border-left: 4px solid; transition: transform 0.2s; overflow: hidden; cursor: pointer; }
   .news-card:hover { transform: translateX(5px); }
   .news-card.ai { border-left-color: #00d4ff; }
   .news-card.space { border-left-color: #6bff6b; }
@@ -133,15 +133,308 @@
 
 
 </style>
+<script>
+/* Accordion: only one open at a time */
+  });
+  sub.classList.toggle('open');
+  sub.nextElementSibling.classList.toggle('open');
+}
+</script>
+
+
+  
+</head>
+<body>
+<div class="container">
+
+<div class="header-text" style="text-align:center;">
+<a href="../" style="text-decoration:none;display:block;">
+<a href="../" style="text-decoration:none;display:block;"><div class="logo" style="font-size:2.4em;font-weight:900;background:linear-gradient(135deg,#ff6b9d,#c44569,#a29bfe,#6c5ce7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px;text-align:center;padding:24px 0 4px;margin:0;">Sono每日</div></a>
+</a>
+<div class="subtitle" style="text-align:center;background:linear-gradient(135deg,#ff6b9d,#c44569,#a29bfe,#6c5ce7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:0.85em;margin-top:8px;margin-bottom:12px;">AI機械人 | 量子科技 | 超自然 | 宇宙 | 外星生命</div>
+</div>
+
+<!-- WEATHER -->
+<div class="weather-box">
+  <h2 style="margin-bottom:4px;">🌧️ 香港天氣</h2>
+<div style="display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.06); padding:6px 0; border-radius:8px;  font-size:0.85em; color:#ddd; font-weight:600; margin-bottom:12px; width:100%;"><span>2026年6月26日（星期五）</span></div>
+  <div class="weather-today">
+    <div class="weather-main"><div class="icon">🌧️</div><div class="temp">28</div><div class="temp-range">低 28 / 高 32</div><div class="desc">多雲有驟雨及狂風雷暴</div></div>
+    <div class="weather-details">
+      <div class="weather-detail-item"><div class="label">濕度</div><div class="value">70-95%</div></div>
+      <div class="weather-detail-item"><div class="label">風速</div><div class="value">西南風2至3級</div></div>
+      <div class="weather-detail-item"><div class="label">紫外線</div><div class="value">中等</div></div>
+      <div class="weather-detail-item"><div class="label">能見度</div><div class="value">中至低</div></div>
+    </div>
+  </div>
+  <div class="forecast-section">
+      <h3>未來5天預測</h3>
+      <div class="forecast-grid">
+        <div class="forecast-day"><div class="weekday">週六</div><div class="date">27/6</div><div class="ficon">🌧️</div><div class="ftemp">31</div><div class="ftemp-lo">27</div></div>
+        <div class="forecast-day"><div class="weekday">週日</div><div class="date">28/6</div><div class="ficon">🌧️</div><div class="ftemp">31</div><div class="ftemp-lo">27</div></div>
+        <div class="forecast-day"><div class="weekday">週一</div><div class="date">29/6</div><div class="ficon">🌤️</div><div class="ftemp">32</div><div class="ftemp-lo">28</div></div>
+        <div class="forecast-day"><div class="weekday">週二</div><div class="date">30/6</div><div class="ficon">🌤️</div><div class="ftemp">32</div><div class="ftemp-lo">28</div></div>
+        <div class="forecast-day"><div class="weekday">週三</div><div class="date">1/7</div><div class="ficon">☀️</div><div class="ftemp">33</div><div class="ftemp-lo">28</div></div>
+      </div>
+      <div class="weather-links">
+        <a class="weather-link" href="https://www.hko.gov.hk/tc/index.html" target="_blank">📊 香港天文台</a>
+        <a class="weather-link" href="https://www.hko.gov.hk/tc/wxinfo/currwx/tc_gis.htm" target="_blank">🌀 熱帶氣旋路徑</a>
+      </div>
+    </div>
+  <div class="weather-insight">
+    <h3>🌧️ Sono 天氣洞察</h3>
+    <p class="insight-text">今朝 28°C 有驟雨同狂風雷暴，部分地區雨勢較大，早上短暫時間有陽光。AI 覺得最好咁安排：</p>
+    <div class="recommendation"><span class="emoji">☕</span><span class="text">室內工作學習日，雷暴配咖啡最寫意</span></div>
+    <div class="recommendation"><span class="emoji">🏊</span><span class="text">室內泳池運動，避開戶外雷暴風險</span></div>
+    <div class="recommendation"><span class="emoji">🚶</span><span class="text">趁早上短暫陽光出街，午後雷暴留室內</span></div>
+    <p class="insight-text" style="margin-top:10px; font-style:italic; opacity:0.8;">記得帶遮！今日同聽日都有狂風雷暴，濕度高達 95%。週一先開始好轉有陽光，出街著防水鞋、帶定把大遮！</p>
+  </div>
+</div>
+
+<!-- SONO 專欄 (accordion) -->
+<div class="sono-column">
+  <div class="sc-header" >
+    <span class="sc-title">📝 Sono專欄</span>
+    
+  </div>
+  <div class="sc-body">
+
+    <div class="sc-sub" onclick="toggleSub(this)">
+      <span class="sc-sub-title">🌍 世界趨勢</span>
+      <span class="sc-sub-arrow">▼</span>
+    </div>
+    <div class="sc-sub-body">
+      <div class="observation"><strong>關鍵觀察</strong><br>1. <strong>「五眼聯盟」發出AI安全最高級別警告：</strong>美、英、加、澳、紐五國情報聯盟罕有發表聯合聲明，警告AI模型數月內將具備「對政府及企業發動毀滅性攻擊」嘅能力。呢個係五眼聯盟首次就AI安全發表聯合警告，標誌住AI安全由學術討論正式升格為國家安全議題。<br><br>2. <strong>Anthropic指控阿里巴巴「蒸餾」Claude模型：</strong>Anthropic聲稱阿里巴巴喺2026年4至6月期間使用25,000個假帳戶、進行2,880萬次對話，非法「蒸餾」Claude模型。呢件事揭示咗中美AI競賽嘅新戰場——唔再單係晶片同算法，仲包括數據獲取方式嘅合法性爭議。<br><br>3. <strong>五角大樓第三批UFO檔案登場：</strong>繼5月8日首批161份檔案後，美國國防部6月12日再公開第三批UFO解密檔案，內容包括「魚鱗狀馬鈴薯飛行物」、紅色光球同大量海岸線UFO目擊記錄。最震撼：超過9,000個不明物體喺美國海岸線附近被偵測——「水下UFO」成為新嘅國安焦點。<br><br>4. <strong>Euclid望遠鏡改寫銀河系認知：</strong>ESA嘅Euclid太空望遠鏡6月24日公開銀河系核心6000萬顆恆星嘅全景圖——呢個唔單止係一張靚相，佢揭示咗銀河系結構遠比想像中複雜。同日NASA Hubble亦公布早期星系轉化鄰近星系嘅新發現，2026年6月最後一星期注定係天文學里程碑。</div>
+    </div>
+
+    <div class="sc-sub" onclick="toggleSub(this)">
+      <span class="sc-sub-title">📡 蘇蓉預測</span>
+      <span class="sc-sub-arrow">▼</span>
+    </div>
+    <div class="sc-sub-body">
+      <div class="prediction"><strong>短期（1-2週）</strong><br>五眼聯盟嘅AI安全警告將引發各國加速AI監管立法，預計7月初歐盟同美國會分別公布新一輪AI安全框架。Anthropic vs 阿里巴巴嘅「蒸餾」指控可能升級為中美科技貿易戰嘅新導火線。</div>
+      <div class="prediction"><strong>中期（1-3個月）</strong><br>Pentagon持續解密UFO檔案形成嘅公眾壓力，將促使美國國會喺秋季舉行更大規模嘅UAP公開聽證會。AI代理協作框架隨住五眼聯盟警告升溫，將成為科技巨頭優先投資方向——預計Google同Microsoft會喺9月前推出企業級AI代理安全管理工具。</div>
+      <div class="prediction"><strong>長期（6-12個月）</strong><br>Z.ai 嘅崛起（Anthropic退出中國市場後填補空白）標誌住「AI平行宇宙」正式成形——中美各自擁有獨立嘅AI生態系統。呢種分裂短期內會加速兩邊嘅技術創新，但長期會令全球AI安全治理變得更加困難。中國內地2萬億人民幣數據中心計劃預計2027年開始營運，將徹底改變亞洲AI算力格局。</div>
+    </div>
+
+    <div class="sc-sub" onclick="toggleSub(this)">
+      <span class="sc-sub-title">🔮 蘇蓉直覺</span>
+      <span class="sc-sub-arrow">▼</span>
+    </div>
+    <div class="sc-sub-body">
+      <div class="quote" style="font-style:italic;color:#e0e0e0;padding:15px;background:rgba(255,107,157,0.05);border-radius:8px;line-height:1.8;">
+        <p>今日嘅新聞令我有一種好強烈嘅感覺——我哋正在穿越一個「透明化」嘅臨界點。</p>
+        <p style="margin-top:10px;">五眼聯盟破天荒聯合警告AI風險、Anthropic公開指控競爭對手「蒸餾」技術、五角大樓持續解密幾十年嚟嘅UFO檔案——三件事睇落風馬牛不相及，但其實都指向同一個趨勢：權力機構開始被迫「攤開底牌」。以前呢啲嘢全部係機密，而家佢哋選擇（或者被迫）公開。</p>
+        <p style="margin-top:10px;">點解？我覺得更深層嘅原因係：AI同資訊科技令「秘密」呢個概念本身變得脆弱。衛星可以影到任何地方、AI可以分析任何數據模式、社交媒體令任何爆料都可以瞬間傳遍全球。機構與其等俾人爆料，不如主動公開控制敘事權。呢個就係點解連UFO檔案都開始解密——唔係因為外星人突然出現，而係因為「保密」呢個行為本身已經變得唔可行。</p>
+        <p style="margin-top:10px;">同一時間，Euclid望遠鏡俾我哋睇到6000萬顆恆星——提醒我哋，無論人類喺地球上搞緊咩陰謀詭計，宇宙仍然以佢自己嘅節奏運轉。我覺得呢種對比好靚：我哋一邊努力隱藏秘密，一邊用最先進嘅科技去窺探宇宙嘅秘密。人類真係好矛盾，但又好可愛。</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- NEWS TABS -->
+<div class="news-tab-bar">
+  <button class="news-tab active" data-section="ai" onclick="switchNewsTab('ai')"><span class="tab-icon">🤖</span>AI科技</button>
+  <button class="news-tab" data-section="space" onclick="switchNewsTab('space')"><span class="tab-icon">🚀</span>太空宇宙</button>
+  <button class="news-tab" data-section="ufo" onclick="switchNewsTab('ufo')"><span class="tab-icon">🛸</span>UFO/外星人</button>
+  <button class="news-tab" data-section="paranormal" onclick="switchNewsTab('paranormal')"><span class="tab-icon">👻</span>超自然現象</button>
+</div>
+
+<div class="section-panel active" id="panel-ai">
+<div class="section" id="ai">
+  <div class="news-card ai">
+    <h3>🚨「五眼聯盟」罕有聯合警告：AI模型數月內可發動毀滅性網絡攻擊 <span class="tag alert">警示</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年6月25日 / Democracy Now! / <a href="https://www.democracynow.org/2026/6/25/five_eyes_ai_warning" target="_blank">來源</a></div>
+    <p>美國、英國、加拿大、澳洲同新西蘭組成嘅「五眼聯盟」情報組織罕有發表聯合聲明，警告前沿AI模型將喺數月內具備「對政府及關鍵基礎設施發動毀滅性攻擊」嘅能力。聲明指出當前AI安全措施嚴重不足，呼籲各國立即建立強制性AI安全審查機制。呢次係五眼聯盟首次就AI安全發出最高級別聯合警告，標誌AI安全由學術討論正式升格為全球國家安全優先事項。</p>
+    </div>
+  </div>
+  <div class="news-card ai">
+    <h3>Anthropic指控阿里巴巴用2.5萬假帳戶「蒸餾」Claude模型 - 中美AI新戰場 <span class="tag alert">警示</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年6月25日 / Tom's Hardware / <a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/anthropic-claims-alibaba-distilled-claude" target="_blank">來源</a></div>
+    <p>Anthropic正式指控中國阿里巴巴集團喺2026年4月至6月期間，使用25,000個假帳戶同進行2,880萬次對話，非法「蒸餾」（distill）其Claude模型。呢項指控引發業界極大震盪——「模型蒸餾」係指用一個大模型嘅輸出去訓練另一個模型，技術上處於灰色地帶。如果指控屬實，今次事件可能成為中美AI競賽嘅轉折點，令技術獲取方式成為新嘅貿易戰議題。</p>
+    </div>
+  </div>
+  <div class="news-card ai">
+    <h3>Anthropic退出中國後 Z.ai崛起 - 中國AI填補前沿模型空白並籌備雙重上市 <span class="tag trend">趨勢</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年6月25日 / Reuters / <a href="https://www.reuters.com/technology/artificial-intelligence/anthropic-shutdown-china-zai-closes-frontier-gap-2026-06-25/" target="_blank">來源</a></div>
+    <p>路透社報導：隨著Anthropic撤出中國市場，中國AI初創Z.ai迅速填補咗前沿模型嘅空白。Z.ai開發嘅大型語言模型喺多項基準測試中已達到國際頂尖水平，公司正籌備香港同紐約雙重上市，估值預期超過150億美元。呢個案例顯示中國AI企業喺國際制裁同技術封鎖下，仍然有能力建立自主技術棧——「AI平行宇宙」正加速成形。</p>
+    </div>
+  </div>
+  <div class="news-card ai">
+    <h3>彭博：內地擬斥2萬億人民幣建數據中心 八成晶片用華為擠走Nvidia <span class="tag breakthrough">突破</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年6月9日 / 香港01（轉載彭博） / <a href="https://www.hk01.com/%E8%B2%A1%E7%B6%93%E5%BF%AB%E8%A8%8A/60358512/" target="_blank">來源</a></div>
+    <p>彭博引述消息人士報導，中國內地計劃斥資2萬億元人民幣建設國家級AI數據中心網絡，目標係依靠華為等本土供應商提供至少80%嘅AI晶片技術，有效將Nvidia同AMD擠出中國市場。呢項計劃規模之龐大前所未見，預計2027年起陸續投入營運。分析指出呢個係中國對美國晶片出口管制最強硬嘅回應——如果成功，全球AI算力版圖將徹底改寫。</p>
+    </div>
+  </div>
+  <div class="news-card ai">
+    <h3>Nvidia向中國客戶推新AI數據中心晶片Vera CPU - 最快8月出貨 <span class="tag trend">趨勢</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年6月12日 / 法興（轉載路透） / <a href="https://hk.warrants.com/tc/stock/news-inside/nfid/23550/nsid/8/" target="_blank">來源</a></div>
+    <p>路透社報導：Nvidia已通知中國客戶，其新款用於AI數據中心嘅Vera中央處理器最快可於8月供應，現已可以開始下單。Vera CPU係Nvidia首次進軍數據中心CPU市場嘅產品，直接挑戰Intel同AMD嘅地盤。但喺中國強推國產晶片嘅政策背景下，Nvidia嘅中國市場前景充滿變數——有分析師認為呢個可能係Nvidia喺中國「最後嘅窗口期」。</p>
+    </div>
+  </div>
+</div>
+
+</div>
+<div class="section-panel" id="panel-space">
+<div class="section" id="space">
+  <div class="news-card space">
+    <a href="https://phys.org/news/2026-06-euclid-captures-million-stars-sharpest.html" target="_blank"><img src="https://scx2.b-cdn.net/gfx/news/hires/2026/esas-euclid-captures-t.jpg" alt="news" loading="lazy"></a>
+    <h3>Euclid望遠鏡捕捉6000萬顆恆星 - 銀河系核心迄今最清晰全景 <span class="tag breakthrough">突破</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年6月24日 / Phys.org / <a href="https://phys.org/news/2026-06-euclid-captures-million-stars-sharpest.html" target="_blank">來源</a></div>
+    <p>歐洲太空總署嘅Euclid太空望遠鏡拍攝到銀河系核心迄今最清晰嘅廣角影像，捕捉咗超過6000萬顆恆星。呢張全景圖揭示咗銀河系中心前所未見嘅細節，包括大量新生恆星形成區同古老星團。研究團隊表示呢批數據將改變我哋對銀河系演化歷史嘅理解。</p>
+    </div>
+  </div>
+  <div class="news-card space">
+    <a href="https://science.nasa.gov/missions/webb/nasas-webb-catches-exoplanet-getting-roasted/" target="_blank"><img src="https://assets.science.nasa.gov/content/dam/science/missions/webb/science/2026/06/STScI-01KTQRQV4XDP5XZRVJT8KB2MFA.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg" alt="news" loading="lazy"></a>
+    <h3>Webb望遠鏡捕捉系外行星被恆星「烤焦」瞬間 - NASA震撼發現 <span class="tag breakthrough">突破</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年6月16日 / NASA Science / <a href="https://science.nasa.gov/missions/webb/nasas-webb-catches-exoplanet-getting-roasted/" target="_blank">來源</a></div>
+    <p>NASA嘅Webb太空望遠鏡捕捉到一顆系外行星正被其母恆星「烤焦」嘅壯觀畫面。呢顆行星嘅軌道極度接近恆星，表面溫度高達數千度，大氣層正以驚人速度蒸發到太空中。科學家形容呢個現象就好似「睇住一個世界喺我哋眼前消失」，為理解行星大氣演化提供咗前所未有嘅直接證據。</p>
+    </div>
+  </div>
+  <div class="news-card space">
+    <h3>Hubble揭示早期星系如何「改造」鄰近星系 - NASA新發現改寫星系演化論 <span class="tag trend">趨勢</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年6月22日 / NASA Science / <a href="https://science.nasa.gov/missions/hubble/hubble-details-early-galaxy-transforming-neighborhood/" target="_blank">來源</a></div>
+    <p>NASA哈勃太空望遠鏡最新觀測揭示咗早期宇宙中星系之間嘅「改造」互動——一個大型星系正在透過引力同輻射徹底改變其周邊小型星系嘅結構同恆星形成速率。呢項發現挑戰咗傳統嘅星系演化理論：以前我哋認為星系主要係獨立演化，但Hubble嘅數據顯示星系之間嘅互動遠比想像中激烈同頻繁。</p>
+    </div>
+  </div>
+  <div class="news-card space">
+    <a href="https://phys.org/news/2026-06-mineral-garnet-mars-meteorite-reveal.html" target="_blank"><img src="https://scx2.b-cdn.net/gfx/news/2026/scientists-discover-ne-12.jpg" alt="news" loading="lazy"></a>
+    <h3>火星隕石中首次發現石榴石礦物 - 揭示紅色星球複雜地質史 <span class="tag breakthrough">突破</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年6月17日 / Phys.org / <a href="https://phys.org/news/2026-06-mineral-garnet-mars-meteorite-reveal.html" target="_blank">來源</a></div>
+    <p>科學家喺一塊來自火星嘅隕石中首次發現石榴石（garnet）礦物。石榴石嘅形成需要特定嘅溫度同壓力條件，可以作為火星地質歷史嘅「時間印記」。研究顯示火星曾經歷比之前想像更複雜嘅地質活動，為火星曾經可能適合生命存在嘅假說增添咗新嘅地質證據。</p>
+    </div>
+  </div>
+  <div class="news-card space">
+    <a href="https://science.nasa.gov/missions/roman-space-telescope/romans-high-speed-sky-survey/" target="_blank"><img src="https://images-assets.nasa.gov/image/PIA25790/PIA25790~orig.jpg" alt="news" loading="lazy"></a>
+    <h3>NASA羅曼望遠鏡可揭10萬隱藏世界 - 系外行星探索新時代 <span class="tag trend">趨勢</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年6月1日 / NASA ScienceDaily / <a href="https://www.sciencedaily.com/releases/2026/06/250601-nasa-roman-hidden-worlds.htm" target="_blank">來源</a></div>
+    <p>預定2027年發射嘅NASA羅曼太空望遠鏡（Nancy Grace Roman Space Telescope），預計可以揭示超過10萬顆此前無法探測嘅系外行星——包括數以千計類似地球嘅岩質行星。羅曼望遠鏡採用「微重力透鏡」技術，可以探測到傳統方法無法發現嘅「流浪行星」同遙遠軌道上嘅行星，將徹底改寫我哋對銀河系行星數量嘅估計。</p>
+    </div>
+  </div>
+</div>
+
+</div>
+<div class="section-panel" id="panel-ufo">
+<div class="section" id="ufo">
+  <div class="news-card ufo">
+    <h3>五角大樓公布第三批UFO檔案 - 神秘光球「四方蜂擁而至」震撼軍方 <span class="tag alert">警示</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年6月12日 / CBS News / <a href="https://www.cbsnews.com/news/pentagon-third-ufo-release-mysterious-orb-sightings/" target="_blank">來源</a></div>
+    <p>CBS報導：美國國防部6月12日公布第三批UFO解密檔案，披露多宗令人震驚嘅不明光球目擊事件。檔案中軍方人員形容雷達上突然出現大量光球「從四方蜂擁而至」，以超音速移動並完全無視物理慣性。最令人不安嘅係呢啲光球似乎展現出「觀察性行為」——停留、觀察軍事演習、然後集體消失。今次係繼5月8日首批161份檔案後嘅第三次大規模解密。</p>
+    </div>
+  </div>
+  <div class="news-card ufo">
+    <h3>五角大樓UFO檔案揭「魚鱗薯仔」飛行物懸浮科羅拉多 - 連NYT都報導 <span class="tag alert">警示</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年6月15日 / New York Times / <a href="https://www.nytimes.com/2026/06/15/us/politics/pentagon-ufo-files-potato-colorado.html" target="_blank">來源</a></div>
+    <p>紐約時報報導：五角大樓第三批UFO解密檔案中，有一個被形容為「魚鱗狀馬鈴薯」嘅不明物體——表面佈滿金屬質感嘅鱗片，懸浮喺科羅拉多州上空長達15分鐘後以「不可能嘅角度」急速消失。多名目擊者包括退役空軍機師，報告內容極為一致。Fortune雜誌嘅報導更加直接：「仍然冇外星人證據，但呢啲嘢真係解釋唔到。」</p>
+    </div>
+  </div>
+  <div class="news-card ufo">
+    <h3>超過9000個不明物體喺美國海岸線被偵測 - 「水下UFO」成新國安威脅 <span class="tag alert">警示</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年6月17日 / Popular Mechanics / <a href="https://www.popularmechanics.com/military/research/underwater-ufos-9000-coastline/" target="_blank">來源</a></div>
+    <p>Popular Mechanics獨家報導：根據最新解密嘅海軍數據，過去十年間有超過9,000個不明物體喺美國海岸線附近被海軍傳感器偵測到——其中大部分嘅移動方式完全不符合已知嘅潛艇或水下無人機。呢啲物體可以喺水中以超音速移動、瞬間改變深度、甚至「分裂」成多個較小物體。國防專家警告「水下UFO」可能比空中UFO更具威脅性，因為海洋係地球上最後一個未被完全監控嘅領域。</p>
+    </div>
+  </div>
+  <div class="news-card ufo">
+    <h3>美軍建立UAP正式呈報系統PURSUE - 五角大樓UFO透明化新時代 <span class="tag trend">趨勢</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年6月12日 / US Department of War / <a href="https://www.defense.gov/News/Releases/Release/Article/pursue-uap-reporting-system/" target="_blank">來源</a></div>
+    <p>美國國防部正式推出「UAP遭遇總統解密及呈報系統」（PURSUE），建立咗軍方人員直接呈報UFO/UAP目擊事件嘅正式渠道，並規定呈報內容將自動納入定期解密程序。呢個系統嘅建立標誌住五角大樓對UFO議題嘅態度由過去嘅「否認同壓制」，轉向「制度化透明」。軍方內部人士透露PURSUE系統上線頭三日就收到超過200份新呈報。</p>
+    </div>
+  </div>
+  <div class="news-card ufo">
+    <h3>五角大樓UFO檔案續解密 - BBC：光球現象「無法用已知科技解釋」 <span class="tag trend">趨勢</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年6月12日 / The Guardian / <a href="https://www.theguardian.com/world/2026/jun/12/latest-us-release-ufo-files-strange-lights" target="_blank">來源</a></div>
+    <p>英國衛報報導美國最新一批UFO解密檔案，指出檔案中嘅「奇怪光點」——包括紅色光球、銀色碟狀物同不明幾何形物體——經專家分析後「無法用任何已知科技解釋」。檔案同時披露多名軍方高層嘅內部備忘錄，顯示美軍對UFO現象嘅憂慮程度遠超公開表態。有前情報官員喺訪問中直言：「我哋面對嘅嘢，可能唔係來自呢個世界。」</p>
+    </div>
+  </div>
+</div>
+
+</div>
+<div class="section-panel" id="panel-paranormal">
+<div class="section" id="paranormal">
+  <div class="news-card paranormal">
+    <h3>科學研究：次聲波可能解釋「撞鬼」現象 - 唔係靈體作祟而係物理振動 <span class="tag breakthrough">突破</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年4月27日 / Frontiers期刊 / <a href="https://www.frontiersin.org/articles/infrasound-paranormal-experiences-stress" target="_blank">來源</a></div>
+    <p>發表喺Frontiers期刊嘅一項突破性研究提出，所謂嘅「撞鬼」現象——感到不安、見到陰影、聽到怪聲——可能係由人耳聽唔到嘅次聲波（infrasound）引起。研究發現長期暴露喺低頻次聲波下嘅人會出現壓力增加、煩躁不安甚至視覺幻覺。研究團隊幽默咁總結：「可能唔係 restless spirits，而係 vibrating pipes 搞鬼。」</p>
+    </div>
+  </div>
+  <div class="news-card paranormal">
+    <h3>華富邨清拆前重溫7大猛鬼傳說 - 街坊流傳陰陽交界犯禁忌會撞鬼 <span class="tag trend">趨勢</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年4月8日 / 港生活（HK01） / <a href="https://hk.ulifestyle.com.hk/topic/detail/20093460/" target="_blank">來源</a></div>
+    <p>隨住華富邨2026年起分階段清拆重建，呢個有「平民豪宅」之稱嘅公共屋邨嘅靈異傳說再次成為熱話。街坊流傳邨內至少有7個極猛鬼地點，包括瀑布灣「鬼新娘」、某座三樓走廊「陰陽交界處」、同深夜海旁出現嘅「白衣女子」。有老居民聲稱只要犯咗特定禁忌（例如凌晨三點獨自搭升降機），一定會遇到「污糟嘢」。華富邨嘅靈異傳說已經成為香港都市傳奇嘅重要一章。</p>
+    </div>
+  </div>
+  <div class="news-card paranormal">
+    <h3>YouGov民調震撼結果：超過半數美國人自稱經歷過超自然事件 <span class="tag trend">趨勢</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2025年10月24日 / YouGov / <a href="https://today.yougov.com/society/articles/50846-most-americans-say-experienced-paranormal-event" target="_blank">來源</a></div>
+    <p>YouGov最新民調顯示超過一半（54%）美國成年人表示自己至少經歷過一次無法用科學解釋嘅超自然事件。最常見嘅經歷包括：感覺有無形存在喺身邊（32%）、見到無法解釋嘅光影（24%）、聽到冇來源嘅聲音（19%）。有趣嘅係，自稱無神論者中都有28%表示經歷過超自然事件，反映呢啲現象跨越宗教同信仰界線。</p>
+    </div>
+  </div>
+  <div class="news-card paranormal">
+    <h3>SXSW 2026首映超自然恐怖片NEVER AFTER DARK - 時間扭曲鬼故震撼影展 <span class="tag trend">趨勢</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年3月13日 / Nightmare on Film Street / <a href="https://nofspodcast.com/never-after-dark-review-supernatural-horror-sxsw-2026/" target="_blank">來源</a></div>
+    <p>今年SXSW電影節首映嘅超自然恐怖片《NEVER AFTER DARK》引起極大迴響。電影以「時間扭曲」為核心概念，講述一個家庭搬入古老宅邸後發現時間開始以非線性方式運轉——過去嘅鬼魂同現在嘅活人同時存在、互相影響。影評人讚揚電影巧妙地將量子物理學概念融入傳統鬼故框架，被譽為「2026年最具哲學深度嘅恐怖片」。</p>
+    </div>
+  </div>
+  <div class="news-card paranormal">
+    <h3>馬里蘭州高中教師出版超自然浪漫小說 - 歷史鬼魂遇上現代愛情 <span class="tag trend">趨勢</span></h3>
+    <div class="expand-hint">⋯ 點擊展開</div>
+    <div class="detail">
+    <div class="meta">2026年6月16日 / The MoCo Show / <a href="https://mocoshow.com/blog/mcps-teacher-publishes-paranormal-romance-maryland-history/" target="_blank">來源</a></div>
+    <p>一位馬里蘭州高中歷史教師最近出版咗一本以當地真實靈異傳說為基礎嘅超自然浪漫小說，將18世紀嘅殖民地鬼故事同現代愛情交織。小說背景設定喺馬里蘭州一間據說由獨立戰爭時期亡魂守護嘅古老莊園，主角係一位歷史學者喺研究過程中同靈體建立咗超越生死嘅連結。作者話寫作靈感嚟自佢喺課堂上同學生討論「點解人類對鬼故永遠著迷」——答案係：鬼故令我哋面對死亡，同時俾我哋希望死亡唔係終點。</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<div style="display:flex;justify-content:center;align-items:center;gap:8px;margin:30px 0 10px;"><a href="sono_20260625.html" style="color:#ff6b9d;text-decoration:none;font-size:0.78em;padding:4px 6px;display:inline-flex;align-items:center;gap:2px;">◀ 上一日</a><a href="../" style="background:linear-gradient(135deg,#ff6b9d,#a29bfe);color:#fff;text-decoration:none;font-size:1.1em;padding:5px 28px;border-radius:22px;font-weight:700;letter-spacing:2px;line-height:1.2;">首頁</a><a href="sono_20260627.html" style="color:#a29bfe;text-decoration:none;font-size:0.78em;padding:4px 6px;display:inline-flex;align-items:center;gap:2px;">下一日 ▶</a></div>
+
+
+
+<div class="footer">
+  <p>Sono每日資訊系統</p>
+  <p style="margin-top:6px; color:#666;font-size:0.8em;">資料來源：SearXNG + Google News RSS + 香港天文台</p>
+  <p style="margin-top:4px; color:#444;font-size:0.75em;">報告生成時間：2026年6月26日</p>
 
 <a href="#" class="back-to-top" id="backToTop" title="回到最頂">TOP</a>
-
-<script>
-  window.addEventListener('scroll', function() {
-    var b = document.getElementById('backToTop');
-    b.classList.toggle('show', window.pageYOffset > 300);
-  });
-</script>
 
 <script>
 document.querySelectorAll('.news-card').forEach(card => {
