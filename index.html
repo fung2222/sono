@@ -295,8 +295,28 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 // ══════ Tab Event Listener 初始化 �═════
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    switchTab(btn.dataset.tab);
+  });
+});
 
 // ══════ 工具箱 Event Listener 初始化 ══════
+document.querySelectorAll('.card.tool-sm').forEach(function(card) {
+  card.addEventListener('click', function() {
+    var id = card.id;
+    // 根據 id 觸發對應功能
+    if (id === 'weatherTrigger') openWeatherModal();
+    else if (id === 'currencyTrigger') openCurrencyModal();
+    else if (id === 'searchTrigger') openSearchModal();
+    else if (id === 'translateTrigger') openTranslateModal();
+    else if (id === 'issTrigger') openISSModal();
+    else if (id === 'worldClockTrigger') openWorldClockModal();
+    else if (id === 'qrTrigger') openQRModal();
+    else if (id === 'mapTrigger') openMapModal();
+    else if (id === 'timerTrigger') openTimerModal();
+    else if (id === 'mtrTrigger') openMTRModal();
+  });
 });
 
 // ══════ ISS 追蹤工具（獨立模組） ══════
@@ -1222,8 +1242,28 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
 
 
 // ══════ Tab Event Listener 初始化 �═════
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    switchTab(btn.dataset.tab);
+  });
+});
 
 // ══════ 工具箱 Event Listener 初始化 ══════
+document.querySelectorAll('.card.tool-sm').forEach(function(card) {
+  card.addEventListener('click', function() {
+    var id = card.id;
+    // 根據 id 觸發對應功能
+    if (id === 'weatherTrigger') openWeatherModal();
+    else if (id === 'currencyTrigger') openCurrencyModal();
+    else if (id === 'searchTrigger') openSearchModal();
+    else if (id === 'translateTrigger') openTranslateModal();
+    else if (id === 'issTrigger') openISSModal();
+    else if (id === 'worldClockTrigger') openWorldClockModal();
+    else if (id === 'qrTrigger') openQRModal();
+    else if (id === 'mapTrigger') openMapModal();
+    else if (id === 'timerTrigger') openTimerModal();
+    else if (id === 'mtrTrigger') openMTRModal();
+  });
 });
 
 // ══════ ISS 追蹤工具（獨立模組） ══════
@@ -1502,8 +1542,28 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
 })();
 
 // ══════ Tab Event Listener 初始化 �═════
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    switchTab(btn.dataset.tab);
+  });
+});
 
 // ══════ 工具箱 Event Listener 初始化 ══════
+document.querySelectorAll('.card.tool-sm').forEach(function(card) {
+  card.addEventListener('click', function() {
+    var id = card.id;
+    // 根據 id 觸發對應功能
+    if (id === 'weatherTrigger') openWeatherModal();
+    else if (id === 'currencyTrigger') openCurrencyModal();
+    else if (id === 'searchTrigger') openSearchModal();
+    else if (id === 'translateTrigger') openTranslateModal();
+    else if (id === 'issTrigger') openISSModal();
+    else if (id === 'worldClockTrigger') openWorldClockModal();
+    else if (id === 'qrTrigger') openQRModal();
+    else if (id === 'mapTrigger') openMapModal();
+    else if (id === 'timerTrigger') openTimerModal();
+    else if (id === 'mtrTrigger') openMTRModal();
+  });
 });
 
 // ══════ ISS 追蹤工具（獨立模組） ══════
@@ -1981,8 +2041,28 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
 })();
 
 // ══════ Tab Event Listener 初始化 �═════
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    switchTab(btn.dataset.tab);
+  });
+});
 
 // ══════ 工具箱 Event Listener 初始化 ══════
+document.querySelectorAll('.card.tool-sm').forEach(function(card) {
+  card.addEventListener('click', function() {
+    var id = card.id;
+    // 根據 id 觸發對應功能
+    if (id === 'weatherTrigger') openWeatherModal();
+    else if (id === 'currencyTrigger') openCurrencyModal();
+    else if (id === 'searchTrigger') openSearchModal();
+    else if (id === 'translateTrigger') openTranslateModal();
+    else if (id === 'issTrigger') openISSModal();
+    else if (id === 'worldClockTrigger') openWorldClockModal();
+    else if (id === 'qrTrigger') openQRModal();
+    else if (id === 'mapTrigger') openMapModal();
+    else if (id === 'timerTrigger') openTimerModal();
+    else if (id === 'mtrTrigger') openMTRModal();
+  });
 });
 
 // ══════ ISS 追蹤工具（獨立模組） ══════
@@ -2345,8 +2425,28 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
 })();
 
 // ══════ Tab Event Listener 初始化 �═════
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    switchTab(btn.dataset.tab);
+  });
+});
 
 // ══════ 工具箱 Event Listener 初始化 ══════
+document.querySelectorAll('.card.tool-sm').forEach(function(card) {
+  card.addEventListener('click', function() {
+    var id = card.id;
+    // 根據 id 觸發對應功能
+    if (id === 'weatherTrigger') openWeatherModal();
+    else if (id === 'currencyTrigger') openCurrencyModal();
+    else if (id === 'searchTrigger') openSearchModal();
+    else if (id === 'translateTrigger') openTranslateModal();
+    else if (id === 'issTrigger') openISSModal();
+    else if (id === 'worldClockTrigger') openWorldClockModal();
+    else if (id === 'qrTrigger') openQRModal();
+    else if (id === 'mapTrigger') openMapModal();
+    else if (id === 'timerTrigger') openTimerModal();
+    else if (id === 'mtrTrigger') openMTRModal();
+  });
 });
 
 // ══════ ISS 追蹤工具（獨立模組） ══════
