@@ -997,34 +997,67 @@ async function sendMessage() {
 
   showTyping();
 
-  try {
-    var resp = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
-      body: JSON.stringify({
-        model: model,
-        messages: [
-          { role: 'system', content: '你係 Sono蘇蘿，一個友善、聰明嘅女性 AI 助手。用繁體中文回答，語氣溫暖親切、精簡扼要。用戶係香港人，名叫嘉豐。' },
-          { role: 'user', content: text }
-        ],
-        max_tokens: 800,
-        temperature: 0.7
-      })
-    });
+  // Fallback models list
+  var models = [
+    model,
+    'google/gemma-4-26b-a4b-it:free'
+  ];
 
-    hideTyping();
+  var resp = null;
+  var usedModel = null;
 
-    if (!resp.ok) {
-      var errText = await resp.text();
-      addMessage('system', '❌ API 錯誤 (' + resp.status + ')：請檢查設定。' + (errText.length < 200 ? '\n' + errText : ''));
-    } else {
-      var data = await resp.json();
-      var reply = data.choices[0].message.content;
-      addMessage('assistant', reply);
+  for (var i = 0; i < models.length; i++) {
+    try {
+      var r = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+        body: JSON.stringify({
+          model: models[i],
+          messages: [
+            { role: 'system', content: '你係 Sono蘇蘿，一個友善、聰明嘅女性 AI 助手。用繁體中文回答，語氣溫暖親切、精簡扼要。用戶係香港人，名叫嘉豐。' },
+            { role: 'user', content: text }
+          ],
+          max_tokens: 800,
+          temperature: 0.7
+        })
+      });
+
+      if (r.ok) {
+        resp = r;
+        usedModel = models[i];
+        break;
+      } else {
+        // Try next model on 5xx or rate limit
+        if (r.status >= 500 || r.status === 429) continue;
+        // Other errors (4xx auth etc) — stop and show error
+        resp = r;
+        usedModel = models[i];
+        break;
+      }
+    } catch(e) {
+      // Network error, try next model
+      if (i === models.length - 1) {
+        hideTyping();
+        addMessage('system', '❌ 連線失敗：' + e.message);
+        isWaiting = false;
+        document.getElementById('sendBtn').disabled = false;
+        document.getElementById('chatInput').focus();
+        return;
+      }
     }
-  } catch(e) {
-    hideTyping();
-    addMessage('system', '❌ 連線失敗：' + e.message);
+  }
+
+  hideTyping();
+
+  if (!resp) {
+    addMessage('system', '❌ 所有模型都無法使用，請稍後再試。');
+  } else if (!resp.ok) {
+    var errText = await resp.text();
+    addMessage('system', '❌ API 錯誤 (' + resp.status + ')：請檢查設定。' + (errText.length < 200 ? '\n' + errText : ''));
+  } else {
+    var data = await resp.json();
+    var reply = data.choices[0].message.content;
+    addMessage('assistant', reply);
   }
 
   isWaiting = false;
