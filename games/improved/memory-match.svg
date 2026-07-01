@@ -1,0 +1,20 @@
+<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sono" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff6b9d"/>
+      <stop offset="100%" stop-color="#a29bfe"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <circle cx="24" cy="24" r="22" fill="#1a1a2e"/>
+  <!-- Card 1 (front, matched) -->
+  <rect x="7" y="9" width="15" height="20" rx="3" fill="#fff" stroke="url(#sono)" stroke-width="2.5"/>
+  <circle cx="14.5" cy="19" r="4" fill="#ff6b9d"/>
+  <path d="M11 24 Q14.5 28 18 24" fill="none" stroke="#a29bfe" stroke-width="2" stroke-linecap="round"/>
+  <!-- Card 2 (back) -->
+  <rect x="26" y="9" width="15" height="20" rx="3" fill="#2a2a4a" stroke="url(#sono)" stroke-width="2.5"/>
+  <text x="33.5" y="23" fill="url(#sono)" font-size="11" font-weight="700" text-anchor="middle">?</text>
+  <!-- Overlapping matched card hint -->
+  <rect x="15" y="19" width="15" height="20" rx="3" fill="#fff" stroke="url(#sono)" stroke-width="2" opacity="0.9"/>
+  <circle cx="22.5" cy="29" r="3.5" fill="#a29bfe"/>
+</svg>

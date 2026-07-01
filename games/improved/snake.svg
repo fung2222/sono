@@ -1,0 +1,27 @@
+<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sono" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff6b9d"/>
+      <stop offset="100%" stop-color="#a29bfe"/>
+    </linearGradient>
+    <linearGradient id="snakeGrad" x1="0%" y1="20%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="#a29bfe"/>
+      <stop offset="100%" stop-color="#6c5ce7"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <circle cx="24" cy="24" r="22" fill="#1a1a2e"/>
+  <!-- Cute coiled snake body -->
+  <path d="M11 28 Q16 15 26 22 Q34 30 30 38" fill="none" stroke="url(#snakeGrad)" stroke-width="7" stroke-linecap="round"/>
+  <path d="M14 25 Q19 18 25 23" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+  <!-- Head (big cartoon) -->
+  <circle cx="30" cy="36" r="6" fill="url(#snakeGrad)"/>
+  <!-- Eye (big cute) -->
+  <circle cx="33" cy="34" r="2.8" fill="#fff"/>
+  <circle cx="34" cy="34" r="1.4" fill="#1a1a2e"/>
+  <!-- Tongue -->
+  <path d="M36 38 Q38 40 40 38" fill="none" stroke="#ff6b9d" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- Apple -->
+  <circle cx="17" cy="15" r="4" fill="#ff6b9d"/>
+  <rect x="16.5" y="10" width="1.5" height="4" fill="#6c5ce7" rx="1"/>
+</svg>

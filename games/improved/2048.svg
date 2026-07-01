@@ -1,0 +1,25 @@
+<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sono" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff6b9d"/>
+      <stop offset="100%" stop-color="#a29bfe"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <circle cx="24" cy="24" r="22" fill="#1a1a2e"/>
+  <!-- Main rounded grid -->
+  <rect x="7" y="7" width="34" height="34" rx="6" fill="#2a2a4a" stroke="url(#sono)" stroke-width="2.5"/>
+  <!-- Tiles with cartoon pop -->
+  <!-- 2 -->
+  <rect x="10" y="10" width="13" height="13" rx="3" fill="#fff"/>
+  <text x="16.5" y="19.5" fill="#ff6b9d" font-size="9" font-weight="800" text-anchor="middle">2</text>
+  <!-- 4 -->
+  <rect x="25" y="10" width="13" height="13" rx="3" fill="#a29bfe"/>
+  <text x="31.5" y="19.5" fill="#fff" font-size="9" font-weight="800" text-anchor="middle">4</text>
+  <!-- 8 -->
+  <rect x="10" y="25" width="13" height="13" rx="3" fill="#ff6b9d"/>
+  <text x="16.5" y="34.5" fill="#fff" font-size="9" font-weight="800" text-anchor="middle">8</text>
+  <!-- 16 (merged highlight) -->
+  <rect x="25" y="25" width="13" height="13" rx="3" fill="#6c5ce7"/>
+  <text x="31.5" y="33" fill="#fff" font-size="7" font-weight="800" text-anchor="middle">16</text>
+</svg>
