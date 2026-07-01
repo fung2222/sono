@@ -420,7 +420,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     <label>API Key</label>
     <input type="password" id="apiKey" placeholder="sk-or-...">
     <label>Model</label>
-    <input type="text" id="apiModel" placeholder="google/gemma-3-27b-it:free">
+    <input type="text" id="apiModel" placeholder="meta-llama/llama-3.1-8b-instruct:free">
     <p class="hint">💡 已預設 xAI Grok-4（主模型）。Fallback 會自動用 OpenRouter Gemma 4。。想轉 model 可改，支援任何 OpenAI 兼容 API。</p>
     <div class="btn-row">
       <button class="btn-cancel" onclick="closeSettings()">取消</button>
@@ -980,9 +980,9 @@ async function sendMessage() {
     localStorage.setItem('sono_api_endpoint', endpoint);
   }
   var apiKey = localStorage.getItem('sono_api_key') || '';
-  var model = localStorage.getItem('sono_api_model') || 'google/gemma-3-27b-it:free';
+  var model = localStorage.getItem('sono_api_model') || 'meta-llama/llama-3.1-8b-instruct:free';
   // Auto-fix old model names
-  if (model === 'google/gemini-2.0-flash-001' || model === 'google/gemma-3-27b-it:free') {
+  if (model === 'google/gemini-2.0-flash-001' || model === 'meta-llama/llama-3.1-8b-instruct:free') {
     model = 'grok-4';
     localStorage.setItem('sono_api_model', model);
   }
@@ -1069,7 +1069,7 @@ async function sendMessage() {
 function openSettings() {
   document.getElementById('apiEndpoint').value = localStorage.getItem('sono_api_endpoint') || 'https://openrouter.ai/api/v1/chat/completions';
   document.getElementById('apiKey').value = localStorage.getItem('sono_api_key') || '';
-  document.getElementById('apiModel').value = localStorage.getItem('sono_api_model') || 'google/gemma-3-27b-it:free';
+  document.getElementById('apiModel').value = localStorage.getItem('sono_api_model') || 'meta-llama/llama-3.1-8b-instruct:free';
   document.getElementById('settingsOverlay').classList.add('show');
 }
 
@@ -1080,7 +1080,7 @@ function closeSettings() {
 function saveSettings() {
   localStorage.setItem('sono_api_endpoint', document.getElementById('apiEndpoint').value.trim());
   localStorage.setItem('sono_api_key', document.getElementById('apiKey').value.trim());
-  localStorage.setItem('sono_api_model', document.getElementById('apiModel').value.trim() || 'google/gemma-3-27b-it:free');
+  localStorage.setItem('sono_api_model', document.getElementById('apiModel').value.trim() || 'meta-llama/llama-3.1-8b-instruct:free');
   closeSettings();
   if (!chatExpanded) toggleChat();
   setTimeout(function() {
@@ -1473,7 +1473,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     
     var endpoint = localStorage.getItem('sono_api_endpoint') || 'https://openrouter.ai/api/v1/chat/completions';
     var key = localStorage.getItem('sono_api_key') || '';
-    var model = localStorage.getItem('sono_api_model') || 'google/gemma-3-27b-it:free';
+    var model = localStorage.getItem('sono_api_model') || 'meta-llama/llama-3.1-8b-instruct:free';
     
     if(!key){
       output.textContent = '⚠️ 請先喺 AI 聊天框嘅 ⚙️ 設定入面輸入 API Key';
