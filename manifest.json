@@ -1,22 +1,29 @@
 {
-  "name": "Suno蘇蓉",
-  "short_name": "蘇蓉",
-  "start_url": "/sono/",
+  "name": "Sono蘇蘿",
+  "short_name": "Sono蘇蘿",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a1a",
   "theme_color": "#0a0a1a",
-  "description": "Suno蘇蓉 - 每日AI感應世界脈搏，科技與未來 · 太空與超自然",
+  "description": "Sono蘇蘿 - 每日AI感應世界脈搏，科技與未來 · 太空與超自然",
   "lang": "zh-HK",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "favicon.png",
-      "sizes": "128x128",
-      "type": "image/png"
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "favicon-32x32.png",
-      "sizes": "32x32",
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
       "type": "image/png"
     }
   ]
