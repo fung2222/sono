@@ -74,8 +74,8 @@ def validate_report(date_str):
     # 6. 檢查 Sono 專欄（3個部分）
     column_parts = [
         (r'sc-sub-title.*?世界趨勢', "世界趨勢"),
-        (r'sc-sub-title.*?蘇蓉預測', "蘇蓉預測"),
-        (r'sc-sub-title.*?蘇蓉直覺', "蘇蓉直覺"),
+        (r'sc-sub-title.*?蘇蘿預測', "蘇蘿預測"),
+        (r'sc-sub-title.*?蘇蘿直覺', "蘇蘿直覺"),
     ]
     
     for pattern, name in column_parts:

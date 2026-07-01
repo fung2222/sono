@@ -167,7 +167,7 @@ function switchTab(tab) {
 
 - **Sono 日報生成**：每日 6am HKT（cron job: bb303ed10bed）
 - 使用模型：grok-4.3 @ xai-oauth
-- 推送目標：Telegram Sono蘇蓉 群組 + GitHub Pages
+- 推送目標：Telegram Sono蘇蘿 群組 + GitHub Pages
 
 ---
 

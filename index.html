@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0a0a1a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="Sono蘇蓉">
+<meta name="apple-mobile-web-app-title" content="Sono蘇蘿">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="apple-touch-icon" href="favicon.png">
 <link rel="manifest" href="manifest.json">
-<title>Sono蘇蓉</title>
+<title>Sono蘇蘿</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; line-height: 1.7; min-height: 100vh; }
@@ -386,7 +386,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
 <!-- Logo -->
 <div class="logo-area">
-  <div class="logo">Sono蘇蓉</div>
+  <div class="logo">Sono蘇蘿</div>
   <div class="subtitle">科技與未來 · 太空與超自然</div>
 </div>
 
@@ -394,7 +394,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <div class="chat-widget" id="chatWidget">
   <div class="chat-bar" id="chatBar" onclick="toggleChat()">
     <div class="chat-avatar">AI</div>
-    <div class="chat-prompt" id="chatPrompt">同 Sono蘇蓉 傾偈…</div>
+    <div class="chat-prompt" id="chatPrompt">同 Sono蘇蘿 傾偈…</div>
     <div class="chat-actions">
       <button class="chat-btn" title="設定" onclick="event.stopPropagation();openSettings()">⚙️</button>
       <button class="chat-btn" id="chatToggleIcon" title="展開">▼</button>
@@ -402,7 +402,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   </div>
   <div class="chat-body">
     <div class="chat-messages" id="chatMessages">
-      <div class="msg system">👋 你好！我係 Sono蘇蓉，有咩可以幫你？</div>
+      <div class="msg system">👋 你好！我係 Sono蘇蘿，有咩可以幫你？</div>
     </div>
     <div class="chat-input-wrap">
       <input type="text" id="chatInput" placeholder="輸入訊息…" onkeydown="if(event.key==='Enter')sendMessage()">
@@ -753,7 +753,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
 <!-- Footer -->
 <div class="footer">
-  Powered by <strong>Sono蘇蓉 AI</strong>
+  Powered by <strong>Sono蘇蘿 AI</strong>
 </div>
 
 </div>
@@ -1004,7 +1004,7 @@ async function sendMessage() {
       body: JSON.stringify({
         model: model,
         messages: [
-          { role: 'system', content: '你係 Sono蘇蓉，一個友善、聰明嘅女性 AI 助手。用繁體中文回答，語氣溫暖親切、精簡扼要。用戶係香港人，名叫嘉豐。' },
+          { role: 'system', content: '你係 Sono蘇蘿，一個友善、聰明嘅女性 AI 助手。用繁體中文回答，語氣溫暖親切、精簡扼要。用戶係香港人，名叫嘉豐。' },
           { role: 'user', content: text }
         ],
         max_tokens: 800,
