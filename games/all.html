@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>遊戲庫 · Sono蘇蓉</title>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; line-height: 1.6; min-height: 100vh; }
@@ -59,6 +60,54 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
   margin-top: auto;
   align-self: flex-start;
 }
+
+/* 排序模式 */
+.sort-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: linear-gradient(135deg, #6bff6b, #00d4ff);
+  color: #0a0a1a;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 24px;
+  font-size: 0.95em;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(107,255,107,0.3);
+  z-index: 1000;
+  transition: all 0.3s;
+}
+.sort-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(107,255,107,0.5);
+}
+.sort-toggle.active {
+  background: linear-gradient(135deg, #ff6b9d, #c44569);
+  box-shadow: 0 4px 20px rgba(255,107,157,0.3);
+}
+
+.game-grid.sorting .game-card {
+  cursor: move;
+  animation: wiggle 0.5s ease-in-out infinite;
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-2deg); }
+  75% { transform: rotate(2deg); }
+}
+
+.game-card.sortable-ghost {
+  opacity: 0.4;
+  transform: scale(0.95);
+}
+.game-card.sortable-chosen {
+  transform: scale(1.05);
+  box-shadow: 0 12px 40px rgba(107,255,107,0.4);
+}
+.game-card.sortable-drag {
+  transform: rotate(3deg) scale(1.1);
+}
 </style>
 </head>
 <body>
@@ -71,13 +120,13 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
   <!-- 經典遊戲 -->
   <div class="category">
     <div class="category-title">🎮 經典遊戲</div>
-    <div class="game-grid">
-      <a href="../snake/" class="game-card">
+    <div class="game-grid" id="classic-games">
+      <a href="../snake/" class="game-card" data-game="snake">
         <img src="snake.svg" class="game-logo" alt="貪食蛇">
         <div class="game-name">貪食蛇</div>
         <div class="game-tag">經典</div>
       </a>
-      <a href="../2048/" class="game-card">
+      <a href="../2048/" class="game-card" data-game="2048">
         <img src="2048.svg" class="game-logo" alt="2048">
         <div class="game-name">2048</div>
         <div class="game-tag">數字</div>
@@ -88,23 +137,23 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
   <!-- 對戰遊戲 -->
   <div class="category">
     <div class="category-title">⚔️ 對戰遊戲</div>
-    <div class="game-grid">
-      <a href="../fighter/" class="game-card">
+    <div class="game-grid" id="battle-games">
+      <a href="../fighter/" class="game-card" data-game="fighter">
         <img src="stickman-fighter.svg" class="game-logo" alt="火柴人格鬥">
         <div class="game-name">火柴人格鬥</div>
         <div class="game-tag">對戰</div>
       </a>
-      <a href="../stickman-fighter-v1/" class="game-card">
+      <a href="../stickman-fighter-v1/" class="game-card" data-game="stickman-fighter-v1">
         <img src="stickman-fighter-v1.svg" class="game-logo" alt="Stickman Fighter">
         <div class="game-name">Stickman Fighter</div>
         <div class="game-tag">對戰</div>
       </a>
-      <a href="../rps-battle/" class="game-card">
+      <a href="../rps-battle/" class="game-card" data-game="rps-battle">
         <img src="rock-paper-scissors.svg" class="game-logo" alt="剪刀石頭佈">
         <div class="game-name">剪刀石頭佈</div>
         <div class="game-tag">對戰</div>
       </a>
-      <a href="../tictactoe/" class="game-card">
+      <a href="../tictactoe/" class="game-card" data-game="tictactoe">
         <img src="xo-three-doors.svg" class="game-logo" alt="井字遊戲">
         <div class="game-name">井字遊戲</div>
         <div class="game-tag">對戰</div>
@@ -115,8 +164,8 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
   <!-- 益智遊戲 -->
   <div class="category">
     <div class="category-title">🧠 益智遊戲</div>
-    <div class="game-grid">
-      <a href="../memory/" class="game-card">
+    <div class="game-grid" id="puzzle-games">
+      <a href="../memory/" class="game-card" data-game="memory">
         <img src="memory-match.svg" class="game-logo" alt="記憶配對">
         <div class="game-name">記憶配對</div>
         <div class="game-tag">益智</div>
@@ -124,6 +173,109 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
     </div>
   </div>
 
+  <button class="sort-toggle" id="sortToggle">🎯 排序模式</button>
+
 </div>
+
+<script>
+(function() {
+  const STORAGE_KEY = 'sono_games_order';
+  const grids = {
+    'classic-games': document.getElementById('classic-games'),
+    'battle-games': document.getElementById('battle-games'),
+    'puzzle-games': document.getElementById('puzzle-games')
+  };
+  
+  let sortables = {};
+  let sortingMode = false;
+  
+  // 從 LocalStorage 載入排序
+  function loadOrder() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+    
+    try {
+      const order = JSON.parse(saved);
+      Object.keys(order).forEach(gridId => {
+        const grid = grids[gridId];
+        if (!grid) return;
+        
+        const cards = Array.from(grid.querySelectorAll('.game-card'));
+        const orderMap = {};
+        order[gridId].forEach((gameId, index) => {
+          orderMap[gameId] = index;
+        });
+        
+        cards.sort((a, b) => {
+          const aId = a.dataset.game;
+          const bId = b.dataset.game;
+          return (orderMap[aId] ?? 999) - (orderMap[bId] ?? 999);
+        });
+        
+        cards.forEach(card => grid.appendChild(card));
+      });
+    } catch (e) {
+      console.error('Failed to load game order:', e);
+    }
+  }
+  
+  // 保存排序到 LocalStorage
+  function saveOrder() {
+    const order = {};
+    Object.keys(grids).forEach(gridId => {
+      const grid = grids[gridId];
+      if (!grid) return;
+      
+      order[gridId] = Array.from(grid.querySelectorAll('.game-card'))
+        .map(card => card.dataset.game);
+    });
+    
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(order));
+  }
+  
+  // 初始化 Sortable
+  function initSortables() {
+    Object.keys(grids).forEach(gridId => {
+      const grid = grids[gridId];
+      if (!grid) return;
+      
+      sortables[gridId] = new Sortable(grid, {
+        animation: 150,
+        ghostClass: 'sortable-ghost',
+        chosenClass: 'sortable-chosen',
+        dragClass: 'sortable-drag',
+        disabled: true,
+        onEnd: saveOrder
+      });
+    });
+  }
+  
+  // 切換排序模式
+  function toggleSorting() {
+    sortingMode = !sortingMode;
+    const btn = document.getElementById('sortToggle');
+    
+    if (sortingMode) {
+      btn.textContent = '✓ 完成排序';
+      btn.classList.add('active');
+      Object.keys(grids).forEach(id => grids[id].classList.add('sorting'));
+      Object.values(sortables).forEach(s => s.option('disabled', false));
+    } else {
+      btn.textContent = '🎯 排序模式';
+      btn.classList.remove('active');
+      Object.keys(grids).forEach(id => grids[id].classList.remove('sorting'));
+      Object.values(sortables).forEach(s => s.option('disabled', true));
+      saveOrder();
+    }
+  }
+  
+  // 初始化
+  document.addEventListener('DOMContentLoaded', function() {
+    loadOrder();
+    initSortables();
+    document.getElementById('sortToggle').addEventListener('click', toggleSorting);
+  });
+})();
+</script>
 </body>
 </html>
