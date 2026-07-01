@@ -102,13 +102,13 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .tab-panel.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-.report-list { display: grid; gap: 12px; }
-.report-item { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 18px 20px; border-left: 4px solid #ff6b9d; transition: transform 0.2s, box-shadow 0.2s; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: #e0e0e0; }
+.report-list { display: grid; gap: 6px; }
+.report-item { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 10px 16px; border-left: 4px solid #ff6b9d; transition: transform 0.2s, box-shadow 0.2s; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: #e0e0e0; }
 .report-item:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.4); border-left-color: #00d4ff; }
-.report-item .date-num { font-size: 2em; font-weight: 900; color: #ff6b9d; min-width: 65px; text-align: center; }
-.report-item .info { flex: 1; margin-left: 14px; }
-.report-item .info h3 { font-size: 1.05em; color: #fff; margin-bottom: 2px; }
-.report-item .info .weekday { font-size: 0.82em; color: #a29bfe; margin-bottom: 5px; }
+.report-item .date-num { font-size: 1.6em; font-weight: 900; color: #ff6b9d; min-width: 50px; text-align: center; }
+.report-item .info { flex: 1; margin-left: 10px; }
+.report-item .info h3 { font-size: 1em; color: #fff; margin-bottom: 1px; }
+.report-item .info .weekday { font-size: 0.82em; color: #a29bfe; margin-bottom: 3px; }
 .report-item .info .desc { font-size: 0.82em; color: #888; }
 .report-item .arrow { font-size: 1.4em; color: #555; }
 .report-history-link { text-align: center; margin-top: 20px; }
@@ -449,21 +449,21 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <div class="tab-panel active" id="tab-daily">
   <div class="section-label">📰 瀏覽日報</div>
   <div class="report-list">
+<a href="reports/sono_20260701.html" class="report-item">
+      <div class="date-num">1</div>
+      <div class="info">
+        <h3>2026年7月1日</h3>
+        <div class="weekday">星期三</div>
+        <div class="desc">港大AI治理峰會 · SpaceX納入納指100 · 盲眼龍婆UFO預言</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
         <a href="reports/sono_20260630.html" class="report-item">
       <div class="date-num">30</div>
       <div class="info">
         <h3>2026年6月30日</h3>
         <div class="weekday">星期二</div>
         <div class="desc">AI基礎設施投資加速 · Artemis 3登月任務 · UFO檔案持續解密</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-<a href="reports/sono_20260701.html" class="report-item">
-      <div class="date-num">1</div>
-      <div class="info">
-        <h3>2026年7月1日</h3>
-        <div class="weekday">星期三</div>
-        <div class="desc">The 2026 AI Ind... · SpaceX - Wikipe... · Unidentified fl...</div>
       </div>
       <div class="arrow">→</div>
     </a>
