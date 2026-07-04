@@ -316,6 +316,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'mapTrigger') openMapModal();
     else if (id === 'timerTrigger') openTimerModal();
     else if (id === 'mtrTrigger') openMTRModal();
+    else if (id === 'bmiTrigger') openBMIModal();
   });
 });
 
@@ -719,7 +720,11 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     </div>
     <div class="card tool-sm" id="mtrTrigger">
       <div class="ts-icon-box"><span class="ts-emoji">🚇</span></div>
-      <span class="ts-label">港鐵查詢</span>
+      <span class="ts-label">MTR 查詢</span>
+    </div>
+    <div class="card tool-sm" id="bmiTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🏋️</span></div>
+      <span class="ts-label">BMI 計算</span>
     </div>
     </div>
 
@@ -774,6 +779,32 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   Powered by <strong>Sono蘇蘿 AI</strong>
 </div>
 
+</div>
+
+<!-- ══════ BMI 計算機 Modal ══════ -->
+<div id="bmiModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:420px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:1.3em;color:#fff;">🏋️ BMI 計算</h2>
+      <button id="bmiClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <div style="margin-bottom:14px;">
+      <label style="color:#aaa;font-size:0.8em;display:block;margin-bottom:4px;">身高 (cm)</label>
+      <input id="bmiHeight" type="number" value="170" min="50" max="250" step="any" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:1em;font-family:inherit;outline:none;" placeholder="170">
+    </div>
+    <div style="margin-bottom:18px;">
+      <label style="color:#aaa;font-size:0.8em;display:block;margin-bottom:4px;">體重 (kg)</label>
+      <input id="bmiWeight" type="number" value="65" min="10" max="300" step="any" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:1em;font-family:inherit;outline:none;" placeholder="65">
+    </div>
+    <button id="bmiCalcBtn" style="width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b9d,#a29bfe);color:#fff;font-size:1em;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:14px;">計算 BMI</button>
+    <div id="bmiResult" style="display:none;background:rgba(255,255,255,0.04);border-radius:12px;padding:16px;text-align:center;">
+      <div style="color:#888;font-size:0.75em;margin-bottom:4px;">你的 BMI 指數</div>
+      <div id="bmiValue" style="font-size:2.4em;font-weight:900;background:linear-gradient(90deg,#ff6b9d,#a29bfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;">--</div>
+      <div id="bmiCategory" style="margin-top:8px;padding:6px 14px;border-radius:20px;display:inline-block;font-size:0.95em;font-weight:700;"></div>
+      <div id="bmiAdvice" style="color:#bbb;font-size:0.82em;margin-top:10px;line-height:1.6;"></div>
+    </div>
+    <div style="color:#555;font-size:0.7em;text-align:center;margin-top:14px;">採用 WHO 亞洲成人 BMI 標準</div>
+  </div>
 </div>
 
 <!-- ══════ Currency Converter Modal ══════ -->
@@ -1323,6 +1354,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'mapTrigger') openMapModal();
     else if (id === 'timerTrigger') openTimerModal();
     else if (id === 'mtrTrigger') openMTRModal();
+    else if (id === 'bmiTrigger') openBMIModal();
   });
 });
 
@@ -1623,6 +1655,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'mapTrigger') openMapModal();
     else if (id === 'timerTrigger') openTimerModal();
     else if (id === 'mtrTrigger') openMTRModal();
+    else if (id === 'bmiTrigger') openBMIModal();
   });
 });
 
@@ -2122,6 +2155,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'mapTrigger') openMapModal();
     else if (id === 'timerTrigger') openTimerModal();
     else if (id === 'mtrTrigger') openMTRModal();
+    else if (id === 'bmiTrigger') openBMIModal();
   });
 });
 
@@ -2506,6 +2540,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'mapTrigger') openMapModal();
     else if (id === 'timerTrigger') openTimerModal();
     else if (id === 'mtrTrigger') openMTRModal();
+    else if (id === 'bmiTrigger') openBMIModal();
   });
 });
 
@@ -2603,6 +2638,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'mapTrigger') openMapModal();
     else if (id === 'timerTrigger') openTimerModal();
     else if (id === 'mtrTrigger') openMTRModal();
+    else if (id === 'bmiTrigger') openBMIModal();
   });
 });
 
@@ -2866,7 +2902,7 @@ const originalOpenMTR = window.openMTRModal;
 window.openMTRModal = function() {
   const modal = document.getElementById('mtr-modal');
   modal.style.display = 'flex';
-  
+
   // Initialize selects if not already done
   setTimeout(() => {
     const from = document.getElementById('mtr-from');
@@ -2875,6 +2911,82 @@ window.openMTRModal = function() {
     }
   }, 50);
 };
+
+// ══════ BMI 計算機 ══════
+window.openBMIModal = function() {
+  var modal = document.getElementById('bmiModal');
+  modal.style.display = 'flex';
+  // Reset result when reopening
+  document.getElementById('bmiResult').style.display = 'none';
+};
+
+(function() {
+  var modal = document.getElementById('bmiModal');
+  var closeBtn = document.getElementById('bmiClose');
+  var calcBtn = document.getElementById('bmiCalcBtn');
+  var heightInput = document.getElementById('bmiHeight');
+  var weightInput = document.getElementById('bmiWeight');
+  var resultBox = document.getElementById('bmiResult');
+  var valueEl = document.getElementById('bmiValue');
+  var catEl = document.getElementById('bmiCategory');
+  var adviceEl = document.getElementById('bmiAdvice');
+
+  closeBtn.onclick = function() { modal.style.display = 'none'; };
+  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+
+  function calcBMI() {
+    var h = parseFloat(heightInput.value);
+    var w = parseFloat(weightInput.value);
+    if (!h || !w || h < 50 || h > 250 || w < 10 || w > 300) {
+      valueEl.textContent = '⚠️';
+      catEl.textContent = '請輸入有效身高體重';
+      catEl.style.background = 'rgba(255,107,107,0.15)';
+      catEl.style.color = '#ff6b6b';
+      adviceEl.textContent = '身高 50–250 cm，體重 10–300 kg';
+      resultBox.style.display = 'block';
+      return;
+    }
+    var m = h / 100;
+    var bmi = w / (m * m);
+    var bmiStr = bmi.toFixed(1);
+
+    valueEl.textContent = bmiStr;
+
+    var category, color, bg, advice;
+    // WHO 亞洲成人 BMI 標準
+    if (bmi < 18.5) {
+      category = '🍃 過輕';
+      color = '#74b9ff';
+      bg = 'rgba(116,185,255,0.15)';
+      advice = 'BMI 偏低，建議增加營養攝取，多食蛋白質同健康脂肪，適當做重力訓練增加肌肉量。';
+    } else if (bmi < 23) {
+      category = '✅ 正常';
+      color = '#6bff6b';
+      bg = 'rgba(107,255,107,0.15)';
+      advice = 'BMI 屬於健康範圍（亞洲標準），請保持均衡飲食同規律運動！';
+    } else if (bmi < 27.5) {
+      category = '⚠️ 過重';
+      color = '#ffd93d';
+      bg = 'rgba(255,217,61,0.15)';
+      advice = 'BMI 略高，建議控制飲食熱量，多做帶氧運動（跑步、游水），每週 150 分鐘中等強度運動。';
+    } else {
+      category = '🔴 肥胖';
+      color = '#ff6b6b';
+      bg = 'rgba(255,107,107,0.15)';
+      advice = 'BMI 偏高，建議諮詢醫生或營養師，制訂減重計劃。注意控制糖分同油炸食物。';
+    }
+
+    catEl.textContent = category;
+    catEl.style.background = bg;
+    catEl.style.color = color;
+    adviceEl.textContent = advice;
+    resultBox.style.display = 'block';
+  }
+
+  calcBtn.onclick = calcBMI;
+  heightInput.onkeydown = function(e) { if (e.key === 'Enter') calcBMI(); };
+  weightInput.onkeydown = function(e) { if (e.key === 'Enter') calcBMI(); };
+})();
 </script>
 
 
