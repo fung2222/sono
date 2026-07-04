@@ -320,6 +320,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'dreamTrigger') openDreamModal();
     else if (id === 'divinationTrigger') openDivinationModal();
     else if (id === 'musicTrigger') openMusicModal();
+    else if (id === 'foodTrigger') openFoodModal();
   });
 });
 
@@ -785,6 +786,10 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       <div class="ts-icon-box"><span class="ts-emoji">🎲</span></div>
       <span class="ts-label">音樂骰子</span>
     </div>
+    <div class="card tool-sm" id="foodTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🍜</span></div>
+      <span class="ts-label">今晚食咩</span>
+    </div>
   </div>
 
 </div>
@@ -914,6 +919,38 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       <div id="musicSongs" style="color:#e0e0e0;font-size:0.88em;line-height:1.8;"></div>
     </div>
     <button id="musicRoll" style="width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b9d,#a29bfe);color:#fff;font-size:1em;font-weight:700;cursor:pointer;">🎲 擲骰子</button>
+  </div>
+</div>
+
+<!-- ══════ 今晚食咩 Modal ══════ -->
+<div id="foodModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(135deg,#0a1a0a,#1a2e1a);border-radius:16px;max-width:440px;width:100%;padding:24px;border:1px solid rgba(255,165,0,0.25);max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:1.3em;color:#fff;">🍜 今晚食咩</h2>
+      <button id="foodClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <div style="margin-bottom:14px;">
+      <label style="color:#ffa500;font-size:0.8em;display:block;margin-bottom:6px;">選擇條件（可選）</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+        <select id="foodBudget" style="padding:10px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:8px;color:#fff;font-size:0.85em;font-family:inherit;">
+          <option value="any">💰 任何價位</option>
+          <option value="cheap">💵 平價 ($50以下)</option>
+          <option value="mid">💴 中價 ($50-150)</option>
+          <option value="expensive">💎 高價 ($150+)</option>
+        </select>
+        <select id="foodDistance" style="padding:10px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:8px;color:#fff;font-size:0.85em;font-family:inherit;">
+          <option value="any">📍 任何距離</option>
+          <option value="near">🏠 屋企附近</option>
+          <option value="central">🏙️ 市區</option>
+        </select>
+      </div>
+    </div>
+    <div id="foodResult" style="text-align:center;padding:30px 20px;background:rgba(255,165,0,0.06);border-radius:14px;margin-bottom:16px;">
+      <div id="foodEmoji" style="font-size:5em;margin-bottom:12px;">🍽️</div>
+      <div id="foodName" style="color:#ffa500;font-size:1.4em;font-weight:700;margin-bottom:8px;">準備好未？</div>
+      <div id="foodDesc" style="color:#bbb;font-size:0.9em;line-height:1.5;"></div>
+    </div>
+    <button id="foodRoll" style="width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#ffa500,#ff6b35);color:#fff;font-size:1em;font-weight:700;cursor:pointer;">🍜 為我揀</button>
   </div>
 </div>
 
@@ -1468,6 +1505,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'dreamTrigger') openDreamModal();
     else if (id === 'divinationTrigger') openDivinationModal();
     else if (id === 'musicTrigger') openMusicModal();
+    else if (id === 'foodTrigger') openFoodModal();
   });
 });
 
@@ -1772,6 +1810,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'dreamTrigger') openDreamModal();
     else if (id === 'divinationTrigger') openDivinationModal();
     else if (id === 'musicTrigger') openMusicModal();
+    else if (id === 'foodTrigger') openFoodModal();
   });
 });
 
@@ -2275,6 +2314,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'dreamTrigger') openDreamModal();
     else if (id === 'divinationTrigger') openDivinationModal();
     else if (id === 'musicTrigger') openMusicModal();
+    else if (id === 'foodTrigger') openFoodModal();
   });
 });
 
@@ -2663,6 +2703,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'dreamTrigger') openDreamModal();
     else if (id === 'divinationTrigger') openDivinationModal();
     else if (id === 'musicTrigger') openMusicModal();
+    else if (id === 'foodTrigger') openFoodModal();
   });
 });
 
@@ -2764,6 +2805,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'dreamTrigger') openDreamModal();
     else if (id === 'divinationTrigger') openDivinationModal();
     else if (id === 'musicTrigger') openMusicModal();
+    else if (id === 'foodTrigger') openFoodModal();
   });
 });
 
@@ -3491,6 +3533,69 @@ window.openMusicModal = function() {
   }
 
   rollBtn.onclick = rollMusic;
+})();
+
+// ══════ 今晚食咩 ══════
+window.openFoodModal = function() {
+  document.getElementById('foodModal').style.display = 'flex';
+};
+
+(function() {
+  var modal = document.getElementById('foodModal');
+  var closeBtn = document.getElementById('foodClose');
+  var rollBtn = document.getElementById('foodRoll');
+  var budgetSel = document.getElementById('foodBudget');
+  var distanceSel = document.getElementById('foodDistance');
+  var emojiEl = document.getElementById('foodEmoji');
+  var nameEl = document.getElementById('foodName');
+  var descEl = document.getElementById('foodDesc');
+
+  closeBtn.onclick = function() { modal.style.display = 'none'; };
+  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+
+  var foods = [
+    { name: '港式茶餐廳', emoji: '🍜', desc: '經典之選！凍檸茶 + 沙嗲牛肉麵 + 蛋撻，港式味道永遠唔會錯。', budget: 'cheap', distance: 'near' },
+    { name: '日本拉麵', emoji: '🍥', desc: '濃郁豚骨湯底配上叉燒、半熟蛋，一碗暖心暖胃。', budget: 'mid', distance: 'central' },
+    { name: '韓式燒烤', emoji: '🥩', desc: '五花肉、牛舌、大醬湯，和朋友圍爐最過癮！', budget: 'mid', distance: 'central' },
+    { name: '打邊爐', emoji: '🍲', desc: '香港人最愛！肥牛、海鮮、手打丸，邊爐最暖心。', budget: 'mid', distance: 'any' },
+    { name: '台式滷肉飯', emoji: '🍚', desc: '肥而不膩的滷肉配上 Q 彈米飯，加粒半熟蛋，完美！', budget: 'cheap', distance: 'central' },
+    { name: '四川麻辣火鍋', emoji: '🌶️', desc: '挑戰味蕾！麻辣湯底配上毛肚、鴨血、黃喉，辣到飛起！', budget: 'mid', distance: 'central' },
+    { name: '越南牛肉河', emoji: '🍜', desc: '清湯底配新鮮牛肉河粉，擠啲青檸汁超清新！', budget: 'cheap', distance: 'central' },
+    { name: '泰式冬蔭功', emoji: '🍤', desc: '酸辣開胃嘅海鮮湯，配上香茅、辣椒、青檸，泰式風情滿分！', budget: 'mid', distance: 'central' },
+    { name: '印度咖哩', emoji: '🍛', desc: '香料爆發！配上印度烤餅 naan 蘸醬，超邪惡。', budget: 'mid', distance: 'central' },
+    { name: '意大利 Pizza', emoji: '🍕', desc: '薄餅底配上 mozzarella、羅勒葉，正宗拿坡里風味！', budget: 'mid', distance: 'central' },
+    { name: '法式甜品下午茶', emoji: '🧁', desc: 'Macaron + 可麗露 + 千層酥，配上伯爵茶，優雅時光。', budget: 'expensive', distance: 'central' },
+    { name: 'omakase 壽司', emoji: '🍣', desc: '師傅發辦！每件壽司都用上時令食材，視覺味覺雙重享受。', budget: 'expensive', distance: 'central' },
+    { name: '牛扒扒房', emoji: '🥩', desc: 'USDA Prime 牛扒配紅酒，紀念日首選！', budget: 'expensive', distance: 'central' },
+    { name: '串燒居酒屋', emoji: '🍢', desc: '雞皮、雞翼、豬頸肉，配杯生啤，日劇氣氛滿分！', budget: 'mid', distance: 'any' },
+    { name: '米線', emoji: '🍲', desc: '雲南風味！豬肚、炸醬、酸菜，湯底超香濃。', budget: 'cheap', distance: 'any' },
+    { name: '麻辣燙', emoji: '🌶️', desc: '自選食材自選辣度，超彈性嘅街頭美食！', budget: 'cheap', distance: 'any' },
+    { name: '燒臘飯', emoji: '🍱', desc: '叉燒、油雞、燒鴨，配上薑蔥飯，港式快餐之王！', budget: 'cheap', distance: 'near' },
+    { name: '車仔麵', emoji: '🍜', desc: '自選餸菜自選湯底，老香港情懷。', budget: 'cheap', distance: 'near' },
+    { name: '粥店', emoji: '🥣', desc: '艇仔粥、及第粥、皮蛋瘦肉粥，宵夜暖胃首選！', budget: 'cheap', distance: 'near' },
+    { name: '上海菜', emoji: '🥟', desc: '小籠包、生煎包、紅燒肉，本幫菜經典！', budget: 'mid', distance: 'central' },
+    { name: '北京烤鴨', emoji: '🦆', desc: '薄餅包住鴨皮、蔥段、甜麵醬，京菜之王！', budget: 'expensive', distance: 'central' },
+    { name: '西班牙 Tapas', emoji: '🥘', desc: '小型多樣嘅下酒菜，配杯 Sangria，歐陸風情。', budget: 'expensive', distance: 'central' },
+    { name: '中東烤肉', emoji: '🥙', desc: 'Shawarma、Kebab，配上鷹嘴豆泥，中東風味！', budget: 'mid', distance: 'central' },
+    { name: '素食自助餐', emoji: '🥗', desc: '健康之選！多種蔬菜、豆製品，清爽無負擔。', budget: 'mid', distance: 'central' }
+  ];
+
+  function pickFood() {
+    var budget = budgetSel.value;
+    var distance = distanceSel.value;
+    var filtered = foods.filter(function(f) {
+      var budgetMatch = (budget === 'any') || (f.budget === budget);
+      var distanceMatch = (distance === 'any') || (f.distance === distance) || (f.distance === 'central' && distance === 'central');
+      return budgetMatch && distanceMatch;
+    });
+    if (filtered.length === 0) filtered = foods;
+    var choice = filtered[Math.floor(Math.random() * filtered.length)];
+    emojiEl.textContent = choice.emoji;
+    nameEl.textContent = choice.name;
+    descEl.textContent = choice.desc;
+  }
+
+  rollBtn.onclick = pickFood;
 })();
 </script>
 
