@@ -319,6 +319,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'bmiTrigger') openBMIModal();
     else if (id === 'dreamTrigger') openDreamModal();
     else if (id === 'divinationTrigger') openDivinationModal();
+    else if (id === 'musicTrigger') openMusicModal();
   });
 });
 
@@ -780,6 +781,10 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       <div class="ts-icon-box"><span class="ts-emoji">☯️</span></div>
       <span class="ts-label">易經卜卦</span>
     </div>
+    <div class="card tool-sm" id="musicTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🎲</span></div>
+      <span class="ts-label">音樂骰子</span>
+    </div>
   </div>
 
 </div>
@@ -888,6 +893,27 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       <button id="divinationAgain" style="display:block;width:100%;margin:14px auto 0;padding:10px;border:1px solid #333;border-radius:25px;background:transparent;color:#ffd93d;font-size:0.9em;cursor:pointer;">🔄 再起一卦</button>
     </div>
     <div style="color:#555;font-size:0.7em;text-align:center;margin-top:12px;">易經卜卦只供娛樂參考，命運在自己手中 🙏</div>
+  </div>
+</div>
+
+<!-- ══════ 音樂骰子 Modal ══════ -->
+<div id="musicModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(135deg,#0a0a1a,#1a0a2e);border-radius:16px;max-width:440px;width:100%;padding:24px;border:1px solid rgba(255,107,157,0.25);max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:1.3em;color:#fff;">🎲 音樂骰子</h2>
+      <button id="musicClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <div id="musicResult" style="text-align:center;padding:30px 20px;background:rgba(255,107,157,0.05);border-radius:14px;margin-bottom:16px;">
+      <div id="musicEmoji" style="font-size:4em;margin-bottom:12px;"></div>
+      <div id="musicGenre" style="color:#ff6b9d;font-size:1.2em;font-weight:700;margin-bottom:6px;"></div>
+      <div id="musicMood" style="color:#a29bfe;font-size:0.95em;margin-bottom:4px;"></div>
+      <div id="musicScene" style="color:#6bff6b;font-size:0.85em;"></div>
+    </div>
+    <div id="musicPlaylist" style="background:rgba(255,255,255,0.04);border-radius:10px;padding:14px;margin-bottom:12px;display:none;">
+      <div style="color:#ffd93d;font-size:0.8em;margin-bottom:8px;">🎵 建議歌單</div>
+      <div id="musicSongs" style="color:#e0e0e0;font-size:0.88em;line-height:1.8;"></div>
+    </div>
+    <button id="musicRoll" style="width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b9d,#a29bfe);color:#fff;font-size:1em;font-weight:700;cursor:pointer;">🎲 擲骰子</button>
   </div>
 </div>
 
@@ -1441,6 +1467,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'bmiTrigger') openBMIModal();
     else if (id === 'dreamTrigger') openDreamModal();
     else if (id === 'divinationTrigger') openDivinationModal();
+    else if (id === 'musicTrigger') openMusicModal();
   });
 });
 
@@ -1744,6 +1771,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'bmiTrigger') openBMIModal();
     else if (id === 'dreamTrigger') openDreamModal();
     else if (id === 'divinationTrigger') openDivinationModal();
+    else if (id === 'musicTrigger') openMusicModal();
   });
 });
 
@@ -2246,6 +2274,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'bmiTrigger') openBMIModal();
     else if (id === 'dreamTrigger') openDreamModal();
     else if (id === 'divinationTrigger') openDivinationModal();
+    else if (id === 'musicTrigger') openMusicModal();
   });
 });
 
@@ -2633,6 +2662,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'bmiTrigger') openBMIModal();
     else if (id === 'dreamTrigger') openDreamModal();
     else if (id === 'divinationTrigger') openDivinationModal();
+    else if (id === 'musicTrigger') openMusicModal();
   });
 });
 
@@ -2733,6 +2763,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'bmiTrigger') openBMIModal();
     else if (id === 'dreamTrigger') openDreamModal();
     else if (id === 'divinationTrigger') openDivinationModal();
+    else if (id === 'musicTrigger') openMusicModal();
   });
 });
 
@@ -3362,6 +3393,104 @@ window.openDivinationModal = function() {
   goBtn.onclick = castDivination;
   againBtn.onclick = castDivination;
   questionInput.onkeydown = function(e) { if (e.key === 'Enter') castDivination(); };
+})();
+
+// ══════ 音樂骰子 ══════
+window.openMusicModal = function() {
+  document.getElementById('musicModal').style.display = 'flex';
+  document.getElementById('musicResult').style.display = 'block';
+  document.getElementById('musicPlaylist').style.display = 'none';
+};
+
+(function() {
+  var modal = document.getElementById('musicModal');
+  var closeBtn = document.getElementById('musicClose');
+  var rollBtn = document.getElementById('musicRoll');
+  var resultBox = document.getElementById('musicResult');
+  var emojiEl = document.getElementById('musicEmoji');
+  var genreEl = document.getElementById('musicGenre');
+  var moodEl = document.getElementById('musicMood');
+  var sceneEl = document.getElementById('musicScene');
+  var playlistBox = document.getElementById('musicPlaylist');
+  var songsEl = document.getElementById('musicSongs');
+
+  closeBtn.onclick = function() { modal.style.display = 'none'; };
+  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+
+  var genres = [
+    { name: 'Lo-fi Hip Hop', emoji: '🎧', mood: ['放鬆', '專注', 'chill'] },
+    { name: 'City Pop', emoji: '🌃', mood: ['懷舊', '浪漫', '夢幻'] },
+    { name: 'Jazz', emoji: '🎷', mood: ['優雅', '深夜', '酒館'] },
+    { name: 'Bossa Nova', emoji: '🇧🇷', mood: ['慵懶', '陽光', '浪漫'] },
+    { name: 'Synthwave', emoji: '🌆', mood: ['復古未來', '夜遊', '速度感'] },
+    { name: 'K-pop', emoji: '💃', mood: ['活力', '跳舞', '興奮'] },
+    { name: 'J-pop', emoji: '🎵', mood: ['青春', '治癒', '元氣'] },
+    { name: '粵語流行曲', emoji: '🇭🇰', mood: ['回憶', '情感', '港式'] },
+    { name: '國語經典', emoji: '🎤', mood: ['懷舊', '情歌', '浪漫'] },
+    { name: 'R&B / Soul', emoji: '🎶', mood: ['深情', '慢拍', '感性'] },
+    { name: 'Hip Hop', emoji: '🔥', mood: ['硬核', '態度', '節奏'] },
+    { name: 'Electronic', emoji: '🎛️', mood: ['迷幻', '派對', '電音'] },
+    { name: 'Classical', emoji: '🎻', mood: ['莊嚴', '靜心', '優雅'] },
+    { name: 'Ambient', emoji: '🌌', mood: ['冥想', '睡眠', '沉浸'] },
+    { name: 'Funk', emoji: '🕺', mood: ['律動', '復古', '派對'] },
+    { name: 'Reggae', emoji: '🌴', mood: ['陽光', '沙灘', '放鬆'] },
+    { name: '搖滾', emoji: '🎸', mood: ['激情', '反叛', '爆發'] },
+    { name: '民謠', emoji: '🪕', mood: ['清新', '田園', '故事'] },
+    { name: '電影配樂', emoji: '🎬', mood: ['史詩', '情感', '故事感'] },
+    { name: 'Cantonese Indie', emoji: '🎸', mood: ['文青', '小眾', '反叛'] },
+    { name: '重金屬', emoji: '⚡', mood: ['爆裂', '宣洩', '黑暗'] },
+    { name: '拉丁', emoji: '💃', mood: ['熱情', '舞蹈', '節日'] }
+  ];
+
+  var scenes = [
+    '🌃 深夜獨處', '☕ 咖啡廳', '🚗 自駕遊', '🏖️ 海灘日落',
+    '📚 讀書時光', '🏃 跑步運動', '🍳 煮飯下廚', '🎉 朋友聚會',
+    '💼 工作專注', '🌧️ 雨天發呆', '🌌 睡前放鬆', '🚿 洗澡時段',
+    '🎨 創作靈感', '💑 約會之夜', '🍺 酒吧放鬆', '🚌 通勤路上'
+  ];
+
+  var songDB = {
+    'Lo-fi Hip Hop': ['Nujabes - Aruarian Dance', 'J Dilla - Donuts', '理想混蛋 - 滷肉飯'],
+    'City Pop': ['竹内まりや - Plastic Love', '山下達郎 - Sparkle', '杏里 - Last Summer Whisper'],
+    'Jazz': ['Bill Evans - Waltz for Debby', 'Chet Baker - My Funny Valentine', 'Miles Davis - So What'],
+    'Bossa Nova': ['João Gilberto - The Girl from Ipanema', 'Stan Getz - Desafinado', 'Tom Jobim - Corcovado'],
+    'Synthwave': ['Kavinsky - Nightcall', 'Carpenter Brut - Turbo Killer', 'The Midnight - Days of Thunder'],
+    'K-pop': ['NewJeans - Super Shy', 'BTS - Dynamite', 'BLACKPINK - Pink Venom'],
+    'J-pop': ['YOASOBI - アイドル', '藤井風 - きらり', '米津玄師 - Lemon'],
+    '粵語流行曲': ['陳奕迅 - 十年', 'Beyond - 海闊天空', '張國榮 - 風繼續吹'],
+    '國語經典': ['周杰倫 - 晴天', '鄧麗君 - 月亮代表我的心', '張學友 - 吻別'],
+    'R&B / Soul': ['Daniel Caesar - Best Part', 'SZA - The Weekend', 'Frank Ocean - Thinkin Bout You'],
+    'Hip Hop': ['Kendrick Lamar - HUMBLE', 'Drake - God\'s Plan', 'Eminem - Lose Yourself'],
+    'Electronic': ['ODESZA - A Moment Apart', 'Deadmau5 - Strobe', 'Disclosure - Latch'],
+    'Classical': ['Mozart - Eine kleine Nachtmusik', 'Beethoven - Moonlight Sonata', 'Chopin - Nocturne Op.9'],
+    'Ambient': ['Brian Eno - Music for Airports', 'Sigur Rós - Hoppípolla', 'Sigur Rós - Glósóli'],
+    'Funk': ['Bruno Mars - Uptown Funk', 'James Brown - Sex Machine', 'Earth, Wind & Fire - September'],
+    'Reggae': ['Bob Marley - Three Little Birds', 'Bob Marley - One Love', 'Jimmy Cliff - I Can See Clearly Now'],
+    '搖滾': ['Queen - Bohemian Rhapsody', 'Coldplay - Fix You', '五月天 - 倔強'],
+    '民謠': ['Bob Dylan - Blowin\' in the Wind', 'Bon Iver - Skinny Love', '陳綺貞 - 旅行的意義'],
+    '電影配樂': ['Hans Zimmer - Time', 'John Williams - Star Wars Theme', 'Joe Hisaishi - Summer'],
+    'Cantonese Indie': ['My Little Airport - 麥記最後一夜', 'Supper Moment - 風箏', 'RubberBand - 阿波羅'],
+    '重金屬': ['Metallica - Enter Sandman', 'Iron Maiden - The Trooper', 'Slipknot - Duality'],
+    '拉丁': ['Shakira - Waka Waka', 'Daddy Yankee - Despacito', 'Ricky Martin - Livin\' La Vida Loca']
+  };
+
+  function rollMusic() {
+    var genre = genres[Math.floor(Math.random() * genres.length)];
+    var mood = genre.mood[Math.floor(Math.random() * genre.mood.length)];
+    var scene = scenes[Math.floor(Math.random() * scenes.length)];
+
+    emojiEl.textContent = genre.emoji;
+    genreEl.textContent = genre.name;
+    moodEl.textContent = '🎭 心情：' + mood;
+    sceneEl.textContent = '📍 場景：' + scene;
+
+    var list = songDB[genre.name] || ['即興演奏 - Mood Mix'];
+    songsEl.innerHTML = list.map(function(s) { return '• ' + s; }).join('<br>');
+    playlistBox.style.display = 'block';
+    resultBox.style.display = 'block';
+  }
+
+  rollBtn.onclick = rollMusic;
 })();
 </script>
 
