@@ -312,6 +312,13 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 #sono-daily-report .dw-tc-stat-icon{ font-size:1em; }
 #sono-daily-report .dw-tc-stat-label{ color:#888; }
 #sono-daily-report .dw-wm-divider{ height:1px; background:rgba(255,255,255,0.06); margin:0; }
+#sono-daily-report .dw-wm-forecast{ display:flex; gap:6px; padding:12px 0; }
+#sono-daily-report .dw-fc-card{ flex:1; background:rgba(255,255,255,0.03); border-radius:8px; padding:8px 4px; text-align:center; }
+#sono-daily-report .dw-fc-day{ font-size:0.68em; color:#888; margin-bottom:4px; }
+#sono-daily-report .dw-fc-icon{ font-size:1.3em; margin:2px 0; }
+#sono-daily-report .dw-fc-temps{ display:flex; justify-content:center; gap:4px; font-size:0.72em; }
+#sono-daily-report .dw-fc-hi{ color:#fff; font-weight:700; }
+#sono-daily-report .dw-fc-lo{ color:#666; }
 #sono-daily-report .dw-wm-insight{ padding:12px 0 14px; }
 
 /* ── Weather Insight (卡片式) ── */
@@ -570,7 +577,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   </div>
 </div>
 
-<!-- ══════ 天氣 Card (合併：溫度 + 洞察) ══════ -->
+<!-- ══════ 天氣 Card (合併：溫度 + 5 日預報 + 洞察) ══════ -->
 <div class="dw-weather-merged">
   <div class="dw-today-card">
     <div class="dw-tc-left">
@@ -584,8 +591,15 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     </div>
   </div>
   <div class="dw-wm-divider"></div>
+  <div id="dw-forecast" class="dw-wm-forecast">
+    <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
+    <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
+    <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
+    <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
+    <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
+  </div>
+  <div class="dw-wm-divider"></div>
   <div class="dw-wm-insight">
-    <div class="dw-insight-header">☔ 天氣洞察</div>
     <p class="dw-insight-text">今日雖未見大雨，但高空擾動會喺午後帶來幾陣驟雨。濕度偏高，體感悶熱。出門最好帶定把遮，趁有陽光嘅時候出去行陣。</p>
     <div class="dw-insight-recs">
       <span>👕 短袖衫就夠</span>
@@ -3046,10 +3060,36 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       if ($('dw-tc-temp')) $('dw-tc-temp').textContent = (isNaN(temp) ? '--' : temp) + '°';
       if ($('dw-tc-humidity')) $('dw-tc-humidity').textContent = humidity + '%';
       if ($('dw-tc-wind')) $('dw-tc-wind').textContent = wind + 'km/h';
+
+      // 3) 5-day forecast
+      var forecast = (d.weather && d.weather[0] && d.weather[0].hourly) ? [] : (d.forecast || []);
+      var fcCards = document.querySelectorAll('.dw-fc-card');
+      var wdays = ['日','一','二','三','四','五','六'];
+      for (var i = 0; i < 5 && i < fcCards.length; i++) {
+        var dayData = forecast[i] || {};
+        var date = new Date(dayData.date || new Date());
+        var hi = parseInt((dayData.maxtempC || dayData.mintempC || 0), 10);
+        var lo = parseInt((dayData.mintempC || 0), 10);
+        // Try to find hi/lo from hourly
+        var hourly = dayData.hourly || [];
+        var hi2 = 0, lo2 = 999;
+        for (var h = 0; h < hourly.length; h++) {
+          var t = parseInt(hourly[h].tempC || 0, 10);
+          if (t > hi2) hi2 = t;
+          if (t < lo2) lo2 = t;
+        }
+        if (!hi2 || hi2 === 0) hi2 = 30;
+        if (!lo2 || lo2 === 999) lo2 = 25;
+        var fcIcon = pickIcon((dayData.hourly && dayData.hourly[4] && dayData.hourly[4].weatherDesc && dayData.hourly[4].weatherDesc[0].value) || '多雲');
+        fcCards[i].querySelector('.dw-fc-day').textContent = wdays[date.getDay()];
+        fcCards[i].querySelector('.dw-fc-icon').textContent = fcIcon;
+        fcCards[i].querySelector('.dw-fc-hi').textContent = (hi2 || 30) + '°';
+        fcCards[i].querySelector('.dw-fc-lo').textContent = (lo2 || 25) + '°';
+      }
     })
     .catch(function(e) { console.log('wttr.in failed:', e); });
 
-  function pickIcon(desc) {
+function pickIcon(desc) {
     if (!desc) return '☀';
     if (desc.indexOf('雷') >= 0) return '⛈⏭';
     if (desc.indexOf('雨') >= 0) return '⛈⏭';
