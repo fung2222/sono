@@ -420,8 +420,10 @@ function toggleSub(sub) {
 
   function applyUVColor(uv) {
     var el = document.getElementById('lwUV');
-    if (uv === '--') { el.textContent = '--'; return; }
-    el.textContent = uv.toFixed(1);
+    if (uv === '--' || uv === null || uv === undefined || uv === '') { el.textContent = '--'; return; }
+    var uvNum = parseFloat(uv);
+    if (isNaN(uvNum)) { el.textContent = '--'; return; }
+    el.textContent = uvNum.toFixed(1);
     if (uv >= 11) el.style.color = '#ff4444';
     else if (uv >= 8) el.style.color = '#ff8844';
     else if (uv >= 6) el.style.color = '#ffcc00';
@@ -451,7 +453,7 @@ function toggleSub(sub) {
       document.getElementById('lwHumidity').textContent = c.relative_humidity_2m + '%';
       document.getElementById('lwWind').textContent = c.wind_speed_10m + ' km/h';
       document.getElementById('lwApparent').textContent = c.apparent_temperature + '°C';
-      applyUVColor(c.uv_index);
+      applyUVColor(c.uv_index !== undefined && c.uv_index !== null && c.uv_index !== '' ? c.uv_index : 0);
     } catch(e) {
       console.warn('Weather fetch failed:', e);
       showError();
