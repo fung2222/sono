@@ -294,24 +294,23 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 /* ══════ Sono 每日日報全新 layout ══════ */
 
 /* ── Hero weather section ── */
-#sono-daily-report .dw-hero{ position:relative; border-radius:16px; overflow:hidden; margin:0 0 12px; min-height:140px; }
-#sono-daily-report .dw-hero-header{ position:relative; z-index:1; padding:10px 20px 0; text-align:right; }
-#sono-daily-report .dw-hero-date{ font-size:0.72em; color:#888; }
+#sono-daily-report .dw-hero{ position:relative; border-radius:16px; overflow:hidden; margin:0 0 12px; }
 #sono-daily-report .dw-hero-bg{ position:absolute; inset:0; background:linear-gradient(135deg,#1a1a3e 0%,#16213e 40%,#0f3460 100%); border-radius:16px; border:1px solid rgba(255,255,255,0.08); }
-#sono-daily-report .dw-hero-content{ position:relative; display:flex; align-items:center; gap:20px; padding:20px; }
+#sono-daily-report .dw-hero-content{ position:relative; display:flex; align-items:center; gap:20px; padding:14px 20px; }
 #sono-daily-report .dw-hero-main{ display:flex; flex-direction:column; align-items:center; min-width:130px; }
 #sono-daily-report .dw-weather-icon{ font-size:3.8em; filter:drop-shadow(0 4px 20px rgba(255,107,157,0.5)); }
 #sono-daily-report .dw-temp-group{ display:flex; flex-direction:column; align-items:center; margin:2px 0; }
 #sono-daily-report .dw-temp-main{ font-size:3em; font-weight:900; color:#fff; line-height:1; letter-spacing:-2px; }
 #sono-daily-report .dw-temp-range{ font-size:0.7em; color:#888; }
 #sono-daily-report .dw-weather-desc{ font-size:0.78em; color:#a29bfe; margin-top:2px; }
-#sono-daily-report .dw-hero-details{ flex:1; display:grid; grid-template-columns:1fr 1fr; gap:4px 20px; }
-#sono-daily-report .dw-detail-item{ display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:0.78em; }
+#sono-daily-report .dw-hero-details{ flex:1; display:grid; grid-template-columns:1fr 1fr; gap:2px 20px; }
+#sono-daily-report .dw-detail-item{ display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:0.78em; }
 #sono-daily-report .dw-dl{ color:#888; }
 #sono-daily-report .dw-dv{ color:#ddd; font-weight:500; }
+#sono-daily-report .dw-date-val{ color:#888; font-size:0.9em; }
 
 /* ── 5 日預報 ── */
-#sono-daily-report .dw-forecast-row{ display:flex; gap:6px; margin:0 0 14px; }
+#sono-daily-report .dw-forecast-row{ display:flex; gap:6px; margin:0 0 12px; }
 #sono-daily-report .dw-fc-card{ flex:1; background:rgba(255,255,255,0.03); border-radius:10px; padding:10px 4px; text-align:center; border:1px solid rgba(255,255,255,0.04); }
 #sono-daily-report .dw-fc-day{ font-size:0.68em; color:#888; margin-bottom:4px; }
 #sono-daily-report .dw-fc-icon{ font-size:1.3em; margin:2px 0; }
@@ -569,9 +568,6 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
 <!-- ══════ HERO: 今日天氣 ══════ -->
 <div class="dw-hero">
-  <div class="dw-hero-header">
-    <span id="dw-date" class="dw-hero-date">2026年7月5日（星期日）</span>
-  </div>
   <div class="dw-hero-bg"></div>
   <div class="dw-hero-content">
     <div class="dw-hero-main">
@@ -587,6 +583,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       <div class="dw-detail-item"><span class="dw-dl">風速</span><span id="dw-wind" class="dw-dv">--</span></div>
       <div class="dw-detail-item"><span class="dw-dl">紫外線</span><span id="dw-uv" class="dw-dv">--</span></div>
       <div class="dw-detail-item"><span class="dw-dl">能見度</span><span id="dw-vis" class="dw-dv">--</span></div>
+      <div class="dw-detail-item"><span class="dw-dl">📅</span><span id="dw-date" class="dw-dv dw-date-val">--</span></div>
     </div>
   </div>
 </div>
