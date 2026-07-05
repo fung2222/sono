@@ -377,7 +377,8 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 </style>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
 // ══════ Sono 每日日報: News Tab Switch ══════
 document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(tab) {
   tab.addEventListener('click', function() {
@@ -583,7 +584,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       <div class="dw-detail-item"><span class="dw-dl">風速</span><span id="dw-wind" class="dw-dv">--</span></div>
       <div class="dw-detail-item"><span class="dw-dl">紫外線</span><span id="dw-uv" class="dw-dv">--</span></div>
       <div class="dw-detail-item"><span class="dw-dl">能見度</span><span id="dw-vis" class="dw-dv">--</span></div>
-      <div class="dw-detail-item"><span class="dw-dl">📅</span><span id="dw-date" class="dw-dv dw-date-val">--</span></div>
+      <div class="dw-detail-item"><span class="dw-dl">📅</span><span class="dw-dv" id="dw-date">2026年7月5日（星期日）</span></div>
     </div>
   </div>
 </div>
