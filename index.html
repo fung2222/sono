@@ -295,6 +295,8 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 
 /* ── Hero weather section ── */
 #sono-daily-report .dw-hero{ position:relative; border-radius:16px; overflow:hidden; margin:0 0 12px; min-height:140px; }
+#sono-daily-report .dw-hero-header{ position:relative; z-index:1; padding:10px 20px 0; text-align:right; }
+#sono-daily-report .dw-hero-date{ font-size:0.72em; color:#888; }
 #sono-daily-report .dw-hero-bg{ position:absolute; inset:0; background:linear-gradient(135deg,#1a1a3e 0%,#16213e 40%,#0f3460 100%); border-radius:16px; border:1px solid rgba(255,255,255,0.08); }
 #sono-daily-report .dw-hero-content{ position:relative; display:flex; align-items:center; gap:20px; padding:20px; }
 #sono-daily-report .dw-hero-main{ display:flex; flex-direction:column; align-items:center; min-width:130px; }
@@ -567,6 +569,9 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
 <!-- ══════ HERO: 今日天氣 ══════ -->
 <div class="dw-hero">
+  <div class="dw-hero-header">
+    <span class="dw-hero-date">2026年7月5日（星期日）</span>
+  </div>
   <div class="dw-hero-bg"></div>
   <div class="dw-hero-content">
     <div class="dw-hero-main">
