@@ -320,9 +320,6 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 /* ── Banner ── */
 #sono-daily-report .dw-banner-img{ width:100%; border-radius:12px; margin:0 0 14px; display:block; aspect-ratio:16/9; object-fit:cover; }
 
-/* ── Forecast label ── */
-#sono-daily-report .dw-fc-label{ font-size:0.72em; color:#888; margin:0 0 6px 2px; }
-
 /* ── Weather Insight ── */
 #sono-daily-report .dw-insight-card{ background:linear-gradient(135deg,rgba(255,107,157,0.06),rgba(162,155,254,0.06)); border-radius:12px; border-left:3px solid #a29bfe; padding:16px; margin:0 0 18px; }
 #sono-daily-report .dw-insight-header{ font-size:0.85em; color:#a29bfe; font-weight:700; margin-bottom:8px; }
@@ -589,8 +586,11 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   </div>
 </div>
 
+<!-- ══════ 天氣 BANNER ══════ -->
+<img class="dw-banner-img" src="images/weather_banner_today.png" alt="香港維港天氣">
+
 <!-- ══════ 5 日預報 ══════ -->
-<div class="dw-fc-label">未來5天</div>
+<div class="dw-section-title">📅 未來5天</div>
 <div class="dw-forecast-row">
   <div class="dw-fc-card"><div class="dw-fc-day">週日</div><div class="dw-fc-icon">⛈️</div><div class="dw-fc-temps"><span class="dw-fc-hi">29°</span><span class="dw-fc-lo">26°</span></div></div>
   <div class="dw-fc-card"><div class="dw-fc-day">週一</div><div class="dw-fc-icon">⛈️</div><div class="dw-fc-temps"><span class="dw-fc-hi">30°</span><span class="dw-fc-lo">27°</span></div></div>
@@ -598,9 +598,6 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div class="dw-fc-card"><div class="dw-fc-day">週三</div><div class="dw-fc-icon">⛈️</div><div class="dw-fc-temps"><span class="dw-fc-hi">30°</span><span class="dw-fc-lo">25°</span></div></div>
   <div class="dw-fc-card"><div class="dw-fc-day">週四</div><div class="dw-fc-icon">⛈️</div><div class="dw-fc-temps"><span class="dw-fc-hi">30°</span><span class="dw-fc-lo">26°</span></div></div>
 </div>
-
-<!-- ══════ 天氣 BANNER ══════ -->
-<img class="dw-banner-img" src="images/weather_banner_today.png" alt="香港維港天氣">
 
 <!-- ══════ 天氣洞察 ══════ -->
 <div class="dw-insight-card">
