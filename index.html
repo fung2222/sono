@@ -570,23 +570,23 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <!-- ══════ HERO: 今日天氣 ══════ -->
 <div class="dw-hero">
   <div class="dw-hero-header">
-    <span class="dw-hero-date">2026年7月5日（星期日）</span>
+    <span id="dw-date" class="dw-hero-date">2026年7月5日（星期日）</span>
   </div>
   <div class="dw-hero-bg"></div>
   <div class="dw-hero-content">
     <div class="dw-hero-main">
-      <div class="dw-weather-icon">☁️</div>
+      <div id="dw-icon" class="dw-weather-icon">☁️</div>
       <div class="dw-temp-group">
-        <span class="dw-temp-main">29°</span>
-        <span class="dw-temp-range">低 26 / 高 29</span>
+        <span id="dw-temp" class="dw-temp-main">29°</span>
+        <span id="dw-range" class="dw-temp-range">低 26 / 高 29</span>
       </div>
-      <div class="dw-weather-desc">多雲，間中有陽光</div>
+      <div id="dw-desc" class="dw-weather-desc">載入中⋯</div>
     </div>
     <div class="dw-hero-details">
-      <div class="dw-detail-item"><span class="dw-dl">濕度</span><span class="dw-dv">79-93%</span></div>
-      <div class="dw-detail-item"><span class="dw-dl">風速</span><span class="dw-dv">南風 20km/h</span></div>
-      <div class="dw-detail-item"><span class="dw-dl">紫外線</span><span class="dw-dv">極高</span></div>
-      <div class="dw-detail-item"><span class="dw-dl">能見度</span><span class="dw-dv">尚可</span></div>
+      <div class="dw-detail-item"><span class="dw-dl">濕度</span><span id="dw-humidity" class="dw-dv">--</span></div>
+      <div class="dw-detail-item"><span class="dw-dl">風速</span><span id="dw-wind" class="dw-dv">--</span></div>
+      <div class="dw-detail-item"><span class="dw-dl">紫外線</span><span id="dw-uv" class="dw-dv">--</span></div>
+      <div class="dw-detail-item"><span class="dw-dl">能見度</span><span id="dw-vis" class="dw-dv">--</span></div>
     </div>
   </div>
 </div>
@@ -596,12 +596,12 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
 <!-- ══════ 5 日預報 ══════ -->
 <div class="dw-section-title">📅 未來5天</div>
-<div class="dw-forecast-row">
-  <div class="dw-fc-card"><div class="dw-fc-day">週日</div><div class="dw-fc-icon">⛈️</div><div class="dw-fc-temps"><span class="dw-fc-hi">29°</span><span class="dw-fc-lo">26°</span></div></div>
-  <div class="dw-fc-card"><div class="dw-fc-day">週一</div><div class="dw-fc-icon">⛈️</div><div class="dw-fc-temps"><span class="dw-fc-hi">30°</span><span class="dw-fc-lo">27°</span></div></div>
-  <div class="dw-fc-card"><div class="dw-fc-day">週二</div><div class="dw-fc-icon">⛈️</div><div class="dw-fc-temps"><span class="dw-fc-hi">28°</span><span class="dw-fc-lo">25°</span></div></div>
-  <div class="dw-fc-card"><div class="dw-fc-day">週三</div><div class="dw-fc-icon">⛈️</div><div class="dw-fc-temps"><span class="dw-fc-hi">30°</span><span class="dw-fc-lo">25°</span></div></div>
-  <div class="dw-fc-card"><div class="dw-fc-day">週四</div><div class="dw-fc-icon">⛈️</div><div class="dw-fc-temps"><span class="dw-fc-hi">30°</span><span class="dw-fc-lo">26°</span></div></div>
+<div id="dw-forecast" class="dw-forecast-row">
+  <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
+  <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
+  <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
+  <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
+  <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
 </div>
 
 <!-- ══════ 天氣洞察 ══════ -->
@@ -4024,13 +4024,98 @@ window.openNumberModal = function() {
   }
 
   calcBtn.onclick = calculateNumber;
+// ══════ 即時天氣資料 (browser-side) ══════
+(function() {
+  // WMO codes → emoji + description
+  var WMO = {
+    0:'☀️','天晴',1:'🌤️','大致天晴',2:'⛅','間中有陽光',3:'☁️','多雲',
+    45:'🌫️','有霧',48:'🌫️','冰霧',51:'🌦️','微雨',53:'🌧️','毛毛雨',
+    55:'🌧️','持續微雨',61:'🌧️','微雨',63:'🌧️','大雨',65:'🌧️','大雨',
+    80:'🌦️','驟雨',81:'🌧️','強驟雨',82:'⛈️','暴驟雨',95:'⛈️','雷暴',
+    96:'⛈️','雷暴夾冰雹',99:'⛈️','強雷暴'
+  };
+  var dirs = ['北','東北','東','東南','南','西南','西','西北'];
+  var wdays = ['週日','週一','週二','週三','週四','週五','週六'];
+
+  // Update date
+  var now = new Date();
+  var y = now.getFullYear(), m = now.getMonth()+1, d = now.getDate();
+  var dateEl = document.getElementById('dw-date');
+  if (dateEl) dateEl.textContent = y + '年' + m + '月' + d + '日（' + wdays[now.getDay()] + '）';
+
+  // Fetch weather from Open-Meteo (free, no key)
+  var url = 'https://api.open-meteo.com/v1/forecast?latitude=22.28&longitude=114.16&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code,wind_direction_10m&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=Asia/Hong_Kong&forecast_days=5';
+
+  fetch(url)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var cur = data.current || {};
+      var daily = data.daily || {};
+
+      // Current weather
+      var code = cur.weather_code || 0;
+      var icon = WMO[code] || '🌤️';
+      var desc = WMO[code+1] || '多雲';
+      var temp = Math.round(cur.temperature_2m || 0);
+      var humidity = cur.relative_humidity_2m || '--';
+
+      // Wind direction
+      var wdir = cur.wind_direction_10m || 0;
+      var dirIdx = Math.round((wdir + 22.5) / 45) % 8;
+      var windLabel = dirs[dirIdx] + '風 ' + (cur.wind_speed_10m || '--') + 'km/h';
+
+      // Get min/max from daily
+      var tempMax = daily.temperature_2m_max ? Math.round(daily.temperature_2m_max[0]) : temp;
+      var tempMin = daily.temperature_2m_min ? Math.round(daily.temperature_2m_min[0]) : temp;
+
+      // Update DOM
+      var el = function(id) { return document.getElementById(id); };
+      if (el('dw-icon')) el('dw-icon').textContent = icon;
+      if (el('dw-temp')) el('dw-temp').textContent = temp + '°';
+      if (el('dw-range')) el('dw-range').textContent = '低 ' + tempMin + ' / 高 ' + tempMax;
+      if (el('dw-desc')) el('dw-desc').textContent = desc;
+      if (el('dw-humidity')) el('dw-humidity').textContent = humidity + '%';
+      if (el('dw-wind')) el('dw-wind').textContent = windLabel;
+
+      // UV & Visibility (approximate from weather code)
+      var uvText = '中等';
+      if (code >= 0 && code <= 2) uvText = '中等';
+      else if (code >= 3 && code <= 48) uvText = '低';
+      else uvText = '低';
+      if (el('dw-uv')) el('dw-uv').textContent = uvText;
+
+      var visText = '良好';
+      if (code >= 45 && code <= 48) visText = '較差';
+      else if (code >= 51 && code <= 99) visText = '尚可';
+      if (el('dw-vis')) el('dw-vis').textContent = visText;
+
+      // 5-day forecast
+      var forecastEl = document.getElementById('dw-forecast');
+      if (forecastEl && daily.time) {
+        var cards = forecastEl.querySelectorAll('.dw-fc-card');
+        for (var i = 0; i < 5 && i < daily.time.length; i++) {
+          var d = new Date(daily.time[i] + 'T12:00:00');
+          var fcIcon = WMO[daily.weather_code[i]] || '🌤️';
+          var fcHi = Math.round(daily.temperature_2m_max[i]);
+          var fcLo = Math.round(daily.temperature_2m_min[i]);
+          if (cards[i]) {
+            cards[i].querySelector('.dw-fc-day').textContent = wdays[d.getDay()];
+            cards[i].querySelector('.dw-fc-icon').textContent = fcIcon;
+            cards[i].querySelector('.dw-fc-hi').textContent = fcHi + '°';
+            cards[i].querySelector('.dw-fc-lo').textContent = fcLo + '°';
+          }
+        }
+      }
+    })
+    .catch(function(e) {
+      // Fallback: keep hardcoded values (already in HTML)
+      console.log('Weather fetch failed, using defaults.');
+    });
 })();
+
 </script>
-
-
 </div>
-
-<!-- MTR 查詢 Modal -->
+</body>
 <div id="mtr-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center;">
   <div style="background:#1a1a2e; border-radius:16px; width:92%; max-width:480px; max-height:85vh; overflow:hidden; display:flex; flex-direction:column;">
     
