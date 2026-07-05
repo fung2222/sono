@@ -3007,32 +3007,48 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
 // ══════ Banner 天氣 + 日期即時更新 ══════
 (function() {
-  var WMO = {0:'☀️|天晴',1:'🌤️|大致天晴',2:'⛅|間中有陽光',3:'☁️|多雲',
-    45:'🌫️|有霧',48:'🌫️|冰霧',51:'🌦️|微雨',53:'🌧️|毛毛雨',
-    55:'🌧️|持續微雨',61:'🌧️|微雨',63:'🌧️|大雨',65:'🌧️|大雨',
-    80:'🌦️|驟雨',81:'🌧️|強驟雨',82:'⛈️|暴驟雨',95:'⛈️|雷暴',
-    96:'⛈️|雷暴夾冰雹',99:'⛈️|強雷暴'};
-  var wdays = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
-
   function $(id) { return document.getElementById(id); }
 
-  // Update date immediately
-  var now = new Date();
-  $('dw-bi-date').textContent = now.getFullYear() + '年' + (now.getMonth()+1) + '月' + now.getDate() + '日（' + wdays[now.getDay()] + '）';
+  // 1) Date - real local time, no emoji
+  function updateDate() {
+    var d = new Date();
+    var y = d.getFullYear(), m = d.getMonth() + 1, day = d.getDate();
+    var w = ['日','一','二','三','四','五','六'][d.getDay()];
+    var el = $('dw-bi-date');
+    if (el) el.textContent = y + '年' + m + '月' + day + '日 星期' + w;
+  }
+  updateDate();
+  setInterval(updateDate, 60000);
 
-  // Fetch weather from Open-Meteo (free, no key, no CORS)
-  fetch('https://api.open-meteo.com/v1/forecast?latitude=22.28&longitude=114.16&current=temperature_2m,weather_code&timezone=Asia/Hong_Kong&forecast_days=1')
-    .then(function(r){return r.json()})
-    .then(function(d){
-      var code = (d.current||{}).weather_code || 0;
-      var w = WMO[code] || '☁️|多雲';
-      var p = w.split('|');
-      $('dw-bi-icon').textContent = p[0];
-      $('dw-bi-desc').textContent = p[1] || '多雲';
-      $('dw-bi-temp').textContent = Math.round((d.current||{}).temperature_2m || 0) + '°';
+  // 2) Weather - wttr.in JSON (free, no key, CORS enabled)
+  fetch('https://wttr.in/Hong_Kong?format=j1')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      var cur = (d.current_condition && d.current_condition[0]) || {};
+      var desc = (cur.weatherDesc && cur.weatherDesc[0] && cur.weatherDesc[0].value) || '多雲';
+      var temp = parseInt(cur.temp_C, 10);
+      var humidity = cur.humidity || '--';
+      var wind = cur.windspeedKmph || '--';
+
+      if ($('dw-tc-icon')) $('dw-tc-icon').textContent = pickIcon(desc);
+      if ($('dw-tc-desc')) $('dw-tc-desc').textContent = desc;
+      if ($('dw-tc-temp')) $('dw-tc-temp').textContent = (isNaN(temp) ? '--' : temp) + '°';
+      if ($('dw-tc-humidity')) $('dw-tc-humidity').textContent = humidity + '%';
+      if ($('dw-tc-wind')) $('dw-tc-wind').textContent = wind + 'km/h';
     })
-    .catch(function(){});
-})();
+    .catch(function(e) { console.log('wttr.in failed:', e); });
+
+  function pickIcon(desc) {
+    if (!desc) return '☀';
+    if (desc.indexOf('雷') >= 0) return '⛈⏭';
+    if (desc.indexOf('雨') >= 0) return '⛈⏭';
+    if (desc.indexOf('院') >= 0 || desc.indexOf('多雲') >= 0) return '☁️';
+    if (desc.indexOf('霧') >= 0) return '🌫';
+    if (desc.indexOf('雪') >= 0) return '❄';
+    if (desc.indexOf('晴') >= 0) return '☀';
+    return '🌤';
+  }
+})()
 </script>
 
 
