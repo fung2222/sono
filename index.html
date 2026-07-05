@@ -293,31 +293,6 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 }
 /* ══════ Sono 每日日報全新 layout ══════ */
 
-/* ── Hero weather section ── */
-#sono-daily-report .dw-hero{ position:relative; border-radius:16px; overflow:hidden; margin:0 0 12px; }
-#sono-daily-report .dw-hero-bg{ position:absolute; inset:0; background:linear-gradient(135deg,#1a1a3e 0%,#16213e 40%,#0f3460 100%); border-radius:16px; border:1px solid rgba(255,255,255,0.08); }
-#sono-daily-report .dw-hero-content{ position:relative; display:flex; align-items:center; gap:20px; padding:14px 20px; }
-#sono-daily-report .dw-hero-main{ display:flex; flex-direction:column; align-items:center; min-width:130px; }
-#sono-daily-report .dw-weather-icon{ font-size:3.8em; filter:drop-shadow(0 4px 20px rgba(255,107,157,0.5)); }
-#sono-daily-report .dw-temp-group{ display:flex; flex-direction:column; align-items:center; margin:2px 0; }
-#sono-daily-report .dw-temp-main{ font-size:3em; font-weight:900; color:#fff; line-height:1; letter-spacing:-2px; }
-#sono-daily-report .dw-temp-range{ font-size:0.7em; color:#888; }
-#sono-daily-report .dw-weather-desc{ font-size:0.78em; color:#a29bfe; margin-top:2px; }
-#sono-daily-report .dw-hero-details{ flex:1; display:grid; grid-template-columns:1fr 1fr; gap:2px 20px; }
-#sono-daily-report .dw-detail-item{ display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:0.78em; }
-#sono-daily-report .dw-dl{ color:#888; }
-#sono-daily-report .dw-dv{ color:#ddd; font-weight:500; }
-#sono-daily-report .dw-date-val{ color:#888; font-size:0.9em; }
-
-/* ── 5 日預報 ── */
-#sono-daily-report .dw-forecast-row{ display:flex; gap:6px; margin:0 0 12px; }
-#sono-daily-report .dw-fc-card{ flex:1; background:rgba(255,255,255,0.03); border-radius:10px; padding:10px 4px; text-align:center; border:1px solid rgba(255,255,255,0.04); }
-#sono-daily-report .dw-fc-day{ font-size:0.68em; color:#888; margin-bottom:4px; }
-#sono-daily-report .dw-fc-icon{ font-size:1.3em; margin:2px 0; }
-#sono-daily-report .dw-fc-temps{ display:flex; justify-content:center; gap:4px; font-size:0.72em; }
-#sono-daily-report .dw-fc-hi{ color:#fff; font-weight:700; }
-#sono-daily-report .dw-fc-lo{ color:#666; }
-
 /* ── Banner ── */
 #sono-daily-report .dw-banner-img{ width:100%; border-radius:12px; margin:0 0 14px; display:block; aspect-ratio:16/9; object-fit:cover; }
 
@@ -567,40 +542,8 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div class="section-label">🌤️ 香港天氣</div>
 <div id="sono-daily-report">
 
-<!-- ══════ HERO: 今日天氣 ══════ -->
-<div class="dw-hero">
-  <div class="dw-hero-bg"></div>
-  <div class="dw-hero-content">
-    <div class="dw-hero-main">
-      <div id="dw-icon" class="dw-weather-icon">☁️</div>
-      <div class="dw-temp-group">
-        <span id="dw-temp" class="dw-temp-main">29°</span>
-        <span id="dw-range" class="dw-temp-range">低 26 / 高 29</span>
-      </div>
-      <div id="dw-desc" class="dw-weather-desc">載入中⋯</div>
-    </div>
-    <div class="dw-hero-details">
-      <div class="dw-detail-item"><span class="dw-dl">📅</span><span class="dw-dv" id="dw-date">2026年7月5日（星期日）</span></div>
-      <div class="dw-detail-item"><span class="dw-dl">濕度</span><span id="dw-humidity" class="dw-dv">79-93%</span></div>
-      <div class="dw-detail-item"><span class="dw-dl">風速</span><span id="dw-wind" class="dw-dv">南風 20km/h</span></div>
-      <div class="dw-detail-item"><span class="dw-dl">紫外線</span><span id="dw-uv" class="dw-dv">極高</span></div>
-      <div class="dw-detail-item"><span class="dw-dl">能見度</span><span id="dw-vis" class="dw-dv">尚可</span></div>
-    </div>
-  </div>
-</div>
-
 <!-- ══════ 天氣 BANNER ══════ -->
 <img class="dw-banner-img" src="images/weather_banner_today.png" alt="香港維港天氣">
-
-<!-- ══════ 5 日預報 ══════ -->
-<div class="dw-section-title">📅 未來5天</div>
-<div id="dw-forecast" class="dw-forecast-row">
-  <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
-  <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
-  <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
-  <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
-  <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
-</div>
 
 <!-- ══════ 天氣洞察 ══════ -->
 <div class="dw-insight-card">
