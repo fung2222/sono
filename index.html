@@ -300,19 +300,18 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 #sono-daily-report .dw-bi-icon{ font-size:0.9em; }
 #sono-daily-report .dw-bi-region{ margin-left:auto; color:#a29bfe; font-weight:600; }
 
-/* ── 今日天氣卡 ── */
-#sono-daily-report .dw-today-card{ background:#141425; border-radius:12px; padding:14px 16px; margin:0 0 12px; border:1px solid rgba(255,255,255,0.06); }
-#sono-daily-report .dw-tc-main{ display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:14px; }
-#sono-daily-report .dw-tc-left{ display:flex; align-items:center; gap:8px; }
-#sono-daily-report .dw-tc-icon{ font-size:2.2em; }
-#sono-daily-report .dw-tc-temp{ font-size:1.7em; font-weight:900; color:#fff; }
-#sono-daily-report .dw-tc-center{ text-align:center; }
-#sono-daily-report .dw-tc-region{ font-size:0.7em; color:#a29bfe; letter-spacing:1px; }
-#sono-daily-report .dw-tc-desc{ font-size:0.95em; color:#ccc; margin-top:2px; }
-#sono-daily-report .dw-tc-right{ display:flex; flex-direction:column; align-items:flex-end; gap:4px; }
-#sono-daily-report .dw-tc-desc-row{ font-size:0.85em; color:#ccc; margin-bottom:2px; }
-#sono-daily-report .dw-tc-stat{ display:flex; align-items:center; gap:4px; font-size:0.78em; color:#bbb; }
+/* ── 今日天氣卡 (Hero 風格) ── */
+#sono-daily-report .dw-today-card{ background:linear-gradient(160deg,#1a1a3e 0%,#0f3460 100%); border-radius:16px; padding:20px 16px; margin:0 0 12px; border:1px solid rgba(255,255,255,0.06); }
+#sono-daily-report .dw-tc-top{ display:flex; flex-direction:column; align-items:center; padding:8px 0 12px; }
+#sono-daily-report .dw-tc-icon{ font-size:4.5em; line-height:1; filter:drop-shadow(0 4px 20px rgba(255,255,255,0.15)); }
+#sono-daily-report .dw-tc-temp{ font-size:3.5em; font-weight:200; color:#fff; line-height:1; letter-spacing:-2px; margin-top:4px; }
+#sono-daily-report .dw-tc-desc{ font-size:1em; color:#a29bfe; margin-top:6px; }
+#sono-daily-report .dw-tc-divider{ height:1px; background:rgba(255,255,255,0.08); margin:0 0; }
+#sono-daily-report .dw-tc-bottom{ display:flex; gap:0; padding-top:10px; }
+#sono-daily-report .dw-tc-stat{ flex:1; display:flex; align-items:center; justify-content:center; gap:6px; font-size:0.85em; color:#ccc; }
 #sono-daily-report .dw-tc-stat-icon{ font-size:1em; }
+#sono-daily-report .dw-tc-stat-label{ color:#888; font-size:0.9em; }
+#sono-daily-report .dw-tc-stat-value{ color:#fff; font-weight:600; }
 
 /* ── Weather Insight (卡片式) ── */
 #sono-daily-report .dw-insight-card{ background:#141425; border-radius:12px; padding:14px 16px; margin:0 0 16px; border:1px solid rgba(255,255,255,0.06); }
@@ -570,21 +569,27 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   </div>
 </div>
 
-<!-- ══════ 今日天氣卡 ══════ -->
+<!-- ══════ 今日天氣卡 (Hero 風格) ══════ -->
 <div class="dw-today-card">
-  <div class="dw-tc-main">
-    <div class="dw-tc-left">
-      <span id="dw-tc-icon" class="dw-tc-icon">☁️</span>
-      <span id="dw-tc-temp" class="dw-tc-temp">--°</span>
+  <div class="dw-tc-top">
+    <div id="dw-tc-icon" class="dw-tc-icon">☁️</div>
+    <div id="dw-tc-temp" class="dw-tc-temp">--°</div>
+    <div id="dw-tc-desc" class="dw-tc-desc">載入中⋯</div>
+  </div>
+  <div class="dw-tc-divider"></div>
+  <div class="dw-tc-bottom">
+    <div class="dw-tc-stat">
+      <span class="dw-tc-stat-icon">💧</span>
+      <span class="dw-tc-stat-label">濕度</span>
+      <span id="dw-tc-humidity" class="dw-tc-stat-value">--%</span>
     </div>
-    <div class="dw-tc-right">
-      <div id="dw-tc-desc" class="dw-tc-desc-row">載入中⋯</div>
-      <div class="dw-tc-stat"><span class="dw-tc-stat-icon">💧</span><span id="dw-tc-humidity">--%</span></div>
-      <div class="dw-tc-stat"><span class="dw-tc-stat-icon">🌬️</span><span id="dw-tc-wind">--km/h</span></div>
+    <div class="dw-tc-stat">
+      <span class="dw-tc-stat-icon">🌬️</span>
+      <span class="dw-tc-stat-label">風速</span>
+      <span id="dw-tc-wind" class="dw-tc-stat-value">--km/h</span>
     </div>
   </div>
 </div>
-
 <!-- ══════ 天氣洞察 ══════ -->
 <div class="dw-insight-card">
   <div class="dw-insight-header">☔ 天氣洞察</div>
