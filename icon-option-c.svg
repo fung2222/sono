@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#0a0a1a"/>
-  <!-- Geometric S from two bold arcs -->
-  <path d="M310 150 C310 150, 370 150, 370 210 C370 260, 310 270, 256 270" 
-        stroke="#ff6b9d" stroke-width="44" stroke-linecap="round" fill="none"/>
-  <path d="M256 242 C200 242, 142 260, 142 310 C142 370, 200 370, 200 370" 
-        stroke="#a29bfe" stroke-width="44" stroke-linecap="round" fill="none"/>
-</svg>
