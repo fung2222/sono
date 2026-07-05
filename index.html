@@ -293,8 +293,13 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 }
 /* ══════ Sono 每日日報全新 layout ══════ */
 
-/* ── Banner ── */
-#sono-daily-report .dw-banner-img{ width:100%; border-radius:12px; margin:0 0 14px; display:block; aspect-ratio:16/9; object-fit:cover; }
+/* ── Banner + weather info strip ── */
+#sono-daily-report .dw-banner-wrap{ margin:0 0 14px; }
+#sono-daily-report .dw-banner-img{ width:100%; border-radius:12px 12px 0 0; display:block; aspect-ratio:16/9; object-fit:cover; }
+#sono-daily-report .dw-banner-info{ display:flex; align-items:center; justify-content:center; gap:0; background:rgba(20,20,37,0.95); border-radius:0 0 12px 12px; padding:8px 12px; border:1px solid rgba(255,255,255,0.06); border-top:none; font-size:0.78em; }
+#sono-daily-report .dw-bi-item{ display:flex; align-items:center; gap:4px; color:#ccc; }
+#sono-daily-report .dw-bi-icon{ font-size:1em; }
+#sono-daily-report .dw-bi-divider{ width:1px; height:16px; background:rgba(255,255,255,0.1); margin:0 14px; }
 
 /* ── Weather Insight ── */
 #sono-daily-report .dw-insight-card{ background:linear-gradient(135deg,rgba(255,107,157,0.06),rgba(162,155,254,0.06)); border-radius:12px; border-left:3px solid #a29bfe; padding:16px; margin:0 0 18px; }
@@ -542,8 +547,17 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div class="section-label">🌤️ 香港天氣</div>
 <div id="sono-daily-report">
 
-<!-- ══════ 天氣 BANNER ══════ -->
-<img class="dw-banner-img" src="images/weather_banner_today.png" alt="香港維港天氣">
+<!-- ══════ 天氣 BANNER + 即時資訊 ══════ -->
+<div class="dw-banner-wrap">
+  <img class="dw-banner-img" src="images/weather_banner_today.png" alt="香港維港天氣">
+  <div class="dw-banner-info">
+    <span class="dw-bi-item"><span class="dw-bi-icon">📅</span><span id="dw-bi-date">--</span></span>
+    <span class="dw-bi-divider"></span>
+    <span class="dw-bi-item"><span id="dw-bi-icon">☁️</span><span id="dw-bi-desc">載入中⋯</span></span>
+    <span class="dw-bi-divider"></span>
+    <span class="dw-bi-item"><span class="dw-bi-icon">🌡️</span><span id="dw-bi-temp">--°</span></span>
+  </div>
+</div>
 
 <!-- ══════ 天氣洞察 ══════ -->
 <div class="dw-insight-card">
