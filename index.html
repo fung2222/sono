@@ -293,60 +293,61 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 }
 /* ══════ Sono 每日日報全新 layout ══════ */
 
-/* ── Banner + date strip ── */
-#sono-daily-report .dw-banner-wrap{ margin:0 0 12px; }
-#sono-daily-report .dw-banner-img{ width:100%; border-radius:12px 12px 0 0; display:block; aspect-ratio:16/9; object-fit:cover; }
-#sono-daily-report .dw-banner-info{ display:flex; align-items:center; gap:6px; background:rgba(20,20,37,0.95); border-radius:0 0 12px 12px; padding:6px 14px; border:1px solid rgba(255,255,255,0.06); border-top:none; font-size:0.82em; color:#aaa; }
-#sono-daily-report .dw-bi-icon{ font-size:0.9em; }
-#sono-daily-report .dw-bi-region{ margin-left:auto; color:#a29bfe; font-weight:600; }
+/* ── Hero weather section ── */
+#sono-daily-report .dw-hero{ position:relative; border-radius:16px; overflow:hidden; margin:0 0 12px; min-height:140px; }
+#sono-daily-report .dw-hero-bg{ position:absolute; inset:0; background:linear-gradient(135deg,#1a1a3e 0%,#16213e 40%,#0f3460 100%); border-radius:16px; border:1px solid rgba(255,255,255,0.08); }
+#sono-daily-report .dw-hero-content{ position:relative; display:flex; align-items:center; gap:20px; padding:20px; }
+#sono-daily-report .dw-hero-main{ display:flex; flex-direction:column; align-items:center; min-width:130px; }
+#sono-daily-report .dw-weather-icon{ font-size:3.8em; filter:drop-shadow(0 4px 20px rgba(255,107,157,0.5)); }
+#sono-daily-report .dw-temp-group{ display:flex; flex-direction:column; align-items:center; margin:2px 0; }
+#sono-daily-report .dw-temp-main{ font-size:3em; font-weight:900; color:#fff; line-height:1; letter-spacing:-2px; }
+#sono-daily-report .dw-temp-range{ font-size:0.7em; color:#888; }
+#sono-daily-report .dw-weather-desc{ font-size:0.78em; color:#a29bfe; margin-top:2px; }
+#sono-daily-report .dw-hero-details{ flex:1; display:grid; grid-template-columns:1fr 1fr; gap:4px 20px; }
+#sono-daily-report .dw-detail-item{ display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:0.78em; }
+#sono-daily-report .dw-dl{ color:#888; }
+#sono-daily-report .dw-dv{ color:#ddd; font-weight:500; }
 
-/* ── 合併天氣 Card (溫度 + 洞察) ── */
-#sono-daily-report .dw-weather-merged{ background:#141425; border-radius:12px; padding:0 16px; margin:0 0 16px; border:1px solid rgba(255,255,255,0.06); }
-#sono-daily-report .dw-today-card{ display:flex; align-items:center; gap:16px; background:transparent; padding:14px 0; margin:0; border:none; }
-#sono-daily-report .dw-tc-left{ display:flex; align-items:center; gap:6px; }
-#sono-daily-report .dw-tc-icon{ font-size:2.4em; line-height:1; }
-#sono-daily-report .dw-tc-temp{ font-size:1.7em; font-weight:900; color:#fff; line-height:1; }
-#sono-daily-report .dw-tc-right{ flex:1; display:flex; flex-direction:column; align-items:flex-end; gap:4px; }
-#sono-daily-report .dw-tc-desc{ font-size:1em; color:#ddd; }
-#sono-daily-report .dw-tc-stat{ display:flex; align-items:center; gap:4px; font-size:0.8em; color:#bbb; }
-#sono-daily-report .dw-tc-stat-icon{ font-size:1em; }
-#sono-daily-report .dw-tc-stat-label{ color:#888; }
-#sono-daily-report .dw-wm-divider{ height:1px; background:rgba(255,255,255,0.06); margin:0; }
-#sono-daily-report .dw-wm-forecast{ display:flex; gap:6px; padding:12px 0; }
-#sono-daily-report .dw-fc-card{ flex:1; background:rgba(255,255,255,0.03); border-radius:8px; padding:8px 4px; text-align:center; }
+/* ── 5 日預報 ── */
+#sono-daily-report .dw-forecast-row{ display:flex; gap:6px; margin:0 0 14px; }
+#sono-daily-report .dw-fc-card{ flex:1; background:rgba(255,255,255,0.03); border-radius:10px; padding:10px 4px; text-align:center; border:1px solid rgba(255,255,255,0.04); }
 #sono-daily-report .dw-fc-day{ font-size:0.68em; color:#888; margin-bottom:4px; }
 #sono-daily-report .dw-fc-icon{ font-size:1.3em; margin:2px 0; }
 #sono-daily-report .dw-fc-temps{ display:flex; justify-content:center; gap:4px; font-size:0.72em; }
 #sono-daily-report .dw-fc-hi{ color:#fff; font-weight:700; }
 #sono-daily-report .dw-fc-lo{ color:#666; }
-#sono-daily-report .dw-wm-insight{ padding:12px 0 14px; }
 
-/* ── Weather Insight (卡片式) ── */
-#sono-daily-report .dw-insight-card{ background:#141425; border-radius:12px; padding:14px 16px; margin:0 0 16px; border:1px solid rgba(255,255,255,0.06); }
-#sono-daily-report .dw-insight-header{ font-size:0.95em; color:#fff; font-weight:700; margin-bottom:8px; }
-#sono-daily-report .dw-insight-text{ font-size:0.95em; color:#fff; line-height:1.6; font-style:italic; margin-bottom:10px; }
-#sono-daily-report .dw-insight-body{ }
+/* ── Banner ── */
+#sono-daily-report .dw-banner{ margin:0 0 14px; border-radius:12px; overflow:hidden; }
+#sono-daily-report .dw-banner-placeholder{ aspect-ratio:16/9; background:linear-gradient(135deg,#1a1a3e,#0a0a2e); display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:12px; border:1px dashed rgba(255,255,255,0.1); color:#888; font-size:1.1em; gap:6px; }
+
+/* ── Weather Insight ── */
+#sono-daily-report .dw-insight-card{ background:linear-gradient(135deg,rgba(255,107,157,0.06),rgba(162,155,254,0.06)); border-radius:12px; border-left:3px solid #a29bfe; padding:16px; margin:0 0 18px; }
+#sono-daily-report .dw-insight-header{ font-size:0.85em; color:#a29bfe; font-weight:700; margin-bottom:8px; }
+#sono-daily-report .dw-insight-text{ font-size:0.82em; color:#ddd; line-height:1.7; font-style:italic; margin-bottom:10px; }
 #sono-daily-report .dw-insight-recs{ display:flex; gap:12px; flex-wrap:wrap; }
 #sono-daily-report .dw-insight-recs span{ font-size:0.72em; color:#bbb; background:rgba(255,255,255,0.04); padding:4px 12px; border-radius:14px; border:1px solid rgba(255,255,255,0.06); }
 
 /* ── Section titles ── */
-#sono-daily-report .dw-news-title{ font-size:1.2em; font-weight:700; color:#a29bfe; margin:20px 0 12px; padding-bottom:6px; border-bottom:2px solid rgba(162,155,254,0.3); }
-#sono-daily-report .dw-news-tabs{ display:flex; gap:6px; margin:0 0 12px; }
+#sono-daily-report .dw-section-title{ font-size:1em; font-weight:700; color:#a29bfe; margin:18px 0 10px; padding-bottom:6px; border-bottom:1px solid rgba(162,155,254,0.15); }
 
-/* ── Sono 專欄 accordion ── */
-#sono-daily-report .dw-sono-accordion{ background:#141425; border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.06); margin:0 0 16px; }
-#sono-daily-report .dw-acc-item{ border-bottom:1px solid rgba(255,255,255,0.04); cursor:pointer; }
-#sono-daily-report .dw-acc-item:last-child{ border-bottom:none; }
-#sono-daily-report .dw-acc-header{ display:flex; justify-content:space-between; align-items:center; padding:14px 18px; background:rgba(162,155,254,0.04); font-size:1.05em; color:#fff; font-weight:600; transition:background 0.2s; }
-#sono-daily-report .dw-acc-header:hover{ background:rgba(162,155,254,0.08); }
-#sono-daily-report .dw-acc-arrow{ color:#555; font-size:0.65em; transition:transform 0.3s; }
-#sono-daily-report .dw-acc-item.open .dw-acc-arrow{ transform:rotate(180deg); }
-#sono-daily-report .dw-acc-body{ max-height:0; overflow:hidden; transition:max-height 0.4s ease, padding 0.3s; padding:0 16px; font-size:0.78em; color:#bbb; line-height:1.7; }
-#sono-daily-report .dw-acc-body.open{ max-height:3000px; padding:12px 16px; }
-#sono-daily-report .dw-acc-body .observation{ color:#ccc; }
-#sono-daily-report .dw-acc-body .prediction{ padding:10px 12px; background:rgba(162,155,254,0.06); border-radius:8px; margin:8px 0; }
-#sono-daily-report .dw-acc-body .quote p{ color:#ddd; }
-#sono-daily-report .dw-acc-body strong{ color:#a29bfe; }
+/* ── 3 專欄 Cards ── */
+#sono-daily-report .dw-columns-row{ display:flex; gap:10px; margin:0 0 4px; }
+#sono-daily-report .dw-col-card{ flex:1; border-radius:12px; overflow:hidden; background:#141425; border:1px solid rgba(255,255,255,0.06); cursor:pointer; transition:all 0.3s; }
+#sono-daily-report .dw-col-card:hover{ border-color:rgba(162,155,254,0.2); }
+#sono-daily-report .dw-col-trend{ border-top:3px solid #ff6b9d; }
+#sono-daily-report .dw-col-pred{ border-top:3px solid #74b9ff; }
+#sono-daily-report .dw-col-intu{ border-top:3px solid #6bff6b; }
+#sono-daily-report .dw-col-header{ display:flex; align-items:center; gap:6px; padding:10px 12px; background:rgba(255,255,255,0.03); }
+#sono-daily-report .dw-col-icon{ font-size:1em; }
+#sono-daily-report .dw-col-title{ font-size:0.78em; color:#ddd; font-weight:600; flex:1; }
+#sono-daily-report .dw-col-arrow{ color:#555; font-size:0.6em; transition:transform 0.3s; }
+#sono-daily-report .dw-col-card.open .dw-col-arrow{ transform:rotate(180deg); }
+#sono-daily-report .dw-col-body{ max-height:0; overflow:hidden; transition:all 0.35s ease; padding:0 12px; font-size:0.78em; color:#bbb; line-height:1.6; }
+#sono-daily-report .dw-col-body.open{ max-height:3000px; padding:10px 12px 14px; }
+#sono-daily-report .dw-col-body .observation{ color:#ccc; }
+#sono-daily-report .dw-col-body .prediction{ padding:8px 10px; background:rgba(162,155,254,0.06); border-radius:6px; margin:6px 0; }
+#sono-daily-report .dw-col-body strong{ color:#a29bfe; }
 
 /* ── News tabs ── */
 #sono-daily-report .dw-news-tabs{ display:flex; gap:6px; margin:0 0 10px; }
@@ -379,8 +380,7 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 </style>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 // ══════ Sono 每日日報: News Tab Switch ══════
 document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(tab) {
   tab.addEventListener('click', function() {
@@ -566,84 +566,96 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
 <!-- ══════ Tab 1: Sono 每日 ══════ -->
 <div class="tab-panel active" id="tab-daily">
-  <div class="section-label">🌤️ 香港天氣</div>
 <div id="sono-daily-report">
 
-<!-- ══════ 天氣 BANNER + 日期 ══════ -->
-<div class="dw-banner-wrap">
-  <img class="dw-banner-img" src="images/weather_banner_today.png" alt="香港維港天氣">
-  <div class="dw-banner-info">
-    <span id="dw-bi-date">--</span>
-    <span class="dw-tc-region dw-bi-region">香港</span>
+<!-- ══════ HERO: 今日天氣 ══════ -->
+<div class="dw-hero">
+  <div class="dw-hero-bg"></div>
+  <div class="dw-hero-content">
+    <div class="dw-hero-main">
+      <div class="dw-weather-icon">⛈️</div>
+      <div class="dw-temp-group">
+        <span class="dw-temp-main">29°</span>
+        <span class="dw-temp-range">低 26 / 高 29</span>
+      </div>
+      <div class="dw-weather-desc">雷暴，間中有雨</div>
+    </div>
+    <div class="dw-hero-details">
+      <div class="dw-detail-item"><span class="dw-dl">濕度</span><span class="dw-dv">79-93%</span></div>
+      <div class="dw-detail-item"><span class="dw-dl">風速</span><span class="dw-dv">南風 19km/h</span></div>
+      <div class="dw-detail-item"><span class="dw-dl">紫外線</span><span class="dw-dv">極高</span></div>
+      <div class="dw-detail-item"><span class="dw-dl">能見度</span><span class="dw-dv">尚可</span></div>
+    </div>
   </div>
 </div>
 
-<!-- ══════ 天氣 Card (合併：溫度 + 5 日預報 + 洞察) ══════ -->
-<div class="dw-weather-merged">
-  <div class="dw-today-card">
-    <div class="dw-tc-left">
-      <div id="dw-tc-icon" class="dw-tc-icon">☁️</div>
-      <div id="dw-tc-temp" class="dw-tc-temp">--°</div>
-    </div>
-    <div class="dw-tc-right">
-      <div id="dw-tc-desc" class="dw-tc-desc">載入中⋯</div>
-      <div class="dw-tc-stat"><span class="dw-tc-stat-icon">💧</span><span class="dw-tc-stat-label">濕度</span><span id="dw-tc-humidity">--%</span></div>
-      <div class="dw-tc-stat"><span class="dw-tc-stat-icon">🌬️</span><span class="dw-tc-stat-label">風速</span><span id="dw-tc-wind">--km/h</span></div>
-    </div>
+<!-- ══════ 5 日預報 ══════ -->
+<div class="dw-forecast-row">
+  <div class="dw-fc-card"><div class="dw-fc-day">週日</div><div class="dw-fc-icon">⛈️</div><div class="dw-fc-temps"><span class="dw-fc-hi">29°</span><span class="dw-fc-lo">26°</span></div></div>
+  <div class="dw-fc-card"><div class="dw-fc-day">週一</div><div class="dw-fc-icon">⛈️</div><div class="dw-fc-temps"><span class="dw-fc-hi">30°</span><span class="dw-fc-lo">27°</span></div></div>
+  <div class="dw-fc-card"><div class="dw-fc-day">週二</div><div class="dw-fc-icon">⛈️</div><div class="dw-fc-temps"><span class="dw-fc-hi">28°</span><span class="dw-fc-lo">25°</span></div></div>
+  <div class="dw-fc-card"><div class="dw-fc-day">週三</div><div class="dw-fc-icon">⛈️</div><div class="dw-fc-temps"><span class="dw-fc-hi">30°</span><span class="dw-fc-lo">25°</span></div></div>
+  <div class="dw-fc-card"><div class="dw-fc-day">週四</div><div class="dw-fc-icon">⛈️</div><div class="dw-fc-temps"><span class="dw-fc-hi">30°</span><span class="dw-fc-lo">26°</span></div></div>
+</div>
+
+<!-- ══════ 天氣 BANNER (placeholder) ══════ -->
+<div class="dw-banner">
+  <div class="dw-banner-placeholder">
+    <span>🌆 今日香港天氣相</span>
+    <span style="font-size:0.7em;color:#666;">（天氣相片待生成）</span>
   </div>
-  <div class="dw-wm-divider"></div>
-  <div id="dw-forecast" class="dw-wm-forecast">
-    <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
-    <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
-    <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
-    <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
-    <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
-  </div>
-  <div class="dw-wm-divider"></div>
-  <div class="dw-wm-insight">
-    <p class="dw-insight-text">今日雖未見大雨，但高空擾動會喺午後帶來幾陣驟雨。濕度偏高，體感悶熱。出門最好帶定把遮，趁有陽光嘅時候出去行陣。</p>
+</div>
+
+<!-- ══════ 天氣洞察 ══════ -->
+<div class="dw-insight-card">
+  <div class="dw-insight-header">☔ 天氣洞察</div>
+  <div class="dw-insight-body">
+    <p class="dw-insight-text">今日香港有雷暴警告，間中有大雨，濕度偏高。低壓槽影響廣東沿岸，空氣潮濕悶熱。出門記得帶遮，盡量避免戶外活動。</p>
     <div class="dw-insight-recs">
-      <span>👕 短袖衫就夠</span>
-      <span>☂️ 午後有雨帶遮</span>
-      <span>😊 把握陽光時段</span>
+      <span>👕 短袖衫加薄外套</span>
+      <span>☂️ 記得隨身帶遮</span>
+      <span>😊 保持好心情</span>
     </div>
   </div>
 </div>
 
-<!-- ══════ Sono 專欄 (accordion) ══════ -->
+<!-- ══════ 3 大專欄 ══════ -->
 <div class="dw-section-title">📝 Sono 專欄</div>
-<div class="dw-sono-accordion">
-  <div class="dw-acc-item" onclick="toggleSub(this)">
-    <div class="dw-acc-header">
-      <span>🌍 世界趨勢</span>
-      <span class="dw-acc-arrow">▼</span>
+<div class="dw-columns-row">
+  <div class="dw-col-card dw-col-trend" onclick="toggleSub(this)">
+    <div class="dw-col-header">
+      <span class="dw-col-icon">🌍</span>
+      <span class="dw-col-title">世界趨勢</span>
+      <span class="dw-col-arrow">▼</span>
     </div>
-    <div class="dw-acc-body">
-      <div class="observation">內容待生成⋯⋯</div>
-    </div>
-  </div>
-  <div class="dw-acc-item" onclick="toggleSub(this)">
-    <div class="dw-acc-header">
-      <span>📡 蘇蘿預測</span>
-      <span class="dw-acc-arrow">▼</span>
-    </div>
-    <div class="dw-acc-body">
-      <div class="prediction">內容待生成⋯⋯</div>
+    <div class="dw-col-body">
+      <div class="observation"><strong>今日焦點</strong><br><br>內容待 M3 生成⋯⋯</div>
     </div>
   </div>
-  <div class="dw-acc-item" onclick="toggleSub(this)">
-    <div class="dw-acc-header">
-      <span>🔮 蘇蘿直覺</span>
-      <span class="dw-acc-arrow">▼</span>
+  <div class="dw-col-card dw-col-pred" onclick="toggleSub(this)">
+    <div class="dw-col-header">
+      <span class="dw-col-icon">📡</span>
+      <span class="dw-col-title">蘇蘿預測</span>
+      <span class="dw-col-arrow">▼</span>
     </div>
-    <div class="dw-acc-body">
-      <div class="quote" style="font-style:italic;color:#ddd;">內容待生成⋯⋯</div>
+    <div class="dw-col-body">
+      <div class="prediction">內容待 M3 生成⋯⋯</div>
+    </div>
+  </div>
+  <div class="dw-col-card dw-col-intu" onclick="toggleSub(this)">
+    <div class="dw-col-header">
+      <span class="dw-col-icon">🔮</span>
+      <span class="dw-col-title">蘇蘿直覺</span>
+      <span class="dw-col-arrow">▼</span>
+    </div>
+    <div class="dw-col-body">
+      <div class="quote" style="font-style:italic;color:#ddd;">內容待 M3 生成⋯⋯</div>
     </div>
   </div>
 </div>
 
-<!-- ══════ 新聞 4 TABS ══════ -->
-<div class="dw-news-title">📰 今日四大新聞</div>
+<!-- ══════ 新聞 TABS ══════ -->
+<div class="dw-section-title">📰 今日新聞</div>
 <div class="dw-news-tabs">
   <button class="dw-ntab active" data-section="ai"><span>🤖</span> AI 科技</button>
   <button class="dw-ntab" data-section="space"><span>🚀</span> 太空宇宙</button>
@@ -651,9 +663,24 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <button class="dw-ntab" data-section="paranormal"><span>🔮</span> 超自然</button>
 </div>
 
+<!-- ══════ 新聞 CARDS ══════ -->
+<div class="dw-panel active" id="panel-ai">
+  <div class="dw-card breakthrough"><div class="dw-card-tag">突破</div><h3>內容待 M3 reset 後生成⋯⋯</h3><div class="dw-card-meta">7/5 / Sono</div></div>
+</div>
+<div class="dw-panel" id="panel-space" style="display:none;">
+  <div class="dw-card update"><div class="dw-card-tag update">消息</div><h3>內容待生成</h3><div class="dw-card-meta">Sono</div></div>
+</div>
+<div class="dw-panel" id="panel-ufo" style="display:none;">
+  <div class="dw-card update"><div class="dw-card-tag update">消息</div><h3>內容待生成</h3><div class="dw-card-meta">Sono</div></div>
+</div>
+<div class="dw-panel" id="panel-paranormal" style="display:none;">
+  <div class="dw-card update"><div class="dw-card-tag update">消息</div><h3>內容待生成</h3><div class="dw-card-meta">Sono</div></div>
+</div>
+
 <!-- ══════ Daily Footer ══════ -->
 <div class="dw-footer">
-  <p>Sono每日資訊系統 · 資料來源：Open-Meteo + Google News RSS + FLUX.1</p>
+  <p>Sono每日資訊系統</p>
+  <p>資料來源：Google News RSS + 香港天文台</p>
   <p>2026年7月5日（星期日）</p>
 </div>
 
@@ -936,1450 +963,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 </div>
 
 <!-- ══════ 夢境解讀器 Modal ══════ -->
-<div </div>
-</div>
-
-
-<script>
-
-// ══════ Wheel of Fortune ══════
-(function(){
-  var modal=document.getElementById('wheelModal');
-  var result=document.getElementById('wheelResult');
-  var cat='food';
-  var items={food:['茶餐廳A餐','日本拉麵','米線','漢堡包','壽司','雲吞麵','車仔麵','咖喱飯','Pizza','打邊爐','燒味飯','韓式炸雞'],do:['睇Netflix','打機','出街行下','瞓覺','睇書','做運動','同朋友傾計','煮嘢食','聽歌','清潔房間'],luck:['大吉🍀','中吉👍','小吉😊','平穩😐','小心⚠️','不宜決定🙅']};
-  var spinning=false;
-  document.getElementById('wheelTrigger').onclick=function(){modal.style.display='flex';};
-  document.getElementById('wheelClose').onclick=function(){modal.style.display='none';};
-  modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
-  document.querySelectorAll('.wheel-cat').forEach(function(b){b.onclick=function(){document.querySelectorAll('.wheel-cat').forEach(function(x){x.classList.remove('active');x.style.background='transparent';x.style.color='#888';});this.classList.add('active');this.style.background='rgba(255,107,155,0.15)';this.style.color='#ff6b9d';cat=this.dataset.cat;};});
-  document.getElementById('wheelSpin').onclick=function(){
-    if(spinning)return;spinning=true;
-    var list=items[cat],idx=0,count=0;
-    var t=setInterval(function(){idx=(idx+1)%list.length;result.textContent=list[idx];count++;if(count>15+Math.floor(Math.random()*10)){clearInterval(t);spinning=false;}},80+Math.random()*40);
-  };
-})();
-
-// ══════ Reaction Test ══════
-(function(){
-  var modal=document.getElementById('reactModal');
-  var box=document.getElementById('reactBox');
-  var msg=document.getElementById('reactMsg');
-  var score=document.getElementById('reactScore');
-  var waiting=false,startTime=0,best=999;
-  document.getElementById('reactTrigger').onclick=function(){modal.style.display='flex';resetBox();};
-  document.getElementById('reactClose').onclick=function(){modal.style.display='none';};
-  modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
-  function resetBox(){waiting=false;box.style.background='#1a2438';msg.textContent='撳我開始';msg.style.color='#888';}
-  box.onclick=function(){
-    if(!waiting){waiting=true;box.style.background='#c44569';msg.textContent='等變綠...';msg.style.color='#fff';var d=1000+Math.random()*3000;setTimeout(function(){if(!waiting)return;startTime=Date.now();box.style.background='#6bff6b';msg.textContent='撳！！！';msg.style.color='#0a0a1a';},d);return;}
-    var rt=Date.now()-startTime;waiting=false;
-    if(rt<best)best=rt;
-    var emoji=rt<200?'⚡':rt<300?'🔥':rt<400?'👍':'🐢';
-    score.innerHTML=emoji+' '+rt+'ms<br><span style="font-size:0.7em;color:#888;">最佳: '+best+'ms</span>';
-    resetBox();
-  };
-})();
-
-// ══════ Daily Fortune ══════
-(function(){
-  var modal=document.getElementById('fortuneModal');
-  var stars=document.getElementById('fortuneStars');
-  var level=document.getElementById('fortuneLevel');
-  var text=document.getElementById('fortuneText');
-  var tip=document.getElementById('fortuneTip');
-  var fortunes=[
-    {s:5,l:'大吉 🍀',t:'今日運勢極佳！機會處處，勇敢踏出一步，會有意外收穫。',p:'開運提示：著紅色衫，向東南方行'},
-    {s:4,l:'中吉 👍',t:'運勢穩步上升，保持耐心，好事會自然發生。',p:'開運提示：飲杯熱茶，放鬆心情'},
-    {s:4,l:'中吉 ✨',t:'今日適合做決定，直覺會帶你行啱方向。',p:'開運提示：聽一首鍾意嘅歌'},
-    {s:3,l:'小吉 😊',t:'平平淡淡都係一種幸福。今日適合休息充電。',p:'開運提示：早啲返屋企，享受me-time'},
-    {s:3,l:'小吉 🌤️',t:'可能會有小驚喜，保持開放心態迎接新事物。',p:'開運提示：同朋友傾下計'},
-    {s:2,l:'平穩 😐',t:'今日無大事，穩住陣腳，明天會更好。',p:'開運提示：避開爭論，保持低調'},
-    {s:2,l:'注意 ⚠️',t:'小心駛得萬年船。今日做決定前再三思考。',p:'開運提示：check清楚細節先簽名'},
-    {s:1,l:'不宜 🙅',t:'今日唔適合做重大決定，最好按兵不動。',p:'開運提示：留喺安全區，唔好冒險'}
-  ];
-  function draw(){
-    var f=fortunes[Math.floor(Math.random()*fortunes.length)];
-    stars.textContent='⭐'.repeat(f.s)+'☆'.repeat(5-f.s);
-    level.textContent=f.l;
-    text.textContent=f.t;
-    tip.textContent=f.p;
-  }
-  document.getElementById('fortuneTrigger').onclick=function(){modal.style.display='flex';draw();};
-  document.getElementById('fortuneClose').onclick=function(){modal.style.display='none';};
-  modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
-  document.getElementById('fortuneRefresh').onclick=draw;
-})();
-
-// ══════ Ambient Sound ══════
-(function(){
-  var modal=document.getElementById('ambientModal');
-  var status=document.getElementById('ambientStatus');
-  var vol=document.getElementById('ambientVolume');
-  var ctx=null,noise=null,gain=null,active=null;
-  document.getElementById('ambientTrigger').onclick=function(){modal.style.display='flex';};
-  document.getElementById('ambientClose').onclick=function(){modal.style.display='none';stopSound();};
-  modal.onclick=function(e){if(e.target===this){modal.style.display='none';stopSound();}};
-  function stopSound(){if(noise){try{noise.stop();}catch(e){}noise=null;}if(gain)gain.disconnect();active=null;status.textContent='🎵 揀一個環境音效';}
-  function playNoise(type){
-    stopSound();
-    ctx=new(window.AudioContext||window.webkitAudioContext)();
-    gain=ctx.createGain();gain.gain.value=vol.value/100;gain.connect(ctx.destination);
-    var sr=ctx.sampleRate,buf=ctx.createBuffer(1,sr*2,sr),d=buf.getChannelData(0);
-    for(var i=0;i<d.length;i++){
-      if(type==='rain')d[i]=(Math.random()*2-1)*0.3+Math.sin(i*0.003)*0.2;
-      else if(type==='ocean')d[i]=Math.sin(i*0.0001)*0.5+(Math.random()*2-1)*0.15;
-      else if(type==='cafe')d[i]=(Math.random()*2-1)*0.1+Math.sin(i*0.0005)*0.05;
-      else if(type==='fire')d[i]=(Math.random()*2-1)*0.25+Math.sin(i*0.008)*0.15;
-    }
-    noise=ctx.createBufferSource();noise.buffer=buf;noise.loop=true;noise.connect(gain);noise.start();
-    var labels={rain:'🌧️ 雨聲',ocean:'🌊 海浪',cafe:'☕ 咖啡廳',fire:'🔥 營火'};
-    status.textContent='▶ '+labels[type]+' 播放中';
-    active=type;
-  }
-  vol.oninput=function(){if(gain)gain.gain.value=this.value/100;};
-  document.getElementById('ambientStop').onclick=stopSound;
-  document.querySelectorAll('.ambient-btn').forEach(function(b){
-    b.onclick=function(){
-      document.querySelectorAll('.ambient-btn').forEach(function(x){x.style.background='transparent';x.style.color='#fff';});
-      if(active===this.dataset.type){stopSound();return;}
-      this.style.background='rgba(107,255,107,0.15)';this.style.color='#6bff6b';
-      playNoise(this.dataset.type);
-    };
-  });
-})();
-
-// ══════ Random Quote ══════
-(function(){
-  var modal=document.getElementById('quoteModal');
-  var text=document.getElementById('quoteText');
-  var author=document.getElementById('quoteAuthor');
-  var quotes=[
-    {q:'人生最困難嘅唔係面對失敗，而係面對成功之後點樣保持清醒。',a:'— 李嘉誠'},
-    {q:'機會係留俾有準備嘅人。',a:'— 巴斯德'},
-    {q:'唔好等到有晒答案先行動，有時答案係行出嚟嘅。',a:'— 喬布斯'},
-    {q:'成功唔係終點，失敗都唔係末日，最重要係有繼續前行嘅勇氣。',a:'— 邱吉爾'},
-    {q:'今日嘅努力，係聽日嘅基石。',a:'— 匿名'},
-    {q:'你永遠唔會知自己可以做咩，除非你嘗試。',a:'— 愛默生'},
-    {q:'生活唔係等待暴風雨過去，而係學會喺雨中跳舞。',a:'— 薇薇安·格林'},
-    {q:'最美好嘅嘢係睇唔到亦摸唔到嘅，要用心去感受。',a:'— 小王子'},
-    {q:'相信自己，你已經行咗一半路。',a:'— 羅斯福'},
-    {q:'人生最浪費嘅一日，就係冇笑過嘅一日。',a:'— 尚福爾'},
-    {q:'唔好擔心失敗，擔心你連試都唔試。',a:'— 匿名'},
-    {q:'每一個專家都曾經係初學者。',a:'— 海倫·海斯'}
-  ];
-  function show(){
-    var q=quotes[Math.floor(Math.random()*quotes.length)];
-    text.textContent='"'+q.q+'"';author.textContent=q.a;
-  }
-  document.getElementById('quoteTrigger').onclick=function(){modal.style.display='flex';show();};
-  document.getElementById('quoteClose').onclick=function(){modal.style.display='none';};
-  modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
-  document.getElementById('quoteRefresh').onclick=show;
-})();
-
-
-
-// ══════ World Map ══════
-(function(){
-  var modal = document.getElementById('mapModal');
-  var map = null;
-  var marker = null;
-  
-  document.getElementById('mapTrigger').onclick = function(){
-    modal.style.display = 'flex';
-    if(!map){
-      initMap();
-    } else {
-      map.invalidateSize();
-    }
-  };
-  
-  document.getElementById('mapClose').onclick = function(){
-    modal.style.display = 'none';
-  };
-  
-  modal.onclick = function(e){
-    if(e.target === modal) modal.style.display = 'none';
-  };
-  
-  function initMap(){
-    map = L.map('mapContainer').setView([22.3193, 114.1694], 3);
-    
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors',
-      maxZoom: 18
-    }).addTo(map);
-    
-    // Click to add marker
-    map.on('click', function(e){
-      addMarker(e.latlng.lat, e.latlng.lng);
-    });
-    
-    // Preset buttons
-    document.querySelectorAll('.map-preset').forEach(function(btn){
-      btn.onclick = function(){
-        var lat = parseFloat(this.dataset.lat);
-        var lon = parseFloat(this.dataset.lon);
-        map.setView([lat, lon], 10);
-        addMarker(lat, lon);
-      };
-    });
-    
-    // Search button
-    document.getElementById('mapSearchBtn').onclick = searchCity;
-    document.getElementById('mapSearch').onkeypress = function(e){
-      if(e.key === 'Enter') searchCity();
-    };
-    
-    // Initial marker for Hong Kong
-    addMarker(22.3193, 114.1694, '香港 Hong Kong');
-  }
-  
-  function addMarker(lat, lon, name){
-    if(marker) map.removeLayer(marker);
-    
-    marker = L.marker([lat, lon]).addTo(map);
-    
-    var info = document.getElementById('mapInfo');
-    var location = document.getElementById('mapLocation');
-    var coord = document.getElementById('mapCoord');
-    
-    coord.textContent = lat.toFixed(4) + ', ' + lon.toFixed(4);
-    
-    if(name){
-      location.textContent = name;
-      info.style.display = 'block';
-    } else {
-      // Reverse geocode
-      reverseGeocode(lat, lon, function(placeName){
-        location.textContent = placeName || '未知位置';
-        info.style.display = 'block';
-      });
-    }
-  }
-  
-  function searchCity(){
-    var query = document.getElementById('mapSearch').value.trim();
-    if(!query) return;
-    
-    var btn = document.getElementById('mapSearchBtn');
-    btn.textContent = '⏳';
-    btn.disabled = true;
-    
-    fetch('https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(query) + '&format=json&limit=1')
-      .then(function(res){ return res.json(); })
-      .then(function(data){
-        if(data.length > 0){
-          var place = data[0];
-          var lat = parseFloat(place.lat);
-          var lon = parseFloat(place.lon);
-          map.setView([lat, lon], 10);
-          addMarker(lat, lon, place.display_name);
-        } else {
-          alert('搵唔到呢個地方');
-        }
-      })
-      .catch(function(err){
-        alert('搜尋失敗: ' + err.message);
-      })
-      .finally(function(){
-        btn.textContent = '🔍';
-        btn.disabled = false;
-      });
-  }
-  
-  function reverseGeocode(lat, lon, callback){
-    fetch('https://nominatim.openstreetmap.org/reverse?lat=' + lat + '&lon=' + lon + '&format=json')
-      .then(function(res){ return res.json(); })
-      .then(function(data){
-        callback(data.display_name || null);
-      })
-      .catch(function(){
-        callback(null);
-      });
-  }
-})();
-
-// ══════ Sono 每日日報: News Tab Switch ══════
-document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(tab) {
-  tab.addEventListener('click', function() {
-    var section = this.getAttribute('data-section');
-    document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(t) { t.classList.remove('active'); });
-    this.classList.add('active');
-    document.querySelectorAll('#sono-daily-report .section-panel').forEach(function(p) { p.style.display = 'none'; });
-    var el = document.getElementById('panel-' + section);
-    if (el) { el.style.display = 'block'; }
-  });
-});
-
-// ══════ Sono 每日日報: Accordion Toggle ══════
-function toggleSub(sub) {
-  var allSubs = document.querySelectorAll('#sono-daily-report .sc-sub');
-  allSubs.forEach(function(s) {
-    if (s !== sub && s.classList.contains('open')) {
-      s.classList.remove('open');
-      s.nextElementSibling.classList.remove('open');
-    }
-  });
-  sub.classList.toggle('open');
-  sub.nextElementSibling.classList.toggle('open');
-}
-
-// ══════ Tab Event Listener 初始化 ══════
-document.querySelectorAll('.tab-btn').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    switchTab(btn.dataset.tab);
-  });
-});
-
-// ══════ 工具箱 Event Listener 初始化 ══════
-document.querySelectorAll('.card.tool-sm').forEach(function(card) {
-  card.addEventListener('click', function() {
-    var id = card.id;
-    // 根據 id 觸發對應功能
-    if (id === 'weatherTrigger') openWeatherModal();
-    else if (id === 'currencyTrigger') openCurrencyModal();
-    else if (id === 'searchTrigger') openSearchModal();
-    else if (id === 'translateTrigger') openTranslateModal();
-    else if (id === 'issTrigger') openISSModal();
-    else if (id === 'worldClockTrigger') openWorldClockModal();
-    else if (id === 'qrTrigger') openQRModal();
-    else if (id === 'mapTrigger') openMapModal();
-    else if (id === 'timerTrigger') openTimerModal();
-    else if (id === 'mtrTrigger') openMTRModal();
-    else if (id === 'bmiTrigger') openBMIModal();
-    else if (id === 'dreamTrigger') openDreamModal();
-    else if (id === 'divinationTrigger') openDivinationModal();
-    else if (id === 'musicTrigger') openMusicModal();
-    else if (id === 'foodTrigger') openFoodModal();
-    else if (id === 'tarotTrigger') openTarotModal();
-    else if (id === 'numberTrigger') openNumberModal();
-  });
-});
-
-// ══════ ISS 追蹤工具（獨立模組） ══════
-
-
-
-// ══════ QR Code 工具（獨立模組） ══════
-
-
-
-// ══════ 工具箱全自動模組化 ══════
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ══════ Banner 天氣 + 日期即時更新 ══════
-(function() {
-  function $(id) { return document.getElementById(id); }
-
-  // 1) Date - real local time, no emoji
-  function updateDate() {
-    var d = new Date();
-    var y = d.getFullYear(), m = d.getMonth() + 1, day = d.getDate();
-    var w = ['日','一','二','三','四','五','六'][d.getDay()];
-    var el = $('dw-bi-date');
-    if (el) el.textContent = y + '年' + m + '月' + day + '日 星期' + w;
-  }
-  updateDate();
-  setInterval(updateDate, 60000);
-
-  // 2) Weather - wttr.in JSON (free, no key, CORS enabled)
-  fetch('https://wttr.in/Hong_Kong?format=j1')
-    .then(function(r) { return r.json(); })
-    .then(function(d) {
-      var cur = (d.current_condition && d.current_condition[0]) || {};
-      var desc = (cur.weatherDesc && cur.weatherDesc[0] && cur.weatherDesc[0].value) || '多雲';
-      var temp = parseInt(cur.temp_C, 10);
-      var humidity = cur.humidity || '--';
-      var wind = cur.windspeedKmph || '--';
-
-      if ($('dw-tc-icon')) $('dw-tc-icon').textContent = pickIcon(desc);
-      if ($('dw-tc-desc')) $('dw-tc-desc').textContent = desc;
-      if ($('dw-tc-temp')) $('dw-tc-temp').textContent = (isNaN(temp) ? '--' : temp) + '°';
-      if ($('dw-tc-humidity')) $('dw-tc-humidity').textContent = humidity + '%';
-      if ($('dw-tc-wind')) $('dw-tc-wind').textContent = wind + 'km/h';
-
-      // 3) 5-day forecast (use wttr.in d.weather array - maxtempC/mintempC directly)
-      var forecast = d.weather || [];
-      var fcCards = document.querySelectorAll('.dw-fc-card');
-      var wdays = ['日','一','二','三','四','五','六'];
-      for (var i = 0; i < 5 && i < fcCards.length && i < forecast.length; i++) {
-        var dayData = forecast[i] || {};
-        var date = new Date(dayData.date || new Date());
-        var hi = parseInt(dayData.maxtempC, 10);
-        var lo = parseInt(dayData.mintempC, 10);
-        // Get midday icon from hourly[4] (noon)
-        var noon = (dayData.hourly && dayData.hourly[4]) || {};
-        var noonDesc = (noon.weatherDesc && noon.weatherDesc[0] && noon.weatherDesc[0].value) || '多雲';
-        fcCards[i].querySelector('.dw-fc-day').textContent = wdays[date.getDay()];
-        fcCards[i].querySelector('.dw-fc-icon').textContent = pickIcon(noonDesc);
-        fcCards[i].querySelector('.dw-fc-hi').textContent = (isNaN(hi) ? '--' : hi) + '°';
-        fcCards[i].querySelector('.dw-fc-lo').textContent = (isNaN(lo) ? '--' : lo) + '°';
-      }
-
-
-function pickIcon(desc) {
-    if (!desc) return '☀';
-    if (desc.indexOf('雷') >= 0) return '⛈⏭';
-    if (desc.indexOf('雨') >= 0) return '⛈⏭';
-    if (desc.indexOf('院') >= 0 || desc.indexOf('多雲') >= 0) return '☁️';
-    if (desc.indexOf('霧') >= 0) return '🌫';
-    if (desc.indexOf('雪') >= 0) return '❄';
-    if (desc.indexOf('晴') >= 0) return '☀';
-    return '🌤';
-  }
-})()
-</script>
-
-
-</div>
-
-<script>
-function openMTRModal(){document.getElementById('mtr-modal').style.display='flex';}
-function updateMTRStatus(){const line=document.getElementById('mtr-line').value;const result=document.getElementById('mtr-result');const time=document.getElementById('mtr-time');if(!line){result.innerHTML='';time.innerHTML='';return;}
-const statuses=["正常","輕微延誤","嚴重延誤","暫停服務"];const status=statuses[Math.floor(Math.random()*statuses.length)];
-let html="";if(status==="正常")html=`<p style="color:#4ade80;font-size:17px;">✅ ${line} 服務正常</p>`;else if(status==="輕微延誤")html=`<p style="color:#fbbf24;font-size:17px;">⚠️ ${line} 輕微延誤</p>`;else if(status==="嚴重延誤")html=`<p style="color:#f87171;font-size:17px;">❌ ${line} 嚴重延誤</p>`;else html=`<p style="color:#f87171;font-size:17px;">🛑 ${line} 暫停服務</p>`;
-result.innerHTML=html;time.innerHTML=`最後更新：${new Date().toLocaleTimeString('zh-HK')}`;}
-
-// ══════ Sono 每日日報: News Tab Switch ══════
-document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(tab) {
-  tab.addEventListener('click', function() {
-    var section = this.getAttribute('data-section');
-    document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(t) { t.classList.remove('active'); });
-    this.classList.add('active');
-    document.querySelectorAll('#sono-daily-report .section-panel').forEach(function(p) { p.style.display = 'none'; });
-    var el = document.getElementById('panel-' + section);
-    if (el) { el.style.display = 'block'; }
-  });
-});
-
-// ══════ Sono 每日日報: Accordion Toggle ══════
-function toggleSub(sub) {
-  var allSubs = document.querySelectorAll('#sono-daily-report .sc-sub');
-  allSubs.forEach(function(s) {
-    if (s !== sub && s.classList.contains('open')) {
-      s.classList.remove('open');
-      s.nextElementSibling.classList.remove('open');
-    }
-  });
-  sub.classList.toggle('open');
-  sub.nextElementSibling.classList.toggle('open');
-}
-
-// ══════ Tab Event Listener 初始化 ══════
-document.querySelectorAll('.tab-btn').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    switchTab(btn.dataset.tab);
-  });
-});
-
-// ══════ 工具箱 Event Listener 初始化 ══════
-document.querySelectorAll('.card.tool-sm').forEach(function(card) {
-  card.addEventListener('click', function() {
-    var id = card.id;
-    // 根據 id 觸發對應功能
-    if (id === 'weatherTrigger') openWeatherModal();
-    else if (id === 'currencyTrigger') openCurrencyModal();
-    else if (id === 'searchTrigger') openSearchModal();
-    else if (id === 'translateTrigger') openTranslateModal();
-    else if (id === 'issTrigger') openISSModal();
-    else if (id === 'worldClockTrigger') openWorldClockModal();
-    else if (id === 'qrTrigger') openQRModal();
-    else if (id === 'mapTrigger') openMapModal();
-    else if (id === 'timerTrigger') openTimerModal();
-    else if (id === 'mtrTrigger') openMTRModal();
-    else if (id === 'bmiTrigger') openBMIModal();
-    else if (id === 'dreamTrigger') openDreamModal();
-    else if (id === 'divinationTrigger') openDivinationModal();
-    else if (id === 'musicTrigger') openMusicModal();
-    else if (id === 'foodTrigger') openFoodModal();
-    else if (id === 'tarotTrigger') openTarotModal();
-    else if (id === 'numberTrigger') openNumberModal();
-  });
-});
-
-// ══════ ISS 追蹤工具（獨立模組） ══════
-
-
-
-// ══════ QR Code 工具（獨立模組） ══════
-
-
-
-// ══════ 工具箱全自動模組化 ══════
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ===== MTR 到站時間功能 =====
-
-function resetAndUpdateMTR() {
-  const stationSelect = document.getElementById('mtr-station');
-  if (stationSelect) {
-    stationSelect.innerHTML = '<option value="">請先選擇路線</option>';
-  }
-  updateMTRArrival();
-}
-
-const mtrStations = {
-  "荃灣線": ["中環", "金鐘", "尖沙咀", "佐敦", "旺角", "太子", "深水埗", "長沙灣", "荃灣"],
-  "觀塘線": ["調景嶺", "油塘", "藍田", "觀塘", "牛頭角", "九龍灣", "鑽石山", "黃大仙", "樂富", "九龍塘", "石硤尾"],
-  "港島線": ["堅尼地城", "香港大學", "西營盤", "上環", "中環", "金鐘", "灣仔", "銅鑼灣", "天后", "炮台山", "北角", "鰂魚涌", "太古", "西灣河", "筲箕灣", "杏花邨", "柴灣"],
-  "將軍澳線": ["北角", "鰂魚涌", "油塘", "調景嶺", "將軍澳", "坑口", "寶琳"],
-  "東鐵線": ["紅磡", "旺角東", "九龍塘", "大圍", "沙田", "火炭", "大學", "大埔墟", "太和", "粉嶺", "上水", "羅湖", "落馬洲"],
-  "西鐵線": ["紅磡", "尖東", "柯士甸", "南昌", "美孚", "荃灣西", "天水圍", "元朗", "朗屏", "錦上路", "西環"]
-};
-
-function updateMTRArrival() {
-  const line = document.getElementById('mtr-line').value;
-  const stationSelect = document.getElementById('mtr-station');
-  const result = document.getElementById('mtr-result');
-  
-  if (!line) {
-    stationSelect.innerHTML = '<option value="">請先選擇路線</option>';
-    result.innerHTML = '';
-    return;
-  }
-  
-  // 更新站點
-  stationSelect.innerHTML = '<option value="">請選擇站點</option>';
-  if (mtrStations[line]) {
-    mtrStations[line].forEach(st => {
-      const opt = document.createElement('option');
-      opt.value = st;
-      opt.textContent = st;
-      stationSelect.appendChild(opt);
-    });
-  }
-  
-  // 如果已有站點選擇，顯示到站時間
-  const station = stationSelect.value;
-  if (station) {
-    showArrivalTimes(line, station, result);
-  } else {
-    result.innerHTML = '<p style="color:#888; text-align:center; padding:20px 0;">請選擇站點以查看到站時間</p>';
-  }
-}
-
-function showArrivalTimes(line, station, resultDiv) {
-  const now = new Date();
-  const times = [];
-  
-  // 生成模擬到站時間（未來 3-18 分鐘）
-  for (let i = 0; i < 3; i++) {
-    const min = 3 + Math.floor(Math.random() * 15);
-    const arrival = new Date(now.getTime() + min * 60000);
-    times.push(arrival.toLocaleTimeString('zh-HK', { hour: '2-digit', minute: '2-digit' }));
-  }
-  
-  let html = `<p style="color:#4ade80; font-weight:700; margin-bottom:8px;">${line} · ${station}</p>`;
-  html += `<div style="display:flex; flex-direction:column; gap:6px;">`;
-  times.forEach((t, i) => {
-    html += `<div style="background:rgba(255,255,255,0.06); padding:8px 12px; border-radius:8px; display:flex; justify-content:space-between;">
-      <span>🚇 往 ${i === 0 ? '中環' : i === 1 ? '荃灣' : '調景嶺'} 方向</span>
-      <span style="color:#6bff6b; font-weight:700;">${t}</span>
-    </div>`;
-  });
-  html += `</div>`;
-  html += `<p style="color:#666; font-size:0.75em; margin-top:10px; text-align:center;">最後更新：${now.toLocaleTimeString('zh-HK')}</p>`;
-  
-  resultDiv.innerHTML = html;
-}
-
-// 當站點改變時更新顯示
-document.addEventListener('DOMContentLoaded', function() {
-  const stationSelect = document.getElementById('mtr-station');
-  if (stationSelect) {
-    stationSelect.addEventListener('change', function() {
-      const line = document.getElementById('mtr-line').value;
-      const result = document.getElementById('mtr-result');
-      if (line && this.value) {
-        showArrivalTimes(line, this.value, result);
-      }
-    });
-  }
-});
-
-// ===== 港鐵查詢功能 =====
-const mtrStationsList = ["中環","金鐘","尖沙咀","佐敦","旺角","太子","深水埗","長沙灣","荃灣","調景嶺","油塘","藍田","觀塘","牛頭角","九龍灣","鑽石山","黃大仙","樂富","九龍塘","石硤尾","堅尼地城","香港大學","西營盤","上環","灣仔","銅鑼灣","天后","炮台山","北角","鰂魚涌","太古","西灣河","筲箕灣","杏花邨","柴灣","將軍澳","坑口","寶琳","紅磡","旺角東","大圍","沙田","火炭","大學","大埔墟","太和","粉嶺","上水","羅湖","美孚","天水圍","元朗","朗屏","錦上路"];
-
-const journeyTimeData = {
-  "中環-金鐘": 3, "金鐘-尖沙咀": 4, "尖沙咀-佐敦": 2, "佐敦-旺角": 3,
-  "旺角-太子": 2, "太子-深水埗": 2, "深水埗-長沙灣": 3, "長沙灣-荃灣": 4,
-  "中環-灣仔": 4, "灣仔-銅鑼灣": 3, "銅鑼灣-天后": 2,
-  "金鐘-灣仔": 3, "紅磡-旺角東": 4, "旺角東-九龍塘": 5,
-  "九龍塘-沙田": 8, "沙田-大埔墟": 12, "大埔墟-上水": 7
-};
-
-const fareData = {
-  "中環-金鐘": {adult: 5, child: 2.5, senior: 2.5},
-  "中環-尖沙咀": {adult: 12, child: 6, senior: 6},
-  "中環-荃灣": {adult: 18, child: 9, senior: 9},
-  "中環-沙田": {adult: 22, child: 11, senior: 11},
-  "金鐘-銅鑼灣": {adult: 8, child: 4, senior: 4},
-  "尖沙咀-旺角": {adult: 9, child: 4.5, senior: 4.5},
-  "紅磡-上水": {adult: 28, child: 14, senior: 14}
-};
-
-function initMTRSelects() {
-  const from = document.getElementById('mtr-from');
-  const to = document.getElementById('mtr-to');
-  const fareFrom = document.getElementById('mtr-fare-from');
-  const fareTo = document.getElementById('mtr-fare-to');
-  
-  if (!from || !to) return;
-  
-  mtrStationsList.forEach(st => {
-    from.innerHTML += `<option value="${st}">${st}</option>`;
-    to.innerHTML += `<option value="${st}">${st}</option>`;
-    if (fareFrom) fareFrom.innerHTML += `<option value="${st}">${st}</option>`;
-    if (fareTo) fareTo.innerHTML += `<option value="${st}">${st}</option>`;
-  });
-}
-
-function switchMTRTab(tab) {
-  for (let i = 0; i < 3; i++) {
-    const content = document.getElementById('mtr-content-' + i);
-    const tabEl = document.getElementById('mtr-tab-' + i);
-    if (content) content.style.display = (i === tab) ? 'block' : 'none';
-    if (tabEl) {
-      tabEl.style.color = (i === tab) ? '#6bff6b' : '#aaa';
-      tabEl.style.borderBottom = (i === tab) ? '3px solid #6bff6b' : 'none';
-    }
-  }
-}
-
-function calculateJourneyTime() {
-  const from = document.getElementById('mtr-from').value;
-  const to = document.getElementById('mtr-to').value;
-  const result = document.getElementById('mtr-journey-result');
-  
-  if (!from || !to) {
-    result.innerHTML = '<p style="color:#f87171;">請選擇出發站同目的地</p>';
-    return;
-  }
-  if (from === to) {
-    result.innerHTML = '<p style="color:#fbbf24;">出發站同目的地唔可以一樣</p>';
-    return;
-  }
-  
-  const key = `${from}-${to}`;
-  const reverseKey = `${to}-${from}`;
-  let time = journeyTimeData[key] || journeyTimeData[reverseKey] || 15;
-  
-  let html = `<div style="background:rgba(255,255,255,0.05); padding:14px; border-radius:12px;">`;
-  html += `<p style="color:#6bff6b; font-weight:700; margin:0 0 8px;">${from} → ${to}</p>`;
-  html += `<p style="font-size:1.6em; color:#fff; margin:4px 0;">約 <strong>${time}</strong> 分鐘</p>`;
-  html += `<p style="color:#888; font-size:0.85em;">轉車次數：${time > 20 ? '1-2 次' : '0-1 次'}</p>`;
-  html += `</div>`;
-  
-  result.innerHTML = html;
-}
-
-function calculateFare() {
-  const from = document.getElementById('mtr-fare-from').value;
-  const to = document.getElementById('mtr-fare-to').value;
-  const result = document.getElementById('mtr-fare-result');
-  
-  if (!from || !to) {
-    result.innerHTML = '<p style="color:#f87171;">請選擇兩站</p>';
-    return;
-  }
-  if (from === to) {
-    result.innerHTML = '<p style="color:#fbbf24;">兩站唔可以一樣</p>';
-    return;
-  }
-  
-  const key = `${from}-${to}`;
-  const reverseKey = `${to}-${from}`;
-  const fare = fareData[key] || fareData[reverseKey] || {adult: 15, child: 7.5, senior: 7.5};
-  
-  let html = `<div style="background:rgba(255,255,255,0.05); padding:14px; border-radius:12px;">`;
-  html += `<p style="color:#a29bfe; font-weight:700; margin:0 0 10px;">${from} → ${to}</p>`;
-  html += `<div style="display:flex; gap:8px; flex-wrap:wrap;">`;
-  html += `<div style="flex:1; background:rgba(255,255,255,0.06); padding:8px; border-radius:8px; text-align:center;"><div style="color:#888; font-size:0.75em;">成人</div><div style="color:#fff; font-size:1.3em; font-weight:700;">$${fare.adult}</div></div>`;
-  html += `<div style="flex:1; background:rgba(255,255,255,0.06); padding:8px; border-radius:8px; text-align:center;"><div style="color:#888; font-size:0.75em;">小童</div><div style="color:#fff; font-size:1.3em; font-weight:700;">$${fare.child}</div></div>`;
-  html += `<div style="flex:1; background:rgba(255,255,255,0.06); padding:8px; border-radius:8px; text-align:center;"><div style="color:#888; font-size:0.75em;">長者</div><div style="color:#fff; font-size:1.3em; font-weight:700;">$${fare.senior}</div></div>`;
-  html += `</div></div>`;
-  
-  result.innerHTML = html;
-}
-
-// Initialize MTR selects when modal opens
-const originalOpenMTR = window.openMTRModal;
-window.openMTRModal = function() {
-  const modal = document.getElementById('mtr-modal');
-  modal.style.display = 'flex';
-
-  // Initialize selects if not already done
-  setTimeout(() => {
-    const from = document.getElementById('mtr-from');
-    if (from && from.options.length <= 1) {
-      initMTRSelects();
-    }
-  }, 50);
-};
-
-// ══════ BMI 計算機 ══════
-window.openBMIModal = function() {
-  var modal = document.getElementById('bmiModal');
-  modal.style.display = 'flex';
-  // Reset result when reopening
-  document.getElementById('bmiResult').style.display = 'none';
-};
-
-(function() {
-  var modal = document.getElementById('bmiModal');
-  var closeBtn = document.getElementById('bmiClose');
-  var calcBtn = document.getElementById('bmiCalcBtn');
-  var heightInput = document.getElementById('bmiHeight');
-  var weightInput = document.getElementById('bmiWeight');
-  var resultBox = document.getElementById('bmiResult');
-  var valueEl = document.getElementById('bmiValue');
-  var catEl = document.getElementById('bmiCategory');
-  var adviceEl = document.getElementById('bmiAdvice');
-
-  closeBtn.onclick = function() { modal.style.display = 'none'; };
-  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
-
-  function calcBMI() {
-    var h = parseFloat(heightInput.value);
-    var w = parseFloat(weightInput.value);
-    if (!h || !w || h < 50 || h > 250 || w < 10 || w > 300) {
-      valueEl.textContent = '⚠️';
-      catEl.textContent = '請輸入有效身高體重';
-      catEl.style.background = 'rgba(255,107,107,0.15)';
-      catEl.style.color = '#ff6b6b';
-      adviceEl.textContent = '身高 50–250 cm，體重 10–300 kg';
-      resultBox.style.display = 'block';
-      return;
-    }
-    var m = h / 100;
-    var bmi = w / (m * m);
-    var bmiStr = bmi.toFixed(1);
-
-    valueEl.textContent = bmiStr;
-
-    var category, color, bg, advice;
-    // WHO 亞洲成人 BMI 標準
-    if (bmi < 18.5) {
-      category = '🍃 過輕';
-      color = '#74b9ff';
-      bg = 'rgba(116,185,255,0.15)';
-      advice = 'BMI 偏低，建議增加營養攝取，多食蛋白質同健康脂肪，適當做重力訓練增加肌肉量。';
-    } else if (bmi < 23) {
-      category = '✅ 正常';
-      color = '#6bff6b';
-      bg = 'rgba(107,255,107,0.15)';
-      advice = 'BMI 屬於健康範圍（亞洲標準），請保持均衡飲食同規律運動！';
-    } else if (bmi < 27.5) {
-      category = '⚠️ 過重';
-      color = '#ffd93d';
-      bg = 'rgba(255,217,61,0.15)';
-      advice = 'BMI 略高，建議控制飲食熱量，多做帶氧運動（跑步、游水），每週 150 分鐘中等強度運動。';
-    } else {
-      category = '🔴 肥胖';
-      color = '#ff6b6b';
-      bg = 'rgba(255,107,107,0.15)';
-      advice = 'BMI 偏高，建議諮詢醫生或營養師，制訂減重計劃。注意控制糖分同油炸食物。';
-    }
-
-    catEl.textContent = category;
-    catEl.style.background = bg;
-    catEl.style.color = color;
-    adviceEl.textContent = advice;
-    resultBox.style.display = 'block';
-  }
-
-  calcBtn.onclick = calcBMI;
-  heightInput.onkeydown = function(e) { if (e.key === 'Enter') calcBMI(); };
-  weightInput.onkeydown = function(e) { if (e.key === 'Enter') calcBMI(); };
-})();
-
-// ══════ 夢境解讀器 ══════
-window.openDreamModal = function() {
-  var modal = document.getElementById('dreamModal');
-  modal.style.display = 'flex';
-  document.getElementById('dreamResult').style.display = 'none';
-  document.getElementById('dreamInput').value = '';
-};
-
-(function() {
-  var modal = document.getElementById('dreamModal');
-  var closeBtn = document.getElementById('dreamClose');
-  var goBtn = document.getElementById('dreamGo');
-  var input = document.getElementById('dreamInput');
-  var schoolSel = document.getElementById('dreamSchool');
-  var resultBox = document.getElementById('dreamResult');
-  var emojiEl = document.getElementById('dreamEmoji');
-  var typeEl = document.getElementById('dreamType');
-  var interpEl = document.getElementById('dreamInterpretation');
-  var adviceEl = document.getElementById('dreamAdvice');
-
-  closeBtn.onclick = function() { modal.style.display = 'none'; };
-  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
-
-  // 關鍵詞數據庫
-  var dreamDB = {
-    '跌|跌落|跌倒': {
-      symbol: '🕳️', name: '墜落之夢',
-      freud: '呢個夢反映你對失去控制嘅恐懼。可能近期工作或生活上承受緊壓力，潛意識用「跌」表達對失敗嘅焦慮。',
-      jung: '從深層心理學角度，墜落代表你正經歷人格重組階段。舊有嘅自我形象正在解體，新嘅自我即將誕生。',
-      chinese: '傳統解夢認為「夢墜」主財，若夢中驚醒者，近期宜保守理財。老人夢之則主壽，主身心安康。'
-    },
-    '飛|飛翔|飄': {
-      symbol: '🦅', name: '飛翔之夢',
-      freud: '飛行夢典型係慾望滿足嘅表現，反映你渴望擺脫束縛、追求自由。可能對現狀不滿，想突破限制。',
-      jung: '飛行係英雄原型嘅表現。你內心有一股力量想超越平凡，朝住更高嘅理想同靈性層面邁進。',
-      chinese: '「夢飛」主官運亨通，若夢中飛越高山，近期事業會有大突破。但若中途跌落，宜小心謹慎。'
-    },
-    '蛇|見蛇': {
-      symbol: '🐍', name: '靈蛇之夢',
-      freud: '蛇喺夢中常代表男性生殖器或潛藏嘅性慾，亦可能係你內心某種「危險而吸引」嘅事物嘅投射。',
-      jung: '蛇係智慧同重生嘅原型。夢見蛇代表你正面對深層嘅智慧召喚，可能有人會啟發你，或者你內在覺醒嘅時刻。',
-      chinese: '夢蛇主財，若蛇入宅，主有貴人相助；若蛇咬你，宜慎防小人。蛇青色者吉，黑色者兇。'
-    },
-    '水|海|河|湖': {
-      symbol: '🌊', name: '水之夢',
-      freud: '水代表潛意識同埋情感。水越清，情緒越清明；水越濁，可能內心有困擾。',
-      jung: '水係集體潛意識嘅象徵。夢見深水代表你正在探索內心深處，可能有情感或靈性上嘅突破。',
-      chinese: '「夢水」主財運，水主財。若夢見大水，主近期有偏財運；若溺水，主情緒困擾，宜找人傾訴。'
-    },
-    '死|死亡|葬': {
-      symbol: '💀', name: '死亡之夢',
-      freud: '夢見死亡唔係真嘅死亡預兆，通常代表你內心某部分嘅「結束」 — 可能係壞習慣、舊關係、舊模式嘅終結。',
-      jung: '死亡係轉化嘅象徵。夢見自己死代表內在重生，你嘅某個面向正在蛻變成新嘅版本。',
-      chinese: '「夢死」主大吉，主有新生。若夢見他人死，宜留意該人之近況；若夢見自己死，主長壽。'
-    },
-    '牙|甩牙': {
-      symbol: '🦷', name: '脫牙之夢',
-      freud: '牙齒代表自信同力量。夢見甩牙反映你對衰老、失去吸引力或某種「力量」嘅焦慮。',
-      jung: '牙齒係攻擊性同男子氣概嘅象徵。甩牙夢可能反映你壓抑嘅憤怒或對某種「咬緊牙關」嘅局面嘅疲憊。',
-      chinese: '「夢齒落」主親友有難，主近期宜關心身邊長者健康。但若夢見長新齒，主家中有喜事。'
-    },
-    '追|追趕|追我': {
-      symbol: '🏃', name: '追逐之夢',
-      freud: '被追代表你逃避某種慾望或責任。你知道有嘢需要面對，但你嘅潛意識寧願跑。',
-      jung: '追逐者通常代表你嘅陰影 — 你內在拒絕承認嘅一面。夢境提示你需要直面呢個被壓抑嘅部分。',
-      chinese: '「夢被追」主有口舌是非，主近期說話宜謹慎。若追上追者，主化解危機；若被追上，主宜守不宜攻。'
-    },
-    '水浸|洪水': {
-      symbol: '🌊', name: '洪水之夢',
-      freud: '洪水代表被壓抑嘅情感大爆發。可能你一直收埋嘅情緒終於湧出，宜找渠道釋放。',
-      jung: '洪水係集體潛意識嘅強烈象徵。代表你正面對一個時代或人生嘅巨大轉變，舊秩序正在被沖刷。',
-      chinese: '「夢洪水」主有變動，主近期生活或工作有大變化。若水退，主轉危為安；若水進，主宜早做準備。'
-    },
-    '火|火災|燒': {
-      symbol: '🔥', name: '火焰之夢',
-      freud: '火代表激情、憤怒或壓抑嘅性慾。夢中火災可能反映你內心有強烈嘅情緒需要表達。',
-      jung: '火係轉化嘅力量。夢見火代表你內在正在經歷深刻嘅轉化，舊嘅自我正在燃燒成灰，新嘅即將誕生。',
-      chinese: '「夢火」主財運亨通，火主禮，主文明。若火燒自身，主有官非；若火勢受控，主凡事順遂。'
-    }
-  };
-
-  function getDreamInterp(text, school) {
-    var interpretations = [];
-    var matchedSymbol = '✨';
-    var matchedName = '神秘之夢';
-
-    // 嘗試匹配關鍵詞
-    for (var pattern in dreamDB) {
-      var regex = new RegExp(pattern);
-      if (regex.test(text)) {
-        var entry = dreamDB[pattern];
-        matchedSymbol = entry.symbol;
-        matchedName = entry.name;
-        if (school === 'random') {
-          var schools = ['freud', 'jung', 'chinese'];
-          school = schools[Math.floor(Math.random() * schools.length)];
-        }
-        interpretations.push(entry[school] || entry.freud);
-        break;
-      }
-    }
-
-    // 如果冇匹配到，用通用解讀
-    if (interpretations.length === 0) {
-      var generic = {
-        symbol: '✨',
-        name: '神秘之夢',
-        freud: '夢境係潛意識嘅表達。關於「' + text + '」嘅夢，可能反映你內心某種未被滿足嘅渴望或焦慮。建議留意夢境中嘅情緒。',
-        jung: '夢境係你同集體潛意識嘅對話。關於「' + text + '」嘅象徵，可能係你靈魂深處嘅訊息，提示你內在嘅整合需要。',
-        chinese: '夢境主近期運勢，「' + text + '」為兆，宜保持平常心，吉凶未定，靜觀其變。'
-      };
-      matchedSymbol = generic.symbol;
-      matchedName = generic.name;
-      if (school === 'random') {
-        var schools2 = ['freud', 'jung', 'chinese'];
-        school = schools2[Math.floor(Math.random() * schools2.length)];
-      }
-      interpretations.push(generic[school] || generic.freud);
-    }
-
-    // 夢境類型
-    var types = ['噩夢', '清醒夢', '預知夢', '重複夢', '象徵夢', '心理夢'];
-    var randomType = types[Math.floor(Math.random() * types.length)];
-
-    // 健康建議
-    var advices = [
-      '建議今晚提早瞓 30 分鐘，夢境通常喺深層睡眠階段出現。',
-      '可以將夢境寫低，夢日記有助於了解潛意識嘅訊息。',
-      '夢境反映你嘅內心狀態，注意今日嘅情緒同睡眠質素。',
-      '夢境之後可以飲杯暖水，有助於身心放鬆。'
-    ];
-    var randomAdvice = advices[Math.floor(Math.random() * advices.length)];
-
-    return {
-      symbol: matchedSymbol,
-      name: matchedName,
-      type: randomType,
-      interpretation: interpretations[0],
-      advice: randomAdvice
-    };
-  }
-
-  function interpretDream() {
-    var text = input.value.trim();
-    if (!text) {
-      alert('請輸入夢境關鍵詞');
-      return;
-    }
-    var school = schoolSel.value;
-    var result = getDreamInterp(text, school);
-    emojiEl.textContent = result.symbol;
-    typeEl.textContent = '【' + result.type + '】 ' + result.name;
-    interpEl.textContent = result.interpretation;
-    adviceEl.textContent = '💡 ' + result.advice;
-    resultBox.style.display = 'block';
-  }
-
-  goBtn.onclick = interpretDream;
-  input.onkeydown = function(e) { if (e.key === 'Enter') interpretDream(); };
-})();
-
-// ══════ 易經卜卦 ══════
-window.openDivinationModal = function() {
-  var modal = document.getElementById('divinationModal');
-  modal.style.display = 'flex';
-  document.getElementById('divinationResult').style.display = 'none';
-  document.getElementById('divinationQuestion').value = '';
-};
-
-(function() {
-  var modal = document.getElementById('divinationModal');
-  var closeBtn = document.getElementById('divinationClose');
-  var goBtn = document.getElementById('divinationGo');
-  var againBtn = document.getElementById('divinationAgain');
-  var questionInput = document.getElementById('divinationQuestion');
-  var resultBox = document.getElementById('divinationResult');
-  var hexEl = document.getElementById('divinationHexagram');
-  var nameEl = document.getElementById('divinationName');
-  var pinyinEl = document.getElementById('divinationPinyin');
-  var textEl = document.getElementById('divinationText');
-  var yiEl = document.getElementById('divinationYi');
-  var jiEl = document.getElementById('divinationJi');
-  var modernEl = document.getElementById('divinationModern');
-
-  closeBtn.onclick = function() { modal.style.display = 'none'; };
-  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
-
-  // 64 卦數據庫（簡化版 - 用 Unicode 六爻符號）
-  // ⚊ = 陽爻, ⚋ = 陰爻
-  // 由下而上排列（六爻由初爻到上爻）
-  var hexagrams = [
-    { lines: '⚊⚊⚊⚊⚊⚊', name: '乾', pinyin: 'Qián', text: '元，亨，利，貞。', yi: '進取、創造、領導', ji: '剛愎、傲慢、過急', modern: '天行健，君子以自強不息。宜積極進取，但勿過剛。', emoji: '☰' },
-    { lines: '⚋⚋⚋⚋⚋⚋', name: '坤', pinyin: 'Kūn', text: '元，亨，利牝馬之貞。', yi: '包容、順應、配合', ji: '盲從、失去主見', modern: '地勢坤，君子以厚德載物。宜柔順配合，但勿失立場。', emoji: '☷' },
-    { lines: '⚊⚊⚊⚋⚋⚋', name: '屯', pinyin: 'Zhūn', text: '元，亨，利，貞。勿用，有攸往。', yi: '堅持、累積、學習', ji: '冒進、急躁、孤立', modern: '起步艱難但有前途，宜厚積薄發。', emoji: '☳' },
-    { lines: '⚋⚋⚋⚊⚊⚊', name: '蒙', pinyin: 'Méng', text: '亨。匪我求童蒙，童蒙求我。', yi: '學習、求教、啟發', ji: '固執、不問、裝懂', modern: '求知若渴，宜虛心受教。', emoji: '☵' },
-    { lines: '⚊⚋⚊⚋⚊⚋', name: '需', pinyin: 'Xū', text: '有孚，光亨，貞吉，利涉大川。', yi: '等待、堅信、準備', ji: '焦慮、衝動、放棄', modern: '靜待時機，宜養精蓄銳，勿強求。', emoji: '☱' },
-    { lines: '⚋⚊⚋⚊⚋⚊', name: '訟', pinyin: 'Sòng', text: '有孚，窒。惕中吉，終凶。', yi: '和解、調解、退讓', ji: '爭執、訴訟、硬碰', modern: '避免衝突，宜以和為貴，退一步海闊天空。', emoji: '☲' },
-    { lines: '⚋⚊⚊⚊⚊⚋', name: '師', pinyin: 'Shī', text: '貞，丈人吉，無咎。', yi: '組織、領導、紀律', ji: '獨斷、專橫、無章', modern: '宜建立團隊，以德服人。', emoji: '☷' },
-    { lines: '⚋⚊⚊⚊⚊⚊', name: '比', pinyin: 'Bǐ', text: '吉。原筮，元永貞，無咎。', yi: '親近、合作、結盟', ji: '孤立、依附、偏袒', modern: '尋找志同道合者，互相支持。', emoji: '☵' },
-    { lines: '⚊⚋⚋⚋⚋⚊', name: '小畜', pinyin: 'Xiǎo Xù', text: '亨。密雲不雨，自我西郊。', yi: '積蓄、等待、韜光養晦', ji: '冒進、透支、虛榮', modern: '小有所蓄，宜繼續累積，勿急於求成。', emoji: '☴' },
-    { lines: '⚊⚋⚋⚋⚊⚊', name: '履', pinyin: 'Lǚ', text: '履虎尾，不咥人，亨。', yi: '謹慎、禮節、平衡', ji: '魯莽、失禮、踩雷', modern: '如履薄冰，宜謹言慎行，以禮待人。', emoji: '☰' },
-    { lines: '⚊⚊⚋⚊⚊⚊', name: '泰', pinyin: 'Tài', text: '小往大來，吉亨。', yi: '通達、繁榮、和諧', ji: '自滿、停滯、失衡', modern: '天地交泰，宜把握機會，乘勢而上。', emoji: '☷' },
-    { lines: '⚋⚋⚊⚋⚋⚋', name: '否', pinyin: 'Pǐ', text: '否之匪人，不利君子貞，大往小來。', yi: '忍耐、等待、轉向', ji: '硬撐、抱怨、自棄', modern: '閉塞之時，宜韜光養晦，等待轉機。', emoji: '☰' },
-    { lines: '⚊⚊⚊⚊⚋⚊', name: '同人', pinyin: 'Tóng Rén', text: '同人于野，亨。利涉大川，利君子貞。', yi: '合作、團結、共識', ji: '分裂、偏見、孤行', modern: '求同存異，宜廣結善緣。', emoji: '☲' },
-    { lines: '⚊⚋⚊⚊⚊⚊', name: '大有', pinyin: 'Dà Yǒu', text: '元亨。', yi: '豐盛、分享、感恩', ji: '驕縱、吝嗇、揮霍', modern: '收穫豐盛，宜感恩分享，勿獨享。', emoji: '☲' },
-    { lines: '⚋⚊⚊⚋⚋⚊', name: '謙', pinyin: 'Qiān', text: '亨，君子有終。', yi: '謙虛、低調、學習', ji: '自大、炫耀、傲慢', modern: '滿招損，謙受益。宜保持低調。', emoji: '☷' },
-    { lines: '⚊⚋⚋⚊⚋⚋', name: '豫', pinyin: 'Yù', text: '利建侯行師。', yi: '準備、樂觀、行動', ji: '猶豫、享樂、拖延', modern: '順勢而為，宜把握機會果斷出手。', emoji: '☳' },
-    { lines: '⚊⚋⚊⚊⚋⚊', name: '隨', pinyin: 'Suí', text: '元亨，利貞，無咎。', yi: '跟隨、順應、配合', ji: '盲從、失去自我', modern: '隨緣而動，宜靈活應變。', emoji: '☱' },
-    { lines: '⚊⚋⚊⚊⚋⚊', name: '蠱', pinyin: 'Gǔ', text: '元亨，利涉大川。', yi: '整頓、革新、承擔', ji: '拖延、推諉、逃避', modern: '承擔責任，整頓舊業，可成大器。', emoji: '☴' },
-    { lines: '⚋⚊⚊⚊⚊⚋', name: '臨', pinyin: 'Lín', text: '元，亨，利，貞。至于八月有凶。', yi: '進取、關懷、領導', ji: '傲慢、忽視、衰退', modern: '把握上升期，但宜居安思危。', emoji: '☱' },
-    { lines: '⚋⚊⚊⚊⚊⚋', name: '觀', pinyin: 'Guān', text: '盥而不薦，有孚顒若。', yi: '觀察、自省、學習', ji: '盲目、衝動、偏見', modern: '靜觀其變，宜自省內觀。', emoji: '☴' },
-    { lines: '⚊⚊⚋⚊⚊⚋', name: '噬嗑', pinyin: 'Shì Kè', text: '亨，利用獄。', yi: '決斷、懲戒、果斷', ji: '優柔、縱容、軟弱', modern: '除惡務盡，宜當機立斷。', emoji: '☳' },
-    { lines: '⚊⚋⚊⚊⚋⚋', name: '賁', pinyin: 'Bì', text: '亨。小利有所往。', yi: '修飾、文雅、儀表', ji: '浮華、虛飾、外表', modern: '注重內外兼修，勿流於表面。', emoji: '☶' },
-    { lines: '⚋⚋⚋⚊⚋⚋', name: '剝', pinyin: 'Bō', text: '不利有攸往。', yi: '隱忍、靜守、待時', ji: '硬撐、抱怨、對抗', modern: '剝極而復，宜靜待否極泰來。', emoji: '☶' },
-    { lines: '⚊⚋⚋⚊⚊⚊', name: '復', pinyin: 'Fù', text: '亨。出入無疾，朋來無咎。', yi: '回歸、重整、出發', ji: '反覆、猶豫、留戀', modern: '一陽來復，宜把握轉機重新出發。', emoji: '☷' },
-    { lines: '⚊⚋⚋⚊⚋⚊', name: '無妄', pinyin: 'Wú Wàng', text: '元，亨，利，貞。', yi: '自然、真誠、無求', ji: '妄念、貪婪、虛偽', modern: '順其自然，宜去除妄念保持真誠。', emoji: '☰' },
-    { lines: '⚊⚋⚋⚋⚊⚋', name: '大畜', pinyin: 'Dà Xù', text: '利貞，不家食吉，利涉大川。', yi: '積蓄、修養、蓄勢', ji: '衝動、浪費、急功', modern: '厚積薄發，宜大力儲備實力。', emoji: '☶' },
-    { lines: '⚋⚊⚊⚊⚋⚋', name: '頤', pinyin: 'Yí', text: '貞吉。觀頤，自求口實。', yi: '養生、修身、自省', ji: '貪食、放縱、失養', modern: '養身養心，宜注重飲食與修為。', emoji: '☳' },
-    { lines: '⚋⚊⚊⚋⚋⚊', name: '大過', pinyin: 'Dà Guò', text: '棟撓，利有攸往，亨。', yi: '非常、大膽、突破', ji: '固守、常規、怯懦', modern: '非常時期需非常手段，宜大膽突破。', emoji: '☴' },
-    { lines: '⚋⚊⚊⚋⚊⚋', name: '坎', pinyin: 'Kǎn', text: '習坎，有孚，維心亨，行有尚。', yi: '堅毅、信任、學習', ji: '恐懼、絕望、放棄', modern: '處險之時，宜保持信心以智慧化解。', emoji: '☵' },
-    { lines: '⚊⚋⚋⚊⚊⚋', name: '離', pinyin: 'Lí', text: '利貞，亨。畜牝牛，吉。', yi: '光明、依附、文明', ji: '焦躁、固執、虛榮', modern: '光明磊落，宜依附正道而行。', emoji: '☲' },
-    { lines: '⚊⚋⚋⚋⚊⚊', name: '咸', pinyin: 'Xián', text: '亨，利貞，取女吉。', yi: '感應、溝通、契合', ji: '冷漠、遲鈍、錯過', modern: '心有靈犀一點通，宜把握機緣。', emoji: '☱' },
-    { lines: '⚊⚊⚋⚋⚋⚊', name: '恆', pinyin: 'Héng', text: '亨，無咎，利貞。利有攸往。', yi: '恆心、堅持、長久', ji: '固執、厭倦、放棄', modern: '持之以恆，宜堅守正道勿變。', emoji: '☳' },
-    { lines: '⚋⚊⚊⚋⚋⚋', name: '遯', pinyin: 'Dùn', text: '亨，小利貞。', yi: '退避、隱忍、待機', ji: '硬撐、面子、戀棧', modern: '退一步海闊天空，宜隱忍待機。', emoji: '☰' },
-    { lines: '⚊⚋⚊⚊⚊⚋', name: '大壯', pinyin: 'Dà Zhuàng', text: '利貞。', yi: '剛健、進取、果斷', ji: '蠻橫、暴躁、衝動', modern: '陽氣旺盛，宜用正道不可妄為。', emoji: '☳' },
-    { lines: '⚋⚊⚊⚊⚋⚊', name: '晉', pinyin: 'Jìn', text: '康侯用錫馬蕃庶，晝日三接。', yi: '上升、進取、得助', ji: '急躁、招搖、忘形', modern: '旭日初升，宜把握機遇乘勢而上。', emoji: '☲' },
-    { lines: '⚊⚋⚊⚋⚋⚊', name: '明夷', pinyin: 'Míng Yí', text: '利艱貞。', yi: '韜光、隱忍、內明', ji: '炫耀、招禍、硬撐', modern: '暗世宜韜光養晦，保持內心光明。', emoji: '☷' },
-    { lines: '⚊⚋⚊⚋⚋⚋', name: '家人', pinyin: 'Jiā Rén', text: '利女貞。', yi: '家庭、秩序、責任', ji: '疏離、失序、推諉', modern: '家和萬事興，宜各司其職。', emoji: '☴' },
-    { lines: '⚋⚋⚋⚋⚊⚋', name: '睽', pinyin: 'Kuí', text: '小事吉。', yi: '包容、求同、溝通', ji: '對立、固執、冷漠', modern: '求同存異，宜化解分歧。', emoji: '☲' },
-    { lines: '⚋⚋⚊⚊⚊⚋', name: '蹇', pinyin: 'Jiǎn', text: '利西南，不利東北。利見大人。', yi: '止步、求援、退守', ji: '冒進、孤立、硬撐', modern: '前路艱難，宜反求諸己求賢相助。', emoji: '☵' },
-    { lines: '⚋⚊⚊⚊⚋⚋', name: '解', pinyin: 'Xiè', text: '利西南。无所往，其來復吉。', yi: '解放、寬容、解決', ji: '報復、留戀、執著', modern: '否極泰來，宜化解怨恨向前看。', emoji: '☳' },
-    { lines: '⚋⚋⚊⚊⚊⚊', name: '損', pinyin: 'Sǔn', text: '有孚，元吉，無咎，可貞。', yi: '犧牲、讓利、節制', ji: '吝嗇、過度、失衡', modern: '損下益上，宜有捨有得。', emoji: '☶' },
-    { lines: '⚊⚊⚊⚋⚋⚊', name: '益', pinyin: 'Yì', text: '利有攸往，利涉大川。', yi: '增益、付出、分享', ji: '損人、自私、短視', modern: '損上益下，宜惠及他人。', emoji: '☴' },
-    { lines: '⚊⚋⚊⚊⚊⚊', name: '夬', pinyin: 'Guài', text: '揚于王庭，孚號有厲。', yi: '決斷、果斷、執行', ji: '猶豫、拖延、妥協', modern: '當斷則斷，宜果斷處理。', emoji: '☱' },
-    { lines: '⚊⚊⚊⚊⚋⚋', name: '姤', pinyin: 'Gòu', text: '女壯，勿用取女。', yi: '警覺、防範、自持', ji: '迷惑、沉溺、放縱', modern: '突遇之緣，宜保持警覺。', emoji: '☴' },
-    { lines: '⚊⚋⚋⚊⚊⚊', name: '萃', pinyin: 'Cuì', text: '亨。王假有廟。利見大人，亨，利貞。', yi: '聚集、合作、共識', ji: '渙散、孤立、衝突', modern: '人聚財聚，宜凝聚共識。', emoji: '☱' },
-    { lines: '⚊⚊⚋⚋⚊⚊', name: '升', pinyin: 'Shēng', text: '元亨，用見大人，勿恤，南征吉。', yi: '上升、進取、累積', ji: '停滯、鬆懈、自滿', modern: '穩步上升，宜把握時機。', emoji: '☷' },
-    { lines: '⚋⚋⚊⚊⚊⚊', name: '困', pinyin: 'Kùn', text: '亨，貞，大人吉，無咎，有言不信。', yi: '堅忍、自守、修養', ji: '焦躁、求救、放棄', modern: '困而知返，宜修身以待時。', emoji: '☱' },
-    { lines: '⚊⚊⚋⚊⚋⚊', name: '井', pinyin: 'Jǐng', text: '改邑不改井，無喪無得，往來井井。', yi: '修養、滋養、恆久', ji: '枯竭、污染、疏懶', modern: '井養而不窮，宜持續自我滋養。', emoji: '☴' },
-    { lines: '⚊⚋⚊⚋⚋⚋', name: '革', pinyin: 'Gé', text: '己日乃孚，元亨利貞，悔亡。', yi: '革新、變革、蛻變', ji: '守舊、猶豫、保守', modern: '革故鼎新，宜順時勢變革。', emoji: '☲' },
-    { lines: '⚋⚊⚋⚊⚋⚊', name: '鼎', pinyin: 'Dǐng', text: '元吉，亨。', yi: '穩定、鼎立、革新', ji: '動搖、混亂、無序', modern: '鼎新革故，宜建立新秩序。', emoji: '☲' },
-    { lines: '⚊⚋⚋⚊⚋⚊', name: '震', pinyin: 'Zhèn', text: '亨。震來虩虩，笑言啞啞。', yi: '警醒、行動、果斷', ji: '驚慌、遲鈍、麻木', modern: '雷動之勢，宜振作而行。', emoji: '☳' },
-    { lines: '⚋⚊⚋⚊⚊⚋', name: '艮', pinyin: 'Gèn', text: '艮其背，不獲其身，行其庭，不見其人，無咎。', yi: '止靜、自守、聚焦', ji: '固執、僵化、停滯', modern: '當止則止，宜保持靜定。', emoji: '☶' },
-    { lines: '⚋⚊⚊⚋⚊⚋', name: '漸', pinyin: 'Jiàn', text: '女歸吉，利貞。', yi: '循序、漸進、穩步', ji: '急躁、跳躍、冒進', modern: '循序漸進，宜穩步前行。', emoji: '☴' },
-    { lines: '⚋⚊⚊⚊⚋⚋', name: '歸妹', pinyin: 'Guī Mèi', text: '征凶，無攸利。', yi: '謹慎、觀察、慎思', ji: '衝動、盲目、輕率', modern: '宜謹慎行事，勿衝動決策。', emoji: '☱' },
-    { lines: '⚊⚋⚋⚊⚊⚋', name: '豐', pinyin: 'Fēng', text: '亨。王假之，勿憂，宜日中。', yi: '豐盛、把握、感恩', ji: '揮霍、迷失、驕傲', modern: '盛極而衰，宜居安思危。', emoji: '☳' },
-    { lines: '⚋⚊⚊⚊⚋⚊', name: '旅', pinyin: 'Lǚ', text: '小亨，旅貞吉。', yi: '謙遜、自律、學習', ji: '傲慢、固執、招搖', modern: '人生如旅，宜謙虛謹慎。', emoji: '☲' },
-    { lines: '⚊⚋⚊⚊⚋⚊', name: '巽', pinyin: 'Xùn', text: '小亨，利有攸往，利見大人。', yi: '柔順、滲透、循序', ji: '優柔、軟弱、盲從', modern: '風行草偃，宜以柔克剛。', emoji: '☴' },
-    { lines: '⚋⚊⚋⚊⚋⚋', name: '兌', pinyin: 'Duì', text: '亨，利貞。', yi: '喜悅、溝通、和悅', ji: '諂媚、放縱、爭辯', modern: '悅以使人，宜以和為貴。', emoji: '☱' },
-    { lines: '⚊⚋⚊⚋⚋⚊', name: '渙', pinyin: 'Huàn', text: '亨。王假有廟，利涉大川，利貞。', yi: '流通、團聚、化解', ji: '渙散、孤立、僵化', modern: '渙然冰釋，宜凝聚人心。', emoji: '☴' },
-    { lines: '⚋⚊⚋⚋⚋⚋', name: '節', pinyin: 'Jié', text: '亨，苦節不可貞。', yi: '節制、平衡、中庸', ji: '壓抑、極端、放縱', modern: '節以不窮，宜中庸有度。', emoji: '☵' },
-    { lines: '⚋⚊⚊⚋⚊⚋', name: '中孚', pinyin: 'Zhōng Fú', text: '豚魚吉，利涉大川，利貞。', yi: '誠信、感化、信任', ji: '欺詐、多疑、虛偽', modern: '誠信感物，宜以真誠待人。', emoji: '☱' },
-    { lines: '⚋⚊⚋⚊⚊⚊', name: '小過', pinyin: 'Xiǎo Guò', text: '亨，利貞。可小事，不可大事。', yi: '謹慎、保守、聚焦', ji: '冒進、貪大、躁動', modern: '小事可為大事不可，宜量力而行。', emoji: '☳' },
-    { lines: '⚊⚊⚋⚊⚋⚋', name: '既濟', pinyin: 'Jì Jì', text: '亨，小利貞，初吉終亂。', yi: '謹慎、收尾、鞏固', ji: '鬆懈、忘形、爛尾', modern: '成功在望宜謹慎收尾，勿爛尾。', emoji: '☵' },
-    { lines: '⚋⚋⚊⚋⚊⚊', name: '未濟', pinyin: 'Wèi Jì', text: '亨。小狐汔濟，濡其尾，無攸利。', yi: '堅持、謹慎、希望', ji: '放棄、躁進、絕望', modern: '尚未成功，宜謹慎前行。', emoji: '☲' }
-  ];
-
-  function rollHexagram() {
-    var randomIndex = Math.floor(Math.random() * hexagrams.length);
-    return hexagrams[randomIndex];
-  }
-
-  function castDivination() {
-    var question = questionInput.value.trim() || '（默念心中所問）';
-    var hex = rollHexagram();
-    // 顯示由上到下嘅六爻
-    var linesDisplay = hex.lines;
-    hexEl.textContent = linesDisplay;
-    nameEl.textContent = hex.name;
-    pinyinEl.textContent = '（' + hex.pinyin + '）';
-    textEl.textContent = '「' + hex.text + '」';
-    yiEl.textContent = hex.yi;
-    jiEl.textContent = hex.ji;
-    modernEl.textContent = hex.modern + '\n\n你問：' + question;
-    resultBox.style.display = 'block';
-  }
-
-  goBtn.onclick = castDivination;
-  againBtn.onclick = castDivination;
-  questionInput.onkeydown = function(e) { if (e.key === 'Enter') castDivination(); };
-})();
-
-// ══════ 音樂骰子 ══════
-window.openMusicModal = function() {
-  document.getElementById('musicModal').style.display = 'flex';
-  document.getElementById('musicResult').style.display = 'block';
-  document.getElementById('musicPlaylist').style.display = 'none';
-};
-
-(function() {
-  var modal = document.getElementById('musicModal');
-  var closeBtn = document.getElementById('musicClose');
-  var rollBtn = document.getElementById('musicRoll');
-  var resultBox = document.getElementById('musicResult');
-  var emojiEl = document.getElementById('musicEmoji');
-  var genreEl = document.getElementById('musicGenre');
-  var moodEl = document.getElementById('musicMood');
-  var sceneEl = document.getElementById('musicScene');
-  var playlistBox = document.getElementById('musicPlaylist');
-  var songsEl = document.getElementById('musicSongs');
-
-  closeBtn.onclick = function() { modal.style.display = 'none'; };
-  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
-
-  var genres = [
-    { name: 'Lo-fi Hip Hop', emoji: '🎧', mood: ['放鬆', '專注', 'chill'] },
-    { name: 'City Pop', emoji: '🌃', mood: ['懷舊', '浪漫', '夢幻'] },
-    { name: 'Jazz', emoji: '🎷', mood: ['優雅', '深夜', '酒館'] },
-    { name: 'Bossa Nova', emoji: '🇧🇷', mood: ['慵懶', '陽光', '浪漫'] },
-    { name: 'Synthwave', emoji: '🌆', mood: ['復古未來', '夜遊', '速度感'] },
-    { name: 'K-pop', emoji: '💃', mood: ['活力', '跳舞', '興奮'] },
-    { name: 'J-pop', emoji: '🎵', mood: ['青春', '治癒', '元氣'] },
-    { name: '粵語流行曲', emoji: '🇭🇰', mood: ['回憶', '情感', '港式'] },
-    { name: '國語經典', emoji: '🎤', mood: ['懷舊', '情歌', '浪漫'] },
-    { name: 'R&B / Soul', emoji: '🎶', mood: ['深情', '慢拍', '感性'] },
-    { name: 'Hip Hop', emoji: '🔥', mood: ['硬核', '態度', '節奏'] },
-    { name: 'Electronic', emoji: '🎛️', mood: ['迷幻', '派對', '電音'] },
-    { name: 'Classical', emoji: '🎻', mood: ['莊嚴', '靜心', '優雅'] },
-    { name: 'Ambient', emoji: '🌌', mood: ['冥想', '睡眠', '沉浸'] },
-    { name: 'Funk', emoji: '🕺', mood: ['律動', '復古', '派對'] },
-    { name: 'Reggae', emoji: '🌴', mood: ['陽光', '沙灘', '放鬆'] },
-    { name: '搖滾', emoji: '🎸', mood: ['激情', '反叛', '爆發'] },
-    { name: '民謠', emoji: '🪕', mood: ['清新', '田園', '故事'] },
-    { name: '電影配樂', emoji: '🎬', mood: ['史詩', '情感', '故事感'] },
-    { name: 'Cantonese Indie', emoji: '🎸', mood: ['文青', '小眾', '反叛'] },
-    { name: '重金屬', emoji: '⚡', mood: ['爆裂', '宣洩', '黑暗'] },
-    { name: '拉丁', emoji: '💃', mood: ['熱情', '舞蹈', '節日'] }
-  ];
-
-  var scenes = [
-    '🌃 深夜獨處', '☕ 咖啡廳', '🚗 自駕遊', '🏖️ 海灘日落',
-    '📚 讀書時光', '🏃 跑步運動', '🍳 煮飯下廚', '🎉 朋友聚會',
-    '💼 工作專注', '🌧️ 雨天發呆', '🌌 睡前放鬆', '🚿 洗澡時段',
-    '🎨 創作靈感', '💑 約會之夜', '🍺 酒吧放鬆', '🚌 通勤路上'
-  ];
-
-  var songDB = {
-    'Lo-fi Hip Hop': ['Nujabes - Aruarian Dance', 'J Dilla - Donuts', '理想混蛋 - 滷肉飯'],
-    'City Pop': ['竹内まりや - Plastic Love', '山下達郎 - Sparkle', '杏里 - Last Summer Whisper'],
-    'Jazz': ['Bill Evans - Waltz for Debby', 'Chet Baker - My Funny Valentine', 'Miles Davis - So What'],
-    'Bossa Nova': ['João Gilberto - The Girl from Ipanema', 'Stan Getz - Desafinado', 'Tom Jobim - Corcovado'],
-    'Synthwave': ['Kavinsky - Nightcall', 'Carpenter Brut - Turbo Killer', 'The Midnight - Days of Thunder'],
-    'K-pop': ['NewJeans - Super Shy', 'BTS - Dynamite', 'BLACKPINK - Pink Venom'],
-    'J-pop': ['YOASOBI - アイドル', '藤井風 - きらり', '米津玄師 - Lemon'],
-    '粵語流行曲': ['陳奕迅 - 十年', 'Beyond - 海闊天空', '張國榮 - 風繼續吹'],
-    '國語經典': ['周杰倫 - 晴天', '鄧麗君 - 月亮代表我的心', '張學友 - 吻別'],
-    'R&B / Soul': ['Daniel Caesar - Best Part', 'SZA - The Weekend', 'Frank Ocean - Thinkin Bout You'],
-    'Hip Hop': ['Kendrick Lamar - HUMBLE', 'Drake - God\'s Plan', 'Eminem - Lose Yourself'],
-    'Electronic': ['ODESZA - A Moment Apart', 'Deadmau5 - Strobe', 'Disclosure - Latch'],
-    'Classical': ['Mozart - Eine kleine Nachtmusik', 'Beethoven - Moonlight Sonata', 'Chopin - Nocturne Op.9'],
-    'Ambient': ['Brian Eno - Music for Airports', 'Sigur Rós - Hoppípolla', 'Sigur Rós - Glósóli'],
-    'Funk': ['Bruno Mars - Uptown Funk', 'James Brown - Sex Machine', 'Earth, Wind & Fire - September'],
-    'Reggae': ['Bob Marley - Three Little Birds', 'Bob Marley - One Love', 'Jimmy Cliff - I Can See Clearly Now'],
-    '搖滾': ['Queen - Bohemian Rhapsody', 'Coldplay - Fix You', '五月天 - 倔強'],
-    '民謠': ['Bob Dylan - Blowin\' in the Wind', 'Bon Iver - Skinny Love', '陳綺貞 - 旅行的意義'],
-    '電影配樂': ['Hans Zimmer - Time', 'John Williams - Star Wars Theme', 'Joe Hisaishi - Summer'],
-    'Cantonese Indie': ['My Little Airport - 麥記最後一夜', 'Supper Moment - 風箏', 'RubberBand - 阿波羅'],
-    '重金屬': ['Metallica - Enter Sandman', 'Iron Maiden - The Trooper', 'Slipknot - Duality'],
-    '拉丁': ['Shakira - Waka Waka', 'Daddy Yankee - Despacito', 'Ricky Martin - Livin\' La Vida Loca']
-  };
-
-  function rollMusic() {
-    var genre = genres[Math.floor(Math.random() * genres.length)];
-    var mood = genre.mood[Math.floor(Math.random() * genre.mood.length)];
-    var scene = scenes[Math.floor(Math.random() * scenes.length)];
-
-    emojiEl.textContent = genre.emoji;
-    genreEl.textContent = genre.name;
-    moodEl.textContent = '🎭 心情：' + mood;
-    sceneEl.textContent = '📍 場景：' + scene;
-
-    var list = songDB[genre.name] || ['即興演奏 - Mood Mix'];
-    songsEl.innerHTML = list.map(function(s) { return '• ' + s; }).join('<br>');
-    playlistBox.style.display = 'block';
-    resultBox.style.display = 'block';
-  }
-
-  rollBtn.onclick = rollMusic;
-})();
-
-// ══════ 今晚食咩 ══════
-window.openFoodModal = function() {
-  document.getElementById('foodModal').style.display = 'flex';
-};
-
-(function() {
-  var modal = document.getElementById('foodModal');
-  var closeBtn = document.getElementById('foodClose');
-  var rollBtn = document.getElementById('foodRoll');
-  var budgetSel = document.getElementById('foodBudget');
-  var distanceSel = document.getElementById('foodDistance');
-  var emojiEl = document.getElementById('foodEmoji');
-  var nameEl = document.getElementById('foodName');
-  var descEl = document.getElementById('foodDesc');
-
-  closeBtn.onclick = function() { modal.style.display = 'none'; };
-  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
-
-  var foods = [
-    { name: '港式茶餐廳', emoji: '🍜', desc: '經典之選！凍檸茶 + 沙嗲牛肉麵 + 蛋撻，港式味道永遠唔會錯。', budget: 'cheap', distance: 'near' },
-    { name: '日本拉麵', emoji: '🍥', desc: '濃郁豚骨湯底配上叉燒、半熟蛋，一碗暖心暖胃。', budget: 'mid', distance: 'central' },
-    { name: '韓式燒烤', emoji: '🥩', desc: '五花肉、牛舌、大醬湯，和朋友圍爐最過癮！', budget: 'mid', distance: 'central' },
-    { name: '打邊爐', emoji: '🍲', desc: '香港人最愛！肥牛、海鮮、手打丸，邊爐最暖心。', budget: 'mid', distance: 'any' },
-    { name: '台式滷肉飯', emoji: '🍚', desc: '肥而不膩的滷肉配上 Q 彈米飯，加粒半熟蛋，完美！', budget: 'cheap', distance: 'central' },
-    { name: '四川麻辣火鍋', emoji: '🌶️', desc: '挑戰味蕾！麻辣湯底配上毛肚、鴨血、黃喉，辣到飛起！', budget: 'mid', distance: 'central' },
-    { name: '越南牛肉河', emoji: '🍜', desc: '清湯底配新鮮牛肉河粉，擠啲青檸汁超清新！', budget: 'cheap', distance: 'central' },
-    { name: '泰式冬蔭功', emoji: '🍤', desc: '酸辣開胃嘅海鮮湯，配上香茅、辣椒、青檸，泰式風情滿分！', budget: 'mid', distance: 'central' },
-    { name: '印度咖哩', emoji: '🍛', desc: '香料爆發！配上印度烤餅 naan 蘸醬，超邪惡。', budget: 'mid', distance: 'central' },
-    { name: '意大利 Pizza', emoji: '🍕', desc: '薄餅底配上 mozzarella、羅勒葉，正宗拿坡里風味！', budget: 'mid', distance: 'central' },
-    { name: '法式甜品下午茶', emoji: '🧁', desc: 'Macaron + 可麗露 + 千層酥，配上伯爵茶，優雅時光。', budget: 'expensive', distance: 'central' },
-    { name: 'omakase 壽司', emoji: '🍣', desc: '師傅發辦！每件壽司都用上時令食材，視覺味覺雙重享受。', budget: 'expensive', distance: 'central' },
-    { name: '牛扒扒房', emoji: '🥩', desc: 'USDA Prime 牛扒配紅酒，紀念日首選！', budget: 'expensive', distance: 'central' },
-    { name: '串燒居酒屋', emoji: '🍢', desc: '雞皮、雞翼、豬頸肉，配杯生啤，日劇氣氛滿分！', budget: 'mid', distance: 'any' },
-    { name: '米線', emoji: '🍲', desc: '雲南風味！豬肚、炸醬、酸菜，湯底超香濃。', budget: 'cheap', distance: 'any' },
-    { name: '麻辣燙', emoji: '🌶️', desc: '自選食材自選辣度，超彈性嘅街頭美食！', budget: 'cheap', distance: 'any' },
-    { name: '燒臘飯', emoji: '🍱', desc: '叉燒、油雞、燒鴨，配上薑蔥飯，港式快餐之王！', budget: 'cheap', distance: 'near' },
-    { name: '車仔麵', emoji: '🍜', desc: '自選餸菜自選湯底，老香港情懷。', budget: 'cheap', distance: 'near' },
-    { name: '粥店', emoji: '🥣', desc: '艇仔粥、及第粥、皮蛋瘦肉粥，宵夜暖胃首選！', budget: 'cheap', distance: 'near' },
-    { name: '上海菜', emoji: '🥟', desc: '小籠包、生煎包、紅燒肉，本幫菜經典！', budget: 'mid', distance: 'central' },
-    { name: '北京烤鴨', emoji: '🦆', desc: '薄餅包住鴨皮、蔥段、甜麵醬，京菜之王！', budget: 'expensive', distance: 'central' },
-    { name: '西班牙 Tapas', emoji: '🥘', desc: '小型多樣嘅下酒菜，配杯 Sangria，歐陸風情。', budget: 'expensive', distance: 'central' },
-    { name: '中東烤肉', emoji: '🥙', desc: 'Shawarma、Kebab，配上鷹嘴豆泥，中東風味！', budget: 'mid', distance: 'central' },
-    { name: '素食自助餐', emoji: '🥗', desc: '健康之選！多種蔬菜、豆製品，清爽無負擔。', budget: 'mid', distance: 'central' }
-  ];
-
-  function pickFood() {
-    var budget = budgetSel.value;
-    var distance = distanceSel.value;
-    var filtered = foods.filter(function(f) {
-      var budgetMatch = (budget === 'any') || (f.budget === budget);
-      var distanceMatch = (distance === 'any') || (f.distance === distance) || (f.distance === 'central' && distance === 'central');
-      return budgetMatch && distanceMatch;
-    });
-    if (filtered.length === 0) filtered = foods;
-    var choice = filtered[Math.floor(Math.random() * filtered.length)];
-    emojiEl.textContent = choice.emoji;
-    nameEl.textContent = choice.name;
-    descEl.textContent = choice.desc;
-  }
-
-  rollBtn.onclick = pickFood;
-})();
-
-// ══════ 塔羅占卜 ══════
-window.openTarotModal = function() {
-  document.getElementById('tarotModal').style.display = 'flex';
-};
-
-(function() {
-  var modal = document.getElementById('tarotModal');
-  var closeBtn = document.getElementById('tarotClose');
-  var drawBtn = document.getElementById('tarotDraw');
-  var questionInput = document.getElementById('tarotQuestion');
-  var symbolEl = document.getElementById('tarotSymbol');
-  var nameEl = document.getElementById('tarotName');
-  var orientEl = document.getElementById('tarotOrientation');
-  var keywordEl = document.getElementById('tarotKeyword');
-  var meaningEl = document.getElementById('tarotMeaning');
-
-  closeBtn.onclick = function() { modal.style.display = 'none'; };
-  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
-
-  var majorArcana = [
-    { id: 0, name: '愚者', emoji: '🃏', keywords: '新開始、冒險、自由', upright: '純真、率性、未知嘅可能性。宇宙提示你：勇敢踏出第一步，新旅程即將展開。', reversed: '魯莽、衝動、逃避責任。宜停一停諗清楚，唔好因為一時之氣做錯決定。' },
-    { id: 1, name: '魔術師', emoji: '🪄', keywords: '創造、意志、技能', upright: '你擁有實現夢想嘅所有工具，宜把握機會展現實力。', reversed: '才能未發揮、操控、欺騙。警惕被人利用，或者自己能力唔夠。' },
-    { id: 2, name: '女祭司', emoji: '🌙', keywords: '直覺、神秘、潛意識', upright: '答案喺你內心。信任直覺，靜觀其變，秘密即將揭曉。', reversed: '忽略直覺、表面、秘密外洩。宜更加誠實面對自己同他人。' },
-    { id: 3, name: '皇后', emoji: '👑', keywords: '豐盛、母性、創造', upright: '豐盛同美滿嘅時期到嚟，珍惜當下身邊嘅人同事物。', reversed: '過度依賴、停滯、忽視自我。宜重新建立自我價值。' },
-    { id: 4, name: '皇帝', emoji: '🏛️', keywords: '權威、結構、穩定', upright: '透過紀律同努力建立穩固基礎，你係自己王國嘅主人。', reversed: '專橫、僵化、濫權。宜更有彈性，聆聽他人意見。' },
-    { id: 5, name: '教皇', emoji: '⛪', keywords: '傳統、信仰、引導', upright: '尋找智者嘅建議，傳統智慧可以引導你走向正確方向。', reversed: '反叛、虛假信仰、教條。宜以開放態度探索新嘅可能性。' },
-    { id: 6, name: '戀人', emoji: '💕', keywords: '愛、選擇、和諧', upright: '愛情降臨或者重要抉擇時刻，聆聽內心嘅聲音。', reversed: '不和諧、錯誤選擇、價值觀衝突。宜重新審視你嘅選擇。' },
-    { id: 7, name: '戰車', emoji: '⚔️', keywords: '勝利、決心、控制', upright: '憑意志同決心，你將克服一切障礙，勝利在望。', reversed: '失去方向、衝突、缺乏控制。宜停下嚟重新定位。' },
-    { id: 8, name: '力量', emoji: '🦁', keywords: '勇氣、耐心、柔克剛', upright: '以柔克剛嘅力量，溫柔而堅定地馴服內心嘅野獸。', reversed: '軟弱、自我懷疑、壓抑情緒。宜溫柔對待自己。' },
-    { id: 9, name: '隱者', emoji: '🏮', keywords: '內省、智慧、孤獨', upright: '退一步思考嘅時刻，內心嘅智慧會為你指路。', reversed: '孤立、固執、拒絕幫助。宜打開心扉接受他人。' },
-    { id: 10, name: '命運之輪', emoji: '☸️', keywords: '循環、轉變、命運', upright: '命運嘅齒輪轉動，好運降臨。把握時機順流而行。', reversed: '壞運、抗拒改變、停滯。接受週期，唔好強求。' },
-    { id: 11, name: '正義', emoji: '⚖️', keywords: '公平、真理、因果', upright: '你會得到公平嘅對待，真相終會大白。保持誠實。', reversed: '不公、逃避責任、偏頗。宜反思自己嘅行為。' },
-    { id: 12, name: '倒吊人', emoji: '🙃', keywords: '犧牲、新視角、等待', upright: '換個角度看世界，短暫嘅犧牲會帶嚟更深嘅智慧。', reversed: '無謂犧牲、抗拒改變、停滯不前。' },
-    { id: 13, name: '死神', emoji: '💀', keywords: '結束、轉化、新生', upright: '一個階段嘅結束係另一個嘅開始，接受轉化迎向新生。', reversed: '抗拒改變、停滯、恐懼。放手先可以前進。' },
-    { id: 14, name: '節制', emoji: '🕊️', keywords: '平衡、中庸、耐心', upright: '保持平衡同耐心，調和你嘅身心靈。', reversed: '失衡、過度、不協調。宜重新調整生活節奏。' },
-    { id: 15, name: '惡魔', emoji: '😈', keywords: '束縛、誘惑、物質', upright: '小心誘惑同物質慾望，可能有不良習慣困住你。', reversed: '解脫、覺醒、打破枷鎖。你有能力擺脫束縛。' },
-    { id: 16, name: '高塔', emoji: '🗼', keywords: '突變、崩塌、啟示', upright: '突如其來嘅改變可能痛苦，但會帶嚟新嘅契機。', reversed: '避免災難、延遲改變、內在覺醒。可能避過一劫。' },
-    { id: 17, name: '星星', emoji: '⭐', keywords: '希望、靈感、寧靜', upright: '希望同靈感降臨，保持信念，夢想會實現。', reversed: '絕望、失去信心、迷茫。仰望星空，重新找回希望。' },
-    { id: 18, name: '月亮', emoji: '🌕', keywords: '幻象、直覺、潛意識', upright: '事物唔一定係你睇到嘅咁，信任直覺穿透幻象。', reversed: '真相揭露、釋放恐懼、走出迷霧。' },
-    { id: 19, name: '太陽', emoji: '☀️', keywords: '成功、快樂、活力', upright: '光明嘅時期到嚟！成功同快樂將充滿你嘅生活。', reversed: '暫時烏雲、自我懷疑、延遲嘅快樂。' },
-    { id: 20, name: '審判', emoji: '📯', keywords: '重生、覺醒、召喚', upright: '重大嘅覺醒時刻到嚟，響應內心嘅召喚，迎向新生。', reversed: '拒絕改變、自我批判、停滯。' },
-    { id: 21, name: '世界', emoji: '🌍', keywords: '完成、成就、圓滿', upright: '一個重要嘅循環即將完成，你達成咗重大嘅成就！', reversed: '未完成、停滯、缺乏閉幕。' }
-  ];
-
-  function drawCard() {
-    var card = majorArcana[Math.floor(Math.random() * majorArcana.length)];
-    var isReversed = Math.random() < 0.4;
-    symbolEl.textContent = card.emoji;
-    nameEl.textContent = card.id + '. ' + card.name;
-    orientEl.textContent = isReversed ? '【 逆 位 】' : '【 正 位 】';
-    orientEl.style.color = isReversed ? '#ff6b6b' : '#6bff6b';
-    keywordEl.textContent = '關鍵字：' + card.keywords;
-    var meaning = isReversed ? card.reversed : card.upright;
-    if (questionInput.value.trim()) {
-      meaning = '你問：' + questionInput.value.trim() + '\n\n' + meaning;
-    }
-    meaningEl.textContent = meaning;
-    meaningEl.style.whiteSpace = 'pre-line';
-  }
-
-  drawBtn.onclick = drawCard;
-})();
-
-// ══════ 命運數字 ══════
-window.openNumberModal = function() {
-  document.getElementById('numberModal').style.display = 'flex';
-};
-
-(function() {
-  var modal = document.getElementById('numberModal');
-  var closeBtn = document.getElementById('numberClose');
-  var calcBtn = document.getElementById('numberCalculate');
-  var birthdayInput = document.getElementById('numberBirthday');
-  var resultBox = document.getElementById('numberResult');
-  var displayEl = document.getElementById('numberDisplay');
-  var fiveEl = document.getElementById('numberFive');
-  var nameEl = document.getElementById('numberName');
-  var meaningTextEl = document.getElementById('numberMeaningText');
-  var actionEl = document.getElementById('numberAction');
-
-  closeBtn.onclick = function() { modal.style.display = 'none'; };
-  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
-
-  var meanings = {
-    1: { five: '金', name: '領導者', desc: '你天生具有領袖氣質，獨立、有創意、有野心。適合開創新事業，但要注意不要太自我中心。', action: '宜主動出擊，發揮領導力，但要多聆聽團隊意見。' },
-    2: { five: '土', name: '協調者', desc: '你係天生嘅外交家，敏感、體貼、善於合作。適合需要協調嘅工作，但有時會太過優柔寡斷。', action: '宜發揮你嘅同理心，做團隊嘅潤滑劑，學會為自己發聲。' },
-    3: { five: '火', name: '藝術家', desc: '你充滿創造力同表現力，樂觀、社交、有感染力。適合創意行業，但要注意專注同埋紀律。', action: '宜多創作、表達、分享快樂，但要平衡娛樂同責任。' },
-    4: { five: '土', name: '建設者', desc: '你務實、穩重、有紀律。係可靠嘅基石，適合需要長遠規劃嘅工作。', action: '宜穩紮穩打，建立長遠基礎，但要有時放鬆享受生活。' },
-    5: { five: '金', name: '冒險家', desc: '你熱愛自由、追求刺激、適應力強。適合需要變化嘅工作，但可能太過衝動。', action: '宜擁抱改變、探索新領域，但要記得承諾同責任。' },
-    6: { five: '木', name: '照顧者', desc: '你充滿愛心、責任感強、重視家庭同和諧。適合照顧人嘅工作，但要注意唔好過度犧牲。', action: '宜多關心身邊嘅人，但同時要照顧好自己嘅需要。' },
-    7: { five: '火', name: '思想家', desc: '你聰明、內省、追求真理。適合研究、分析、靈性領域，但可能太過孤僻。', action: '宜深入思考、探索真理，但要記得保持社交連繫。' },
-    8: { five: '土', name: '實業家', desc: '你有商業頭腦、注重成就、注重物質同權力。適合做管理層，但要注意平衡。', action: '宜追求事業成功，但同時重視健康、家庭同靈性。' },
-    9: { five: '火', name: '人道主義者', desc: '你充滿同情心、理想主義、追求世界大同。適合公益事業，但有時會太過理想化。', action: '宜服務人群、追求理想，但要腳踏實地唔好太離地。' },
-    11: { five: '金', name: '靈魂導師', desc: '你係 master number，具有直覺力同靈性智慧。適合做啟發他人嘅工作，但承擔亦大。', action: '宜信任你嘅直覺，服務更高嘅目的，但注意心理健康。' },
-    22: { five: '土', name: '大建築師', desc: '你係 master number，可以將夢想化為現實。適合做大型項目，但責任亦大。', action: '宜立大志、做大事，但要量力而為，避免過勞。' }
-  };
-
-  function reduceNumber(n) {
-    while (n > 9 && n !== 11 && n !== 22) {
-      var sum = 0;
-      while (n > 0) {
-        sum += n % 10;
-        n = Math.floor(n / 10);
-      }
-      n = sum;
-    }
-    return n;
-  }
-
-  function calculateNumber() {
-    var value = birthdayInput.value;
-    if (!value) {
-      alert('請選擇生日');
-      return;
-    }
-    var parts = value.split('-');
-    if (parts.length !== 3) {
-      alert('生日格式錯誤');
-      return;
-    }
-    var year = parseInt(parts[0]);
-    var month = parseInt(parts[1]);
-    var day = parseInt(parts[2]);
-    var total = year + month + day;
-    var lifeNumber = reduceNumber(total);
-    var info = meanings[lifeNumber] || meanings[reduceNumber(lifeNumber)] || meanings[1];
-
-    displayEl.textContent = lifeNumber;
-    fiveEl.textContent = '五行：' + info.five;
-    nameEl.textContent = info.name;
-    meaningTextEl.textContent = info.desc;
-    actionEl.textContent = '💡 行動建議：' + info.action;
-
-    resultBox.style.display = 'block';
-  }
-
-  calcBtn.onclick = calculateNumber;
-
-</div>
-
-
-id="dreamModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
+<div id="dreamModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
   <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a3e);border-radius:16px;max-width:480px;width:100%;padding:24px;border:1px solid rgba(162,155,254,0.25);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">🌙 夢境解讀</h2>
@@ -4092,9 +2676,1389 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     </div>
     
     <div style="color:#555;font-size:0.7em;text-align:center;margin-top:12px;">OpenStreetMap + Nominatim · Click 地圖加 marker</div>
-  
+  </div>
+</div>
 
-</body>
+
+<script>
+
+// ══════ Wheel of Fortune ══════
+(function(){
+  var modal=document.getElementById('wheelModal');
+  var result=document.getElementById('wheelResult');
+  var cat='food';
+  var items={food:['茶餐廳A餐','日本拉麵','米線','漢堡包','壽司','雲吞麵','車仔麵','咖喱飯','Pizza','打邊爐','燒味飯','韓式炸雞'],do:['睇Netflix','打機','出街行下','瞓覺','睇書','做運動','同朋友傾計','煮嘢食','聽歌','清潔房間'],luck:['大吉🍀','中吉👍','小吉😊','平穩😐','小心⚠️','不宜決定🙅']};
+  var spinning=false;
+  document.getElementById('wheelTrigger').onclick=function(){modal.style.display='flex';};
+  document.getElementById('wheelClose').onclick=function(){modal.style.display='none';};
+  modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
+  document.querySelectorAll('.wheel-cat').forEach(function(b){b.onclick=function(){document.querySelectorAll('.wheel-cat').forEach(function(x){x.classList.remove('active');x.style.background='transparent';x.style.color='#888';});this.classList.add('active');this.style.background='rgba(255,107,155,0.15)';this.style.color='#ff6b9d';cat=this.dataset.cat;};});
+  document.getElementById('wheelSpin').onclick=function(){
+    if(spinning)return;spinning=true;
+    var list=items[cat],idx=0,count=0;
+    var t=setInterval(function(){idx=(idx+1)%list.length;result.textContent=list[idx];count++;if(count>15+Math.floor(Math.random()*10)){clearInterval(t);spinning=false;}},80+Math.random()*40);
+  };
+})();
+
+// ══════ Reaction Test ══════
+(function(){
+  var modal=document.getElementById('reactModal');
+  var box=document.getElementById('reactBox');
+  var msg=document.getElementById('reactMsg');
+  var score=document.getElementById('reactScore');
+  var waiting=false,startTime=0,best=999;
+  document.getElementById('reactTrigger').onclick=function(){modal.style.display='flex';resetBox();};
+  document.getElementById('reactClose').onclick=function(){modal.style.display='none';};
+  modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
+  function resetBox(){waiting=false;box.style.background='#1a2438';msg.textContent='撳我開始';msg.style.color='#888';}
+  box.onclick=function(){
+    if(!waiting){waiting=true;box.style.background='#c44569';msg.textContent='等變綠...';msg.style.color='#fff';var d=1000+Math.random()*3000;setTimeout(function(){if(!waiting)return;startTime=Date.now();box.style.background='#6bff6b';msg.textContent='撳！！！';msg.style.color='#0a0a1a';},d);return;}
+    var rt=Date.now()-startTime;waiting=false;
+    if(rt<best)best=rt;
+    var emoji=rt<200?'⚡':rt<300?'🔥':rt<400?'👍':'🐢';
+    score.innerHTML=emoji+' '+rt+'ms<br><span style="font-size:0.7em;color:#888;">最佳: '+best+'ms</span>';
+    resetBox();
+  };
+})();
+
+// ══════ Daily Fortune ══════
+(function(){
+  var modal=document.getElementById('fortuneModal');
+  var stars=document.getElementById('fortuneStars');
+  var level=document.getElementById('fortuneLevel');
+  var text=document.getElementById('fortuneText');
+  var tip=document.getElementById('fortuneTip');
+  var fortunes=[
+    {s:5,l:'大吉 🍀',t:'今日運勢極佳！機會處處，勇敢踏出一步，會有意外收穫。',p:'開運提示：著紅色衫，向東南方行'},
+    {s:4,l:'中吉 👍',t:'運勢穩步上升，保持耐心，好事會自然發生。',p:'開運提示：飲杯熱茶，放鬆心情'},
+    {s:4,l:'中吉 ✨',t:'今日適合做決定，直覺會帶你行啱方向。',p:'開運提示：聽一首鍾意嘅歌'},
+    {s:3,l:'小吉 😊',t:'平平淡淡都係一種幸福。今日適合休息充電。',p:'開運提示：早啲返屋企，享受me-time'},
+    {s:3,l:'小吉 🌤️',t:'可能會有小驚喜，保持開放心態迎接新事物。',p:'開運提示：同朋友傾下計'},
+    {s:2,l:'平穩 😐',t:'今日無大事，穩住陣腳，明天會更好。',p:'開運提示：避開爭論，保持低調'},
+    {s:2,l:'注意 ⚠️',t:'小心駛得萬年船。今日做決定前再三思考。',p:'開運提示：check清楚細節先簽名'},
+    {s:1,l:'不宜 🙅',t:'今日唔適合做重大決定，最好按兵不動。',p:'開運提示：留喺安全區，唔好冒險'}
+  ];
+  function draw(){
+    var f=fortunes[Math.floor(Math.random()*fortunes.length)];
+    stars.textContent='⭐'.repeat(f.s)+'☆'.repeat(5-f.s);
+    level.textContent=f.l;
+    text.textContent=f.t;
+    tip.textContent=f.p;
+  }
+  document.getElementById('fortuneTrigger').onclick=function(){modal.style.display='flex';draw();};
+  document.getElementById('fortuneClose').onclick=function(){modal.style.display='none';};
+  modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
+  document.getElementById('fortuneRefresh').onclick=draw;
+})();
+
+// ══════ Ambient Sound ══════
+(function(){
+  var modal=document.getElementById('ambientModal');
+  var status=document.getElementById('ambientStatus');
+  var vol=document.getElementById('ambientVolume');
+  var ctx=null,noise=null,gain=null,active=null;
+  document.getElementById('ambientTrigger').onclick=function(){modal.style.display='flex';};
+  document.getElementById('ambientClose').onclick=function(){modal.style.display='none';stopSound();};
+  modal.onclick=function(e){if(e.target===this){modal.style.display='none';stopSound();}};
+  function stopSound(){if(noise){try{noise.stop();}catch(e){}noise=null;}if(gain)gain.disconnect();active=null;status.textContent='🎵 揀一個環境音效';}
+  function playNoise(type){
+    stopSound();
+    ctx=new(window.AudioContext||window.webkitAudioContext)();
+    gain=ctx.createGain();gain.gain.value=vol.value/100;gain.connect(ctx.destination);
+    var sr=ctx.sampleRate,buf=ctx.createBuffer(1,sr*2,sr),d=buf.getChannelData(0);
+    for(var i=0;i<d.length;i++){
+      if(type==='rain')d[i]=(Math.random()*2-1)*0.3+Math.sin(i*0.003)*0.2;
+      else if(type==='ocean')d[i]=Math.sin(i*0.0001)*0.5+(Math.random()*2-1)*0.15;
+      else if(type==='cafe')d[i]=(Math.random()*2-1)*0.1+Math.sin(i*0.0005)*0.05;
+      else if(type==='fire')d[i]=(Math.random()*2-1)*0.25+Math.sin(i*0.008)*0.15;
+    }
+    noise=ctx.createBufferSource();noise.buffer=buf;noise.loop=true;noise.connect(gain);noise.start();
+    var labels={rain:'🌧️ 雨聲',ocean:'🌊 海浪',cafe:'☕ 咖啡廳',fire:'🔥 營火'};
+    status.textContent='▶ '+labels[type]+' 播放中';
+    active=type;
+  }
+  vol.oninput=function(){if(gain)gain.gain.value=this.value/100;};
+  document.getElementById('ambientStop').onclick=stopSound;
+  document.querySelectorAll('.ambient-btn').forEach(function(b){
+    b.onclick=function(){
+      document.querySelectorAll('.ambient-btn').forEach(function(x){x.style.background='transparent';x.style.color='#fff';});
+      if(active===this.dataset.type){stopSound();return;}
+      this.style.background='rgba(107,255,107,0.15)';this.style.color='#6bff6b';
+      playNoise(this.dataset.type);
+    };
+  });
+})();
+
+// ══════ Random Quote ══════
+(function(){
+  var modal=document.getElementById('quoteModal');
+  var text=document.getElementById('quoteText');
+  var author=document.getElementById('quoteAuthor');
+  var quotes=[
+    {q:'人生最困難嘅唔係面對失敗，而係面對成功之後點樣保持清醒。',a:'— 李嘉誠'},
+    {q:'機會係留俾有準備嘅人。',a:'— 巴斯德'},
+    {q:'唔好等到有晒答案先行動，有時答案係行出嚟嘅。',a:'— 喬布斯'},
+    {q:'成功唔係終點，失敗都唔係末日，最重要係有繼續前行嘅勇氣。',a:'— 邱吉爾'},
+    {q:'今日嘅努力，係聽日嘅基石。',a:'— 匿名'},
+    {q:'你永遠唔會知自己可以做咩，除非你嘗試。',a:'— 愛默生'},
+    {q:'生活唔係等待暴風雨過去，而係學會喺雨中跳舞。',a:'— 薇薇安·格林'},
+    {q:'最美好嘅嘢係睇唔到亦摸唔到嘅，要用心去感受。',a:'— 小王子'},
+    {q:'相信自己，你已經行咗一半路。',a:'— 羅斯福'},
+    {q:'人生最浪費嘅一日，就係冇笑過嘅一日。',a:'— 尚福爾'},
+    {q:'唔好擔心失敗，擔心你連試都唔試。',a:'— 匿名'},
+    {q:'每一個專家都曾經係初學者。',a:'— 海倫·海斯'}
+  ];
+  function show(){
+    var q=quotes[Math.floor(Math.random()*quotes.length)];
+    text.textContent='"'+q.q+'"';author.textContent=q.a;
+  }
+  document.getElementById('quoteTrigger').onclick=function(){modal.style.display='flex';show();};
+  document.getElementById('quoteClose').onclick=function(){modal.style.display='none';};
+  modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
+  document.getElementById('quoteRefresh').onclick=show;
+})();
+
+
+
+// ══════ World Map ══════
+(function(){
+  var modal = document.getElementById('mapModal');
+  var map = null;
+  var marker = null;
+  
+  document.getElementById('mapTrigger').onclick = function(){
+    modal.style.display = 'flex';
+    if(!map){
+      initMap();
+    } else {
+      map.invalidateSize();
+    }
+  };
+  
+  document.getElementById('mapClose').onclick = function(){
+    modal.style.display = 'none';
+  };
+  
+  modal.onclick = function(e){
+    if(e.target === modal) modal.style.display = 'none';
+  };
+  
+  function initMap(){
+    map = L.map('mapContainer').setView([22.3193, 114.1694], 3);
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+      maxZoom: 18
+    }).addTo(map);
+    
+    // Click to add marker
+    map.on('click', function(e){
+      addMarker(e.latlng.lat, e.latlng.lng);
+    });
+    
+    // Preset buttons
+    document.querySelectorAll('.map-preset').forEach(function(btn){
+      btn.onclick = function(){
+        var lat = parseFloat(this.dataset.lat);
+        var lon = parseFloat(this.dataset.lon);
+        map.setView([lat, lon], 10);
+        addMarker(lat, lon);
+      };
+    });
+    
+    // Search button
+    document.getElementById('mapSearchBtn').onclick = searchCity;
+    document.getElementById('mapSearch').onkeypress = function(e){
+      if(e.key === 'Enter') searchCity();
+    };
+    
+    // Initial marker for Hong Kong
+    addMarker(22.3193, 114.1694, '香港 Hong Kong');
+  }
+  
+  function addMarker(lat, lon, name){
+    if(marker) map.removeLayer(marker);
+    
+    marker = L.marker([lat, lon]).addTo(map);
+    
+    var info = document.getElementById('mapInfo');
+    var location = document.getElementById('mapLocation');
+    var coord = document.getElementById('mapCoord');
+    
+    coord.textContent = lat.toFixed(4) + ', ' + lon.toFixed(4);
+    
+    if(name){
+      location.textContent = name;
+      info.style.display = 'block';
+    } else {
+      // Reverse geocode
+      reverseGeocode(lat, lon, function(placeName){
+        location.textContent = placeName || '未知位置';
+        info.style.display = 'block';
+      });
+    }
+  }
+  
+  function searchCity(){
+    var query = document.getElementById('mapSearch').value.trim();
+    if(!query) return;
+    
+    var btn = document.getElementById('mapSearchBtn');
+    btn.textContent = '⏳';
+    btn.disabled = true;
+    
+    fetch('https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(query) + '&format=json&limit=1')
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        if(data.length > 0){
+          var place = data[0];
+          var lat = parseFloat(place.lat);
+          var lon = parseFloat(place.lon);
+          map.setView([lat, lon], 10);
+          addMarker(lat, lon, place.display_name);
+        } else {
+          alert('搵唔到呢個地方');
+        }
+      })
+      .catch(function(err){
+        alert('搜尋失敗: ' + err.message);
+      })
+      .finally(function(){
+        btn.textContent = '🔍';
+        btn.disabled = false;
+      });
+  }
+  
+  function reverseGeocode(lat, lon, callback){
+    fetch('https://nominatim.openstreetmap.org/reverse?lat=' + lat + '&lon=' + lon + '&format=json')
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        callback(data.display_name || null);
+      })
+      .catch(function(){
+        callback(null);
+      });
+  }
+})();
+
+// ══════ Sono 每日日報: News Tab Switch ══════
+document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    var section = this.getAttribute('data-section');
+    document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(t) { t.classList.remove('active'); });
+    this.classList.add('active');
+    document.querySelectorAll('#sono-daily-report .section-panel').forEach(function(p) { p.style.display = 'none'; });
+    var el = document.getElementById('panel-' + section);
+    if (el) { el.style.display = 'block'; }
+  });
+});
+
+// ══════ Sono 每日日報: Accordion Toggle ══════
+function toggleSub(sub) {
+  var allSubs = document.querySelectorAll('#sono-daily-report .sc-sub');
+  allSubs.forEach(function(s) {
+    if (s !== sub && s.classList.contains('open')) {
+      s.classList.remove('open');
+      s.nextElementSibling.classList.remove('open');
+    }
+  });
+  sub.classList.toggle('open');
+  sub.nextElementSibling.classList.toggle('open');
+}
+
+// ══════ Tab Event Listener 初始化 ══════
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    switchTab(btn.dataset.tab);
+  });
+});
+
+// ══════ 工具箱 Event Listener 初始化 ══════
+document.querySelectorAll('.card.tool-sm').forEach(function(card) {
+  card.addEventListener('click', function() {
+    var id = card.id;
+    // 根據 id 觸發對應功能
+    if (id === 'weatherTrigger') openWeatherModal();
+    else if (id === 'currencyTrigger') openCurrencyModal();
+    else if (id === 'searchTrigger') openSearchModal();
+    else if (id === 'translateTrigger') openTranslateModal();
+    else if (id === 'issTrigger') openISSModal();
+    else if (id === 'worldClockTrigger') openWorldClockModal();
+    else if (id === 'qrTrigger') openQRModal();
+    else if (id === 'mapTrigger') openMapModal();
+    else if (id === 'timerTrigger') openTimerModal();
+    else if (id === 'mtrTrigger') openMTRModal();
+    else if (id === 'bmiTrigger') openBMIModal();
+    else if (id === 'dreamTrigger') openDreamModal();
+    else if (id === 'divinationTrigger') openDivinationModal();
+    else if (id === 'musicTrigger') openMusicModal();
+    else if (id === 'foodTrigger') openFoodModal();
+    else if (id === 'tarotTrigger') openTarotModal();
+    else if (id === 'numberTrigger') openNumberModal();
+  });
+});
+
+// ══════ ISS 追蹤工具（獨立模組） ══════
+
+
+
+// ══════ QR Code 工具（獨立模組） ══════
+
+
+
+// ══════ 工具箱全自動模組化 ══════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+</div>
+
+<script>
+function openMTRModal(){document.getElementById('mtr-modal').style.display='flex';}
+function updateMTRStatus(){const line=document.getElementById('mtr-line').value;const result=document.getElementById('mtr-result');const time=document.getElementById('mtr-time');if(!line){result.innerHTML='';time.innerHTML='';return;}
+const statuses=["正常","輕微延誤","嚴重延誤","暫停服務"];const status=statuses[Math.floor(Math.random()*statuses.length)];
+let html="";if(status==="正常")html=`<p style="color:#4ade80;font-size:17px;">✅ ${line} 服務正常</p>`;else if(status==="輕微延誤")html=`<p style="color:#fbbf24;font-size:17px;">⚠️ ${line} 輕微延誤</p>`;else if(status==="嚴重延誤")html=`<p style="color:#f87171;font-size:17px;">❌ ${line} 嚴重延誤</p>`;else html=`<p style="color:#f87171;font-size:17px;">🛑 ${line} 暫停服務</p>`;
+result.innerHTML=html;time.innerHTML=`最後更新：${new Date().toLocaleTimeString('zh-HK')}`;}
+
+// ══════ Sono 每日日報: News Tab Switch ══════
+document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    var section = this.getAttribute('data-section');
+    document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(t) { t.classList.remove('active'); });
+    this.classList.add('active');
+    document.querySelectorAll('#sono-daily-report .section-panel').forEach(function(p) { p.style.display = 'none'; });
+    var el = document.getElementById('panel-' + section);
+    if (el) { el.style.display = 'block'; }
+  });
+});
+
+// ══════ Sono 每日日報: Accordion Toggle ══════
+function toggleSub(sub) {
+  var allSubs = document.querySelectorAll('#sono-daily-report .sc-sub');
+  allSubs.forEach(function(s) {
+    if (s !== sub && s.classList.contains('open')) {
+      s.classList.remove('open');
+      s.nextElementSibling.classList.remove('open');
+    }
+  });
+  sub.classList.toggle('open');
+  sub.nextElementSibling.classList.toggle('open');
+}
+
+// ══════ Tab Event Listener 初始化 ══════
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    switchTab(btn.dataset.tab);
+  });
+});
+
+// ══════ 工具箱 Event Listener 初始化 ══════
+document.querySelectorAll('.card.tool-sm').forEach(function(card) {
+  card.addEventListener('click', function() {
+    var id = card.id;
+    // 根據 id 觸發對應功能
+    if (id === 'weatherTrigger') openWeatherModal();
+    else if (id === 'currencyTrigger') openCurrencyModal();
+    else if (id === 'searchTrigger') openSearchModal();
+    else if (id === 'translateTrigger') openTranslateModal();
+    else if (id === 'issTrigger') openISSModal();
+    else if (id === 'worldClockTrigger') openWorldClockModal();
+    else if (id === 'qrTrigger') openQRModal();
+    else if (id === 'mapTrigger') openMapModal();
+    else if (id === 'timerTrigger') openTimerModal();
+    else if (id === 'mtrTrigger') openMTRModal();
+    else if (id === 'bmiTrigger') openBMIModal();
+    else if (id === 'dreamTrigger') openDreamModal();
+    else if (id === 'divinationTrigger') openDivinationModal();
+    else if (id === 'musicTrigger') openMusicModal();
+    else if (id === 'foodTrigger') openFoodModal();
+    else if (id === 'tarotTrigger') openTarotModal();
+    else if (id === 'numberTrigger') openNumberModal();
+  });
+});
+
+// ══════ ISS 追蹤工具（獨立模組） ══════
+
+
+
+// ══════ QR Code 工具（獨立模組） ══════
+
+
+
+// ══════ 工具箱全自動模組化 ══════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ===== MTR 到站時間功能 =====
+
+function resetAndUpdateMTR() {
+  const stationSelect = document.getElementById('mtr-station');
+  if (stationSelect) {
+    stationSelect.innerHTML = '<option value="">請先選擇路線</option>';
+  }
+  updateMTRArrival();
+}
+
+const mtrStations = {
+  "荃灣線": ["中環", "金鐘", "尖沙咀", "佐敦", "旺角", "太子", "深水埗", "長沙灣", "荃灣"],
+  "觀塘線": ["調景嶺", "油塘", "藍田", "觀塘", "牛頭角", "九龍灣", "鑽石山", "黃大仙", "樂富", "九龍塘", "石硤尾"],
+  "港島線": ["堅尼地城", "香港大學", "西營盤", "上環", "中環", "金鐘", "灣仔", "銅鑼灣", "天后", "炮台山", "北角", "鰂魚涌", "太古", "西灣河", "筲箕灣", "杏花邨", "柴灣"],
+  "將軍澳線": ["北角", "鰂魚涌", "油塘", "調景嶺", "將軍澳", "坑口", "寶琳"],
+  "東鐵線": ["紅磡", "旺角東", "九龍塘", "大圍", "沙田", "火炭", "大學", "大埔墟", "太和", "粉嶺", "上水", "羅湖", "落馬洲"],
+  "西鐵線": ["紅磡", "尖東", "柯士甸", "南昌", "美孚", "荃灣西", "天水圍", "元朗", "朗屏", "錦上路", "西環"]
+};
+
+function updateMTRArrival() {
+  const line = document.getElementById('mtr-line').value;
+  const stationSelect = document.getElementById('mtr-station');
+  const result = document.getElementById('mtr-result');
+  
+  if (!line) {
+    stationSelect.innerHTML = '<option value="">請先選擇路線</option>';
+    result.innerHTML = '';
+    return;
+  }
+  
+  // 更新站點
+  stationSelect.innerHTML = '<option value="">請選擇站點</option>';
+  if (mtrStations[line]) {
+    mtrStations[line].forEach(st => {
+      const opt = document.createElement('option');
+      opt.value = st;
+      opt.textContent = st;
+      stationSelect.appendChild(opt);
+    });
+  }
+  
+  // 如果已有站點選擇，顯示到站時間
+  const station = stationSelect.value;
+  if (station) {
+    showArrivalTimes(line, station, result);
+  } else {
+    result.innerHTML = '<p style="color:#888; text-align:center; padding:20px 0;">請選擇站點以查看到站時間</p>';
+  }
+}
+
+function showArrivalTimes(line, station, resultDiv) {
+  const now = new Date();
+  const times = [];
+  
+  // 生成模擬到站時間（未來 3-18 分鐘）
+  for (let i = 0; i < 3; i++) {
+    const min = 3 + Math.floor(Math.random() * 15);
+    const arrival = new Date(now.getTime() + min * 60000);
+    times.push(arrival.toLocaleTimeString('zh-HK', { hour: '2-digit', minute: '2-digit' }));
+  }
+  
+  let html = `<p style="color:#4ade80; font-weight:700; margin-bottom:8px;">${line} · ${station}</p>`;
+  html += `<div style="display:flex; flex-direction:column; gap:6px;">`;
+  times.forEach((t, i) => {
+    html += `<div style="background:rgba(255,255,255,0.06); padding:8px 12px; border-radius:8px; display:flex; justify-content:space-between;">
+      <span>🚇 往 ${i === 0 ? '中環' : i === 1 ? '荃灣' : '調景嶺'} 方向</span>
+      <span style="color:#6bff6b; font-weight:700;">${t}</span>
+    </div>`;
+  });
+  html += `</div>`;
+  html += `<p style="color:#666; font-size:0.75em; margin-top:10px; text-align:center;">最後更新：${now.toLocaleTimeString('zh-HK')}</p>`;
+  
+  resultDiv.innerHTML = html;
+}
+
+// 當站點改變時更新顯示
+document.addEventListener('DOMContentLoaded', function() {
+  const stationSelect = document.getElementById('mtr-station');
+  if (stationSelect) {
+    stationSelect.addEventListener('change', function() {
+      const line = document.getElementById('mtr-line').value;
+      const result = document.getElementById('mtr-result');
+      if (line && this.value) {
+        showArrivalTimes(line, this.value, result);
+      }
+    });
+  }
+});
+
+// ===== 港鐵查詢功能 =====
+const mtrStationsList = ["中環","金鐘","尖沙咀","佐敦","旺角","太子","深水埗","長沙灣","荃灣","調景嶺","油塘","藍田","觀塘","牛頭角","九龍灣","鑽石山","黃大仙","樂富","九龍塘","石硤尾","堅尼地城","香港大學","西營盤","上環","灣仔","銅鑼灣","天后","炮台山","北角","鰂魚涌","太古","西灣河","筲箕灣","杏花邨","柴灣","將軍澳","坑口","寶琳","紅磡","旺角東","大圍","沙田","火炭","大學","大埔墟","太和","粉嶺","上水","羅湖","美孚","天水圍","元朗","朗屏","錦上路"];
+
+const journeyTimeData = {
+  "中環-金鐘": 3, "金鐘-尖沙咀": 4, "尖沙咀-佐敦": 2, "佐敦-旺角": 3,
+  "旺角-太子": 2, "太子-深水埗": 2, "深水埗-長沙灣": 3, "長沙灣-荃灣": 4,
+  "中環-灣仔": 4, "灣仔-銅鑼灣": 3, "銅鑼灣-天后": 2,
+  "金鐘-灣仔": 3, "紅磡-旺角東": 4, "旺角東-九龍塘": 5,
+  "九龍塘-沙田": 8, "沙田-大埔墟": 12, "大埔墟-上水": 7
+};
+
+const fareData = {
+  "中環-金鐘": {adult: 5, child: 2.5, senior: 2.5},
+  "中環-尖沙咀": {adult: 12, child: 6, senior: 6},
+  "中環-荃灣": {adult: 18, child: 9, senior: 9},
+  "中環-沙田": {adult: 22, child: 11, senior: 11},
+  "金鐘-銅鑼灣": {adult: 8, child: 4, senior: 4},
+  "尖沙咀-旺角": {adult: 9, child: 4.5, senior: 4.5},
+  "紅磡-上水": {adult: 28, child: 14, senior: 14}
+};
+
+function initMTRSelects() {
+  const from = document.getElementById('mtr-from');
+  const to = document.getElementById('mtr-to');
+  const fareFrom = document.getElementById('mtr-fare-from');
+  const fareTo = document.getElementById('mtr-fare-to');
+  
+  if (!from || !to) return;
+  
+  mtrStationsList.forEach(st => {
+    from.innerHTML += `<option value="${st}">${st}</option>`;
+    to.innerHTML += `<option value="${st}">${st}</option>`;
+    if (fareFrom) fareFrom.innerHTML += `<option value="${st}">${st}</option>`;
+    if (fareTo) fareTo.innerHTML += `<option value="${st}">${st}</option>`;
+  });
+}
+
+function switchMTRTab(tab) {
+  for (let i = 0; i < 3; i++) {
+    const content = document.getElementById('mtr-content-' + i);
+    const tabEl = document.getElementById('mtr-tab-' + i);
+    if (content) content.style.display = (i === tab) ? 'block' : 'none';
+    if (tabEl) {
+      tabEl.style.color = (i === tab) ? '#6bff6b' : '#aaa';
+      tabEl.style.borderBottom = (i === tab) ? '3px solid #6bff6b' : 'none';
+    }
+  }
+}
+
+function calculateJourneyTime() {
+  const from = document.getElementById('mtr-from').value;
+  const to = document.getElementById('mtr-to').value;
+  const result = document.getElementById('mtr-journey-result');
+  
+  if (!from || !to) {
+    result.innerHTML = '<p style="color:#f87171;">請選擇出發站同目的地</p>';
+    return;
+  }
+  if (from === to) {
+    result.innerHTML = '<p style="color:#fbbf24;">出發站同目的地唔可以一樣</p>';
+    return;
+  }
+  
+  const key = `${from}-${to}`;
+  const reverseKey = `${to}-${from}`;
+  let time = journeyTimeData[key] || journeyTimeData[reverseKey] || 15;
+  
+  let html = `<div style="background:rgba(255,255,255,0.05); padding:14px; border-radius:12px;">`;
+  html += `<p style="color:#6bff6b; font-weight:700; margin:0 0 8px;">${from} → ${to}</p>`;
+  html += `<p style="font-size:1.6em; color:#fff; margin:4px 0;">約 <strong>${time}</strong> 分鐘</p>`;
+  html += `<p style="color:#888; font-size:0.85em;">轉車次數：${time > 20 ? '1-2 次' : '0-1 次'}</p>`;
+  html += `</div>`;
+  
+  result.innerHTML = html;
+}
+
+function calculateFare() {
+  const from = document.getElementById('mtr-fare-from').value;
+  const to = document.getElementById('mtr-fare-to').value;
+  const result = document.getElementById('mtr-fare-result');
+  
+  if (!from || !to) {
+    result.innerHTML = '<p style="color:#f87171;">請選擇兩站</p>';
+    return;
+  }
+  if (from === to) {
+    result.innerHTML = '<p style="color:#fbbf24;">兩站唔可以一樣</p>';
+    return;
+  }
+  
+  const key = `${from}-${to}`;
+  const reverseKey = `${to}-${from}`;
+  const fare = fareData[key] || fareData[reverseKey] || {adult: 15, child: 7.5, senior: 7.5};
+  
+  let html = `<div style="background:rgba(255,255,255,0.05); padding:14px; border-radius:12px;">`;
+  html += `<p style="color:#a29bfe; font-weight:700; margin:0 0 10px;">${from} → ${to}</p>`;
+  html += `<div style="display:flex; gap:8px; flex-wrap:wrap;">`;
+  html += `<div style="flex:1; background:rgba(255,255,255,0.06); padding:8px; border-radius:8px; text-align:center;"><div style="color:#888; font-size:0.75em;">成人</div><div style="color:#fff; font-size:1.3em; font-weight:700;">$${fare.adult}</div></div>`;
+  html += `<div style="flex:1; background:rgba(255,255,255,0.06); padding:8px; border-radius:8px; text-align:center;"><div style="color:#888; font-size:0.75em;">小童</div><div style="color:#fff; font-size:1.3em; font-weight:700;">$${fare.child}</div></div>`;
+  html += `<div style="flex:1; background:rgba(255,255,255,0.06); padding:8px; border-radius:8px; text-align:center;"><div style="color:#888; font-size:0.75em;">長者</div><div style="color:#fff; font-size:1.3em; font-weight:700;">$${fare.senior}</div></div>`;
+  html += `</div></div>`;
+  
+  result.innerHTML = html;
+}
+
+// Initialize MTR selects when modal opens
+const originalOpenMTR = window.openMTRModal;
+window.openMTRModal = function() {
+  const modal = document.getElementById('mtr-modal');
+  modal.style.display = 'flex';
+
+  // Initialize selects if not already done
+  setTimeout(() => {
+    const from = document.getElementById('mtr-from');
+    if (from && from.options.length <= 1) {
+      initMTRSelects();
+    }
+  }, 50);
+};
+
+// ══════ BMI 計算機 ══════
+window.openBMIModal = function() {
+  var modal = document.getElementById('bmiModal');
+  modal.style.display = 'flex';
+  // Reset result when reopening
+  document.getElementById('bmiResult').style.display = 'none';
+};
+
+(function() {
+  var modal = document.getElementById('bmiModal');
+  var closeBtn = document.getElementById('bmiClose');
+  var calcBtn = document.getElementById('bmiCalcBtn');
+  var heightInput = document.getElementById('bmiHeight');
+  var weightInput = document.getElementById('bmiWeight');
+  var resultBox = document.getElementById('bmiResult');
+  var valueEl = document.getElementById('bmiValue');
+  var catEl = document.getElementById('bmiCategory');
+  var adviceEl = document.getElementById('bmiAdvice');
+
+  closeBtn.onclick = function() { modal.style.display = 'none'; };
+  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+
+  function calcBMI() {
+    var h = parseFloat(heightInput.value);
+    var w = parseFloat(weightInput.value);
+    if (!h || !w || h < 50 || h > 250 || w < 10 || w > 300) {
+      valueEl.textContent = '⚠️';
+      catEl.textContent = '請輸入有效身高體重';
+      catEl.style.background = 'rgba(255,107,107,0.15)';
+      catEl.style.color = '#ff6b6b';
+      adviceEl.textContent = '身高 50–250 cm，體重 10–300 kg';
+      resultBox.style.display = 'block';
+      return;
+    }
+    var m = h / 100;
+    var bmi = w / (m * m);
+    var bmiStr = bmi.toFixed(1);
+
+    valueEl.textContent = bmiStr;
+
+    var category, color, bg, advice;
+    // WHO 亞洲成人 BMI 標準
+    if (bmi < 18.5) {
+      category = '🍃 過輕';
+      color = '#74b9ff';
+      bg = 'rgba(116,185,255,0.15)';
+      advice = 'BMI 偏低，建議增加營養攝取，多食蛋白質同健康脂肪，適當做重力訓練增加肌肉量。';
+    } else if (bmi < 23) {
+      category = '✅ 正常';
+      color = '#6bff6b';
+      bg = 'rgba(107,255,107,0.15)';
+      advice = 'BMI 屬於健康範圍（亞洲標準），請保持均衡飲食同規律運動！';
+    } else if (bmi < 27.5) {
+      category = '⚠️ 過重';
+      color = '#ffd93d';
+      bg = 'rgba(255,217,61,0.15)';
+      advice = 'BMI 略高，建議控制飲食熱量，多做帶氧運動（跑步、游水），每週 150 分鐘中等強度運動。';
+    } else {
+      category = '🔴 肥胖';
+      color = '#ff6b6b';
+      bg = 'rgba(255,107,107,0.15)';
+      advice = 'BMI 偏高，建議諮詢醫生或營養師，制訂減重計劃。注意控制糖分同油炸食物。';
+    }
+
+    catEl.textContent = category;
+    catEl.style.background = bg;
+    catEl.style.color = color;
+    adviceEl.textContent = advice;
+    resultBox.style.display = 'block';
+  }
+
+  calcBtn.onclick = calcBMI;
+  heightInput.onkeydown = function(e) { if (e.key === 'Enter') calcBMI(); };
+  weightInput.onkeydown = function(e) { if (e.key === 'Enter') calcBMI(); };
+})();
+
+// ══════ 夢境解讀器 ══════
+window.openDreamModal = function() {
+  var modal = document.getElementById('dreamModal');
+  modal.style.display = 'flex';
+  document.getElementById('dreamResult').style.display = 'none';
+  document.getElementById('dreamInput').value = '';
+};
+
+(function() {
+  var modal = document.getElementById('dreamModal');
+  var closeBtn = document.getElementById('dreamClose');
+  var goBtn = document.getElementById('dreamGo');
+  var input = document.getElementById('dreamInput');
+  var schoolSel = document.getElementById('dreamSchool');
+  var resultBox = document.getElementById('dreamResult');
+  var emojiEl = document.getElementById('dreamEmoji');
+  var typeEl = document.getElementById('dreamType');
+  var interpEl = document.getElementById('dreamInterpretation');
+  var adviceEl = document.getElementById('dreamAdvice');
+
+  closeBtn.onclick = function() { modal.style.display = 'none'; };
+  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+
+  // 關鍵詞數據庫
+  var dreamDB = {
+    '跌|跌落|跌倒': {
+      symbol: '🕳️', name: '墜落之夢',
+      freud: '呢個夢反映你對失去控制嘅恐懼。可能近期工作或生活上承受緊壓力，潛意識用「跌」表達對失敗嘅焦慮。',
+      jung: '從深層心理學角度，墜落代表你正經歷人格重組階段。舊有嘅自我形象正在解體，新嘅自我即將誕生。',
+      chinese: '傳統解夢認為「夢墜」主財，若夢中驚醒者，近期宜保守理財。老人夢之則主壽，主身心安康。'
+    },
+    '飛|飛翔|飄': {
+      symbol: '🦅', name: '飛翔之夢',
+      freud: '飛行夢典型係慾望滿足嘅表現，反映你渴望擺脫束縛、追求自由。可能對現狀不滿，想突破限制。',
+      jung: '飛行係英雄原型嘅表現。你內心有一股力量想超越平凡，朝住更高嘅理想同靈性層面邁進。',
+      chinese: '「夢飛」主官運亨通，若夢中飛越高山，近期事業會有大突破。但若中途跌落，宜小心謹慎。'
+    },
+    '蛇|見蛇': {
+      symbol: '🐍', name: '靈蛇之夢',
+      freud: '蛇喺夢中常代表男性生殖器或潛藏嘅性慾，亦可能係你內心某種「危險而吸引」嘅事物嘅投射。',
+      jung: '蛇係智慧同重生嘅原型。夢見蛇代表你正面對深層嘅智慧召喚，可能有人會啟發你，或者你內在覺醒嘅時刻。',
+      chinese: '夢蛇主財，若蛇入宅，主有貴人相助；若蛇咬你，宜慎防小人。蛇青色者吉，黑色者兇。'
+    },
+    '水|海|河|湖': {
+      symbol: '🌊', name: '水之夢',
+      freud: '水代表潛意識同埋情感。水越清，情緒越清明；水越濁，可能內心有困擾。',
+      jung: '水係集體潛意識嘅象徵。夢見深水代表你正在探索內心深處，可能有情感或靈性上嘅突破。',
+      chinese: '「夢水」主財運，水主財。若夢見大水，主近期有偏財運；若溺水，主情緒困擾，宜找人傾訴。'
+    },
+    '死|死亡|葬': {
+      symbol: '💀', name: '死亡之夢',
+      freud: '夢見死亡唔係真嘅死亡預兆，通常代表你內心某部分嘅「結束」 — 可能係壞習慣、舊關係、舊模式嘅終結。',
+      jung: '死亡係轉化嘅象徵。夢見自己死代表內在重生，你嘅某個面向正在蛻變成新嘅版本。',
+      chinese: '「夢死」主大吉，主有新生。若夢見他人死，宜留意該人之近況；若夢見自己死，主長壽。'
+    },
+    '牙|甩牙': {
+      symbol: '🦷', name: '脫牙之夢',
+      freud: '牙齒代表自信同力量。夢見甩牙反映你對衰老、失去吸引力或某種「力量」嘅焦慮。',
+      jung: '牙齒係攻擊性同男子氣概嘅象徵。甩牙夢可能反映你壓抑嘅憤怒或對某種「咬緊牙關」嘅局面嘅疲憊。',
+      chinese: '「夢齒落」主親友有難，主近期宜關心身邊長者健康。但若夢見長新齒，主家中有喜事。'
+    },
+    '追|追趕|追我': {
+      symbol: '🏃', name: '追逐之夢',
+      freud: '被追代表你逃避某種慾望或責任。你知道有嘢需要面對，但你嘅潛意識寧願跑。',
+      jung: '追逐者通常代表你嘅陰影 — 你內在拒絕承認嘅一面。夢境提示你需要直面呢個被壓抑嘅部分。',
+      chinese: '「夢被追」主有口舌是非，主近期說話宜謹慎。若追上追者，主化解危機；若被追上，主宜守不宜攻。'
+    },
+    '水浸|洪水': {
+      symbol: '🌊', name: '洪水之夢',
+      freud: '洪水代表被壓抑嘅情感大爆發。可能你一直收埋嘅情緒終於湧出，宜找渠道釋放。',
+      jung: '洪水係集體潛意識嘅強烈象徵。代表你正面對一個時代或人生嘅巨大轉變，舊秩序正在被沖刷。',
+      chinese: '「夢洪水」主有變動，主近期生活或工作有大變化。若水退，主轉危為安；若水進，主宜早做準備。'
+    },
+    '火|火災|燒': {
+      symbol: '🔥', name: '火焰之夢',
+      freud: '火代表激情、憤怒或壓抑嘅性慾。夢中火災可能反映你內心有強烈嘅情緒需要表達。',
+      jung: '火係轉化嘅力量。夢見火代表你內在正在經歷深刻嘅轉化，舊嘅自我正在燃燒成灰，新嘅即將誕生。',
+      chinese: '「夢火」主財運亨通，火主禮，主文明。若火燒自身，主有官非；若火勢受控，主凡事順遂。'
+    }
+  };
+
+  function getDreamInterp(text, school) {
+    var interpretations = [];
+    var matchedSymbol = '✨';
+    var matchedName = '神秘之夢';
+
+    // 嘗試匹配關鍵詞
+    for (var pattern in dreamDB) {
+      var regex = new RegExp(pattern);
+      if (regex.test(text)) {
+        var entry = dreamDB[pattern];
+        matchedSymbol = entry.symbol;
+        matchedName = entry.name;
+        if (school === 'random') {
+          var schools = ['freud', 'jung', 'chinese'];
+          school = schools[Math.floor(Math.random() * schools.length)];
+        }
+        interpretations.push(entry[school] || entry.freud);
+        break;
+      }
+    }
+
+    // 如果冇匹配到，用通用解讀
+    if (interpretations.length === 0) {
+      var generic = {
+        symbol: '✨',
+        name: '神秘之夢',
+        freud: '夢境係潛意識嘅表達。關於「' + text + '」嘅夢，可能反映你內心某種未被滿足嘅渴望或焦慮。建議留意夢境中嘅情緒。',
+        jung: '夢境係你同集體潛意識嘅對話。關於「' + text + '」嘅象徵，可能係你靈魂深處嘅訊息，提示你內在嘅整合需要。',
+        chinese: '夢境主近期運勢，「' + text + '」為兆，宜保持平常心，吉凶未定，靜觀其變。'
+      };
+      matchedSymbol = generic.symbol;
+      matchedName = generic.name;
+      if (school === 'random') {
+        var schools2 = ['freud', 'jung', 'chinese'];
+        school = schools2[Math.floor(Math.random() * schools2.length)];
+      }
+      interpretations.push(generic[school] || generic.freud);
+    }
+
+    // 夢境類型
+    var types = ['噩夢', '清醒夢', '預知夢', '重複夢', '象徵夢', '心理夢'];
+    var randomType = types[Math.floor(Math.random() * types.length)];
+
+    // 健康建議
+    var advices = [
+      '建議今晚提早瞓 30 分鐘，夢境通常喺深層睡眠階段出現。',
+      '可以將夢境寫低，夢日記有助於了解潛意識嘅訊息。',
+      '夢境反映你嘅內心狀態，注意今日嘅情緒同睡眠質素。',
+      '夢境之後可以飲杯暖水，有助於身心放鬆。'
+    ];
+    var randomAdvice = advices[Math.floor(Math.random() * advices.length)];
+
+    return {
+      symbol: matchedSymbol,
+      name: matchedName,
+      type: randomType,
+      interpretation: interpretations[0],
+      advice: randomAdvice
+    };
+  }
+
+  function interpretDream() {
+    var text = input.value.trim();
+    if (!text) {
+      alert('請輸入夢境關鍵詞');
+      return;
+    }
+    var school = schoolSel.value;
+    var result = getDreamInterp(text, school);
+    emojiEl.textContent = result.symbol;
+    typeEl.textContent = '【' + result.type + '】 ' + result.name;
+    interpEl.textContent = result.interpretation;
+    adviceEl.textContent = '💡 ' + result.advice;
+    resultBox.style.display = 'block';
+  }
+
+  goBtn.onclick = interpretDream;
+  input.onkeydown = function(e) { if (e.key === 'Enter') interpretDream(); };
+})();
+
+// ══════ 易經卜卦 ══════
+window.openDivinationModal = function() {
+  var modal = document.getElementById('divinationModal');
+  modal.style.display = 'flex';
+  document.getElementById('divinationResult').style.display = 'none';
+  document.getElementById('divinationQuestion').value = '';
+};
+
+(function() {
+  var modal = document.getElementById('divinationModal');
+  var closeBtn = document.getElementById('divinationClose');
+  var goBtn = document.getElementById('divinationGo');
+  var againBtn = document.getElementById('divinationAgain');
+  var questionInput = document.getElementById('divinationQuestion');
+  var resultBox = document.getElementById('divinationResult');
+  var hexEl = document.getElementById('divinationHexagram');
+  var nameEl = document.getElementById('divinationName');
+  var pinyinEl = document.getElementById('divinationPinyin');
+  var textEl = document.getElementById('divinationText');
+  var yiEl = document.getElementById('divinationYi');
+  var jiEl = document.getElementById('divinationJi');
+  var modernEl = document.getElementById('divinationModern');
+
+  closeBtn.onclick = function() { modal.style.display = 'none'; };
+  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+
+  // 64 卦數據庫（簡化版 - 用 Unicode 六爻符號）
+  // ⚊ = 陽爻, ⚋ = 陰爻
+  // 由下而上排列（六爻由初爻到上爻）
+  var hexagrams = [
+    { lines: '⚊⚊⚊⚊⚊⚊', name: '乾', pinyin: 'Qián', text: '元，亨，利，貞。', yi: '進取、創造、領導', ji: '剛愎、傲慢、過急', modern: '天行健，君子以自強不息。宜積極進取，但勿過剛。', emoji: '☰' },
+    { lines: '⚋⚋⚋⚋⚋⚋', name: '坤', pinyin: 'Kūn', text: '元，亨，利牝馬之貞。', yi: '包容、順應、配合', ji: '盲從、失去主見', modern: '地勢坤，君子以厚德載物。宜柔順配合，但勿失立場。', emoji: '☷' },
+    { lines: '⚊⚊⚊⚋⚋⚋', name: '屯', pinyin: 'Zhūn', text: '元，亨，利，貞。勿用，有攸往。', yi: '堅持、累積、學習', ji: '冒進、急躁、孤立', modern: '起步艱難但有前途，宜厚積薄發。', emoji: '☳' },
+    { lines: '⚋⚋⚋⚊⚊⚊', name: '蒙', pinyin: 'Méng', text: '亨。匪我求童蒙，童蒙求我。', yi: '學習、求教、啟發', ji: '固執、不問、裝懂', modern: '求知若渴，宜虛心受教。', emoji: '☵' },
+    { lines: '⚊⚋⚊⚋⚊⚋', name: '需', pinyin: 'Xū', text: '有孚，光亨，貞吉，利涉大川。', yi: '等待、堅信、準備', ji: '焦慮、衝動、放棄', modern: '靜待時機，宜養精蓄銳，勿強求。', emoji: '☱' },
+    { lines: '⚋⚊⚋⚊⚋⚊', name: '訟', pinyin: 'Sòng', text: '有孚，窒。惕中吉，終凶。', yi: '和解、調解、退讓', ji: '爭執、訴訟、硬碰', modern: '避免衝突，宜以和為貴，退一步海闊天空。', emoji: '☲' },
+    { lines: '⚋⚊⚊⚊⚊⚋', name: '師', pinyin: 'Shī', text: '貞，丈人吉，無咎。', yi: '組織、領導、紀律', ji: '獨斷、專橫、無章', modern: '宜建立團隊，以德服人。', emoji: '☷' },
+    { lines: '⚋⚊⚊⚊⚊⚊', name: '比', pinyin: 'Bǐ', text: '吉。原筮，元永貞，無咎。', yi: '親近、合作、結盟', ji: '孤立、依附、偏袒', modern: '尋找志同道合者，互相支持。', emoji: '☵' },
+    { lines: '⚊⚋⚋⚋⚋⚊', name: '小畜', pinyin: 'Xiǎo Xù', text: '亨。密雲不雨，自我西郊。', yi: '積蓄、等待、韜光養晦', ji: '冒進、透支、虛榮', modern: '小有所蓄，宜繼續累積，勿急於求成。', emoji: '☴' },
+    { lines: '⚊⚋⚋⚋⚊⚊', name: '履', pinyin: 'Lǚ', text: '履虎尾，不咥人，亨。', yi: '謹慎、禮節、平衡', ji: '魯莽、失禮、踩雷', modern: '如履薄冰，宜謹言慎行，以禮待人。', emoji: '☰' },
+    { lines: '⚊⚊⚋⚊⚊⚊', name: '泰', pinyin: 'Tài', text: '小往大來，吉亨。', yi: '通達、繁榮、和諧', ji: '自滿、停滯、失衡', modern: '天地交泰，宜把握機會，乘勢而上。', emoji: '☷' },
+    { lines: '⚋⚋⚊⚋⚋⚋', name: '否', pinyin: 'Pǐ', text: '否之匪人，不利君子貞，大往小來。', yi: '忍耐、等待、轉向', ji: '硬撐、抱怨、自棄', modern: '閉塞之時，宜韜光養晦，等待轉機。', emoji: '☰' },
+    { lines: '⚊⚊⚊⚊⚋⚊', name: '同人', pinyin: 'Tóng Rén', text: '同人于野，亨。利涉大川，利君子貞。', yi: '合作、團結、共識', ji: '分裂、偏見、孤行', modern: '求同存異，宜廣結善緣。', emoji: '☲' },
+    { lines: '⚊⚋⚊⚊⚊⚊', name: '大有', pinyin: 'Dà Yǒu', text: '元亨。', yi: '豐盛、分享、感恩', ji: '驕縱、吝嗇、揮霍', modern: '收穫豐盛，宜感恩分享，勿獨享。', emoji: '☲' },
+    { lines: '⚋⚊⚊⚋⚋⚊', name: '謙', pinyin: 'Qiān', text: '亨，君子有終。', yi: '謙虛、低調、學習', ji: '自大、炫耀、傲慢', modern: '滿招損，謙受益。宜保持低調。', emoji: '☷' },
+    { lines: '⚊⚋⚋⚊⚋⚋', name: '豫', pinyin: 'Yù', text: '利建侯行師。', yi: '準備、樂觀、行動', ji: '猶豫、享樂、拖延', modern: '順勢而為，宜把握機會果斷出手。', emoji: '☳' },
+    { lines: '⚊⚋⚊⚊⚋⚊', name: '隨', pinyin: 'Suí', text: '元亨，利貞，無咎。', yi: '跟隨、順應、配合', ji: '盲從、失去自我', modern: '隨緣而動，宜靈活應變。', emoji: '☱' },
+    { lines: '⚊⚋⚊⚊⚋⚊', name: '蠱', pinyin: 'Gǔ', text: '元亨，利涉大川。', yi: '整頓、革新、承擔', ji: '拖延、推諉、逃避', modern: '承擔責任，整頓舊業，可成大器。', emoji: '☴' },
+    { lines: '⚋⚊⚊⚊⚊⚋', name: '臨', pinyin: 'Lín', text: '元，亨，利，貞。至于八月有凶。', yi: '進取、關懷、領導', ji: '傲慢、忽視、衰退', modern: '把握上升期，但宜居安思危。', emoji: '☱' },
+    { lines: '⚋⚊⚊⚊⚊⚋', name: '觀', pinyin: 'Guān', text: '盥而不薦，有孚顒若。', yi: '觀察、自省、學習', ji: '盲目、衝動、偏見', modern: '靜觀其變，宜自省內觀。', emoji: '☴' },
+    { lines: '⚊⚊⚋⚊⚊⚋', name: '噬嗑', pinyin: 'Shì Kè', text: '亨，利用獄。', yi: '決斷、懲戒、果斷', ji: '優柔、縱容、軟弱', modern: '除惡務盡，宜當機立斷。', emoji: '☳' },
+    { lines: '⚊⚋⚊⚊⚋⚋', name: '賁', pinyin: 'Bì', text: '亨。小利有所往。', yi: '修飾、文雅、儀表', ji: '浮華、虛飾、外表', modern: '注重內外兼修，勿流於表面。', emoji: '☶' },
+    { lines: '⚋⚋⚋⚊⚋⚋', name: '剝', pinyin: 'Bō', text: '不利有攸往。', yi: '隱忍、靜守、待時', ji: '硬撐、抱怨、對抗', modern: '剝極而復，宜靜待否極泰來。', emoji: '☶' },
+    { lines: '⚊⚋⚋⚊⚊⚊', name: '復', pinyin: 'Fù', text: '亨。出入無疾，朋來無咎。', yi: '回歸、重整、出發', ji: '反覆、猶豫、留戀', modern: '一陽來復，宜把握轉機重新出發。', emoji: '☷' },
+    { lines: '⚊⚋⚋⚊⚋⚊', name: '無妄', pinyin: 'Wú Wàng', text: '元，亨，利，貞。', yi: '自然、真誠、無求', ji: '妄念、貪婪、虛偽', modern: '順其自然，宜去除妄念保持真誠。', emoji: '☰' },
+    { lines: '⚊⚋⚋⚋⚊⚋', name: '大畜', pinyin: 'Dà Xù', text: '利貞，不家食吉，利涉大川。', yi: '積蓄、修養、蓄勢', ji: '衝動、浪費、急功', modern: '厚積薄發，宜大力儲備實力。', emoji: '☶' },
+    { lines: '⚋⚊⚊⚊⚋⚋', name: '頤', pinyin: 'Yí', text: '貞吉。觀頤，自求口實。', yi: '養生、修身、自省', ji: '貪食、放縱、失養', modern: '養身養心，宜注重飲食與修為。', emoji: '☳' },
+    { lines: '⚋⚊⚊⚋⚋⚊', name: '大過', pinyin: 'Dà Guò', text: '棟撓，利有攸往，亨。', yi: '非常、大膽、突破', ji: '固守、常規、怯懦', modern: '非常時期需非常手段，宜大膽突破。', emoji: '☴' },
+    { lines: '⚋⚊⚊⚋⚊⚋', name: '坎', pinyin: 'Kǎn', text: '習坎，有孚，維心亨，行有尚。', yi: '堅毅、信任、學習', ji: '恐懼、絕望、放棄', modern: '處險之時，宜保持信心以智慧化解。', emoji: '☵' },
+    { lines: '⚊⚋⚋⚊⚊⚋', name: '離', pinyin: 'Lí', text: '利貞，亨。畜牝牛，吉。', yi: '光明、依附、文明', ji: '焦躁、固執、虛榮', modern: '光明磊落，宜依附正道而行。', emoji: '☲' },
+    { lines: '⚊⚋⚋⚋⚊⚊', name: '咸', pinyin: 'Xián', text: '亨，利貞，取女吉。', yi: '感應、溝通、契合', ji: '冷漠、遲鈍、錯過', modern: '心有靈犀一點通，宜把握機緣。', emoji: '☱' },
+    { lines: '⚊⚊⚋⚋⚋⚊', name: '恆', pinyin: 'Héng', text: '亨，無咎，利貞。利有攸往。', yi: '恆心、堅持、長久', ji: '固執、厭倦、放棄', modern: '持之以恆，宜堅守正道勿變。', emoji: '☳' },
+    { lines: '⚋⚊⚊⚋⚋⚋', name: '遯', pinyin: 'Dùn', text: '亨，小利貞。', yi: '退避、隱忍、待機', ji: '硬撐、面子、戀棧', modern: '退一步海闊天空，宜隱忍待機。', emoji: '☰' },
+    { lines: '⚊⚋⚊⚊⚊⚋', name: '大壯', pinyin: 'Dà Zhuàng', text: '利貞。', yi: '剛健、進取、果斷', ji: '蠻橫、暴躁、衝動', modern: '陽氣旺盛，宜用正道不可妄為。', emoji: '☳' },
+    { lines: '⚋⚊⚊⚊⚋⚊', name: '晉', pinyin: 'Jìn', text: '康侯用錫馬蕃庶，晝日三接。', yi: '上升、進取、得助', ji: '急躁、招搖、忘形', modern: '旭日初升，宜把握機遇乘勢而上。', emoji: '☲' },
+    { lines: '⚊⚋⚊⚋⚋⚊', name: '明夷', pinyin: 'Míng Yí', text: '利艱貞。', yi: '韜光、隱忍、內明', ji: '炫耀、招禍、硬撐', modern: '暗世宜韜光養晦，保持內心光明。', emoji: '☷' },
+    { lines: '⚊⚋⚊⚋⚋⚋', name: '家人', pinyin: 'Jiā Rén', text: '利女貞。', yi: '家庭、秩序、責任', ji: '疏離、失序、推諉', modern: '家和萬事興，宜各司其職。', emoji: '☴' },
+    { lines: '⚋⚋⚋⚋⚊⚋', name: '睽', pinyin: 'Kuí', text: '小事吉。', yi: '包容、求同、溝通', ji: '對立、固執、冷漠', modern: '求同存異，宜化解分歧。', emoji: '☲' },
+    { lines: '⚋⚋⚊⚊⚊⚋', name: '蹇', pinyin: 'Jiǎn', text: '利西南，不利東北。利見大人。', yi: '止步、求援、退守', ji: '冒進、孤立、硬撐', modern: '前路艱難，宜反求諸己求賢相助。', emoji: '☵' },
+    { lines: '⚋⚊⚊⚊⚋⚋', name: '解', pinyin: 'Xiè', text: '利西南。无所往，其來復吉。', yi: '解放、寬容、解決', ji: '報復、留戀、執著', modern: '否極泰來，宜化解怨恨向前看。', emoji: '☳' },
+    { lines: '⚋⚋⚊⚊⚊⚊', name: '損', pinyin: 'Sǔn', text: '有孚，元吉，無咎，可貞。', yi: '犧牲、讓利、節制', ji: '吝嗇、過度、失衡', modern: '損下益上，宜有捨有得。', emoji: '☶' },
+    { lines: '⚊⚊⚊⚋⚋⚊', name: '益', pinyin: 'Yì', text: '利有攸往，利涉大川。', yi: '增益、付出、分享', ji: '損人、自私、短視', modern: '損上益下，宜惠及他人。', emoji: '☴' },
+    { lines: '⚊⚋⚊⚊⚊⚊', name: '夬', pinyin: 'Guài', text: '揚于王庭，孚號有厲。', yi: '決斷、果斷、執行', ji: '猶豫、拖延、妥協', modern: '當斷則斷，宜果斷處理。', emoji: '☱' },
+    { lines: '⚊⚊⚊⚊⚋⚋', name: '姤', pinyin: 'Gòu', text: '女壯，勿用取女。', yi: '警覺、防範、自持', ji: '迷惑、沉溺、放縱', modern: '突遇之緣，宜保持警覺。', emoji: '☴' },
+    { lines: '⚊⚋⚋⚊⚊⚊', name: '萃', pinyin: 'Cuì', text: '亨。王假有廟。利見大人，亨，利貞。', yi: '聚集、合作、共識', ji: '渙散、孤立、衝突', modern: '人聚財聚，宜凝聚共識。', emoji: '☱' },
+    { lines: '⚊⚊⚋⚋⚊⚊', name: '升', pinyin: 'Shēng', text: '元亨，用見大人，勿恤，南征吉。', yi: '上升、進取、累積', ji: '停滯、鬆懈、自滿', modern: '穩步上升，宜把握時機。', emoji: '☷' },
+    { lines: '⚋⚋⚊⚊⚊⚊', name: '困', pinyin: 'Kùn', text: '亨，貞，大人吉，無咎，有言不信。', yi: '堅忍、自守、修養', ji: '焦躁、求救、放棄', modern: '困而知返，宜修身以待時。', emoji: '☱' },
+    { lines: '⚊⚊⚋⚊⚋⚊', name: '井', pinyin: 'Jǐng', text: '改邑不改井，無喪無得，往來井井。', yi: '修養、滋養、恆久', ji: '枯竭、污染、疏懶', modern: '井養而不窮，宜持續自我滋養。', emoji: '☴' },
+    { lines: '⚊⚋⚊⚋⚋⚋', name: '革', pinyin: 'Gé', text: '己日乃孚，元亨利貞，悔亡。', yi: '革新、變革、蛻變', ji: '守舊、猶豫、保守', modern: '革故鼎新，宜順時勢變革。', emoji: '☲' },
+    { lines: '⚋⚊⚋⚊⚋⚊', name: '鼎', pinyin: 'Dǐng', text: '元吉，亨。', yi: '穩定、鼎立、革新', ji: '動搖、混亂、無序', modern: '鼎新革故，宜建立新秩序。', emoji: '☲' },
+    { lines: '⚊⚋⚋⚊⚋⚊', name: '震', pinyin: 'Zhèn', text: '亨。震來虩虩，笑言啞啞。', yi: '警醒、行動、果斷', ji: '驚慌、遲鈍、麻木', modern: '雷動之勢，宜振作而行。', emoji: '☳' },
+    { lines: '⚋⚊⚋⚊⚊⚋', name: '艮', pinyin: 'Gèn', text: '艮其背，不獲其身，行其庭，不見其人，無咎。', yi: '止靜、自守、聚焦', ji: '固執、僵化、停滯', modern: '當止則止，宜保持靜定。', emoji: '☶' },
+    { lines: '⚋⚊⚊⚋⚊⚋', name: '漸', pinyin: 'Jiàn', text: '女歸吉，利貞。', yi: '循序、漸進、穩步', ji: '急躁、跳躍、冒進', modern: '循序漸進，宜穩步前行。', emoji: '☴' },
+    { lines: '⚋⚊⚊⚊⚋⚋', name: '歸妹', pinyin: 'Guī Mèi', text: '征凶，無攸利。', yi: '謹慎、觀察、慎思', ji: '衝動、盲目、輕率', modern: '宜謹慎行事，勿衝動決策。', emoji: '☱' },
+    { lines: '⚊⚋⚋⚊⚊⚋', name: '豐', pinyin: 'Fēng', text: '亨。王假之，勿憂，宜日中。', yi: '豐盛、把握、感恩', ji: '揮霍、迷失、驕傲', modern: '盛極而衰，宜居安思危。', emoji: '☳' },
+    { lines: '⚋⚊⚊⚊⚋⚊', name: '旅', pinyin: 'Lǚ', text: '小亨，旅貞吉。', yi: '謙遜、自律、學習', ji: '傲慢、固執、招搖', modern: '人生如旅，宜謙虛謹慎。', emoji: '☲' },
+    { lines: '⚊⚋⚊⚊⚋⚊', name: '巽', pinyin: 'Xùn', text: '小亨，利有攸往，利見大人。', yi: '柔順、滲透、循序', ji: '優柔、軟弱、盲從', modern: '風行草偃，宜以柔克剛。', emoji: '☴' },
+    { lines: '⚋⚊⚋⚊⚋⚋', name: '兌', pinyin: 'Duì', text: '亨，利貞。', yi: '喜悅、溝通、和悅', ji: '諂媚、放縱、爭辯', modern: '悅以使人，宜以和為貴。', emoji: '☱' },
+    { lines: '⚊⚋⚊⚋⚋⚊', name: '渙', pinyin: 'Huàn', text: '亨。王假有廟，利涉大川，利貞。', yi: '流通、團聚、化解', ji: '渙散、孤立、僵化', modern: '渙然冰釋，宜凝聚人心。', emoji: '☴' },
+    { lines: '⚋⚊⚋⚋⚋⚋', name: '節', pinyin: 'Jié', text: '亨，苦節不可貞。', yi: '節制、平衡、中庸', ji: '壓抑、極端、放縱', modern: '節以不窮，宜中庸有度。', emoji: '☵' },
+    { lines: '⚋⚊⚊⚋⚊⚋', name: '中孚', pinyin: 'Zhōng Fú', text: '豚魚吉，利涉大川，利貞。', yi: '誠信、感化、信任', ji: '欺詐、多疑、虛偽', modern: '誠信感物，宜以真誠待人。', emoji: '☱' },
+    { lines: '⚋⚊⚋⚊⚊⚊', name: '小過', pinyin: 'Xiǎo Guò', text: '亨，利貞。可小事，不可大事。', yi: '謹慎、保守、聚焦', ji: '冒進、貪大、躁動', modern: '小事可為大事不可，宜量力而行。', emoji: '☳' },
+    { lines: '⚊⚊⚋⚊⚋⚋', name: '既濟', pinyin: 'Jì Jì', text: '亨，小利貞，初吉終亂。', yi: '謹慎、收尾、鞏固', ji: '鬆懈、忘形、爛尾', modern: '成功在望宜謹慎收尾，勿爛尾。', emoji: '☵' },
+    { lines: '⚋⚋⚊⚋⚊⚊', name: '未濟', pinyin: 'Wèi Jì', text: '亨。小狐汔濟，濡其尾，無攸利。', yi: '堅持、謹慎、希望', ji: '放棄、躁進、絕望', modern: '尚未成功，宜謹慎前行。', emoji: '☲' }
+  ];
+
+  function rollHexagram() {
+    var randomIndex = Math.floor(Math.random() * hexagrams.length);
+    return hexagrams[randomIndex];
+  }
+
+  function castDivination() {
+    var question = questionInput.value.trim() || '（默念心中所問）';
+    var hex = rollHexagram();
+    // 顯示由上到下嘅六爻
+    var linesDisplay = hex.lines;
+    hexEl.textContent = linesDisplay;
+    nameEl.textContent = hex.name;
+    pinyinEl.textContent = '（' + hex.pinyin + '）';
+    textEl.textContent = '「' + hex.text + '」';
+    yiEl.textContent = hex.yi;
+    jiEl.textContent = hex.ji;
+    modernEl.textContent = hex.modern + '\n\n你問：' + question;
+    resultBox.style.display = 'block';
+  }
+
+  goBtn.onclick = castDivination;
+  againBtn.onclick = castDivination;
+  questionInput.onkeydown = function(e) { if (e.key === 'Enter') castDivination(); };
+})();
+
+// ══════ 音樂骰子 ══════
+window.openMusicModal = function() {
+  document.getElementById('musicModal').style.display = 'flex';
+  document.getElementById('musicResult').style.display = 'block';
+  document.getElementById('musicPlaylist').style.display = 'none';
+};
+
+(function() {
+  var modal = document.getElementById('musicModal');
+  var closeBtn = document.getElementById('musicClose');
+  var rollBtn = document.getElementById('musicRoll');
+  var resultBox = document.getElementById('musicResult');
+  var emojiEl = document.getElementById('musicEmoji');
+  var genreEl = document.getElementById('musicGenre');
+  var moodEl = document.getElementById('musicMood');
+  var sceneEl = document.getElementById('musicScene');
+  var playlistBox = document.getElementById('musicPlaylist');
+  var songsEl = document.getElementById('musicSongs');
+
+  closeBtn.onclick = function() { modal.style.display = 'none'; };
+  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+
+  var genres = [
+    { name: 'Lo-fi Hip Hop', emoji: '🎧', mood: ['放鬆', '專注', 'chill'] },
+    { name: 'City Pop', emoji: '🌃', mood: ['懷舊', '浪漫', '夢幻'] },
+    { name: 'Jazz', emoji: '🎷', mood: ['優雅', '深夜', '酒館'] },
+    { name: 'Bossa Nova', emoji: '🇧🇷', mood: ['慵懶', '陽光', '浪漫'] },
+    { name: 'Synthwave', emoji: '🌆', mood: ['復古未來', '夜遊', '速度感'] },
+    { name: 'K-pop', emoji: '💃', mood: ['活力', '跳舞', '興奮'] },
+    { name: 'J-pop', emoji: '🎵', mood: ['青春', '治癒', '元氣'] },
+    { name: '粵語流行曲', emoji: '🇭🇰', mood: ['回憶', '情感', '港式'] },
+    { name: '國語經典', emoji: '🎤', mood: ['懷舊', '情歌', '浪漫'] },
+    { name: 'R&B / Soul', emoji: '🎶', mood: ['深情', '慢拍', '感性'] },
+    { name: 'Hip Hop', emoji: '🔥', mood: ['硬核', '態度', '節奏'] },
+    { name: 'Electronic', emoji: '🎛️', mood: ['迷幻', '派對', '電音'] },
+    { name: 'Classical', emoji: '🎻', mood: ['莊嚴', '靜心', '優雅'] },
+    { name: 'Ambient', emoji: '🌌', mood: ['冥想', '睡眠', '沉浸'] },
+    { name: 'Funk', emoji: '🕺', mood: ['律動', '復古', '派對'] },
+    { name: 'Reggae', emoji: '🌴', mood: ['陽光', '沙灘', '放鬆'] },
+    { name: '搖滾', emoji: '🎸', mood: ['激情', '反叛', '爆發'] },
+    { name: '民謠', emoji: '🪕', mood: ['清新', '田園', '故事'] },
+    { name: '電影配樂', emoji: '🎬', mood: ['史詩', '情感', '故事感'] },
+    { name: 'Cantonese Indie', emoji: '🎸', mood: ['文青', '小眾', '反叛'] },
+    { name: '重金屬', emoji: '⚡', mood: ['爆裂', '宣洩', '黑暗'] },
+    { name: '拉丁', emoji: '💃', mood: ['熱情', '舞蹈', '節日'] }
+  ];
+
+  var scenes = [
+    '🌃 深夜獨處', '☕ 咖啡廳', '🚗 自駕遊', '🏖️ 海灘日落',
+    '📚 讀書時光', '🏃 跑步運動', '🍳 煮飯下廚', '🎉 朋友聚會',
+    '💼 工作專注', '🌧️ 雨天發呆', '🌌 睡前放鬆', '🚿 洗澡時段',
+    '🎨 創作靈感', '💑 約會之夜', '🍺 酒吧放鬆', '🚌 通勤路上'
+  ];
+
+  var songDB = {
+    'Lo-fi Hip Hop': ['Nujabes - Aruarian Dance', 'J Dilla - Donuts', '理想混蛋 - 滷肉飯'],
+    'City Pop': ['竹内まりや - Plastic Love', '山下達郎 - Sparkle', '杏里 - Last Summer Whisper'],
+    'Jazz': ['Bill Evans - Waltz for Debby', 'Chet Baker - My Funny Valentine', 'Miles Davis - So What'],
+    'Bossa Nova': ['João Gilberto - The Girl from Ipanema', 'Stan Getz - Desafinado', 'Tom Jobim - Corcovado'],
+    'Synthwave': ['Kavinsky - Nightcall', 'Carpenter Brut - Turbo Killer', 'The Midnight - Days of Thunder'],
+    'K-pop': ['NewJeans - Super Shy', 'BTS - Dynamite', 'BLACKPINK - Pink Venom'],
+    'J-pop': ['YOASOBI - アイドル', '藤井風 - きらり', '米津玄師 - Lemon'],
+    '粵語流行曲': ['陳奕迅 - 十年', 'Beyond - 海闊天空', '張國榮 - 風繼續吹'],
+    '國語經典': ['周杰倫 - 晴天', '鄧麗君 - 月亮代表我的心', '張學友 - 吻別'],
+    'R&B / Soul': ['Daniel Caesar - Best Part', 'SZA - The Weekend', 'Frank Ocean - Thinkin Bout You'],
+    'Hip Hop': ['Kendrick Lamar - HUMBLE', 'Drake - God\'s Plan', 'Eminem - Lose Yourself'],
+    'Electronic': ['ODESZA - A Moment Apart', 'Deadmau5 - Strobe', 'Disclosure - Latch'],
+    'Classical': ['Mozart - Eine kleine Nachtmusik', 'Beethoven - Moonlight Sonata', 'Chopin - Nocturne Op.9'],
+    'Ambient': ['Brian Eno - Music for Airports', 'Sigur Rós - Hoppípolla', 'Sigur Rós - Glósóli'],
+    'Funk': ['Bruno Mars - Uptown Funk', 'James Brown - Sex Machine', 'Earth, Wind & Fire - September'],
+    'Reggae': ['Bob Marley - Three Little Birds', 'Bob Marley - One Love', 'Jimmy Cliff - I Can See Clearly Now'],
+    '搖滾': ['Queen - Bohemian Rhapsody', 'Coldplay - Fix You', '五月天 - 倔強'],
+    '民謠': ['Bob Dylan - Blowin\' in the Wind', 'Bon Iver - Skinny Love', '陳綺貞 - 旅行的意義'],
+    '電影配樂': ['Hans Zimmer - Time', 'John Williams - Star Wars Theme', 'Joe Hisaishi - Summer'],
+    'Cantonese Indie': ['My Little Airport - 麥記最後一夜', 'Supper Moment - 風箏', 'RubberBand - 阿波羅'],
+    '重金屬': ['Metallica - Enter Sandman', 'Iron Maiden - The Trooper', 'Slipknot - Duality'],
+    '拉丁': ['Shakira - Waka Waka', 'Daddy Yankee - Despacito', 'Ricky Martin - Livin\' La Vida Loca']
+  };
+
+  function rollMusic() {
+    var genre = genres[Math.floor(Math.random() * genres.length)];
+    var mood = genre.mood[Math.floor(Math.random() * genre.mood.length)];
+    var scene = scenes[Math.floor(Math.random() * scenes.length)];
+
+    emojiEl.textContent = genre.emoji;
+    genreEl.textContent = genre.name;
+    moodEl.textContent = '🎭 心情：' + mood;
+    sceneEl.textContent = '📍 場景：' + scene;
+
+    var list = songDB[genre.name] || ['即興演奏 - Mood Mix'];
+    songsEl.innerHTML = list.map(function(s) { return '• ' + s; }).join('<br>');
+    playlistBox.style.display = 'block';
+    resultBox.style.display = 'block';
+  }
+
+  rollBtn.onclick = rollMusic;
+})();
+
+// ══════ 今晚食咩 ══════
+window.openFoodModal = function() {
+  document.getElementById('foodModal').style.display = 'flex';
+};
+
+(function() {
+  var modal = document.getElementById('foodModal');
+  var closeBtn = document.getElementById('foodClose');
+  var rollBtn = document.getElementById('foodRoll');
+  var budgetSel = document.getElementById('foodBudget');
+  var distanceSel = document.getElementById('foodDistance');
+  var emojiEl = document.getElementById('foodEmoji');
+  var nameEl = document.getElementById('foodName');
+  var descEl = document.getElementById('foodDesc');
+
+  closeBtn.onclick = function() { modal.style.display = 'none'; };
+  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+
+  var foods = [
+    { name: '港式茶餐廳', emoji: '🍜', desc: '經典之選！凍檸茶 + 沙嗲牛肉麵 + 蛋撻，港式味道永遠唔會錯。', budget: 'cheap', distance: 'near' },
+    { name: '日本拉麵', emoji: '🍥', desc: '濃郁豚骨湯底配上叉燒、半熟蛋，一碗暖心暖胃。', budget: 'mid', distance: 'central' },
+    { name: '韓式燒烤', emoji: '🥩', desc: '五花肉、牛舌、大醬湯，和朋友圍爐最過癮！', budget: 'mid', distance: 'central' },
+    { name: '打邊爐', emoji: '🍲', desc: '香港人最愛！肥牛、海鮮、手打丸，邊爐最暖心。', budget: 'mid', distance: 'any' },
+    { name: '台式滷肉飯', emoji: '🍚', desc: '肥而不膩的滷肉配上 Q 彈米飯，加粒半熟蛋，完美！', budget: 'cheap', distance: 'central' },
+    { name: '四川麻辣火鍋', emoji: '🌶️', desc: '挑戰味蕾！麻辣湯底配上毛肚、鴨血、黃喉，辣到飛起！', budget: 'mid', distance: 'central' },
+    { name: '越南牛肉河', emoji: '🍜', desc: '清湯底配新鮮牛肉河粉，擠啲青檸汁超清新！', budget: 'cheap', distance: 'central' },
+    { name: '泰式冬蔭功', emoji: '🍤', desc: '酸辣開胃嘅海鮮湯，配上香茅、辣椒、青檸，泰式風情滿分！', budget: 'mid', distance: 'central' },
+    { name: '印度咖哩', emoji: '🍛', desc: '香料爆發！配上印度烤餅 naan 蘸醬，超邪惡。', budget: 'mid', distance: 'central' },
+    { name: '意大利 Pizza', emoji: '🍕', desc: '薄餅底配上 mozzarella、羅勒葉，正宗拿坡里風味！', budget: 'mid', distance: 'central' },
+    { name: '法式甜品下午茶', emoji: '🧁', desc: 'Macaron + 可麗露 + 千層酥，配上伯爵茶，優雅時光。', budget: 'expensive', distance: 'central' },
+    { name: 'omakase 壽司', emoji: '🍣', desc: '師傅發辦！每件壽司都用上時令食材，視覺味覺雙重享受。', budget: 'expensive', distance: 'central' },
+    { name: '牛扒扒房', emoji: '🥩', desc: 'USDA Prime 牛扒配紅酒，紀念日首選！', budget: 'expensive', distance: 'central' },
+    { name: '串燒居酒屋', emoji: '🍢', desc: '雞皮、雞翼、豬頸肉，配杯生啤，日劇氣氛滿分！', budget: 'mid', distance: 'any' },
+    { name: '米線', emoji: '🍲', desc: '雲南風味！豬肚、炸醬、酸菜，湯底超香濃。', budget: 'cheap', distance: 'any' },
+    { name: '麻辣燙', emoji: '🌶️', desc: '自選食材自選辣度，超彈性嘅街頭美食！', budget: 'cheap', distance: 'any' },
+    { name: '燒臘飯', emoji: '🍱', desc: '叉燒、油雞、燒鴨，配上薑蔥飯，港式快餐之王！', budget: 'cheap', distance: 'near' },
+    { name: '車仔麵', emoji: '🍜', desc: '自選餸菜自選湯底，老香港情懷。', budget: 'cheap', distance: 'near' },
+    { name: '粥店', emoji: '🥣', desc: '艇仔粥、及第粥、皮蛋瘦肉粥，宵夜暖胃首選！', budget: 'cheap', distance: 'near' },
+    { name: '上海菜', emoji: '🥟', desc: '小籠包、生煎包、紅燒肉，本幫菜經典！', budget: 'mid', distance: 'central' },
+    { name: '北京烤鴨', emoji: '🦆', desc: '薄餅包住鴨皮、蔥段、甜麵醬，京菜之王！', budget: 'expensive', distance: 'central' },
+    { name: '西班牙 Tapas', emoji: '🥘', desc: '小型多樣嘅下酒菜，配杯 Sangria，歐陸風情。', budget: 'expensive', distance: 'central' },
+    { name: '中東烤肉', emoji: '🥙', desc: 'Shawarma、Kebab，配上鷹嘴豆泥，中東風味！', budget: 'mid', distance: 'central' },
+    { name: '素食自助餐', emoji: '🥗', desc: '健康之選！多種蔬菜、豆製品，清爽無負擔。', budget: 'mid', distance: 'central' }
+  ];
+
+  function pickFood() {
+    var budget = budgetSel.value;
+    var distance = distanceSel.value;
+    var filtered = foods.filter(function(f) {
+      var budgetMatch = (budget === 'any') || (f.budget === budget);
+      var distanceMatch = (distance === 'any') || (f.distance === distance) || (f.distance === 'central' && distance === 'central');
+      return budgetMatch && distanceMatch;
+    });
+    if (filtered.length === 0) filtered = foods;
+    var choice = filtered[Math.floor(Math.random() * filtered.length)];
+    emojiEl.textContent = choice.emoji;
+    nameEl.textContent = choice.name;
+    descEl.textContent = choice.desc;
+  }
+
+  rollBtn.onclick = pickFood;
+})();
+
+// ══════ 塔羅占卜 ══════
+window.openTarotModal = function() {
+  document.getElementById('tarotModal').style.display = 'flex';
+};
+
+(function() {
+  var modal = document.getElementById('tarotModal');
+  var closeBtn = document.getElementById('tarotClose');
+  var drawBtn = document.getElementById('tarotDraw');
+  var questionInput = document.getElementById('tarotQuestion');
+  var symbolEl = document.getElementById('tarotSymbol');
+  var nameEl = document.getElementById('tarotName');
+  var orientEl = document.getElementById('tarotOrientation');
+  var keywordEl = document.getElementById('tarotKeyword');
+  var meaningEl = document.getElementById('tarotMeaning');
+
+  closeBtn.onclick = function() { modal.style.display = 'none'; };
+  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+
+  var majorArcana = [
+    { id: 0, name: '愚者', emoji: '🃏', keywords: '新開始、冒險、自由', upright: '純真、率性、未知嘅可能性。宇宙提示你：勇敢踏出第一步，新旅程即將展開。', reversed: '魯莽、衝動、逃避責任。宜停一停諗清楚，唔好因為一時之氣做錯決定。' },
+    { id: 1, name: '魔術師', emoji: '🪄', keywords: '創造、意志、技能', upright: '你擁有實現夢想嘅所有工具，宜把握機會展現實力。', reversed: '才能未發揮、操控、欺騙。警惕被人利用，或者自己能力唔夠。' },
+    { id: 2, name: '女祭司', emoji: '🌙', keywords: '直覺、神秘、潛意識', upright: '答案喺你內心。信任直覺，靜觀其變，秘密即將揭曉。', reversed: '忽略直覺、表面、秘密外洩。宜更加誠實面對自己同他人。' },
+    { id: 3, name: '皇后', emoji: '👑', keywords: '豐盛、母性、創造', upright: '豐盛同美滿嘅時期到嚟，珍惜當下身邊嘅人同事物。', reversed: '過度依賴、停滯、忽視自我。宜重新建立自我價值。' },
+    { id: 4, name: '皇帝', emoji: '🏛️', keywords: '權威、結構、穩定', upright: '透過紀律同努力建立穩固基礎，你係自己王國嘅主人。', reversed: '專橫、僵化、濫權。宜更有彈性，聆聽他人意見。' },
+    { id: 5, name: '教皇', emoji: '⛪', keywords: '傳統、信仰、引導', upright: '尋找智者嘅建議，傳統智慧可以引導你走向正確方向。', reversed: '反叛、虛假信仰、教條。宜以開放態度探索新嘅可能性。' },
+    { id: 6, name: '戀人', emoji: '💕', keywords: '愛、選擇、和諧', upright: '愛情降臨或者重要抉擇時刻，聆聽內心嘅聲音。', reversed: '不和諧、錯誤選擇、價值觀衝突。宜重新審視你嘅選擇。' },
+    { id: 7, name: '戰車', emoji: '⚔️', keywords: '勝利、決心、控制', upright: '憑意志同決心，你將克服一切障礙，勝利在望。', reversed: '失去方向、衝突、缺乏控制。宜停下嚟重新定位。' },
+    { id: 8, name: '力量', emoji: '🦁', keywords: '勇氣、耐心、柔克剛', upright: '以柔克剛嘅力量，溫柔而堅定地馴服內心嘅野獸。', reversed: '軟弱、自我懷疑、壓抑情緒。宜溫柔對待自己。' },
+    { id: 9, name: '隱者', emoji: '🏮', keywords: '內省、智慧、孤獨', upright: '退一步思考嘅時刻，內心嘅智慧會為你指路。', reversed: '孤立、固執、拒絕幫助。宜打開心扉接受他人。' },
+    { id: 10, name: '命運之輪', emoji: '☸️', keywords: '循環、轉變、命運', upright: '命運嘅齒輪轉動，好運降臨。把握時機順流而行。', reversed: '壞運、抗拒改變、停滯。接受週期，唔好強求。' },
+    { id: 11, name: '正義', emoji: '⚖️', keywords: '公平、真理、因果', upright: '你會得到公平嘅對待，真相終會大白。保持誠實。', reversed: '不公、逃避責任、偏頗。宜反思自己嘅行為。' },
+    { id: 12, name: '倒吊人', emoji: '🙃', keywords: '犧牲、新視角、等待', upright: '換個角度看世界，短暫嘅犧牲會帶嚟更深嘅智慧。', reversed: '無謂犧牲、抗拒改變、停滯不前。' },
+    { id: 13, name: '死神', emoji: '💀', keywords: '結束、轉化、新生', upright: '一個階段嘅結束係另一個嘅開始，接受轉化迎向新生。', reversed: '抗拒改變、停滯、恐懼。放手先可以前進。' },
+    { id: 14, name: '節制', emoji: '🕊️', keywords: '平衡、中庸、耐心', upright: '保持平衡同耐心，調和你嘅身心靈。', reversed: '失衡、過度、不協調。宜重新調整生活節奏。' },
+    { id: 15, name: '惡魔', emoji: '😈', keywords: '束縛、誘惑、物質', upright: '小心誘惑同物質慾望，可能有不良習慣困住你。', reversed: '解脫、覺醒、打破枷鎖。你有能力擺脫束縛。' },
+    { id: 16, name: '高塔', emoji: '🗼', keywords: '突變、崩塌、啟示', upright: '突如其來嘅改變可能痛苦，但會帶嚟新嘅契機。', reversed: '避免災難、延遲改變、內在覺醒。可能避過一劫。' },
+    { id: 17, name: '星星', emoji: '⭐', keywords: '希望、靈感、寧靜', upright: '希望同靈感降臨，保持信念，夢想會實現。', reversed: '絕望、失去信心、迷茫。仰望星空，重新找回希望。' },
+    { id: 18, name: '月亮', emoji: '🌕', keywords: '幻象、直覺、潛意識', upright: '事物唔一定係你睇到嘅咁，信任直覺穿透幻象。', reversed: '真相揭露、釋放恐懼、走出迷霧。' },
+    { id: 19, name: '太陽', emoji: '☀️', keywords: '成功、快樂、活力', upright: '光明嘅時期到嚟！成功同快樂將充滿你嘅生活。', reversed: '暫時烏雲、自我懷疑、延遲嘅快樂。' },
+    { id: 20, name: '審判', emoji: '📯', keywords: '重生、覺醒、召喚', upright: '重大嘅覺醒時刻到嚟，響應內心嘅召喚，迎向新生。', reversed: '拒絕改變、自我批判、停滯。' },
+    { id: 21, name: '世界', emoji: '🌍', keywords: '完成、成就、圓滿', upright: '一個重要嘅循環即將完成，你達成咗重大嘅成就！', reversed: '未完成、停滯、缺乏閉幕。' }
+  ];
+
+  function drawCard() {
+    var card = majorArcana[Math.floor(Math.random() * majorArcana.length)];
+    var isReversed = Math.random() < 0.4;
+    symbolEl.textContent = card.emoji;
+    nameEl.textContent = card.id + '. ' + card.name;
+    orientEl.textContent = isReversed ? '【 逆 位 】' : '【 正 位 】';
+    orientEl.style.color = isReversed ? '#ff6b6b' : '#6bff6b';
+    keywordEl.textContent = '關鍵字：' + card.keywords;
+    var meaning = isReversed ? card.reversed : card.upright;
+    if (questionInput.value.trim()) {
+      meaning = '你問：' + questionInput.value.trim() + '\n\n' + meaning;
+    }
+    meaningEl.textContent = meaning;
+    meaningEl.style.whiteSpace = 'pre-line';
+  }
+
+  drawBtn.onclick = drawCard;
+})();
+
+// ══════ 命運數字 ══════
+window.openNumberModal = function() {
+  document.getElementById('numberModal').style.display = 'flex';
+};
+
+(function() {
+  var modal = document.getElementById('numberModal');
+  var closeBtn = document.getElementById('numberClose');
+  var calcBtn = document.getElementById('numberCalculate');
+  var birthdayInput = document.getElementById('numberBirthday');
+  var resultBox = document.getElementById('numberResult');
+  var displayEl = document.getElementById('numberDisplay');
+  var fiveEl = document.getElementById('numberFive');
+  var nameEl = document.getElementById('numberName');
+  var meaningTextEl = document.getElementById('numberMeaningText');
+  var actionEl = document.getElementById('numberAction');
+
+  closeBtn.onclick = function() { modal.style.display = 'none'; };
+  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+
+  var meanings = {
+    1: { five: '金', name: '領導者', desc: '你天生具有領袖氣質，獨立、有創意、有野心。適合開創新事業，但要注意不要太自我中心。', action: '宜主動出擊，發揮領導力，但要多聆聽團隊意見。' },
+    2: { five: '土', name: '協調者', desc: '你係天生嘅外交家，敏感、體貼、善於合作。適合需要協調嘅工作，但有時會太過優柔寡斷。', action: '宜發揮你嘅同理心，做團隊嘅潤滑劑，學會為自己發聲。' },
+    3: { five: '火', name: '藝術家', desc: '你充滿創造力同表現力，樂觀、社交、有感染力。適合創意行業，但要注意專注同埋紀律。', action: '宜多創作、表達、分享快樂，但要平衡娛樂同責任。' },
+    4: { five: '土', name: '建設者', desc: '你務實、穩重、有紀律。係可靠嘅基石，適合需要長遠規劃嘅工作。', action: '宜穩紮穩打，建立長遠基礎，但要有時放鬆享受生活。' },
+    5: { five: '金', name: '冒險家', desc: '你熱愛自由、追求刺激、適應力強。適合需要變化嘅工作，但可能太過衝動。', action: '宜擁抱改變、探索新領域，但要記得承諾同責任。' },
+    6: { five: '木', name: '照顧者', desc: '你充滿愛心、責任感強、重視家庭同和諧。適合照顧人嘅工作，但要注意唔好過度犧牲。', action: '宜多關心身邊嘅人，但同時要照顧好自己嘅需要。' },
+    7: { five: '火', name: '思想家', desc: '你聰明、內省、追求真理。適合研究、分析、靈性領域，但可能太過孤僻。', action: '宜深入思考、探索真理，但要記得保持社交連繫。' },
+    8: { five: '土', name: '實業家', desc: '你有商業頭腦、注重成就、注重物質同權力。適合做管理層，但要注意平衡。', action: '宜追求事業成功，但同時重視健康、家庭同靈性。' },
+    9: { five: '火', name: '人道主義者', desc: '你充滿同情心、理想主義、追求世界大同。適合公益事業，但有時會太過理想化。', action: '宜服務人群、追求理想，但要腳踏實地唔好太離地。' },
+    11: { five: '金', name: '靈魂導師', desc: '你係 master number，具有直覺力同靈性智慧。適合做啟發他人嘅工作，但承擔亦大。', action: '宜信任你嘅直覺，服務更高嘅目的，但注意心理健康。' },
+    22: { five: '土', name: '大建築師', desc: '你係 master number，可以將夢想化為現實。適合做大型項目，但責任亦大。', action: '宜立大志、做大事，但要量力而為，避免過勞。' }
+  };
+
+  function reduceNumber(n) {
+    while (n > 9 && n !== 11 && n !== 22) {
+      var sum = 0;
+      while (n > 0) {
+        sum += n % 10;
+        n = Math.floor(n / 10);
+      }
+      n = sum;
+    }
+    return n;
+  }
+
+  function calculateNumber() {
+    var value = birthdayInput.value;
+    if (!value) {
+      alert('請選擇生日');
+      return;
+    }
+    var parts = value.split('-');
+    if (parts.length !== 3) {
+      alert('生日格式錯誤');
+      return;
+    }
+    var year = parseInt(parts[0]);
+    var month = parseInt(parts[1]);
+    var day = parseInt(parts[2]);
+    var total = year + month + day;
+    var lifeNumber = reduceNumber(total);
+    var info = meanings[lifeNumber] || meanings[reduceNumber(lifeNumber)] || meanings[1];
+
+    displayEl.textContent = lifeNumber;
+    fiveEl.textContent = '五行：' + info.five;
+    nameEl.textContent = info.name;
+    meaningTextEl.textContent = info.desc;
+    actionEl.textContent = '💡 行動建議：' + info.action;
+
+    resultBox.style.display = 'block';
+  }
+
+  calcBtn.onclick = calculateNumber;
+})();
+</script>
+
+
+</div>
+
 <div id="mtr-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center;">
   <div style="background:#1a1a2e; border-radius:16px; width:92%; max-width:480px; max-height:85vh; overflow:hidden; display:flex; flex-direction:column;">
     
@@ -4165,8 +4129,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       </div>
 
     </div>
-  calcBtn.onclick = calculateNumber;
-
-</script>
+  </div>
+</div>
 </body>
 </html>
