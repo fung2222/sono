@@ -582,23 +582,20 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <div class="dw-weather-merged">
   <div class="dw-today-card">
     <div class="dw-tc-left">
-      <div id="dw-tc-icon" class="dw-tc-icon">☁️</div>
+      <div id="dw-tc-icon" class="dw-tc-icon">🌤️</div>
       <div id="dw-tc-temp" class="dw-tc-temp">--°</div>
     </div>
     <div class="dw-tc-right">
-      <div id="dw-tc-desc" class="dw-tc-desc">載入中⋯</div>
-      <div class="dw-tc-stat"><span class="dw-tc-stat-icon">💧</span><span class="dw-tc-stat-label">濕度</span><span id="dw-tc-humidity">--%</span></div>
-      <div class="dw-tc-stat"><span class="dw-tc-stat-icon">🌬️</span><span class="dw-tc-stat-label">風速</span><span id="dw-tc-wind">--km/h</span></div>
+      <div id="dw-tc-desc" class="dw-tc-desc">Partly cloudy</div>
+      <div class="dw-tc-stat"><span class="dw-tc-stat-icon">💧</span><span class="dw-tc-stat-label">濕度</span><span id="dw-tc-humidity">67%</span></div>
+      <div class="dw-tc-stat"><span class="dw-tc-stat-icon">🌬️</span><span class="dw-tc-stat-label">風速</span><span id="dw-tc-wind">30km/h</span></div>
     </div>
   </div>
   <div class="dw-wm-divider"></div>
   <div id="dw-forecast" class="dw-wm-forecast">
-    <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
-    <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
-    <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
-    <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
-    <div class="dw-fc-card"><div class="dw-fc-day">--</div><div class="dw-fc-icon">❓</div><div class="dw-fc-temps"><span class="dw-fc-hi">--</span><span class="dw-fc-lo">--</span></div></div>
-  </div>
+    <div class="dw-fc-card"><div class="dw-fc-day">六</div><div class="dw-fc-icon">🌤️</div><div class="dw-fc-temps"><span class="dw-fc-hi">29°</span><span class="dw-fc-lo">28°</span></div></div>
+    <div class="dw-fc-card"><div class="dw-fc-day">日</div><div class="dw-fc-icon">🌤️</div><div class="dw-fc-temps"><span class="dw-fc-hi">28°</span><span class="dw-fc-lo">27°</span></div></div>
+    <div class="dw-fc-card"><div class="dw-fc-day">一</div><div class="dw-fc-icon">🌤️</div><div class="dw-fc-temps"><span class="dw-fc-hi">28°</span><span class="dw-fc-lo">27°</span></div></div>    </div>
   <div class="dw-wm-divider"></div>
   <div class="dw-wm-insight">
     <p class="dw-insight-text">今日雖未見大雨，但高空擾動會喺午後帶來幾陣驟雨。濕度偏高，體感悶熱。出門最好帶定把遮，趁有陽光嘅時候出去行陣。</p>
@@ -619,7 +616,12 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       <span class="dw-acc-arrow">▼</span>
     </div>
     <div class="dw-acc-body">
-      <div class="observation">內容待生成⋯⋯</div>
+      <div class="observation">
+            <p>1. 天氣觀察：32°C 配 67% 濕度，體感似焗爐，風速 30km/h 勉強幫你散吓熱，記得飲水。
+2. 科技話題：AI 創作工具繼續熱，但大家開始問：寫出嚟嘅嘢有冇靈魂？
+3. UFO / 太空動向：多國太空機構密密發射衛星，低軌道越嚟越迫，UFO 降臨前先要過「塞車」難關。
+4. 超自然現象：社交媒體瘋傳「七月預言」短片，集體潛意識可能真係有訊號。</p>
+          </div>
     </div>
   </div>
   <div class="dw-acc-item" onclick="toggleSub(this)">
@@ -628,7 +630,13 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       <span class="dw-acc-arrow">▼</span>
     </div>
     <div class="dw-acc-body">
-      <div class="prediction">內容待生成⋯⋯</div>
+      <div class="prediction">
+            <p>短期（24-48 小時）：氣溫繼續高位徘徊，午後多雲有驟雨，外出記得帶遮又帶水。
+
+中期（本週）：副熱帶高壓穩定，天氣悶熱但唔似有颱風，適合室內活動或海邊消暑。
+
+長期（本月至季）：立秋前後天氣漸轉，秋颱可能醞釀，9 月起風勢增強，留意天文台預報。</p>
+          </div>
     </div>
   </div>
   <div class="dw-acc-item" onclick="toggleSub(this)">
@@ -637,7 +645,9 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       <span class="dw-acc-arrow">▼</span>
     </div>
     <div class="dw-acc-body">
-      <div class="quote" style="font-style:italic;color:#ddd;">內容待生成⋯⋯</div>
+      <div class="quote" style="font-style:italic;color:#ddd;">
+            <p>今日宇宙能量好似一杯凍檸茶——表面冰涼，底下滾燙，飲得痛快但小心嗆到，順勢而為就最醒。</p>
+          </div>
     </div>
   </div>
 </div>
@@ -3033,6 +3043,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
 
 // ══════ Banner 天氣 + 日期即時更新 ══════
+<script>
 (function() {
   function $(id) { return document.getElementById(id); }
 
@@ -3083,19 +3094,20 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
 
 function pickIcon(desc) {
-    if (!desc) return '☀';
-    if (desc.indexOf('雷') >= 0) return '⛈⏭';
-    if (desc.indexOf('雨') >= 0) return '⛈⏭';
-    if (desc.indexOf('院') >= 0 || desc.indexOf('多雲') >= 0) return '☁️';
-    if (desc.indexOf('霧') >= 0) return '🌫';
-    if (desc.indexOf('雪') >= 0) return '❄';
-    if (desc.indexOf('晴') >= 0) return '☀';
-    return '🌤';
-  }
-})()
+  if (!desc) return '☀️';
+  if (desc.indexOf('雷') >= 0) return '⛈️';
+  if (desc.indexOf('雨') >= 0) return '🌧️';
+  if (desc.indexOf('陰') >= 0 || desc.indexOf('多雲') >= 0) return '☁️';
+  if (desc.indexOf('霧') >= 0) return '🌫️';
+  if (desc.indexOf('雪') >= 0) return '❄️';
+  if (desc.indexOf('晴') >= 0) return '☀️';
+  return '🌤️';
+}
+})();
 </script>
 
 
+// ══════ MTR 查詢 Modal ══════
 </div>
 
 <script>
