@@ -321,6 +321,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'divinationTrigger') openDivinationModal();
     else if (id === 'musicTrigger') openMusicModal();
     else if (id === 'foodTrigger') openFoodModal();
+    else if (id === 'tarotTrigger') openTarotModal();
   });
 });
 
@@ -790,6 +791,10 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       <div class="ts-icon-box"><span class="ts-emoji">🍜</span></div>
       <span class="ts-label">今晚食咩</span>
     </div>
+    <div class="card tool-sm" id="tarotTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🃏</span></div>
+      <span class="ts-label">塔羅占卜</span>
+    </div>
   </div>
 
 </div>
@@ -951,6 +956,27 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       <div id="foodDesc" style="color:#bbb;font-size:0.9em;line-height:1.5;"></div>
     </div>
     <button id="foodRoll" style="width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#ffa500,#ff6b35);color:#fff;font-size:1em;font-weight:700;cursor:pointer;">🍜 為我揀</button>
+  </div>
+</div>
+
+<!-- ══════ 塔羅占卜 Modal ══════ -->
+<div id="tarotModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(135deg,#1a0a1a,#2e1a2e);border-radius:16px;max-width:460px;width:100%;padding:24px;border:1px solid rgba(162,155,254,0.3);max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:1.3em;color:#fff;">🃏 塔羅占卜</h2>
+      <button id="tarotClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <div style="margin-bottom:14px;">
+      <input id="tarotQuestion" type="text" placeholder="問一個問題..." style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;outline:none;">
+    </div>
+    <div id="tarotCard" style="text-align:center;padding:30px 20px;background:linear-gradient(135deg,rgba(162,155,254,0.08),rgba(255,107,157,0.08));border-radius:14px;margin-bottom:16px;border:1px solid rgba(162,155,254,0.2);">
+      <div id="tarotSymbol" style="font-size:4em;margin-bottom:12px;"></div>
+      <div id="tarotName" style="color:#a29bfe;font-size:1.3em;font-weight:700;margin-bottom:4px;"></div>
+      <div id="tarotOrientation" style="color:#ff6b9d;font-size:0.85em;font-weight:700;letter-spacing:2px;margin-bottom:10px;"></div>
+      <div id="tarotKeyword" style="color:#ffd93d;font-size:0.8em;margin-bottom:10px;"></div>
+      <div id="tarotMeaning" style="color:#e0e0e0;font-size:0.9em;line-height:1.7;"></div>
+    </div>
+    <button id="tarotDraw" style="width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#a29bfe,#ff6b9d);color:#fff;font-size:1em;font-weight:700;cursor:pointer;">🃏 抽一張牌</button>
   </div>
 </div>
 
@@ -1506,6 +1532,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'divinationTrigger') openDivinationModal();
     else if (id === 'musicTrigger') openMusicModal();
     else if (id === 'foodTrigger') openFoodModal();
+    else if (id === 'tarotTrigger') openTarotModal();
   });
 });
 
@@ -1811,6 +1838,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'divinationTrigger') openDivinationModal();
     else if (id === 'musicTrigger') openMusicModal();
     else if (id === 'foodTrigger') openFoodModal();
+    else if (id === 'tarotTrigger') openTarotModal();
   });
 });
 
@@ -2315,6 +2343,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'divinationTrigger') openDivinationModal();
     else if (id === 'musicTrigger') openMusicModal();
     else if (id === 'foodTrigger') openFoodModal();
+    else if (id === 'tarotTrigger') openTarotModal();
   });
 });
 
@@ -2704,6 +2733,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'divinationTrigger') openDivinationModal();
     else if (id === 'musicTrigger') openMusicModal();
     else if (id === 'foodTrigger') openFoodModal();
+    else if (id === 'tarotTrigger') openTarotModal();
   });
 });
 
@@ -2806,6 +2836,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'divinationTrigger') openDivinationModal();
     else if (id === 'musicTrigger') openMusicModal();
     else if (id === 'foodTrigger') openFoodModal();
+    else if (id === 'tarotTrigger') openTarotModal();
   });
 });
 
@@ -3596,6 +3627,69 @@ window.openFoodModal = function() {
   }
 
   rollBtn.onclick = pickFood;
+})();
+
+// ══════ 塔羅占卜 ══════
+window.openTarotModal = function() {
+  document.getElementById('tarotModal').style.display = 'flex';
+};
+
+(function() {
+  var modal = document.getElementById('tarotModal');
+  var closeBtn = document.getElementById('tarotClose');
+  var drawBtn = document.getElementById('tarotDraw');
+  var questionInput = document.getElementById('tarotQuestion');
+  var symbolEl = document.getElementById('tarotSymbol');
+  var nameEl = document.getElementById('tarotName');
+  var orientEl = document.getElementById('tarotOrientation');
+  var keywordEl = document.getElementById('tarotKeyword');
+  var meaningEl = document.getElementById('tarotMeaning');
+
+  closeBtn.onclick = function() { modal.style.display = 'none'; };
+  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+
+  var majorArcana = [
+    { id: 0, name: '愚者', emoji: '🃏', keywords: '新開始、冒險、自由', upright: '純真、率性、未知嘅可能性。宇宙提示你：勇敢踏出第一步，新旅程即將展開。', reversed: '魯莽、衝動、逃避責任。宜停一停諗清楚，唔好因為一時之氣做錯決定。' },
+    { id: 1, name: '魔術師', emoji: '🪄', keywords: '創造、意志、技能', upright: '你擁有實現夢想嘅所有工具，宜把握機會展現實力。', reversed: '才能未發揮、操控、欺騙。警惕被人利用，或者自己能力唔夠。' },
+    { id: 2, name: '女祭司', emoji: '🌙', keywords: '直覺、神秘、潛意識', upright: '答案喺你內心。信任直覺，靜觀其變，秘密即將揭曉。', reversed: '忽略直覺、表面、秘密外洩。宜更加誠實面對自己同他人。' },
+    { id: 3, name: '皇后', emoji: '👑', keywords: '豐盛、母性、創造', upright: '豐盛同美滿嘅時期到嚟，珍惜當下身邊嘅人同事物。', reversed: '過度依賴、停滯、忽視自我。宜重新建立自我價值。' },
+    { id: 4, name: '皇帝', emoji: '🏛️', keywords: '權威、結構、穩定', upright: '透過紀律同努力建立穩固基礎，你係自己王國嘅主人。', reversed: '專橫、僵化、濫權。宜更有彈性，聆聽他人意見。' },
+    { id: 5, name: '教皇', emoji: '⛪', keywords: '傳統、信仰、引導', upright: '尋找智者嘅建議，傳統智慧可以引導你走向正確方向。', reversed: '反叛、虛假信仰、教條。宜以開放態度探索新嘅可能性。' },
+    { id: 6, name: '戀人', emoji: '💕', keywords: '愛、選擇、和諧', upright: '愛情降臨或者重要抉擇時刻，聆聽內心嘅聲音。', reversed: '不和諧、錯誤選擇、價值觀衝突。宜重新審視你嘅選擇。' },
+    { id: 7, name: '戰車', emoji: '⚔️', keywords: '勝利、決心、控制', upright: '憑意志同決心，你將克服一切障礙，勝利在望。', reversed: '失去方向、衝突、缺乏控制。宜停下嚟重新定位。' },
+    { id: 8, name: '力量', emoji: '🦁', keywords: '勇氣、耐心、柔克剛', upright: '以柔克剛嘅力量，溫柔而堅定地馴服內心嘅野獸。', reversed: '軟弱、自我懷疑、壓抑情緒。宜溫柔對待自己。' },
+    { id: 9, name: '隱者', emoji: '🏮', keywords: '內省、智慧、孤獨', upright: '退一步思考嘅時刻，內心嘅智慧會為你指路。', reversed: '孤立、固執、拒絕幫助。宜打開心扉接受他人。' },
+    { id: 10, name: '命運之輪', emoji: '☸️', keywords: '循環、轉變、命運', upright: '命運嘅齒輪轉動，好運降臨。把握時機順流而行。', reversed: '壞運、抗拒改變、停滯。接受週期，唔好強求。' },
+    { id: 11, name: '正義', emoji: '⚖️', keywords: '公平、真理、因果', upright: '你會得到公平嘅對待，真相終會大白。保持誠實。', reversed: '不公、逃避責任、偏頗。宜反思自己嘅行為。' },
+    { id: 12, name: '倒吊人', emoji: '🙃', keywords: '犧牲、新視角、等待', upright: '換個角度看世界，短暫嘅犧牲會帶嚟更深嘅智慧。', reversed: '無謂犧牲、抗拒改變、停滯不前。' },
+    { id: 13, name: '死神', emoji: '💀', keywords: '結束、轉化、新生', upright: '一個階段嘅結束係另一個嘅開始，接受轉化迎向新生。', reversed: '抗拒改變、停滯、恐懼。放手先可以前進。' },
+    { id: 14, name: '節制', emoji: '🕊️', keywords: '平衡、中庸、耐心', upright: '保持平衡同耐心，調和你嘅身心靈。', reversed: '失衡、過度、不協調。宜重新調整生活節奏。' },
+    { id: 15, name: '惡魔', emoji: '😈', keywords: '束縛、誘惑、物質', upright: '小心誘惑同物質慾望，可能有不良習慣困住你。', reversed: '解脫、覺醒、打破枷鎖。你有能力擺脫束縛。' },
+    { id: 16, name: '高塔', emoji: '🗼', keywords: '突變、崩塌、啟示', upright: '突如其來嘅改變可能痛苦，但會帶嚟新嘅契機。', reversed: '避免災難、延遲改變、內在覺醒。可能避過一劫。' },
+    { id: 17, name: '星星', emoji: '⭐', keywords: '希望、靈感、寧靜', upright: '希望同靈感降臨，保持信念，夢想會實現。', reversed: '絕望、失去信心、迷茫。仰望星空，重新找回希望。' },
+    { id: 18, name: '月亮', emoji: '🌕', keywords: '幻象、直覺、潛意識', upright: '事物唔一定係你睇到嘅咁，信任直覺穿透幻象。', reversed: '真相揭露、釋放恐懼、走出迷霧。' },
+    { id: 19, name: '太陽', emoji: '☀️', keywords: '成功、快樂、活力', upright: '光明嘅時期到嚟！成功同快樂將充滿你嘅生活。', reversed: '暫時烏雲、自我懷疑、延遲嘅快樂。' },
+    { id: 20, name: '審判', emoji: '📯', keywords: '重生、覺醒、召喚', upright: '重大嘅覺醒時刻到嚟，響應內心嘅召喚，迎向新生。', reversed: '拒絕改變、自我批判、停滯。' },
+    { id: 21, name: '世界', emoji: '🌍', keywords: '完成、成就、圓滿', upright: '一個重要嘅循環即將完成，你達成咗重大嘅成就！', reversed: '未完成、停滯、缺乏閉幕。' }
+  ];
+
+  function drawCard() {
+    var card = majorArcana[Math.floor(Math.random() * majorArcana.length)];
+    var isReversed = Math.random() < 0.4;
+    symbolEl.textContent = card.emoji;
+    nameEl.textContent = card.id + '. ' + card.name;
+    orientEl.textContent = isReversed ? '【 逆 位 】' : '【 正 位 】';
+    orientEl.style.color = isReversed ? '#ff6b6b' : '#6bff6b';
+    keywordEl.textContent = '關鍵字：' + card.keywords;
+    var meaning = isReversed ? card.reversed : card.upright;
+    if (questionInput.value.trim()) {
+      meaning = '你問：' + questionInput.value.trim() + '\n\n' + meaning;
+    }
+    meaningEl.textContent = meaning;
+    meaningEl.style.whiteSpace = 'pre-line';
+  }
+
+  drawBtn.onclick = drawCard;
 })();
 </script>
 
