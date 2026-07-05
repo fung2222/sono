@@ -406,6 +406,7 @@ function toggleSub(sub) {
   sub.nextElementSibling.classList.toggle('open');
 }
 
+<script>
 // ══════ 即時天氣（香港，自動載入 via wttr.in） ══════
 (function(){
   var wmoWttr = {
@@ -464,6 +465,7 @@ function toggleSub(sub) {
   fetchHKWeather();
   setInterval(fetchHKWeather, 30 * 60 * 1000);
 })();
+</script>
 // ══════ Tab Event Listener 初始化 ══════
 document.querySelectorAll('.tab-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
