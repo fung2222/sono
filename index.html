@@ -300,14 +300,14 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 #sono-daily-report .dw-bi-icon{ font-size:0.9em; }
 
 /* ── 今日天氣卡 ── */
-#sono-daily-report .dw-today-card{ background:#141425; border-radius:12px; padding:12px 14px; margin:0 0 12px; border:1px solid rgba(255,255,255,0.06); }
-#sono-daily-report .dw-tc-row{ display:flex; align-items:center; gap:12px; }
-#sono-daily-report .dw-tc-icon{ font-size:2.4em; filter:drop-shadow(0 2px 10px rgba(162,155,254,0.3)); }
-#sono-daily-report .dw-tc-temp{ font-size:1.8em; font-weight:900; color:#fff; letter-spacing:-1px; }
-#sono-daily-report .dw-tc-info{ flex:1; }
-#sono-daily-report .dw-tc-desc{ font-size:1em; color:#ddd; }
-#sono-daily-report .dw-tc-meta{ display:flex; align-items:center; gap:6px; margin-top:3px; font-size:0.72em; color:#888; }
-#sono-daily-report .dw-tc-dot{ color:#444; }
+#sono-daily-report .dw-today-card{ background:#141425; border-radius:12px; padding:12px 16px; margin:0 0 12px; border:1px solid rgba(255,255,255,0.06); }
+#sono-daily-report .dw-tc-main{ display:flex; align-items:center; gap:12px; }
+#sono-daily-report .dw-tc-icon{ font-size:2.4em; flex-shrink:0; }
+#sono-daily-report .dw-tc-info{ flex:1; min-width:0; }
+#sono-daily-report .dw-tc-row1{ display:flex; align-items:baseline; gap:8px; }
+#sono-daily-report .dw-tc-temp{ font-size:1.6em; font-weight:900; color:#fff; }
+#sono-daily-report .dw-tc-desc{ font-size:0.95em; color:#ccc; }
+#sono-daily-report .dw-tc-row2{ display:flex; align-items:center; gap:6px; margin-top:2px; font-size:0.72em; color:#888; }
 
 /* ── Weather Insight (卡片式) ── */
 #sono-daily-report .dw-insight-card{ background:#141425; border-radius:12px; padding:14px 16px; margin:0 0 16px; border:1px solid rgba(255,255,255,0.06); }
@@ -565,15 +565,17 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
 <!-- ══════ 今日天氣卡 ══════ -->
 <div class="dw-today-card">
-  <div class="dw-tc-row">
+  <div class="dw-tc-main">
     <span id="dw-tc-icon" class="dw-tc-icon">☁️</span>
-    <span id="dw-tc-temp" class="dw-tc-temp">--°</span>
     <div class="dw-tc-info">
-      <div id="dw-tc-desc" class="dw-tc-desc">載入中⋯</div>
-      <div class="dw-tc-meta">
-        <span>💧 濕度 <span id="dw-tc-humidity">--</span></span>
-        <span class="dw-tc-dot">·</span>
-        <span>🌬️ 風速 <span id="dw-tc-wind">--</span></span>
+      <div class="dw-tc-row1">
+        <span id="dw-tc-temp" class="dw-tc-temp">--°</span>
+        <span id="dw-tc-desc" class="dw-tc-desc">載入中⋯</span>
+      </div>
+      <div class="dw-tc-row2">
+        <span>💧 <span id="dw-tc-humidity">--%</span></span>
+        <span>·</span>
+        <span>🌬️ <span id="dw-tc-wind">--km/h</span></span>
       </div>
     </div>
   </div>
