@@ -568,42 +568,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <!-- ══════ Tab 1: Sono 每日 ══════ -->
 <div class="tab-panel active" id="tab-daily">
 <div id="sono-daily-report">
-  <!-- 維港風景圖 -->
-  <div class="dw-banner" style="margin:0 0 12px; border-radius:12px; overflow:hidden;">
-    <img src="images/hk_victoria_harbour.jpg" alt="香港維港" style="width:100%;display:block;border-radius:12px;" />
-  </div>
 
-  <!-- 今日天氣卡 -->
-  <div class="dw-hero" id="dw-hero">
-    <div class="dw-hero-bg"></div>
-    <div class="dw-hero-content">
-      <div class="dw-hero-main">
-        <div class="dw-weather-icon">🌧️</div>
-        <div class="dw-temp-group">
-          <div class="dw-temp-main">29°</div>
-        </div>
-        <div class="dw-weather-desc">短暫陣雨</div>
-      </div>
-      <div class="dw-hero-details">
-        <div class="dw-detail-item">
-          <span class="dw-dl">💧 濕度</span>
-          <span class="dw-dv">79%</span>
-        </div>
-        <div class="dw-detail-item">
-          <span class="dw-dl">🌀 風速</span>
-          <span class="dw-dv">27km/h</span>
-        </div>
-        <div class="dw-detail-item">
-          <span class="dw-dl">🌡️ 體感</span>
-          <span class="dw-dv">37°C</span>
-        </div>
-        <div class="dw-detail-item">
-          <span class="dw-dl">🌡️ 最高</span>
-          <span class="dw-dv">29°</span>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 </div>
 
@@ -745,7 +710,10 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       <div class="ts-icon-box"><span class="ts-emoji">🔍</span></div>
       <span class="ts-label">Sono 搜尋</span>
     </div>
-    
+    <div class="card tool-sm" id="translateTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🌐</span></div>
+      <span class="ts-label">AI 翻譯</span>
+    </div>
     <div class="card tool-sm" id="issTrigger">
       <div class="ts-icon-box"><span class="ts-emoji">📡</span></div>
       <span class="ts-label">ISS 追蹤</span>
@@ -789,10 +757,6 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     <div class="card tool-sm">
       <div class="ts-icon-box"><span class="ts-emoji">🧠</span></div>
       <span class="ts-label">Sono 分析</span>
-    </div>
-    <div class="card tool-sm" id="translateTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">🌐</span></div>
-      <span class="ts-label">AI 翻譯</span>
     </div>
   </div>
 
