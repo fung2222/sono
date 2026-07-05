@@ -322,6 +322,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'musicTrigger') openMusicModal();
     else if (id === 'foodTrigger') openFoodModal();
     else if (id === 'tarotTrigger') openTarotModal();
+    else if (id === 'numberTrigger') openNumberModal();
   });
 });
 
@@ -795,6 +796,10 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       <div class="ts-icon-box"><span class="ts-emoji">🃏</span></div>
       <span class="ts-label">塔羅占卜</span>
     </div>
+    <div class="card tool-sm" id="numberTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🔢</span></div>
+      <span class="ts-label">命運數字</span>
+    </div>
   </div>
 
 </div>
@@ -977,6 +982,33 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       <div id="tarotMeaning" style="color:#e0e0e0;font-size:0.9em;line-height:1.7;"></div>
     </div>
     <button id="tarotDraw" style="width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#a29bfe,#ff6b9d);color:#fff;font-size:1em;font-weight:700;cursor:pointer;">🃏 抽一張牌</button>
+  </div>
+</div>
+
+<!-- ══════ 命運數字 Modal ══════ -->
+<div id="numberModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a3e);border-radius:16px;max-width:440px;width:100%;padding:24px;border:1px solid rgba(0,212,255,0.25);max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:1.3em;color:#fff;">🔢 命運數字</h2>
+      <button id="numberClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <div style="margin-bottom:14px;">
+      <label style="color:#00d4ff;font-size:0.8em;display:block;margin-bottom:6px;">輸入你嘅生日（例：1990-08-15）</label>
+      <input id="numberBirthday" type="date" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;outline:none;">
+    </div>
+    <div id="numberResult" style="display:none;">
+      <div style="text-align:center;margin-bottom:16px;">
+        <div id="numberDisplay" style="font-size:5em;font-weight:900;background:linear-gradient(135deg,#00d4ff,#a29bfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;"></div>
+        <div id="numberFive" style="color:#00d4ff;font-size:1.1em;font-weight:700;margin-top:6px;"></div>
+        <div id="numberName" style="color:#fff;font-size:1em;margin-top:4px;"></div>
+      </div>
+      <div id="numberMeaning" style="background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.15);border-radius:10px;padding:14px;margin-bottom:12px;">
+        <div style="color:#00d4ff;font-size:0.8em;margin-bottom:6px;">💫 數字意義</div>
+        <div id="numberMeaningText" style="color:#e0e0e0;font-size:0.9em;line-height:1.6;"></div>
+      </div>
+      <div id="numberAction" style="padding:12px;background:rgba(162,155,254,0.08);border-left:3px solid #a29bfe;border-radius:6px;color:#b8b3ff;font-size:0.88em;line-height:1.6;"></div>
+    </div>
+    <button id="numberCalculate" style="width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#00d4ff,#a29bfe);color:#fff;font-size:1em;font-weight:700;cursor:pointer;margin-top:14px;">🔢 計算命運數字</button>
   </div>
 </div>
 
@@ -1533,6 +1565,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'musicTrigger') openMusicModal();
     else if (id === 'foodTrigger') openFoodModal();
     else if (id === 'tarotTrigger') openTarotModal();
+    else if (id === 'numberTrigger') openNumberModal();
   });
 });
 
@@ -1839,6 +1872,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'musicTrigger') openMusicModal();
     else if (id === 'foodTrigger') openFoodModal();
     else if (id === 'tarotTrigger') openTarotModal();
+    else if (id === 'numberTrigger') openNumberModal();
   });
 });
 
@@ -2344,6 +2378,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'musicTrigger') openMusicModal();
     else if (id === 'foodTrigger') openFoodModal();
     else if (id === 'tarotTrigger') openTarotModal();
+    else if (id === 'numberTrigger') openNumberModal();
   });
 });
 
@@ -2734,6 +2769,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'musicTrigger') openMusicModal();
     else if (id === 'foodTrigger') openFoodModal();
     else if (id === 'tarotTrigger') openTarotModal();
+    else if (id === 'numberTrigger') openNumberModal();
   });
 });
 
@@ -2837,6 +2873,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     else if (id === 'musicTrigger') openMusicModal();
     else if (id === 'foodTrigger') openFoodModal();
     else if (id === 'tarotTrigger') openTarotModal();
+    else if (id === 'numberTrigger') openNumberModal();
   });
 });
 
@@ -3690,6 +3727,82 @@ window.openTarotModal = function() {
   }
 
   drawBtn.onclick = drawCard;
+})();
+
+// ══════ 命運數字 ══════
+window.openNumberModal = function() {
+  document.getElementById('numberModal').style.display = 'flex';
+};
+
+(function() {
+  var modal = document.getElementById('numberModal');
+  var closeBtn = document.getElementById('numberClose');
+  var calcBtn = document.getElementById('numberCalculate');
+  var birthdayInput = document.getElementById('numberBirthday');
+  var resultBox = document.getElementById('numberResult');
+  var displayEl = document.getElementById('numberDisplay');
+  var fiveEl = document.getElementById('numberFive');
+  var nameEl = document.getElementById('numberName');
+  var meaningTextEl = document.getElementById('numberMeaningText');
+  var actionEl = document.getElementById('numberAction');
+
+  closeBtn.onclick = function() { modal.style.display = 'none'; };
+  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+
+  var meanings = {
+    1: { five: '金', name: '領導者', desc: '你天生具有領袖氣質，獨立、有創意、有野心。適合開創新事業，但要注意不要太自我中心。', action: '宜主動出擊，發揮領導力，但要多聆聽團隊意見。' },
+    2: { five: '土', name: '協調者', desc: '你係天生嘅外交家，敏感、體貼、善於合作。適合需要協調嘅工作，但有時會太過優柔寡斷。', action: '宜發揮你嘅同理心，做團隊嘅潤滑劑，學會為自己發聲。' },
+    3: { five: '火', name: '藝術家', desc: '你充滿創造力同表現力，樂觀、社交、有感染力。適合創意行業，但要注意專注同埋紀律。', action: '宜多創作、表達、分享快樂，但要平衡娛樂同責任。' },
+    4: { five: '土', name: '建設者', desc: '你務實、穩重、有紀律。係可靠嘅基石，適合需要長遠規劃嘅工作。', action: '宜穩紮穩打，建立長遠基礎，但要有時放鬆享受生活。' },
+    5: { five: '金', name: '冒險家', desc: '你熱愛自由、追求刺激、適應力強。適合需要變化嘅工作，但可能太過衝動。', action: '宜擁抱改變、探索新領域，但要記得承諾同責任。' },
+    6: { five: '木', name: '照顧者', desc: '你充滿愛心、責任感強、重視家庭同和諧。適合照顧人嘅工作，但要注意唔好過度犧牲。', action: '宜多關心身邊嘅人，但同時要照顧好自己嘅需要。' },
+    7: { five: '火', name: '思想家', desc: '你聰明、內省、追求真理。適合研究、分析、靈性領域，但可能太過孤僻。', action: '宜深入思考、探索真理，但要記得保持社交連繫。' },
+    8: { five: '土', name: '實業家', desc: '你有商業頭腦、注重成就、注重物質同權力。適合做管理層，但要注意平衡。', action: '宜追求事業成功，但同時重視健康、家庭同靈性。' },
+    9: { five: '火', name: '人道主義者', desc: '你充滿同情心、理想主義、追求世界大同。適合公益事業，但有時會太過理想化。', action: '宜服務人群、追求理想，但要腳踏實地唔好太離地。' },
+    11: { five: '金', name: '靈魂導師', desc: '你係 master number，具有直覺力同靈性智慧。適合做啟發他人嘅工作，但承擔亦大。', action: '宜信任你嘅直覺，服務更高嘅目的，但注意心理健康。' },
+    22: { five: '土', name: '大建築師', desc: '你係 master number，可以將夢想化為現實。適合做大型項目，但責任亦大。', action: '宜立大志、做大事，但要量力而為，避免過勞。' }
+  };
+
+  function reduceNumber(n) {
+    while (n > 9 && n !== 11 && n !== 22) {
+      var sum = 0;
+      while (n > 0) {
+        sum += n % 10;
+        n = Math.floor(n / 10);
+      }
+      n = sum;
+    }
+    return n;
+  }
+
+  function calculateNumber() {
+    var value = birthdayInput.value;
+    if (!value) {
+      alert('請選擇生日');
+      return;
+    }
+    var parts = value.split('-');
+    if (parts.length !== 3) {
+      alert('生日格式錯誤');
+      return;
+    }
+    var year = parseInt(parts[0]);
+    var month = parseInt(parts[1]);
+    var day = parseInt(parts[2]);
+    var total = year + month + day;
+    var lifeNumber = reduceNumber(total);
+    var info = meanings[lifeNumber] || meanings[reduceNumber(lifeNumber)] || meanings[1];
+
+    displayEl.textContent = lifeNumber;
+    fiveEl.textContent = '五行：' + info.five;
+    nameEl.textContent = info.name;
+    meaningTextEl.textContent = info.desc;
+    actionEl.textContent = '💡 行動建議：' + info.action;
+
+    resultBox.style.display = 'block';
+  }
+
+  calcBtn.onclick = calculateNumber;
 })();
 </script>
 
