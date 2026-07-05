@@ -330,7 +330,8 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 #sono-daily-report .dw-insight-recs span{ font-size:0.72em; color:#bbb; background:rgba(255,255,255,0.04); padding:4px 12px; border-radius:14px; border:1px solid rgba(255,255,255,0.06); }
 
 /* ── Section titles ── */
-#sono-daily-report .dw-section-title{ font-size:1em; font-weight:700; color:#a29bfe; margin:18px 0 10px; padding-bottom:6px; border-bottom:1px solid rgba(162,155,254,0.15); }
+#sono-daily-report .dw-news-title{ font-size:1.2em; font-weight:700; color:#a29bfe; margin:20px 0 12px; padding-bottom:6px; border-bottom:2px solid rgba(162,155,254,0.3); }
+#sono-daily-report .dw-news-tabs{ display:flex; gap:6px; margin:0 0 12px; }
 
 /* ── Sono 專欄 accordion ── */
 #sono-daily-report .dw-sono-accordion{ background:#141425; border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.06); margin:0 0 16px; }
@@ -641,18 +642,19 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   </div>
 </div>
 
-<!-- ══════ Daily Footer ══════ -->
-<div class="dw-footer">
-  <p>Sono每日資訊系統 · 資料來源：Open-Meteo + Google News RSS + FLUX.1</p>
-  <p>2026年7月5日（星期日）</p>
-</div>
-
 <!-- ══════ 新聞 4 TABS ══════ -->
+<div class="dw-news-title">📰 今日四大新聞</div>
 <div class="dw-news-tabs">
   <button class="dw-ntab active" data-section="ai"><span>🤖</span> AI 科技</button>
   <button class="dw-ntab" data-section="space"><span>🚀</span> 太空宇宙</button>
   <button class="dw-ntab" data-section="ufo"><span>👽</span> UFO 外星人</button>
   <button class="dw-ntab" data-section="paranormal"><span>🔮</span> 超自然</button>
+</div>
+
+<!-- ══════ Daily Footer ══════ -->
+<div class="dw-footer">
+  <p>Sono每日資訊系統 · 資料來源：Open-Meteo + Google News RSS + FLUX.1</p>
+  <p>2026年7月5日（星期日）</p>
 </div>
 
 </div>
@@ -3061,33 +3063,24 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       if ($('dw-tc-humidity')) $('dw-tc-humidity').textContent = humidity + '%';
       if ($('dw-tc-wind')) $('dw-tc-wind').textContent = wind + 'km/h';
 
-      // 3) 5-day forecast
-      var forecast = (d.weather && d.weather[0] && d.weather[0].hourly) ? [] : (d.forecast || []);
+      // 3) 5-day forecast (use wttr.in d.weather array - maxtempC/mintempC directly)
+      var forecast = d.weather || [];
       var fcCards = document.querySelectorAll('.dw-fc-card');
       var wdays = ['日','一','二','三','四','五','六'];
-      for (var i = 0; i < 5 && i < fcCards.length; i++) {
+      for (var i = 0; i < 5 && i < fcCards.length && i < forecast.length; i++) {
         var dayData = forecast[i] || {};
         var date = new Date(dayData.date || new Date());
-        var hi = parseInt((dayData.maxtempC || dayData.mintempC || 0), 10);
-        var lo = parseInt((dayData.mintempC || 0), 10);
-        // Try to find hi/lo from hourly
-        var hourly = dayData.hourly || [];
-        var hi2 = 0, lo2 = 999;
-        for (var h = 0; h < hourly.length; h++) {
-          var t = parseInt(hourly[h].tempC || 0, 10);
-          if (t > hi2) hi2 = t;
-          if (t < lo2) lo2 = t;
-        }
-        if (!hi2 || hi2 === 0) hi2 = 30;
-        if (!lo2 || lo2 === 999) lo2 = 25;
-        var fcIcon = pickIcon((dayData.hourly && dayData.hourly[4] && dayData.hourly[4].weatherDesc && dayData.hourly[4].weatherDesc[0].value) || '多雲');
+        var hi = parseInt(dayData.maxtempC, 10);
+        var lo = parseInt(dayData.mintempC, 10);
+        // Get midday icon from hourly[4] (noon)
+        var noon = (dayData.hourly && dayData.hourly[4]) || {};
+        var noonDesc = (noon.weatherDesc && noon.weatherDesc[0] && noon.weatherDesc[0].value) || '多雲';
         fcCards[i].querySelector('.dw-fc-day').textContent = wdays[date.getDay()];
-        fcCards[i].querySelector('.dw-fc-icon').textContent = fcIcon;
-        fcCards[i].querySelector('.dw-fc-hi').textContent = (hi2 || 30) + '°';
-        fcCards[i].querySelector('.dw-fc-lo').textContent = (lo2 || 25) + '°';
+        fcCards[i].querySelector('.dw-fc-icon').textContent = pickIcon(noonDesc);
+        fcCards[i].querySelector('.dw-fc-hi').textContent = (isNaN(hi) ? '--' : hi) + '°';
+        fcCards[i].querySelector('.dw-fc-lo').textContent = (isNaN(lo) ? '--' : lo) + '°';
       }
-    })
-    .catch(function(e) { console.log('wttr.in failed:', e); });
+
 
 function pickIcon(desc) {
     if (!desc) return '☀';
