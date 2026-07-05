@@ -291,11 +291,126 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .game-body {
   flex: 1;
 }
+/* ══════ Sono 每日日報金骨架 (scoped) ══════ */
+
+#sono-daily-report{ font-family: -apple-system, 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: #0a0a1a; color: #e0e0e0; line-height: 1.8; }
+#sono-daily-report .container{ max-width: 900px; margin: 0 auto; padding: 20px; }
+#sono-daily-report .header-text{ text-align: center; margin-bottom: 30px; }
+#sono-daily-report .logo{ font-size: 4em; font-weight: 900; letter-spacing: 5px; background: linear-gradient(135deg, #ff6b9d, #c44569, #a29bfe, #6c5ce7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: 0 0 40px rgba(255,107,157,0.4); line-height: 1; margin-bottom: 15px; }
+#sono-daily-report .title{ font-size: 1.8em; font-weight: 700; background: linear-gradient(90deg, #ffd93d, #ff6b9d, #a29bfe, #6bff6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 4px; margin-bottom: 15px; line-height: 1; }
+#sono-daily-report .date{ color: #888; font-size: 1.1em; margin-bottom: 10px; text-align: center; }
+#sono-daily-report .subtitle{ color: #a29bfe; font-size: 0.95em; font-style: italic; opacity: 0.8; }
+#sono-daily-report .back-link{ text-align: center; margin: 8px 0 8px; }
+#sono-daily-report .back-link a{ color: #a29bfe; text-decoration: none; font-size: 0.85em; padding: 6px 16px; border: 1px solid #333; border-radius: 16px; transition: all 0.3s; }
+#sono-daily-report .back-link a:hover{ background: #1a1a3a; }
+#sono-daily-report .weather-box{ background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 18px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.06); }
+#sono-daily-report .weather-box h2{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+#sono-daily-report .weather-today{ display: flex; gap: 18px; }
+#sono-daily-report .weather-main{ flex: 0 0 auto; text-align: center; min-width: 120px; }
+#sono-daily-report .weather-main .icon{ font-size: 3.5em; }
+#sono-daily-report .weather-main .temp{ font-size: 3em; font-weight: 900; color: #fff; }
+#sono-daily-report .weather-main .temp-range{ font-size: 0.8em; color: #888; margin-top: 2px; }
+#sono-daily-report .weather-main .desc{ font-size: 0.8em; color: #a29bfe; }
+#sono-daily-report .weather-details{ flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; align-content: center; }
+#sono-daily-report .weather-detail-item{ display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.8em; }
+#sono-daily-report .weather-detail-item .label{ color: #888; }
+#sono-daily-report .weather-detail-item .value{ color: #ddd; }
+#sono-daily-report .forecast-section{ margin-top: 18px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.06); }
+#sono-daily-report .forecast-section h3{ font-size: 0.85em; color: #888; margin-bottom: 10px; }
+#sono-daily-report .forecast-grid{ display: grid; grid-template-columns: repeat(5,1fr); gap: 4px; }
+#sono-daily-report .forecast-day{ background: rgba(255,255,255,0.03); border-radius: 8px; padding: 8px; text-align: center; font-size: 0.75em; }
+#sono-daily-report .forecast-day .weekday{ color: #888; font-size: 0.9em; margin-bottom: 3px; }
+#sono-daily-report .forecast-day .ficon{ font-size: 1.5em; margin: 4px 0; }
+#sono-daily-report .forecast-day .ftemp{ color: #fff; font-weight: 700; font-size: 1.1em; }
+#sono-daily-report .forecast-day .ftemp-lo{ color: #666; font-size: 0.85em; }
+#sono-daily-report .weather-links{ display: flex; gap: 10px; margin-top: 12px; justify-content: center; }
+#sono-daily-report .weather-links a{ text-decoration: none; }
+#sono-daily-report .weather-links .weather-link{ color: #a29bfe; font-size: 0.75em; padding: 5px 12px; border-radius: 14px; background: rgba(162,155,254,0.08); border: 1px solid rgba(162,155,254,0.15); transition: all 0.3s; }
+#sono-daily-report .weather-links .weather-link:hover{ background: rgba(162,155,254,0.15); }
+#sono-daily-report .weather-insight{ margin-top: 15px; padding: 15px; background: linear-gradient(135deg, rgba(255,107,157,0.08), rgba(162,155,254,0.08)); border-radius: 10px; border-left: 3px solid #a29bfe; }
+#sono-daily-report .weather-insight h3{ font-size: 0.85em; color: #a29bfe; margin-bottom: 8px; }
+#sono-daily-report .insight-text{ font-size: 0.82em; color: #ddd; line-height: 1.6; font-style: italic; }
+#sono-daily-report .recommendation{ display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 0.78em; color: #bbb; }
+#sono-daily-report .recommendation .emoji{ font-size: 1.1em; }
+#sono-daily-report .sono-column{ background: #141425; border-radius: 12px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.06); overflow: hidden; }
+#sono-daily-report .sc-header{ padding: 14px 18px; background: rgba(162,155,254,0.06); border-bottom: 1px solid rgba(255,255,255,0.04); }
+#sono-daily-report .sc-title{ font-size: 1em; font-weight: 700; color: #a29bfe; }
+#sono-daily-report .sc-body{ } 
+#sono-daily-report .sc-sub{ display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.04); transition: background 0.2s; }
+#sono-daily-report .sc-sub:hover{ background: rgba(162,155,254,0.04); }
+#sono-daily-report .sc-sub-title{ font-size: 0.88em; color: #ddd; }
+#sono-daily-report .sc-sub-arrow{ color: #666; transition: transform 0.3s; font-size: 0.7em; }
+#sono-daily-report .sc-sub.open .sc-sub-arrow{ transform: rotate(180deg); }
+#sono-daily-report .sc-sub-body{ max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; padding: 0 18px; background: rgba(255,255,255,0.02); }
+#sono-daily-report .sc-sub-body.open{ max-height: 2000px; padding: 14px 18px; }
+#sono-daily-report .sc-sub-body .observation{ color: #ccc; font-size: 0.9em; line-height: 1.7; }
+#sono-daily-report .sc-sub-body .prediction{ margin: 12px 0; padding: 12px 16px; background: rgba(162,155,254,0.08); border-radius: 8px; color: #ccc; font-size: 0.9em; line-height: 1.7; }
+#sono-daily-report .sc-sub-body .quote p{ color: #ddd; }
+#sono-daily-report .sc-sub-body strong{ color: #a29bfe; }
+#sono-daily-report .news-tab-bar{ display: flex; background: #141425; border-radius: 10px; overflow: hidden; margin: 20px 0 0; border: 1px solid rgba(255,255,255,0.06); }
+#sono-daily-report .news-tab{ flex: 1; padding: 12px 6px; border: none; background: transparent; color: #666; font-size: 0.82em; cursor: pointer; transition: all 0.3s; font-family: inherit; }
+#sono-daily-report .news-tab.active{ color: #fff; background: linear-gradient(135deg, #ff6b9d22, #a29bfe22); border-bottom: 2px solid #a29bfe; }
+#sono-daily-report .news-tab:hover{ color: #ccc; background: rgba(255,255,255,0.03); }
+#sono-daily-report .tab-icon{ font-size: 1.1em; display: block; margin-bottom: 3px; }
+#sono-daily-report .section-panel{ padding: 8px 0; }
+#sono-daily-report .section-header{ display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 8px; }
+#sono-daily-report .section-header .section-icon{ font-size: 1.2em; }
+#sono-daily-report .section-header span{ font-size: 0.9em; color: #a29bfe; font-weight: 600; }
+#sono-daily-report .news-card{ background: rgba(255,255,255,0.03); border-radius: 10px; padding: 14px; margin: 8px 0; border: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: all 0.3s; }
+#sono-daily-report .news-card:hover{ background: rgba(255,255,255,0.05); border-color: rgba(162,155,254,0.2); }
+#sono-daily-report .news-card h3{ font-size: 0.82em; color: #fff; font-weight: 500; line-height: 1.5; margin-bottom: 6px; }
+#sono-daily-report .news-card .tag{ display: inline-block; font-size: 0.65em; padding: 2px 6px; border-radius: 4px; font-weight: 700; margin-left: 4px; }
+#sono-daily-report .breakthrough{ border-left: 3px solid #ff6b9d; }
+#sono-daily-report .breakthrough .tag{ background: #ff6b9d; color: #fff; }
+#sono-daily-report .warning{ border-left: 3px solid #ffd93d; }
+#sono-daily-report .warning .tag{ background: #ffd93d; color: #000; }
+#sono-daily-report .prediction .tag{ background: #74b9ff; color: #000; }
+#sono-daily-report .discovery{ border-left: 3px solid #6bff6b; }
+#sono-daily-report .discovery .tag{ background: #6bff6b; color: #000; }
+#sono-daily-report .innovation{ border-left: 3px solid #a29bfe; }
+#sono-daily-report .innovation .tag{ background: #a29bfe; color: #fff; }
+#sono-daily-report .update{ border-left: 3px solid #888; }
+#sono-daily-report .update .tag{ background: #555; color: #fff; }
+#sono-daily-report .alert{ border-left: 3px solid #ff6b6b; }
+#sono-daily-report .alert .tag{ background: #ff6b6b; color: #fff; }
+#sono-daily-report .news-card .meta{ font-size: 0.7em; color: #666; }
+#sono-daily-report .news-card .meta a{ color: #a29bfe; text-decoration: none; }
+#sono-daily-report .news-card p{ font-size: 0.75em; color: #888; margin-top: 6px; line-height: 1.5; }
+#sono-daily-report .expand-hint{ text-align: right; font-size: 0.65em; color: #555; margin-top: 4px; padding-bottom: 4px; }
+#sono-daily-report .footer{ text-align: center; padding: 25px 0 10px; color: #555; font-size: 0.7em; line-height: 2; }
+#sono-daily-report .footer a{ color: #666; text-decoration: none; }
+#sono-daily-report .news-tab-bar + .section-panel{ display: block; }
+
 </style>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-// ══════ Tab Event Listener 初始化 �═════
+// ══════ Sono 每日日報: News Tab Switch ══════
+document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    var section = this.getAttribute('data-section');
+    document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(t) { t.classList.remove('active'); });
+    this.classList.add('active');
+    document.querySelectorAll('#sono-daily-report .section-panel').forEach(function(p) { p.style.display = 'none'; });
+    var el = document.getElementById('panel-' + section);
+    if (el) { el.style.display = 'block'; }
+  });
+});
+
+// ══════ Sono 每日日報: Accordion Toggle ══════
+function toggleSub(sub) {
+  var allSubs = document.querySelectorAll('#sono-daily-report .sc-sub');
+  allSubs.forEach(function(s) {
+    if (s !== sub && s.classList.contains('open')) {
+      s.classList.remove('open');
+      s.nextElementSibling.classList.remove('open');
+    }
+  });
+  sub.classList.toggle('open');
+  sub.nextElementSibling.classList.toggle('open');
+}
+
+// ══════ Tab Event Listener 初始化 ══════
 document.querySelectorAll('.tab-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
     switchTab(btn.dataset.tab);
@@ -455,112 +570,133 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
 <!-- ══════ Tab 1: Sono 每日 ══════ -->
 <div class="tab-panel active" id="tab-daily">
-  <div class="section-label">📰 瀏覽日報</div>
-  <div class="report-list">
-    <a href="reports/sono_20260703.html" class="report-item">
-      <div class="date-num">3</div>
-      <div class="info">
-        <h3>2026年7月3日</h3>
-        <div class="weekday">星期五</div>
-        <div class="desc">香港贸发局料2026年香港出口... · NASA启动大胆“太空救援” ... · Presidential Un...</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a href="reports/sono_20260702.html" class="report-item">
-      <div class="date-num">2</div>
-      <div class="info">
-        <h3>2026年7月2日</h3>
-        <div class="weekday">星期四</div>
-        <div class="desc">The 2026 AI Ind...</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-<a href="reports/sono_20260701.html" class="report-item">
-      <div class="date-num">1</div>
-      <div class="info">
-        <h3>2026年7月1日</h3>
-        <div class="weekday">星期三</div>
-        <div class="desc">港大AI治理峰會 · SpaceX納入納指100 · 盲眼龍婆UFO預言</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-        <a href="reports/sono_20260630.html" class="report-item">
-      <div class="date-num">30</div>
-      <div class="info">
-        <h3>2026年6月30日</h3>
-        <div class="weekday">星期二</div>
-        <div class="desc">AI基礎設施投資加速 · Artemis 3登月任務 · UFO檔案持續解密</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a href="reports/sono_20260629.html" class="report-item">
-      <div class="date-num">29</div>
-      <div class="info">
-        <h3>2026年6月29日</h3>
-        <div class="weekday">星期一</div>
-        <div class="desc">雨天宅家 · 香港AI超算中心啟用 · Grok-5 發布</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a href="reports/sono_20260628.html" class="report-item">
-      <div class="date-num">28</div>
-      <div class="info">
-        <h3>2026年6月28日</h3>
-        <div class="weekday">星期日</div>
-        <div class="desc">AI基建投資加速 · Artemis重返月球 · UFO第三波解密</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a href="reports/sono_20260627.html" class="report-item">
-      <div class="date-num">27</div>
-  <div class="info">
-    <h3>2026年6月27日</h3>
-    <div class="weekday">星期六</div>
-    <div class="desc">AI成本推高產品價格 • Swift望遠鏡救援任務 • 小行星掠過地球</div>
+<div id="sono-daily-report">
+<div class="weather-box">
+  <h2 style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+    <span>🌧️ 香港天氣</span>
+    <span style="font-size:0.78em; color:#888;">2026年7月5日（星期日）</span>
+  </h2>
+  <div class="weather-today">
+    <div class="weather-main"><div class="icon">⛈️</div><div class="temp">29</div><div class="temp-range">低 26 / 高 29</div><div class="desc">雷暴，間中有雨</div></div>
+    <div class="weather-details">
+      <div class="weather-detail-item"><div class="label">濕度</div><div class="value">79-93%</div></div>
+      <div class="weather-detail-item"><div class="label">風速</div><div class="value">南風 19km/h</div></div>
+      <div class="weather-detail-item"><div class="label">紫外線</div><div class="value">極高</div></div>
+      <div class="weather-detail-item"><div class="label">能見度</div><div class="value">尚可</div></div>
+    </div>
   </div>
-  <div class="arrow">→</div>
-</a>
-<a href="reports/sono_20260626.html" class="report-item">
-  <div class="date-num">26</div>
-  <div class="info">
-    <h3>2026年6月26日</h3>
-    <div class="weekday">星期五</div>
-    <div class="desc">五眼聯盟AI安全警告 · Pentagon UFO第三批解密 · Euclid望遠鏡60M恆星全景</div>
-  </div>
-  <div class="arrow">→</div>
-</a>
-      <a href="reports/sono_20260625.html" class="report-item">
-        <div class="date-num">25</div>
-        <div class="info">
-          <h3>2026年6月25日</h3>
-          <div class="weekday">星期四</div>
-          <div class="desc">Nvidia AI突破唔靠晶片 | OpenAI+Broadcom推AI晶片 | Oracle裁員2.1萬 | Webb+Hubble聯手銀河發現 | Pentagon第三批UFO檔案</div>
-        </div>
-        <div class="arrow">→</div>
-      </a>
-      
-    <a href="reports/sono_20260624.html" class="report-item">
-      <div class="date-num">24</div>
-      <div class="info">
-        <h3>2026年6月24日</h3>
-        <div class="weekday">星期三</div>
-        <div class="desc">Nvidia數據中心新架構 · OpenAI+Broadcom晶片 · Oracle AI裁員 · Roman望遠鏡抵達 · PURSUE系統啟動</div>
+  <div class="forecast-section">
+      <h3>未來5天預測</h3>
+      <div class="forecast-grid">
+        <div class="forecast-day"><div class="weekday">週日</div><div class="date">7/5</div><div class="ficon">⛈️</div><div class="ftemp">29</div><div class="ftemp-lo">26</div></div>
+        <div class="forecast-day"><div class="weekday">週一</div><div class="date">7/6</div><div class="ficon">⛈️</div><div class="ftemp">30</div><div class="ftemp-lo">27</div></div>
+        <div class="forecast-day"><div class="weekday">週二</div><div class="date">7/7</div><div class="ficon">⛈️</div><div class="ftemp">28</div><div class="ftemp-lo">25</div></div>
+        <div class="forecast-day"><div class="weekday">週三</div><div class="date">7/8</div><div class="ficon">⛈️</div><div class="ftemp">30</div><div class="ftemp-lo">25</div></div>
+        <div class="forecast-day"><div class="weekday">週四</div><div class="date">7/9</div><div class="ficon">⛈️</div><div class="ftemp">30</div><div class="ftemp-lo">26</div></div>
       </div>
-      <div class="arrow">→</div>
-    </a>
-    <a href="reports/sono_20260623.html" class="report-item">
-      <div class="date-num">23</div>
-      <div class="info">
-        <h3>2026年6月23日</h3>
-        <div class="weekday">星期二</div>
-        <div class="desc">AI 突破總覽 · NASA 羅曼望遠鏡抵達 · Stanford 量子突破 · 逆齡基因療法測試 · 英國首相辭職</div>
+      <div class="weather-links">
+        <a class="weather-link" href="https://www.hko.gov.hk/tc/index.html" target="_blank">📊 香港天文台</a>
+        <a class="weather-link" href="https://www.hko.gov.hk/tc/wxinfo/currwx/tc_gis.htm" target="_blank">🌀 熱帶氣旋路徑</a>
       </div>
-      <div class="arrow">→</div>
-    </a>
+    </div>
+  <div class="weather-insight">
+    <h3>☔ Sono 天氣洞察</h3>
+    <p class="insight-text">今日天氣有啲特別，雷暴警告生效中。留意最新新聞趨勢，調整自己嘅步伐。</p>
+    <div class="recommendation"><span class="emoji">👕</span><span class="text">記得著合適衣物</span></div>
+    <div class="recommendation"><span class="emoji">☂️</span><span class="text">出門帶遮防備</span></div>
+    <div class="recommendation"><span class="emoji">😊</span><span class="text">保持好心情</span></div>
   </div>
-  <div class="report-history-link">
-    <a href="reports/">📅 查看所有日報</a>
+</div>
+
+<!-- SONO 專欄 (accordion) -->
+<div class="sono-column">
+  <div class="sc-header">
+    <span class="sc-title">📝 Sono專欄</span>
   </div>
+  <div class="sc-body">
+    <div class="sc-sub" onclick="toggleSub(this)">
+      <span class="sc-sub-title">🌍 世界趨勢</span>
+      <span class="sc-sub-arrow">▼</span>
+    </div>
+    <div class="sc-sub-body">
+      <div class="observation"><strong>今日焦點</strong><br><br>今日內容待 M3 生成⋯⋯</div>
+    </div>
+    <div class="sc-sub" onclick="toggleSub(this)">
+      <span class="sc-sub-title">📡 蘇蘿預測</span>
+      <span class="sc-sub-arrow">▼</span>
+    </div>
+    <div class="sc-sub-body">
+      <div class="prediction"><strong>短期</strong>：待 M3 生成⋯⋯</div>
+    </div>
+    <div class="sc-sub" onclick="toggleSub(this)">
+      <span class="sc-sub-title">🔮 蘇蘿直覺</span>
+      <span class="sc-sub-arrow">▼</span>
+    </div>
+    <div class="sc-sub-body">
+      <div class="quote" style="font-style:italic;color:#e0e0e0;padding:15px;background:rgba(255,107,157,0.05);border-radius:8px;line-height:1.8;">今日內容待 M3 生成⋯⋯</div>
+    </div>
+  </div>
+</div>
+
+<!-- NEWS TABS -->
+<div class="news-tab-bar">
+    <button class="news-tab active" data-section="ai"><span class="tab-icon">🤖</span> <span>AI 科技</span></button>
+    <button class="news-tab" data-section="space"><span class="tab-icon">🚀</span> <span>太空宇宙</span></button>
+    <button class="news-tab" data-section="ufo"><span class="tab-icon">👽</span> <span>UFO 外星人</span></button>
+    <button class="news-tab" data-section="paranormal"><span class="tab-icon">🔮</span> <span>超自然現象</span></button>
+</div>
+
+<div class="section-panel" id="panel-ai">
+  <div class="section-header">
+    <span class="section-icon">🤖</span>
+    <span>AI 科技</span>
+  </div>
+  <div class="news-card breakthrough">
+    <h3>內容待 M3 reset 後生成⋯⋯ <span class="tag update">消息</span></h3>
+    <div class="meta">7/5 / <a href="#" target="_blank" rel="noopener">Sono</a></div>
+    <p>M3 將於今日下晝重置，到時內容會自動更新。</p>
+  </div>
+</div>
+<div class="section-panel" id="panel-space" style="display:none;">
+  <div class="section-header">
+    <span class="section-icon">🚀</span>
+    <span>太空宇宙</span>
+  </div>
+  <div class="news-card update">
+    <h3>內容待生成 <span class="tag update">消息</span></h3>
+    <div class="meta">/ <a href="#">Sono</a></div>
+    <p>等待 M3 重置⋯⋯</p>
+  </div>
+</div>
+<div class="section-panel" id="panel-ufo" style="display:none;">
+  <div class="section-header">
+    <span class="section-icon">👽</span>
+    <span>UFO 外星人</span>
+  </div>
+  <div class="news-card update">
+    <h3>內容待生成 <span class="tag update">消息</span></h3>
+    <div class="meta">/ <a href="#">Sono</a></div>
+    <p>等待 M3 重置⋯⋯</p>
+  </div>
+</div>
+<div class="section-panel" id="panel-paranormal" style="display:none;">
+  <div class="section-header">
+    <span class="section-icon">🔮</span>
+    <span>超自然現象</span>
+  </div>
+  <div class="news-card update">
+    <h3>內容待生成 <span class="tag update">消息</span></h3>
+    <div class="meta">/ <a href="#">Sono</a></div>
+    <p>等待 M3 重置⋯⋯</p>
+  </div>
+</div>
+
+<div class="footer">
+  <p>Sono每日資訊系統</p>
+  <p>資料來源：Google News RSS + 香港天文台</p>
+  <p>報告生成時間：2026年7月5日（星期日）</p>
+</div>
+</div>
 </div>
 
 <!-- ══════ Tab 2: Sono 遊戲 ══════ -->
@@ -1538,7 +1674,32 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
 })();
 
 
-// ══════ Tab Event Listener 初始化 �═════
+// ══════ Sono 每日日報: News Tab Switch ══════
+document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    var section = this.getAttribute('data-section');
+    document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(t) { t.classList.remove('active'); });
+    this.classList.add('active');
+    document.querySelectorAll('#sono-daily-report .section-panel').forEach(function(p) { p.style.display = 'none'; });
+    var el = document.getElementById('panel-' + section);
+    if (el) { el.style.display = 'block'; }
+  });
+});
+
+// ══════ Sono 每日日報: Accordion Toggle ══════
+function toggleSub(sub) {
+  var allSubs = document.querySelectorAll('#sono-daily-report .sc-sub');
+  allSubs.forEach(function(s) {
+    if (s !== sub && s.classList.contains('open')) {
+      s.classList.remove('open');
+      s.nextElementSibling.classList.remove('open');
+    }
+  });
+  sub.classList.toggle('open');
+  sub.nextElementSibling.classList.toggle('open');
+}
+
+// ══════ Tab Event Listener 初始化 ══════
 document.querySelectorAll('.tab-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
     switchTab(btn.dataset.tab);
@@ -1845,7 +2006,32 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   }
 })();
 
-// ══════ Tab Event Listener 初始化 �═════
+// ══════ Sono 每日日報: News Tab Switch ══════
+document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    var section = this.getAttribute('data-section');
+    document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(t) { t.classList.remove('active'); });
+    this.classList.add('active');
+    document.querySelectorAll('#sono-daily-report .section-panel').forEach(function(p) { p.style.display = 'none'; });
+    var el = document.getElementById('panel-' + section);
+    if (el) { el.style.display = 'block'; }
+  });
+});
+
+// ══════ Sono 每日日報: Accordion Toggle ══════
+function toggleSub(sub) {
+  var allSubs = document.querySelectorAll('#sono-daily-report .sc-sub');
+  allSubs.forEach(function(s) {
+    if (s !== sub && s.classList.contains('open')) {
+      s.classList.remove('open');
+      s.nextElementSibling.classList.remove('open');
+    }
+  });
+  sub.classList.toggle('open');
+  sub.nextElementSibling.classList.toggle('open');
+}
+
+// ══════ Tab Event Listener 初始化 ══════
 document.querySelectorAll('.tab-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
     switchTab(btn.dataset.tab);
@@ -2351,7 +2537,32 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   }
 })();
 
-// ══════ Tab Event Listener 初始化 �═════
+// ══════ Sono 每日日報: News Tab Switch ══════
+document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    var section = this.getAttribute('data-section');
+    document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(t) { t.classList.remove('active'); });
+    this.classList.add('active');
+    document.querySelectorAll('#sono-daily-report .section-panel').forEach(function(p) { p.style.display = 'none'; });
+    var el = document.getElementById('panel-' + section);
+    if (el) { el.style.display = 'block'; }
+  });
+});
+
+// ══════ Sono 每日日報: Accordion Toggle ══════
+function toggleSub(sub) {
+  var allSubs = document.querySelectorAll('#sono-daily-report .sc-sub');
+  allSubs.forEach(function(s) {
+    if (s !== sub && s.classList.contains('open')) {
+      s.classList.remove('open');
+      s.nextElementSibling.classList.remove('open');
+    }
+  });
+  sub.classList.toggle('open');
+  sub.nextElementSibling.classList.toggle('open');
+}
+
+// ══════ Tab Event Listener 初始化 ══════
 document.querySelectorAll('.tab-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
     switchTab(btn.dataset.tab);
@@ -2742,7 +2953,32 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   }
 })();
 
-// ══════ Tab Event Listener 初始化 �═════
+// ══════ Sono 每日日報: News Tab Switch ══════
+document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    var section = this.getAttribute('data-section');
+    document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(t) { t.classList.remove('active'); });
+    this.classList.add('active');
+    document.querySelectorAll('#sono-daily-report .section-panel').forEach(function(p) { p.style.display = 'none'; });
+    var el = document.getElementById('panel-' + section);
+    if (el) { el.style.display = 'block'; }
+  });
+});
+
+// ══════ Sono 每日日報: Accordion Toggle ══════
+function toggleSub(sub) {
+  var allSubs = document.querySelectorAll('#sono-daily-report .sc-sub');
+  allSubs.forEach(function(s) {
+    if (s !== sub && s.classList.contains('open')) {
+      s.classList.remove('open');
+      s.nextElementSibling.classList.remove('open');
+    }
+  });
+  sub.classList.toggle('open');
+  sub.nextElementSibling.classList.toggle('open');
+}
+
+// ══════ Tab Event Listener 初始化 ══════
 document.querySelectorAll('.tab-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
     switchTab(btn.dataset.tab);
@@ -2846,7 +3082,32 @@ const statuses=["正常","輕微延誤","嚴重延誤","暫停服務"];const sta
 let html="";if(status==="正常")html=`<p style="color:#4ade80;font-size:17px;">✅ ${line} 服務正常</p>`;else if(status==="輕微延誤")html=`<p style="color:#fbbf24;font-size:17px;">⚠️ ${line} 輕微延誤</p>`;else if(status==="嚴重延誤")html=`<p style="color:#f87171;font-size:17px;">❌ ${line} 嚴重延誤</p>`;else html=`<p style="color:#f87171;font-size:17px;">🛑 ${line} 暫停服務</p>`;
 result.innerHTML=html;time.innerHTML=`最後更新：${new Date().toLocaleTimeString('zh-HK')}`;}
 
-// ══════ Tab Event Listener 初始化 �═════
+// ══════ Sono 每日日報: News Tab Switch ══════
+document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    var section = this.getAttribute('data-section');
+    document.querySelectorAll('#sono-daily-report .news-tab').forEach(function(t) { t.classList.remove('active'); });
+    this.classList.add('active');
+    document.querySelectorAll('#sono-daily-report .section-panel').forEach(function(p) { p.style.display = 'none'; });
+    var el = document.getElementById('panel-' + section);
+    if (el) { el.style.display = 'block'; }
+  });
+});
+
+// ══════ Sono 每日日報: Accordion Toggle ══════
+function toggleSub(sub) {
+  var allSubs = document.querySelectorAll('#sono-daily-report .sc-sub');
+  allSubs.forEach(function(s) {
+    if (s !== sub && s.classList.contains('open')) {
+      s.classList.remove('open');
+      s.nextElementSibling.classList.remove('open');
+    }
+  });
+  sub.classList.toggle('open');
+  sub.nextElementSibling.classList.toggle('open');
+}
+
+// ══════ Tab Event Listener 初始化 ══════
 document.querySelectorAll('.tab-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
     switchTab(btn.dataset.tab);
