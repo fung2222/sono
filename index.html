@@ -406,66 +406,7 @@ function toggleSub(sub) {
   sub.nextElementSibling.classList.toggle('open');
 }
 
-<script>
-// ══════ 即時天氣（香港，自動載入 via wttr.in） ══════
-(function(){
-  var wmoWttr = {
-    '113':'☀️','116':'⛅','119':'☁️','122':'☁️',
-    '143':'🌫️','176':'🌦️','263':'🌧️','353':'🌧️',
-    '362':'🌧️','365':'🌧️','359':'🌧️',
-    '386':'⛈️','389':'⛈️',
-    '395':'🌨️','392':'🌨️','368':'🌨️','371':'🌨️',
-    '230':'🌨️','227':'🌨️','200':'⚡',
-    '296':'🌦️','299':'🌧️','302':'🌧️','308':'🌧️','311':'🌦️','314':'🌧️'
-  };
 
-  function showError() {
-    document.getElementById('lwError').style.display = 'block';
-    document.getElementById('lwTemp').textContent = '--°';
-    document.getElementById('lwRange').textContent = '無法載入';
-    document.getElementById('lwDesc').textContent = '請稍後再試';
-  }
-
-  function applyUVColor(uv) {
-    var el = document.getElementById('lwUV');
-    var uvNum = parseFloat(uv);
-    if (!uv || isNaN(uvNum)) { el.textContent = '--'; return; }
-    el.textContent = uvNum.toFixed(1);
-    if (uvNum >= 11) el.style.color = '#ff4444';
-    else if (uvNum >= 8) el.style.color = '#ff8844';
-    else if (uvNum >= 6) el.style.color = '#ffcc00';
-    else if (uvNum >= 3) el.style.color = '#aaff44';
-    else el.style.color = '#44ff88';
-  }
-
-  async function fetchHKWeather() {
-    try {
-      var r = await fetch('https://wttr.in/Hong_Kong?format=j1');
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      var d = await r.json();
-      var c = d.current_condition[0];
-      var wCode = c.weatherCode;
-      document.getElementById('lwIcon').textContent = wmoWttr[wCode] || '🌤️';
-      document.getElementById('lwTemp').textContent = c.temp_C + '°';
-      var today = d.weather[0];
-      document.getElementById('lwRange').textContent = '低 ' + today.mintempC + '° / 高 ' + today.maxtempC + '°';
-      var descEN = (c.weatherDesc && c.weatherDesc[0] && c.weatherDesc[0].value) ? c.weatherDesc[0].value : '';
-      document.getElementById('lwDesc').textContent = descEN;
-      document.getElementById('lwHumidity').textContent = c.humidity + '%';
-      document.getElementById('lwWind').textContent = c.windspeedKmph + ' km/h';
-      document.getElementById('lwApparent').textContent = '體感 ' + c.FeelsLikeC + '°C';
-      applyUVColor(c.uvIndex ? c.uvIndex : '0');
-      document.getElementById('lwError').style.display = 'none';
-    } catch(e) {
-      console.warn('Weather fetch failed:', e);
-      showError();
-    }
-  }
-
-  fetchHKWeather();
-  setInterval(fetchHKWeather, 30 * 60 * 1000);
-})();
-</script>
 // ══════ Tab Event Listener 初始化 ══════
 document.querySelectorAll('.tab-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
@@ -628,35 +569,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <div class="tab-panel active" id="tab-daily">
 <div id="sono-daily-report">
 
-<!-- ══════ 即時天氣 HERO（自動載入香港） ══════ -->
-<div class="dw-hero" id="liveWeatherHero">
-  <div class="dw-hero-bg"></div>
-  <div class="dw-hero-content">
-    <div class="dw-hero-main">
-      <div class="dw-weather-icon" id="lwIcon">⏳</div>
-      <div class="dw-temp-group">
-        <span class="dw-temp-main" id="lwTemp">--°</span>
-        <span class="dw-temp-range" id="lwRange">載入中...</span>
-      </div>
-      <div class="dw-weather-desc" id="lwDesc">--</div>
-    </div>
-    <div class="dw-hero-details" id="lwDetails">
-      <div class="dw-detail-item"><span class="dw-dl">濕度</span><span class="dw-dv" id="lwHumidity">--</span></div>
-      <div class="dw-detail-item"><span class="dw-dl">風速</span><span class="dw-dv" id="lwWind">--</span></div>
-      <div class="dw-detail-item"><span class="dw-dl">體感</span><span class="dw-dv" id="lwApparent">--</span></div>
-      <div class="dw-detail-item"><span class="dw-dl">紫外線</span><span class="dw-dv" id="lwUV">--</span></div>
-    </div>
-  </div>
-  <div id="lwError" style="display:none;position:relative;padding:16px;text-align:center;color:#888;font-size:0.85em;">
-    無法載入天氣數據，請稍後再試
-  </div>
 </div>
-
-<!-- ══════ Daily Footer ══════ -->
-<div class="dw-footer">
-  <p>Sono每日資訊系統</p>
-  <p>即時數據：Open-Meteo · 香港天文台</p>
-</div></div>
 </div>
 
 <!-- ══════ Tab 2: Sono 遊戲 ══════ -->
