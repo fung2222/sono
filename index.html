@@ -300,8 +300,9 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 #sono-daily-report .dw-bi-icon{ font-size:0.9em; }
 #sono-daily-report .dw-bi-region{ margin-left:auto; color:#a29bfe; font-weight:600; }
 
-/* ── 今日天氣卡 ── */
-#sono-daily-report .dw-today-card{ display:flex; align-items:center; gap:16px; background:#141425; border-radius:12px; padding:14px 16px; margin:0 0 12px; border:1px solid rgba(255,255,255,0.06); }
+/* ── 合併天氣 Card (溫度 + 洞察) ── */
+#sono-daily-report .dw-weather-merged{ background:#141425; border-radius:12px; padding:0 16px; margin:0 0 16px; border:1px solid rgba(255,255,255,0.06); }
+#sono-daily-report .dw-today-card{ display:flex; align-items:center; gap:16px; background:transparent; padding:14px 0; margin:0; border:none; }
 #sono-daily-report .dw-tc-left{ display:flex; align-items:center; gap:6px; }
 #sono-daily-report .dw-tc-icon{ font-size:2.4em; line-height:1; }
 #sono-daily-report .dw-tc-temp{ font-size:1.7em; font-weight:900; color:#fff; line-height:1; }
@@ -310,10 +311,12 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 #sono-daily-report .dw-tc-stat{ display:flex; align-items:center; gap:4px; font-size:0.8em; color:#bbb; }
 #sono-daily-report .dw-tc-stat-icon{ font-size:1em; }
 #sono-daily-report .dw-tc-stat-label{ color:#888; }
+#sono-daily-report .dw-wm-divider{ height:1px; background:rgba(255,255,255,0.06); margin:0; }
+#sono-daily-report .dw-wm-insight{ padding:12px 0 14px; }
 
 /* ── Weather Insight (卡片式) ── */
 #sono-daily-report .dw-insight-card{ background:#141425; border-radius:12px; padding:14px 16px; margin:0 0 16px; border:1px solid rgba(255,255,255,0.06); }
-#sono-daily-report .dw-insight-header{ font-size:0.95em; color:#a29bfe; font-weight:700; margin-bottom:8px; }
+#sono-daily-report .dw-insight-header{ font-size:0.95em; color:#fff; font-weight:700; margin-bottom:8px; }
 #sono-daily-report .dw-insight-text{ font-size:0.95em; color:#fff; line-height:1.6; font-style:italic; margin-bottom:10px; }
 #sono-daily-report .dw-insight-body{ }
 #sono-daily-report .dw-insight-recs{ display:flex; gap:12px; flex-wrap:wrap; }
@@ -567,22 +570,22 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   </div>
 </div>
 
-<!-- ══════ 今日天氣卡 ══════ -->
-<div class="dw-today-card">
-  <div class="dw-tc-left">
-    <div id="dw-tc-icon" class="dw-tc-icon">☁️</div>
-    <div id="dw-tc-temp" class="dw-tc-temp">--°</div>
+<!-- ══════ 天氣 Card (合併：溫度 + 洞察) ══════ -->
+<div class="dw-weather-merged">
+  <div class="dw-today-card">
+    <div class="dw-tc-left">
+      <div id="dw-tc-icon" class="dw-tc-icon">☁️</div>
+      <div id="dw-tc-temp" class="dw-tc-temp">--°</div>
+    </div>
+    <div class="dw-tc-right">
+      <div id="dw-tc-desc" class="dw-tc-desc">載入中⋯</div>
+      <div class="dw-tc-stat"><span class="dw-tc-stat-icon">💧</span><span class="dw-tc-stat-label">濕度</span><span id="dw-tc-humidity">--%</span></div>
+      <div class="dw-tc-stat"><span class="dw-tc-stat-icon">🌬️</span><span class="dw-tc-stat-label">風速</span><span id="dw-tc-wind">--km/h</span></div>
+    </div>
   </div>
-  <div class="dw-tc-right">
-    <div id="dw-tc-desc" class="dw-tc-desc">載入中⋯</div>
-    <div class="dw-tc-stat"><span class="dw-tc-stat-icon">💧</span><span class="dw-tc-stat-label">濕度</span><span id="dw-tc-humidity">--%</span></div>
-    <div class="dw-tc-stat"><span class="dw-tc-stat-icon">🌬️</span><span class="dw-tc-stat-label">風速</span><span id="dw-tc-wind">--km/h</span></div>
-  </div>
-</div>
-<!-- ══════ 天氣洞察 ══════ -->
-<div class="dw-insight-card">
-  <div class="dw-insight-header">☔ 天氣洞察</div>
-  <div class="dw-insight-body">
+  <div class="dw-wm-divider"></div>
+  <div class="dw-wm-insight">
+    <div class="dw-insight-header">☔ 天氣洞察</div>
     <p class="dw-insight-text">今日雖未見大雨，但高空擾動會喺午後帶來幾陣驟雨。濕度偏高，體感悶熱。出門最好帶定把遮，趁有陽光嘅時候出去行陣。</p>
     <div class="dw-insight-recs">
       <span>👕 短袖衫就夠</span>
