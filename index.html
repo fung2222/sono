@@ -406,10 +406,17 @@ function toggleSub(sub) {
   sub.nextElementSibling.classList.toggle('open');
 }
 
-// ══════ 即時天氣（香港，自動載入） ══════
+// ══════ 即時天氣（香港，自動載入 via wttr.in） ══════
 (function(){
-  var wmo = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌧️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',80:'🌦️',81:'🌧️',82:'🌧️',95:'⛈️',96:'⛈️',99:'⛈️'};
-  var HK_LAT = 22.3193, HK_LON = 114.1694;
+  var wmoWttr = {
+    '113':'☀️','116':'⛅','119':'☁️','122':'☁️',
+    '143':'🌫️','176':'🌦️','263':'🌧️','353':'🌧️',
+    '362':'🌧️','365':'🌧️','359':'🌧️',
+    '386':'⛈️','389':'⛈️',
+    '395':'🌨️','392':'🌨️','368':'🌨️','371':'🌨️',
+    '230':'🌨️','227':'🌨️','200':'⚡',
+    '296':'🌦️','299':'🌧️','302':'🌧️','308':'🌧️','311':'🌦️','314':'🌧️'
+  };
 
   function showError() {
     document.getElementById('lwError').style.display = 'block';
@@ -420,40 +427,34 @@ function toggleSub(sub) {
 
   function applyUVColor(uv) {
     var el = document.getElementById('lwUV');
-    if (uv === '--' || uv === null || uv === undefined || uv === '') { el.textContent = '--'; return; }
     var uvNum = parseFloat(uv);
-    if (isNaN(uvNum)) { el.textContent = '--'; return; }
+    if (!uv || isNaN(uvNum)) { el.textContent = '--'; return; }
     el.textContent = uvNum.toFixed(1);
-    if (uv >= 11) el.style.color = '#ff4444';
-    else if (uv >= 8) el.style.color = '#ff8844';
-    else if (uv >= 6) el.style.color = '#ffcc00';
-    else if (uv >= 3) el.style.color = '#aaff44';
+    if (uvNum >= 11) el.style.color = '#ff4444';
+    else if (uvNum >= 8) el.style.color = '#ff8844';
+    else if (uvNum >= 6) el.style.color = '#ffcc00';
+    else if (uvNum >= 3) el.style.color = '#aaff44';
     else el.style.color = '#44ff88';
   }
 
   async function fetchHKWeather() {
     try {
-      var r = await fetch(
-        'https://api.open-meteo.com/v1/forecast?' +
-        'latitude=' + HK_LAT + '&longitude=' + HK_LON +
-        '&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,uv_index' +
-        '&daily=temperature_2m_max,temperature_2m_min,uv_index_max,weather_code' +
-        '&timezone=auto&forecast_days=5'
-      );
+      var r = await fetch('https://wttr.in/Hong_Kong?format=j1');
       if (!r.ok) throw new Error('HTTP ' + r.status);
       var d = await r.json();
-      var c = d.current;
-      document.getElementById('lwIcon').textContent = wmo[c.weather_code] || '☀️';
-      document.getElementById('lwTemp').textContent = Math.round(c.temperature_2m) + '°';
-      var todayMax = d.daily.temperature_2m_max[0];
-      var todayMin = d.daily.temperature_2m_min[0];
-      document.getElementById('lwRange').textContent = '低 ' + todayMin + '° / 高 ' + todayMax + '°';
-      var descMap = {0:'天晴',1:'大致晴朗',2:'間有雲',3:'多雲',45:'霧',48:'霜霧',51:'微雨',61:'小雨',63:'中雨',65:'大雨',80:'陣雨',81:'強陣雨',82:'暴雨',95:'雷暴',96:'雷暴冰雹',99:'嚴重雷暴'};
-      document.getElementById('lwDesc').textContent = descMap[c.weather_code] || '未知';
-      document.getElementById('lwHumidity').textContent = c.relative_humidity_2m + '%';
-      document.getElementById('lwWind').textContent = c.wind_speed_10m + ' km/h';
-      document.getElementById('lwApparent').textContent = c.apparent_temperature + '°C';
-      applyUVColor(c.uv_index !== undefined && c.uv_index !== null && c.uv_index !== '' ? c.uv_index : 0);
+      var c = d.current_condition[0];
+      var wCode = c.weatherCode;
+      document.getElementById('lwIcon').textContent = wmoWttr[wCode] || '🌤️';
+      document.getElementById('lwTemp').textContent = c.temp_C + '°';
+      var today = d.weather[0];
+      document.getElementById('lwRange').textContent = '低 ' + today.mintempC + '° / 高 ' + today.maxtempC + '°';
+      var descEN = (c.weatherDesc && c.weatherDesc[0] && c.weatherDesc[0].value) ? c.weatherDesc[0].value : '';
+      document.getElementById('lwDesc').textContent = descEN;
+      document.getElementById('lwHumidity').textContent = c.humidity + '%';
+      document.getElementById('lwWind').textContent = c.windspeedKmph + ' km/h';
+      document.getElementById('lwApparent').textContent = '體感 ' + c.FeelsLikeC + '°C';
+      applyUVColor(c.uvIndex ? c.uvIndex : '0');
+      document.getElementById('lwError').style.display = 'none';
     } catch(e) {
       console.warn('Weather fetch failed:', e);
       showError();
@@ -463,7 +464,6 @@ function toggleSub(sub) {
   fetchHKWeather();
   setInterval(fetchHKWeather, 30 * 60 * 1000);
 })();
-
 // ══════ Tab Event Listener 初始化 ══════
 document.querySelectorAll('.tab-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
