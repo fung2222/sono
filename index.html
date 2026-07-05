@@ -300,23 +300,21 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 #sono-daily-report .dw-bi-icon{ font-size:0.9em; }
 #sono-daily-report .dw-bi-region{ margin-left:auto; color:#a29bfe; font-weight:600; }
 
-/* ── 今日天氣卡 (Hero 風格) ── */
-#sono-daily-report .dw-today-card{ background:linear-gradient(160deg,#1a1a3e 0%,#0f3460 100%); border-radius:16px; padding:20px 16px; margin:0 0 12px; border:1px solid rgba(255,255,255,0.06); }
-#sono-daily-report .dw-tc-top{ display:flex; flex-direction:column; align-items:center; padding:8px 0 12px; }
-#sono-daily-report .dw-tc-icon{ font-size:4.5em; line-height:1; filter:drop-shadow(0 4px 20px rgba(255,255,255,0.15)); }
-#sono-daily-report .dw-tc-temp{ font-size:3.5em; font-weight:200; color:#fff; line-height:1; letter-spacing:-2px; margin-top:4px; }
-#sono-daily-report .dw-tc-desc{ font-size:1em; color:#a29bfe; margin-top:6px; }
-#sono-daily-report .dw-tc-divider{ height:1px; background:rgba(255,255,255,0.08); margin:0 0; }
-#sono-daily-report .dw-tc-bottom{ display:flex; gap:0; padding-top:10px; }
-#sono-daily-report .dw-tc-stat{ flex:1; display:flex; align-items:center; justify-content:center; gap:6px; font-size:0.85em; color:#ccc; }
+/* ── 今日天氣卡 ── */
+#sono-daily-report .dw-today-card{ display:flex; align-items:center; gap:16px; background:#141425; border-radius:12px; padding:14px 16px; margin:0 0 12px; border:1px solid rgba(255,255,255,0.06); }
+#sono-daily-report .dw-tc-left{ display:flex; align-items:center; gap:6px; }
+#sono-daily-report .dw-tc-icon{ font-size:2.4em; line-height:1; }
+#sono-daily-report .dw-tc-temp{ font-size:1.7em; font-weight:900; color:#fff; line-height:1; }
+#sono-daily-report .dw-tc-right{ flex:1; display:flex; flex-direction:column; align-items:flex-end; gap:4px; }
+#sono-daily-report .dw-tc-desc{ font-size:1em; color:#ddd; }
+#sono-daily-report .dw-tc-stat{ display:flex; align-items:center; gap:4px; font-size:0.8em; color:#bbb; }
 #sono-daily-report .dw-tc-stat-icon{ font-size:1em; }
-#sono-daily-report .dw-tc-stat-label{ color:#888; font-size:0.9em; }
-#sono-daily-report .dw-tc-stat-value{ color:#fff; font-weight:600; }
+#sono-daily-report .dw-tc-stat-label{ color:#888; }
 
 /* ── Weather Insight (卡片式) ── */
 #sono-daily-report .dw-insight-card{ background:#141425; border-radius:12px; padding:14px 16px; margin:0 0 16px; border:1px solid rgba(255,255,255,0.06); }
 #sono-daily-report .dw-insight-header{ font-size:0.95em; color:#a29bfe; font-weight:700; margin-bottom:8px; }
-#sono-daily-report .dw-insight-text{ font-size:0.95em; color:#ddd; line-height:1.6; font-style:italic; margin-bottom:10px; }
+#sono-daily-report .dw-insight-text{ font-size:0.95em; color:#fff; line-height:1.6; font-style:italic; margin-bottom:10px; }
 #sono-daily-report .dw-insight-body{ }
 #sono-daily-report .dw-insight-recs{ display:flex; gap:12px; flex-wrap:wrap; }
 #sono-daily-report .dw-insight-recs span{ font-size:0.72em; color:#bbb; background:rgba(255,255,255,0.04); padding:4px 12px; border-radius:14px; border:1px solid rgba(255,255,255,0.06); }
@@ -569,25 +567,16 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   </div>
 </div>
 
-<!-- ══════ 今日天氣卡 (Hero 風格) ══════ -->
+<!-- ══════ 今日天氣卡 ══════ -->
 <div class="dw-today-card">
-  <div class="dw-tc-top">
+  <div class="dw-tc-left">
     <div id="dw-tc-icon" class="dw-tc-icon">☁️</div>
     <div id="dw-tc-temp" class="dw-tc-temp">--°</div>
-    <div id="dw-tc-desc" class="dw-tc-desc">載入中⋯</div>
   </div>
-  <div class="dw-tc-divider"></div>
-  <div class="dw-tc-bottom">
-    <div class="dw-tc-stat">
-      <span class="dw-tc-stat-icon">💧</span>
-      <span class="dw-tc-stat-label">濕度</span>
-      <span id="dw-tc-humidity" class="dw-tc-stat-value">--%</span>
-    </div>
-    <div class="dw-tc-stat">
-      <span class="dw-tc-stat-icon">🌬️</span>
-      <span class="dw-tc-stat-label">風速</span>
-      <span id="dw-tc-wind" class="dw-tc-stat-value">--km/h</span>
-    </div>
+  <div class="dw-tc-right">
+    <div id="dw-tc-desc" class="dw-tc-desc">載入中⋯</div>
+    <div class="dw-tc-stat"><span class="dw-tc-stat-icon">💧</span><span class="dw-tc-stat-label">濕度</span><span id="dw-tc-humidity">--%</span></div>
+    <div class="dw-tc-stat"><span class="dw-tc-stat-icon">🌬️</span><span class="dw-tc-stat-label">風速</span><span id="dw-tc-wind">--km/h</span></div>
   </div>
 </div>
 <!-- ══════ 天氣洞察 ══════ -->
