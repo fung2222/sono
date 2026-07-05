@@ -296,8 +296,9 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 /* ── Banner + date strip ── */
 #sono-daily-report .dw-banner-wrap{ margin:0 0 12px; }
 #sono-daily-report .dw-banner-img{ width:100%; border-radius:12px 12px 0 0; display:block; aspect-ratio:16/9; object-fit:cover; }
-#sono-daily-report .dw-banner-info{ display:flex; align-items:center; justify-content:flex-start; gap:6px; background:rgba(20,20,37,0.95); border-radius:0 0 12px 12px; padding:6px 14px; border:1px solid rgba(255,255,255,0.06); border-top:none; font-size:0.82em; color:#aaa; }
+#sono-daily-report .dw-banner-info{ display:flex; align-items:center; gap:6px; background:rgba(20,20,37,0.95); border-radius:0 0 12px 12px; padding:6px 14px; border:1px solid rgba(255,255,255,0.06); border-top:none; font-size:0.82em; color:#aaa; }
 #sono-daily-report .dw-bi-icon{ font-size:0.9em; }
+#sono-daily-report .dw-bi-region{ margin-left:auto; color:#a29bfe; font-weight:600; }
 
 /* ── 今日天氣卡 ── */
 #sono-daily-report .dw-today-card{ background:#141425; border-radius:12px; padding:14px 16px; margin:0 0 12px; border:1px solid rgba(255,255,255,0.06); }
@@ -308,13 +309,15 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 #sono-daily-report .dw-tc-center{ text-align:center; }
 #sono-daily-report .dw-tc-region{ font-size:0.7em; color:#a29bfe; letter-spacing:1px; }
 #sono-daily-report .dw-tc-desc{ font-size:0.95em; color:#ccc; margin-top:2px; }
-#sono-daily-report .dw-tc-right{ display:flex; flex-direction:column; gap:4px; }
+#sono-daily-report .dw-tc-right{ display:flex; flex-direction:column; align-items:flex-end; gap:4px; }
+#sono-daily-report .dw-tc-desc-row{ font-size:0.85em; color:#ccc; margin-bottom:2px; }
 #sono-daily-report .dw-tc-stat{ display:flex; align-items:center; gap:4px; font-size:0.78em; color:#bbb; }
 #sono-daily-report .dw-tc-stat-icon{ font-size:1em; }
 
 /* ── Weather Insight (卡片式) ── */
 #sono-daily-report .dw-insight-card{ background:#141425; border-radius:12px; padding:14px 16px; margin:0 0 16px; border:1px solid rgba(255,255,255,0.06); }
-#sono-daily-report .dw-insight-header{ font-size:0.75em; color:#888; text-transform:uppercase; letter-spacing:2px; margin-bottom:4px; }
+#sono-daily-report .dw-insight-header{ font-size:0.95em; color:#a29bfe; font-weight:700; margin-bottom:8px; }
+#sono-daily-report .dw-insight-text{ font-size:0.95em; color:#ddd; line-height:1.6; font-style:italic; margin-bottom:10px; }
 #sono-daily-report .dw-insight-body{ }
 #sono-daily-report .dw-insight-recs{ display:flex; gap:12px; flex-wrap:wrap; }
 #sono-daily-report .dw-insight-recs span{ font-size:0.72em; color:#bbb; background:rgba(255,255,255,0.04); padding:4px 12px; border-radius:14px; border:1px solid rgba(255,255,255,0.06); }
@@ -326,7 +329,7 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 #sono-daily-report .dw-sono-accordion{ background:#141425; border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.06); margin:0 0 16px; }
 #sono-daily-report .dw-acc-item{ border-bottom:1px solid rgba(255,255,255,0.04); cursor:pointer; }
 #sono-daily-report .dw-acc-item:last-child{ border-bottom:none; }
-#sono-daily-report .dw-acc-header{ display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:rgba(162,155,254,0.04); font-size:0.82em; color:#ddd; font-weight:600; transition:background 0.2s; }
+#sono-daily-report .dw-acc-header{ display:flex; justify-content:space-between; align-items:center; padding:14px 18px; background:rgba(162,155,254,0.04); font-size:1.05em; color:#fff; font-weight:600; transition:background 0.2s; }
 #sono-daily-report .dw-acc-header:hover{ background:rgba(162,155,254,0.08); }
 #sono-daily-report .dw-acc-arrow{ color:#555; font-size:0.65em; transition:transform 0.3s; }
 #sono-daily-report .dw-acc-item.open .dw-acc-arrow{ transform:rotate(180deg); }
@@ -563,6 +566,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <img class="dw-banner-img" src="images/weather_banner_today.png" alt="香港維港天氣">
   <div class="dw-banner-info">
     <span id="dw-bi-date">--</span>
+    <span class="dw-tc-region dw-bi-region">香港</span>
   </div>
 </div>
 
@@ -573,11 +577,8 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       <span id="dw-tc-icon" class="dw-tc-icon">☁️</span>
       <span id="dw-tc-temp" class="dw-tc-temp">--°</span>
     </div>
-    <div class="dw-tc-center">
-      <div class="dw-tc-region">香港</div>
-      <div id="dw-tc-desc" class="dw-tc-desc">載入中⋯</div>
-    </div>
     <div class="dw-tc-right">
+      <div id="dw-tc-desc" class="dw-tc-desc-row">載入中⋯</div>
       <div class="dw-tc-stat"><span class="dw-tc-stat-icon">💧</span><span id="dw-tc-humidity">--%</span></div>
       <div class="dw-tc-stat"><span class="dw-tc-stat-icon">🌬️</span><span id="dw-tc-wind">--km/h</span></div>
     </div>
@@ -633,6 +634,14 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <div class="dw-footer">
   <p>Sono每日資訊系統 · 資料來源：Open-Meteo + Google News RSS + FLUX.1</p>
   <p>2026年7月5日（星期日）</p>
+</div>
+
+<!-- ══════ 新聞 4 TABS ══════ -->
+<div class="dw-news-tabs">
+  <button class="dw-ntab active" data-section="ai"><span>🤖</span> AI 科技</button>
+  <button class="dw-ntab" data-section="space"><span>🚀</span> 太空宇宙</button>
+  <button class="dw-ntab" data-section="ufo"><span>👽</span> UFO 外星人</button>
+  <button class="dw-ntab" data-section="paranormal"><span>🔮</span> 超自然</button>
 </div>
 
 </div>
