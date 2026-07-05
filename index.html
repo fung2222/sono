@@ -3042,68 +3042,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
 
 
-// ══════ Banner 天氣 + 日期即時更新 ══════
-<script>
-(function() {
-  function $(id) { return document.getElementById(id); }
-
-  // 1) Date - real local time, no emoji
-  function updateDate() {
-    var d = new Date();
-    var y = d.getFullYear(), m = d.getMonth() + 1, day = d.getDate();
-    var w = ['日','一','二','三','四','五','六'][d.getDay()];
-    var el = $('dw-bi-date');
-    if (el) el.textContent = y + '年' + m + '月' + day + '日 星期' + w;
-  }
-  updateDate();
-  setInterval(updateDate, 60000);
-
-  // 2) Weather - wttr.in JSON (free, no key, CORS enabled)
-  fetch('https://wttr.in/Hong_Kong?format=j1')
-    .then(function(r) { return r.json(); })
-    .then(function(d) {
-      var cur = (d.current_condition && d.current_condition[0]) || {};
-      var desc = (cur.weatherDesc && cur.weatherDesc[0] && cur.weatherDesc[0].value) || '多雲';
-      var temp = parseInt(cur.temp_C, 10);
-      var humidity = cur.humidity || '--';
-      var wind = cur.windspeedKmph || '--';
-
-      if ($('dw-tc-icon')) $('dw-tc-icon').textContent = pickIcon(desc);
-      if ($('dw-tc-desc')) $('dw-tc-desc').textContent = desc;
-      if ($('dw-tc-temp')) $('dw-tc-temp').textContent = (isNaN(temp) ? '--' : temp) + '°';
-      if ($('dw-tc-humidity')) $('dw-tc-humidity').textContent = humidity + '%';
-      if ($('dw-tc-wind')) $('dw-tc-wind').textContent = wind + 'km/h';
-
-      // 3) 5-day forecast (use wttr.in d.weather array - maxtempC/mintempC directly)
-      var forecast = d.weather || [];
-      var fcCards = document.querySelectorAll('.dw-fc-card');
-      var wdays = ['日','一','二','三','四','五','六'];
-      for (var i = 0; i < 5 && i < fcCards.length && i < forecast.length; i++) {
-        var dayData = forecast[i] || {};
-        var date = new Date(dayData.date || new Date());
-        var hi = parseInt(dayData.maxtempC, 10);
-        var lo = parseInt(dayData.mintempC, 10);
-        // Get midday icon from hourly[4] (noon)
-        var noon = (dayData.hourly && dayData.hourly[4]) || {};
-        var noonDesc = (noon.weatherDesc && noon.weatherDesc[0] && noon.weatherDesc[0].value) || '多雲';
-        fcCards[i].querySelector('.dw-fc-day').textContent = wdays[date.getDay()];
-        fcCards[i].querySelector('.dw-fc-icon').textContent = pickIcon(noonDesc);
-        fcCards[i].querySelector('.dw-fc-hi').textContent = (isNaN(hi) ? '--' : hi) + '°';
-        fcCards[i].querySelector('.dw-fc-lo').textContent = (isNaN(lo) ? '--' : lo) + '°';
-      }
-
-
-function pickIcon(desc) {
-  if (!desc) return '☀️';
-  if (desc.indexOf('雷') >= 0) return '⛈️';
-  if (desc.indexOf('雨') >= 0) return '🌧️';
-  if (desc.indexOf('陰') >= 0 || desc.indexOf('多雲') >= 0) return '☁️';
-  if (desc.indexOf('霧') >= 0) return '🌫️';
-  if (desc.indexOf('雪') >= 0) return '❄️';
-  if (desc.indexOf('晴') >= 0) return '☀️';
-  return '🌤️';
-}
-})();
+// (wttr.in IIFE removed - replaced by HKO above)
 </script>
 
 
