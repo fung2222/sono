@@ -568,7 +568,42 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <!-- ══════ Tab 1: Sono 每日 ══════ -->
 <div class="tab-panel active" id="tab-daily">
 <div id="sono-daily-report">
+  <!-- 維港風景圖 -->
+  <div class="dw-banner" style="margin:0 0 12px; border-radius:12px; overflow:hidden;">
+    <img src="images/hk_victoria_harbour.jpg" alt="香港維港" style="width:100%;display:block;border-radius:12px;" />
+  </div>
 
+  <!-- 今日天氣卡 -->
+  <div class="dw-hero" id="dw-hero">
+    <div class="dw-hero-bg"></div>
+    <div class="dw-hero-content">
+      <div class="dw-hero-main">
+        <div class="dw-weather-icon" id="dw-tc-icon">🌤️</div>
+        <div class="dw-temp-group">
+          <div class="dw-temp-main" id="dw-tc-temp">--°</div>
+        </div>
+        <div class="dw-weather-desc" id="dw-tc-desc">載入中...</div>
+      </div>
+      <div class="dw-hero-details">
+        <div class="dw-detail-item">
+          <span class="dw-dl">💧 濕度</span>
+          <span class="dw-dv" id="dw-tc-humidity">--%</span>
+        </div>
+        <div class="dw-detail-item">
+          <span class="dw-dl">🌀 風速</span>
+          <span class="dw-dv" id="dw-tc-wind">--km/h</span>
+        </div>
+        <div class="dw-detail-item">
+          <span class="dw-dl">🌡️ 體感</span>
+          <span class="dw-dv" id="dw-tc-apparent">--°C</span>
+        </div>
+        <div class="dw-detail-item">
+          <span class="dw-dl">🌡️ 最高</span>
+          <span class="dw-dv" id="dw-tc-max">--°</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 </div>
 
@@ -4017,5 +4052,41 @@ window.openNumberModal = function() {
     </div>
   </div>
 </div>
+<script>
+// ══════ 實時天氣 fetch (wttr.in) ══════
+(function(){
+  function pickIcon(d){
+    if(!d)return'🌤️';
+    if(d.indexOf('雷')>=0)return'⛈️';
+    if(d.indexOf('雨')>=0)return'🌧️';
+    if(d.indexOf('陰')>=0||d.indexOf('多雲')>=0)return'☁️';
+    if(d.indexOf('霧')>=0)return'🌫️';
+    if(d.indexOf('晴')>=0)return'☀️';
+    return'🌤️';
+  }
+  fetch('https://wttr.in/Hong_Kong?format=j1')
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var c=(data.current_condition&&data.current_condition[0])||{};
+      var desc=(c.weatherDesc&&c.weatherDesc[0]&&c.weatherDesc[0].value)||'多雲';
+      var tmp=parseInt(c.temp_C,10);
+      document.getElementById('dw-tc-icon').textContent=pickIcon(desc);
+      document.getElementById('dw-tc-desc').textContent=desc;
+      document.getElementById('dw-tc-temp').textContent=(isNaN(tmp)?'--':tmp)+'°';
+      document.getElementById('dw-tc-humidity').textContent=(c.humidity||'--')+'%';
+      document.getElementById('dw-tc-wind').textContent=(c.windspeedKmph||'--')+'km/h';
+      document.getElementById('dw-tc-apparent').textContent=(c.FeelsLikeC||'--')+'°C';
+    })
+    .catch(function(e){console.log('wttr.in failed',e);});
+
+  // Open-Meteo 今日最高氣溫
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=22.28&longitude=114.16&daily=temperature_2m_max&timezone=Asia/Hong_Kong&forecast_days=1')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var mx=d.daily&&d.daily.temperature_2m_max&&d.daily.temperature_2m_max[0];
+      if(mx!=null) document.getElementById('dw-tc-max').textContent=Math.round(mx)+'°';
+    })
+    .catch(function(e){console.log('open-meteo failed',e);});
+</script>
 </body>
 </html>
