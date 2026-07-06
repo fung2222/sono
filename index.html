@@ -632,6 +632,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     : '本港各區暫無降雨';
   const wxIcon = hasRain ? '🌧️' : (wx.icon < 30 ? '☀️' : wx.icon < 60 ? '⛅' : '☁️');
   el.innerHTML = `
+    <div class="section-label">🌤️ 今日天氣</div>
     <div class="dw-banner">
       <img class="dw-banner-img" src="images/weather_banner_today.png" alt="維多利亞港">
       <div class="dw-banner-overlay">
