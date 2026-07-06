@@ -291,6 +291,36 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .game-body {
   flex: 1;
 }
+/* ══════ SONO 每日 — 全新設計 ══════ */
+
+/* 天氣横條 */
+#sono-daily-report .dw-weather-strip{ display:flex; align-items:center; justify-content:center; gap:0; background:linear-gradient(135deg,#1a1a3e,#16213e); border-radius:14px; padding:14px 20px; margin:0 0 14px; border:1px solid rgba(255,255,255,0.06); }
+#sono-daily-report .dw-ws-item{ display:flex; flex-direction:column; align-items:center; flex:1; gap:2px; }
+#sono-daily-report .dw-ws-icon{ font-size:1.2em; }
+#sono-daily-report .dw-ws-val{ font-size:1.05em; font-weight:700; color:#fff; }
+#sono-daily-report .dw-ws-lbl{ font-size:0.62em; color:#888; }
+#sono-daily-report .dw-ws-sep{ width:1px; height:32px; background:rgba(255,255,255,0.08); margin:0 4px; }
+
+/* 橫額大圖 */
+#sono-daily-report .dw-banner{ position:relative; border-radius:16px; overflow:hidden; margin:0 0 14px; }
+#sono-daily-report .dw-banner-img{ width:100%; height:180px; object-fit:cover; display:block; }
+#sono-daily-report .dw-banner-overlay{ position:absolute; inset:0; background:linear-gradient(to top,rgba(10,10,26,0.85) 0%,transparent 60%); display:flex; flex-direction:column; justify-content:flex-end; padding:16px; }
+#sono-daily-report .dw-banner-date{ font-size:1.4em; font-weight:900; color:#fff; letter-spacing:1px; }
+#sono-daily-report .dw-banner-sub{ font-size:0.72em; color:#a29bfe; margin-top:2px; }
+
+/* 每日一句 */
+#sono-daily-report .dw-quote-card{ background:linear-gradient(135deg,rgba(162,155,254,0.1),rgba(255,107,157,0.06)); border-radius:14px; padding:20px 22px; margin:0 0 14px; border-left:3px solid #a29bfe; }
+#sono-daily-report .dw-quote-mark{ font-size:2em; color:#a29bfe; line-height:1; margin-bottom:6px; }
+#sono-daily-report .dw-quote-text{ font-size:0.92em; color:#ddd; line-height:1.7; font-style:italic; }
+#sono-daily-report .dw-quote-author{ font-size:0.75em; color:#888; margin-top:8px; text-align:right; }
+
+/* 快速工具 */
+#sono-daily-report .dw-quick-tools{ margin:0 0 16px; }
+#sono-daily-report .dw-qt-label{ font-size:0.7em; color:#888; margin-bottom:8px; letter-spacing:1px; }
+#sono-daily-report .dw-qt-grid{ display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:8px; }
+#sono-daily-report .dw-qt-btn{ background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:10px; padding:10px 4px; text-align:center; font-size:0.8em; color:#ccc; cursor:pointer; transition:all 0.2s; }
+#sono-daily-report .dw-qt-btn:hover{ background:rgba(162,155,254,0.15); border-color:rgba(162,155,254,0.3); color:#a29bfe; transform:translateY(-1px); }
+
 /* ══════ Sono 每日日報全新 layout ══════ */
 
 /* ── Hero weather section ── */
@@ -568,6 +598,61 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <!-- ══════ Tab 1: Sono 每日 ══════ -->
 <div class="tab-panel active" id="tab-daily">
 <div id="sono-daily-report">
+<!-- ══════ SONO 每日全新設計 ══════ -->
+
+  <!-- 天氣横條 -->
+  <div class="dw-weather-strip">
+    <div class="dw-ws-item">
+      <span class="dw-ws-icon">🌡️</span>
+      <span class="dw-ws-val">29°</span>
+      <span class="dw-ws-lbl">體感</span>
+    </div>
+    <div class="dw-ws-sep"></div>
+    <div class="dw-ws-item">
+      <span class="dw-ws-icon">💧</span>
+      <span class="dw-ws-val">79%</span>
+      <span class="dw-ws-lbl">濕度</span>
+    </div>
+    <div class="dw-ws-sep"></div>
+    <div class="dw-ws-item">
+      <span class="dw-ws-icon">🌀</span>
+      <span class="dw-ws-val">18km/h</span>
+      <span class="dw-ws-lbl">風速</span>
+    </div>
+    <div class="dw-ws-sep"></div>
+    <div class="dw-ws-item">
+      <span class="dw-ws-icon">🌧️</span>
+      <span class="dw-ws-val">中雷暴</span>
+      <span class="dw-ws-lbl">天氣</span>
+    </div>
+  </div>
+
+  <!-- 橫額大圖 -->
+  <div class="dw-banner">
+    <img src="https://images.pexels.com/photos/2962131/pexels-photo-2962131.jpeg?auto=compress&cs=tinysrgb&w=1280" alt="Victoria Harbour" class="dw-banner-img" loading="lazy">
+    <div class="dw-banner-overlay">
+      <div class="dw-banner-date" id="dw-live-date"></div>
+      <div class="dw-banner-sub">香港 · 維多利亞港</div>
+    </div>
+  </div>
+
+  <!-- 每日一句 -->
+  <div class="dw-quote-card">
+    <div class="dw-quote-mark">❝</div>
+    <div class="dw-quote-text">每一個不曾起舞的日子，都是對生命的辜負。</div>
+    <div class="dw-quote-author">— 尼采</div>
+  </div>
+
+  <!-- 快速工具入口 -->
+  <div class="dw-quick-tools">
+    <div class="dw-qt-label">⚡ 快速開工</div>
+    <div class="dw-qt-grid">
+      <div class="dw-qt-btn" onclick="document.getElementById('bmiTrigger').click()">🏋️ BMI</div>
+      <div class="dw-qt-btn" onclick="document.getElementById('tarotTrigger').click()">🃏 塔羅</div>
+      <div class="dw-qt-btn" onclick="document.getElementById('dreamTrigger').click()">🌙 夢境</div>
+      <div class="dw-qt-btn" onclick="document.getElementById('currencyTrigger').click()">💰 匯率</div>
+    </div>
+  </div>
 
 </div>
 </div>
@@ -1145,6 +1230,16 @@ function switchTab(tabName) {
   var last = 'daily';
   try { last = localStorage.getItem('sono_last_tab') || 'daily'; } catch(e) {}
   switchTab(last);
+})();
+
+// ══════ Live Date ══════
+(function() {
+  var el = document.getElementById('dw-live-date');
+  if (!el) return;
+  var now = new Date();
+  var days = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+  var months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+  el.textContent = now.getDate() + ' ' + months[now.getMonth()] + ' · ' + days[now.getDay()];
 })();
 
 // ══════ Game Accordion ══════
