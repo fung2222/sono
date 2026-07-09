@@ -1,0 +1,34 @@
+<svg class="game-logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cng1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff3030"/>
+      <stop offset="100%" stop-color="#ffcc00"/>
+    </linearGradient>
+  </defs>
+  <!-- Cyber ninja head (red oni mask) -->
+  <circle cx="24" cy="14" r="6" fill="#a01010" stroke="url(#cng1)" stroke-width="2"/>
+  <!-- Single eye visor (cyan glow) -->
+  <rect x="18" y="13" width="12" height="2" fill="#00ddff" stroke="#fff" stroke-width="0.3"/>
+  <!-- Topknot antenna -->
+  <rect x="23" y="3" width="2" height="5" fill="#a01010"/>
+  <circle cx="24" cy="3" r="2" fill="#a01010"/>
+  <!-- Body (black armor) -->
+  <path d="M 14 22 L 34 22 L 32 36 L 16 36 Z" fill="#1a1a2a" stroke="#a01010" stroke-width="1.5"/>
+  <!-- Chest core glow -->
+  <circle cx="24" cy="27" r="2.5" fill="#ffcc00" stroke="#fff" stroke-width="0.5"/>
+  <!-- Energy katana (left) -->
+  <line x1="33" y1="22" x2="42" y2="14" stroke="#00ddff" stroke-width="2" stroke-linecap="round"/>
+  <line x1="33" y1="22" x2="42" y2="14" stroke="#fff" stroke-width="0.8" stroke-linecap="round"/>
+  <!-- Katana (right) -->
+  <line x1="33" y1="30" x2="44" y2="32" stroke="#ff3030" stroke-width="2" stroke-linecap="round"/>
+  <line x1="33" y1="30" x2="44" y2="32" stroke="#fff" stroke-width="0.8" stroke-linecap="round"/>
+  <!-- Legs -->
+  <rect x="17" y="36" width="5" height="8" fill="#1a1a2a" stroke="#a01010" stroke-width="1"/>
+  <rect x="26" y="36" width="5" height="8" fill="#1a1a2a" stroke="#a01010" stroke-width="1"/>
+  <!-- Cape (behind) -->
+  <path d="M 14 22 L 8 36 L 11 38 L 16 24 Z" fill="#0a0a1a" stroke="#a01010" stroke-width="1"/>
+  <!-- Monster eyes (yellow dots on top right) -->
+  <circle cx="40" cy="6" r="1.5" fill="#ffff66"/>
+  <circle cx="44" cy="9" r="1.5" fill="#ffff66"/>
+  <circle cx="42" cy="12" r="1.5" fill="#ffff66"/>
+</svg>
