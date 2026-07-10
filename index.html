@@ -236,6 +236,34 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 
 .section-label { font-size: 0.78em; color: #ccc; text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 10px; padding-left: 4px; }
 
+/* Daily 天氣簡約 layout */
+.dw-weather-simple { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; margin-top: 12px; }
+.dw-ws-main { display: flex; align-items: center; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 14px; }
+.dw-ws-icon-big { font-size: 3.5em; line-height: 1; }
+.dw-ws-temp-big { font-size: 3em; font-weight: 700; color: #fff; line-height: 1; }
+.dw-ws-desc { font-size: 0.95em; color: #aaa; margin-top: 4px; }
+.dw-ws-detail-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.dw-ws-detail { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px; background: rgba(255,255,255,0.02); border-radius: 8px; }
+.dw-ws-d-icon { font-size: 1.2em; }
+.dw-ws-d-val { font-size: 0.95em; color: #fff; font-weight: 600; }
+.dw-ws-d-lbl { font-size: 0.7em; color: #888; }
+.dw-rain-note { font-size: 0.8em; color: #888; padding: 8px 12px; margin-top: 10px; background: rgba(255,255,255,0.02); border-radius: 6px; }
+
+/* 外星生命專欄 UAP Grid */
+.uap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+.uap-card { background: linear-gradient(135deg, rgba(75,0,130,0.15) 0%, rgba(255,48,48,0.08) 100%); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 16px; position: relative; transition: transform 0.2s, border-color 0.2s; }
+.uap-card:hover { transform: translateY(-2px); border-color: rgba(255,204,0,0.4); }
+.uap-num { position: absolute; top: 12px; right: 14px; font-size: 0.7em; color: #ffcc00; font-weight: 700; opacity: 0.6; font-family: 'Courier New', monospace; }
+.uap-date { font-size: 0.72em; color: #888; font-family: 'Courier New', monospace; margin-bottom: 8px; }
+.uap-title { font-size: 1.05em; color: #ffcc00; margin: 0 0 10px 0; font-weight: 700; line-height: 1.3; }
+.uap-text { font-size: 0.82em; color: #ccc; line-height: 1.5; margin: 0 0 10px 0; }
+.uap-source { font-size: 0.7em; color: #666; font-style: italic; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.05); }
+
+@media (max-width: 600px) {
+  .dw-ws-detail-grid { grid-template-columns: repeat(2, 1fr); }
+  .uap-grid { grid-template-columns: 1fr; }
+}
+
 /* Footer */
 .footer { text-align: center; padding: 40px 20px; color: #aaa; font-size: 0.85em; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 40px; }
 
@@ -640,23 +668,56 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
         <div class="dw-banner-sub">${weekdayStr} · ${timeStr} · 香港天文台</div>
       </div>
     </div>
-    <div class="dw-weather-strip">
-      <div class="dw-ws-item"><div class="dw-ws-icon">${wxIcon}</div><div class="dw-ws-val">${wx.temp}°</div><div class="dw-ws-lbl">香港</div></div>
-      <div class="dw-ws-sep"></div>
-      <div class="dw-ws-item"><div class="dw-ws-icon">💧</div><div class="dw-ws-val">${wx.humidity}%</div><div class="dw-ws-lbl">濕度</div></div>
-      <div class="dw-ws-sep"></div>
-      <div class="dw-ws-item"><div class="dw-ws-icon">☀️</div><div class="dw-ws-val">${wx.uv||'--'}</div><div class="dw-ws-lbl">UV ${wx.uvDesc||''}</div></div>
-      <div class="dw-ws-sep"></div>
-      <div class="dw-ws-item"><div class="dw-ws-icon">🌧️</div><div class="dw-ws-val">${wx.rainfall.length}</div><div class="dw-ws-lbl">降雨區</div></div>
+    <div class="dw-weather-simple">
+      <div class="dw-ws-main">
+        <div class="dw-ws-icon-big">${wxIcon}</div>
+        <div class="dw-ws-temp-big">${wx.temp}°</div>
+        <div class="dw-ws-desc">${wx.uvDesc || (hasRain?'有雨':'天晴')}</div>
+      </div>
+      <div class="dw-ws-detail-grid">
+        <div class="dw-ws-detail"><span class="dw-ws-d-icon">💧</span><span class="dw-ws-d-val">${wx.humidity}%</span><span class="dw-ws-d-lbl">濕度</span></div>
+        <div class="dw-ws-detail"><span class="dw-ws-d-icon">☀️</span><span class="dw-ws-d-val">${wx.uv||'--'}</span><span class="dw-ws-d-lbl">UV ${wx.uvDesc||''}</span></div>
+        <div class="dw-ws-detail"><span class="dw-ws-d-icon">🌧️</span><span class="dw-ws-d-val">${wx.rainfall.length}</span><span class="dw-ws-d-lbl">降雨區</span></div>
+        <div class="dw-ws-detail"><span class="dw-ws-d-icon">📍</span><span class="dw-ws-d-val">${wx.updateTime||'--'}</span><span class="dw-ws-d-lbl">更新</span></div>
+      </div>
     </div>
-    <div class="dw-quote-card">
-      <div class="dw-quote-mark">${hasRain?'🌧️':'🌤️'}</div>
-      <div class="dw-quote-text">${rainText}</div>
-      <div class="dw-quote-author">— 香港天文台 ${wx.warning?'⚠️ '+wx.warning:''}</div>
+    <div class="dw-rain-note">${rainText}${wx.warning?' · ⚠️ '+wx.warning:''}</div>
+
+    <div class="section-label" style="margin-top:24px;">🛸 外星生命專欄</div>
+    <div class="uap-grid">
+      <div class="uap-card">
+        <div class="uap-num">01</div>
+        <div class="uap-date">2023 · 07 · 26</div>
+        <h3 class="uap-title">美國會 UAP 聽證會震撼爆料</h3>
+        <p class="uap-text">前 UAP Task Force 主任 David Grusch 國會宣誓作證, 指美國多年來隱瞞「非人類起源」殘骸回收計劃, 涉及跨部門掩蓋。三位退役軍官現場確認雷達鎖定 UAP 片段真實。</p>
+        <div class="uap-source">來源：U.S. House Oversight Subcommittee</div>
+      </div>
+      <div class="uap-card">
+        <div class="uap-num">02</div>
+        <div class="uap-date">2023 · 09 · 14</div>
+        <h3 class="uap-title">NASA UAP 獨立小組首次公開報告</h3>
+        <p class="uap-text">NASA 召集 16 位物理、天文、生物學專家組成獨立小組, 公開承認 UAP 現象「真實」, 並歸咎 stigma 阻礙科學研究。建議建立跨部門舉報平台 + AI 分析歷史數據。</p>
+        <div class="uap-source">來源：NASA UAP Independent Study Team</div>
+      </div>
+      <div class="uap-card">
+        <div class="uap-num">03</div>
+        <div class="uap-date">2021 · 07 · 01</div>
+        <h3 class="uap-title">哈佛 Galileo Project 啟動系統性搜索</h3>
+        <p class="uap-text">Avi Loeb 領軍, 用 AI 結合多光譜望遠鏡, 在全球部署感測器網絡系統性搜索 UAP。已於 2023 年 1 月在 Harvard 站首次安裝探測器, 目標科學化排除自然現象。</p>
+        <div class="uap-source">來源：Galileo Project, Harvard University</div>
+      </div>
+      <div class="uap-card">
+        <div class="uap-num">04</div>
+        <div class="uap-date">2024 · 03 · 08</div>
+        <h3 class="uap-title">五角大樓公開 3 段 UAP 戰機追逐影像</h3>
+        <p class="uap-text">五角大樓正式解密三段軍機雷達鎖定 UAP 影片, 顯示球體飛行物以超音速、無可識別推進方式閃避 F-18 戰機。其中一段發生於中東, 持續 22 秒。</p>
+        <div class="uap-source">來源：All-domain Anomaly Resolution Office (AARO)</div>
+      </div>
     </div>
+
     <div class="dw-quote-card">
       <div class="dw-quote-mark">💭</div>
-      <div class="dw-quote-text">雨後嘅維多利亞港，霓虹倒影更清。記得帶遮。</div>
+      <div class="dw-quote-text">宇宙咁大, 唔可能只有我哋。問題係幾時會見到。</div>
       <div class="dw-quote-author">— 蘇蘿</div>
     </div>
   `;
