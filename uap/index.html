@@ -18,9 +18,9 @@
   .back-link:hover { background: rgba(107,255,107,0.1); transform: translateX(-2px); }
 
   /* Hero banner */
-  .hero { width: 100%; height: 200px; border-radius: 16px; margin: 24px 0 32px; background: linear-gradient(135deg, #4a0080 0%, #1a0040 50%, #4a0080 100%); border: 1px solid rgba(255,204,0,0.2); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .hero { width: 100%; min-height: 240px; border-radius: 16px; margin: 24px 0 32px; background: linear-gradient(135deg, #4a0080 0%, #1a0040 50%, #4a0080 100%); border: 1px solid rgba(255,204,0,0.2); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 24px; }
   .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 50%, rgba(255,204,0,0.15) 0%, transparent 50%), radial-gradient(circle at 70% 50%, rgba(255,48,48,0.15) 0%, transparent 50%); }
-  .hero-text { position: relative; z-index: 1; text-align: center; padding: 20px; }
+  .hero-text { position: relative; z-index: 1; text-align: center; padding: 0; width: 100%; }
   .hero-text .emoji { font-size: 4em; margin-bottom: 8px; }
   .hero-text h2 { font-size: 1.6em; color: #ffcc00; margin-bottom: 8px; font-weight: 700; }
   .hero-text p { color: #ccc; font-size: 1em; max-width: 600px; margin: 0 auto; }
@@ -51,8 +51,9 @@
   }
   @media (max-width: 600px) {
     .header h1 { font-size: 1.6em; }
-    .hero { height: 160px; }
+    .hero { min-height: 280px; padding: 20px; }
     .hero-text h2 { font-size: 1.2em; }
+    .hero-text p { font-size: 0.9em; }
     .cat-grid { grid-template-columns: 1fr 1fr; }
     .news-grid { grid-template-columns: 1fr; }
     .news-title { font-size: 1.05em; }
