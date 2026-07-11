@@ -18,9 +18,9 @@
   .back-link:hover { background: rgba(107,255,107,0.1); transform: translateX(-2px); }
 
   /* Top banner with UFO background */
-  .uap-top-banner { width: 100%; min-height: 220px; border-radius: 16px; margin: 0 0 24px; background: linear-gradient(180deg, rgba(10,4,32,0.55) 0%, rgba(10,4,32,0.85) 100%), url('ufo-hero.jpg'); background-size: cover; background-position: center; border: 1px solid rgba(255,204,0,0.25); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 24px; }
-  .uap-top-banner h1 { font-size: 2.4em; color: #ffcc00; margin: 0 0 8px; font-weight: 800; text-shadow: 0 2px 12px rgba(0,0,0,0.7); text-align: center; }
-  .uap-top-banner .subtitle { color: #e8e8e8; font-size: 1.05em; letter-spacing: 1px; margin: 0; text-shadow: 0 1px 6px rgba(0,0,0,0.7); }
+  .uap-top-banner { width: 100%; min-height: 360px; border-radius: 16px; margin: 0 0 24px; background: linear-gradient(180deg, rgba(10,4,32,0.35) 0%, rgba(10,4,32,0.5) 60%, rgba(10,4,32,0.75) 100%), url('ufo-hero.jpg'); background-size: cover; background-position: center 30%; border: 1px solid rgba(255,204,0,0.25); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 32px 24px; }
+  .uap-top-banner h1 { font-size: 4.8em; color: #ffcc00; margin: 0 0 8px; font-weight: 800; text-shadow: 0 2px 12px rgba(0,0,0,0.8), 0 0 30px rgba(0,0,0,0.6); text-align: center; line-height: 1.1; }
+  .uap-top-banner .subtitle { color: #e8e8e8; font-size: 1.1em; letter-spacing: 1px; margin: 0; text-shadow: 0 1px 6px rgba(0,0,0,0.8); }
   .uap-top-banner .back-link { margin-top: 16px; }
 
   /* Category cards */
@@ -49,8 +49,8 @@
   }
   @media (max-width: 600px) {
     .header h1 { font-size: 1.6em; }
-    .uap-top-banner { min-height: 180px; padding: 24px 20px; }
-    .uap-top-banner h1 { font-size: 1.8em; }
+    .uap-top-banner { min-height: 320px; padding: 24px 20px; background-position: center 30%; }
+    .uap-top-banner h1 { font-size: 3.5em; }
     .cat-grid { grid-template-columns: 1fr 1fr; }
     .news-grid { grid-template-columns: 1fr; }
     .news-title { font-size: 1.05em; }
