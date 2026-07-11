@@ -3,207 +3,205 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🛸 外星生命專欄 — Sono蘇蘿</title>
+<title>外星生命專欄 — Sono蘇蘿</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { width: 100%; min-height: 100%; background: #0a0420; color: #e8e8e8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang HK', sans-serif; }
-  body { background: linear-gradient(180deg, #0a0420 0%, #1a0838 50%, #0a0420 100%); padding: 0 0 60px; }
-  .container { max-width: 1100px; margin: 0 auto; padding: 20px 18px; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; min-height: 100%; background: #0d0e10; color: #c8c4b8; font-family: -apple-system, BlinkMacSystemFont, 'PingFang HK', 'Microsoft JhengHei', sans-serif; font-weight: 300; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  body { background: #0d0e10; }
+  a { color: inherit; text-decoration: none; }
 
-  /* Header */
-  .header { text-align: center; padding: 30px 0 20px; }
-  .header h1 { font-size: 2.2em; color: #ffcc00; margin-bottom: 8px; text-shadow: 0 0 20px rgba(255,204,0,0.3); }
-  .header .subtitle { color: #aaa; font-size: 1em; letter-spacing: 1px; }
-  .back-link { display: inline-block; color: #6bff6b; text-decoration: none; font-size: 0.95em; margin-top: 20px; padding: 8px 16px; border: 1px solid rgba(107,255,107,0.3); border-radius: 8px; transition: all 0.2s; }
-  .back-link:hover { background: rgba(107,255,107,0.1); transform: translateX(-2px); }
+  .page { max-width: 920px; margin: 0 auto; padding: 0 32px 80px; }
 
-  /* Top banner with UFO background */
-  .uap-top-banner { width: 100%; min-height: 360px; border-radius: 16px; margin: 0 0 24px; background: linear-gradient(180deg, rgba(10,4,32,0.35) 0%, rgba(10,4,32,0.5) 60%, rgba(10,4,32,0.75) 100%), url('ufo-hero.jpg'); background-size: cover; background-position: center 30%; border: 1px solid rgba(255,204,0,0.25); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 32px 24px; }
-  .uap-top-banner h1 { font-size: 4.8em; color: #ffcc00; margin: 0 0 8px; font-weight: 800; text-shadow: 0 2px 12px rgba(0,0,0,0.8), 0 0 30px rgba(0,0,0,0.6); text-align: center; line-height: 1.1; }
-  .uap-top-banner .subtitle { color: #e8e8e8; font-size: 1.1em; letter-spacing: 1px; margin: 0; text-shadow: 0 1px 6px rgba(0,0,0,0.8); }
-  .uap-top-banner .back-link { margin-top: 16px; }
+  /* Top banner — UFO image as title background */
+  .top-banner { width: 100%; height: 70vh; min-height: 480px; max-height: 720px; position: relative; overflow: hidden; margin-bottom: 100px; background: #0d0e10; }
+  .top-banner::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(13,14,16,0.55) 0%, rgba(13,14,16,0.4) 40%, rgba(13,14,16,0.7) 100%), url('ufo-hero.jpg'); background-size: cover; background-position: center 35%; }
+  .top-banner-inner { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 24px; }
+  .top-banner h1 { font-family: 'Noto Serif TC', 'Source Han Serif TC', 'PingFang TC', serif; font-size: clamp(2.4em, 6vw, 4.8em); color: #c8c4b8; font-weight: 300; letter-spacing: 0.18em; margin-bottom: 24px; text-shadow: 0 2px 24px rgba(0,0,0,0.7); }
+  .top-banner .subtitle { font-family: 'Courier New', monospace; font-size: 0.78em; color: #7a766c; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 48px; }
+  .top-banner .lede { max-width: 520px; color: #a8a39a; font-size: 1.05em; line-height: 1.8; margin-bottom: 56px; }
+  .top-banner .back-link { font-family: 'Courier New', monospace; font-size: 0.78em; color: #7a766c; letter-spacing: 0.2em; text-transform: uppercase; border-bottom: 1px solid #3a3c40; padding-bottom: 4px; transition: color 0.3s, border-color 0.3s; }
+  .top-banner .back-link:hover { color: #b8a878; border-color: #b8a878; }
 
-  /* Category cards */
-  .section-label { font-size: 0.85em; color: #ccc; text-transform: uppercase; letter-spacing: 1.5px; margin: 28px 0 14px; padding-left: 4px; font-weight: 600; }
-  .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
-  .cat-card { background: rgba(75,0,130,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 18px 14px; text-align: center; cursor: pointer; transition: all 0.2s; text-decoration: none; color: inherit; }
-  .cat-card:hover { transform: translateY(-3px); border-color: rgba(255,204,0,0.5); background: rgba(75,0,130,0.3); }
-  .cat-emoji { font-size: 2.5em; margin-bottom: 6px; }
-  .cat-name { color: #ffcc00; font-size: 1.05em; font-weight: 600; }
-  .cat-count { color: #888; font-size: 0.78em; margin-top: 4px; }
+  /* Section structure */
+  section { margin-bottom: 80px; }
+  section .num { font-family: 'Courier New', monospace; font-size: 0.78em; color: #7a766c; letter-spacing: 0.3em; margin-bottom: 8px; }
+  section h2 { font-family: 'Noto Serif TC', serif; font-size: 1.6em; color: #c8c4b8; font-weight: 400; letter-spacing: 0.1em; margin-bottom: 32px; }
+  section hr { border: 0; border-top: 1px solid #1f2024; margin: 32px 0; }
 
-  /* News cards */
-  .news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .news-card { background: linear-gradient(135deg, rgba(75,0,130,0.18) 0%, rgba(255,48,48,0.06) 100%); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 18px; transition: all 0.2s; }
-  .news-card:hover { transform: translateY(-2px); border-color: rgba(255,204,0,0.4); box-shadow: 0 8px 24px rgba(75,0,130,0.3); }
-  .news-emoji { font-size: 2em; margin-bottom: 10px; }
-  .news-date { font-size: 0.78em; color: #888; font-family: 'Courier New', monospace; margin-bottom: 6px; }
-  .news-title { font-size: 1.15em; color: #ffcc00; margin: 0 0 12px 0; font-weight: 700; line-height: 1.3; }
-  .news-text { font-size: 0.95em; color: #ccc; line-height: 1.65; margin: 0 0 12px 0; }
-  .news-source { font-size: 0.78em; color: #777; font-style: italic; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.06); }
-  .news-tag { display: inline-block; font-size: 0.7em; padding: 2px 8px; border-radius: 4px; margin-right: 6px; margin-bottom: 4px; background: rgba(255,204,0,0.15); color: #ffcc00; }
+  /* News items — no box, no border, just typography */
+  .item { display: grid; grid-template-columns: 110px 1fr; gap: 32px; padding: 28px 0; }
+  .item .meta { font-family: 'Courier New', monospace; font-size: 0.78em; color: #5a5852; letter-spacing: 0.1em; line-height: 1.6; }
+  .item .meta .year { color: #b8a878; display: block; margin-bottom: 4px; font-size: 1.05em; }
+  .item .body h3 { font-family: 'Noto Serif TC', serif; font-size: 1.18em; font-weight: 400; color: #c8c4b8; margin-bottom: 12px; letter-spacing: 0.05em; }
+  .item .body p { color: #a8a39a; font-size: 0.96em; line-height: 1.75; margin-bottom: 10px; }
+  .item .body .source { font-family: 'Courier New', monospace; font-size: 0.74em; color: #5a5852; letter-spacing: 0.05em; margin-top: 12px; }
 
-  @media (max-width: 900px) {
-    .cat-grid { grid-template-columns: repeat(2, 1fr); }
-    .news-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 600px) {
-    .header h1 { font-size: 1.6em; }
-    .uap-top-banner { min-height: 320px; padding: 24px 20px; background-position: center 30%; }
-    .uap-top-banner h1 { font-size: 3.5em; }
-    .cat-grid { grid-template-columns: 1fr 1fr; }
-    .news-grid { grid-template-columns: 1fr; }
-    .news-title { font-size: 1.05em; }
+  /* Footer */
+  footer { text-align: center; padding: 60px 0 0; border-top: 1px solid #1f2024; margin-top: 80px; }
+  footer .end-mark { font-family: 'Courier New', monospace; font-size: 0.74em; color: #5a5852; letter-spacing: 0.4em; margin-bottom: 16px; }
+  footer .back-link { font-family: 'Courier New', monospace; font-size: 0.78em; color: #7a766c; letter-spacing: 0.2em; text-transform: uppercase; border-bottom: 1px solid #3a3c40; padding-bottom: 4px; transition: color 0.3s, border-color 0.3s; }
+  footer .back-link:hover { color: #b8a878; border-color: #b8a878; }
+
+  @media (max-width: 720px) {
+    .page { padding: 0 20px 60px; }
+    .top-banner { height: 80vh; min-height: 520px; margin-bottom: 64px; }
+    .item { grid-template-columns: 1fr; gap: 12px; padding: 24px 0; }
+    .item .meta .year { margin-bottom: 8px; }
+    section { margin-bottom: 56px; }
   }
 </style>
 </head>
 <body>
-<div class="container">
 
-  <div class="header">
-    <div class="uap-top-banner">
-      <h1>🛸 外星生命專欄</h1>
-      <p class="subtitle">Sono蘇蘿 · 真實事件 · 持續追蹤</p>
-      <a href="../" class="back-link">← 返回蘇蘿主頁</a>
-    </div>
+<div class="top-banner">
+  <div class="top-banner-inner">
+    <h1>外星生命專欄</h1>
+    <p class="subtitle">Sono · 真實事件 · 持續追蹤</p>
+    <p class="lede">從 1947 年 Roswell 到今天, 80 年間嘅證據、謊言、突破⋯⋯ 以下係 12 單事件, 你應該知道。</p>
+    <a href="../" class="back-link">← 返回蘇蘿</a>
   </div>
+</div>
 
-  <div class="section-label">📂 主題分類</div>
-  <div class="cat-grid">
-    <a href="#gov" class="cat-card"><div class="cat-emoji">🛸</div><div class="cat-name">政府解密</div><div class="cat-count">4 篇</div></a>
-    <a href="#research" class="cat-card"><div class="cat-emoji">🔭</div><div class="cat-name">學術研究</div><div class="cat-count">3 篇</div></a>
-    <a href="#space" class="cat-card"><div class="cat-emoji">🌌</div><div class="cat-name">太空探索</div><div class="cat-count">2 篇</div></a>
-    <a href="#contact" class="cat-card"><div class="cat-emoji">👽</div><div class="cat-name">接觸事件</div><div class="cat-count">3 篇</div></a>
-  </div>
+<div class="page">
 
-  <!-- 🛸 政府解密 -->
-  <div class="section-label" id="gov">🛸 政府解密</div>
-  <div class="news-grid">
+  <section id="gov">
+    <p class="num">SECTION 01</p>
+    <h2>政府解密</h2>
+    <hr>
 
-    <div class="news-card">
-      <div class="news-emoji">🛸</div>
-      <div class="news-date">2024 · 03 · 08</div>
-      <h3 class="news-title">五角大樓公開 3 段 UAP 戰機追逐影像</h3>
-      <p class="news-text">五角大樓正式解密三段軍機雷達鎖定 UAP 影片, 顯示球形飛行物以超音速、無可識別推進方式閃避 F-18 戰機。其中一段發生於中東, 持續 22 秒, 飛行物瞬間改變方向超出已知物理。</p>
-      <div class="news-source">來源：AARO (All-domain Anomaly Resolution Office)</div>
-    </div>
+    <article class="item">
+      <div class="meta"><span class="year">2024 · 03</span>USA</div>
+      <div class="body">
+        <h3>五角大樓公開三段 UAP 戰機追逐影像</h3>
+        <p>五角大樓正式解密三段軍機雷達鎖定 UAP 影片, 顯示球形飛行物以超音速、無可識別推進方式閃避 F-18 戰機。其中一段發生於中東, 持續 22 秒, 飛行物瞬間改變方向超出已知物理。</p>
+        <p class="source">SOURCE · All-domain Anomaly Resolution Office (AARO)</p>
+      </div>
+    </article>
 
-    <div class="news-card">
-      <div class="news-emoji">🏛️</div>
-      <div class="news-date">2023 · 07 · 26</div>
-      <h3 class="news-title">美國會 UAP 聽證會震撼爆料</h3>
-      <p class="news-text">前 UAP Task Force 主任 David Grusch 國會宣誓作證, 指美國多年來隱瞞「非人類起源」殘骸回收計劃, 涉及跨部門掩蓋。三位退役軍官現場確認雷達鎖定 UAP 片段真實, 拒絕透露細節以保護機密。</p>
-      <div class="news-source">來源：U.S. House Oversight Subcommittee</div>
-    </div>
+    <article class="item">
+      <div class="meta"><span class="year">2023 · 07</span>USA</div>
+      <div class="body">
+        <h3>美國會 UAP 聽證會震撼爆料</h3>
+        <p>前 UAP Task Force 主任 David Grusch 國會宣誓作證, 指美國多年來隱瞞「非人類起源」殘骸回收計劃, 涉及跨部門掩蓋。三位退役軍官現場確認雷達鎖定 UAP 片段真實, 拒絕透露細節以保護機密。</p>
+        <p class="source">SOURCE · U.S. House Oversight Subcommittee</p>
+      </div>
+    </article>
 
-    <div class="news-card">
-      <div class="news-emoji">🇺🇸</div>
-      <div class="news-date">2020 · 08 · 14</div>
-      <h3 class="news-title">五角大樓成立 UAP Task Force</h3>
-      <p class="news-text">美國國防部正式成立「Unidentified Aerial Phenomena Task Force」(UAPTF), 專責調查軍方及情報人員目擊嘅不明空中現象。2022 年升格為 AARO, 獲得更大權限及更多撥款研究全國範圍 UAP 事件。</p>
-      <div class="news-source">來源：U.S. Department of Defense</div>
-    </div>
+    <article class="item">
+      <div class="meta"><span class="year">2020 · 08</span>USA</div>
+      <div class="body">
+        <h3>五角大樓成立 UAP Task Force</h3>
+        <p>美國國防部正式成立「Unidentified Aerial Phenomena Task Force」, 專責調查軍方及情報人員目擊嘅不明空中現象。2022 年升格為 AARO, 獲得更大權限及更多撥款研究全國範圍 UAP 事件。</p>
+        <p class="source">SOURCE · U.S. Department of Defense</p>
+      </div>
+    </article>
 
-    <div class="news-card">
-      <div class="news-emoji">⚖️</div>
-      <div class="news-date">2023 · 07 · 13</div>
-      <h3 class="news-title">《UAP Disclosure Act》國會提案</h3>
-      <p class="news-text">美國會議員提出《UAP Disclosure Act》, 要求政府解密所有 UAP 相關檔案, 成立獨立委員會審查「生物非人類起源」(Non-Human Biologics) 證據。雖然未通過, 但獲跨黨派支持, 被視為 UAP 透明化嘅里程碑。</p>
-      <div class="news-source">來源：U.S. Congress Records</div>
-    </div>
+    <article class="item">
+      <div class="meta"><span class="year">2023 · 07</span>USA</div>
+      <div class="body">
+        <h3>《UAP Disclosure Act》國會提案</h3>
+        <p>美國會議員提出《UAP Disclosure Act》, 要求政府解密所有 UAP 相關檔案, 成立獨立委員會審查「生物非人類起源」證據。雖然未通過, 但獲跨黨派支持, 被視為 UAP 透明化嘅里程碑。</p>
+        <p class="source">SOURCE · U.S. Congress Records</p>
+      </div>
+    </article>
+  </section>
 
-  </div>
+  <section id="research">
+    <p class="num">SECTION 02</p>
+    <h2>學術研究</h2>
+    <hr>
 
-  <!-- 🔭 學術研究 -->
-  <div class="section-label" id="research">🔭 學術研究</div>
-  <div class="news-grid">
+    <article class="item">
+      <div class="meta"><span class="year">2023 · 09</span>NASA</div>
+      <div class="body">
+        <h3>NASA UAP 獨立小組首次公開報告</h3>
+        <p>NASA 召集 16 位物理、天文、生物學專家組成獨立小組, 公開承認 UAP 現象「真實」, 並歸咎 stigma 阻礙科學研究。建議建立跨部門舉報平台, 並用 AI 分析歷史 NASA 與商業衛星數據, 同時強調「未有外星人存在證據」。</p>
+        <p class="source">SOURCE · NASA UAP Independent Study Team</p>
+      </div>
+    </article>
 
-    <div class="news-card">
-      <div class="news-emoji">🚀</div>
-      <div class="news-date">2023 · 09 · 14</div>
-      <h3 class="news-title">NASA UAP 獨立小組首次公開報告</h3>
-      <p class="news-text">NASA 召集 16 位物理、天文、生物學專家組成獨立小組, 公開承認 UAP 現象「真實」, 並歸咎 stigma 阻礙科學研究。建議建立跨部門舉報平台 + 用 AI 分析歷史 NASA / 商業衛星數據, 同時強調「未有外星人存在證據」。</p>
-      <div class="news-source">來源：NASA UAP Independent Study Team</div>
-    </div>
+    <article class="item">
+      <div class="meta"><span class="year">2021 · 07</span>HARVARD</div>
+      <div class="body">
+        <h3>Galileo Project 啟動系統性搜索</h3>
+        <p>由哈佛天文系前主任 Avi Loeb 領軍, 用 AI 結合多光譜望遠鏡, 在全球部署感測器網絡系統性搜索 UAP。已於 2023 年 1 月在 Harvard 站首次安裝探測器, 目標科學化排除自然現象, 公開發表研究結果。</p>
+        <p class="source">SOURCE · Galileo Project, Harvard University</p>
+      </div>
+    </article>
 
-    <div class="news-card">
-      <div class="news-emoji">🎓</div>
-      <div class="news-date">2021 · 07 · 01</div>
-      <h3 class="news-title">哈佛 Galileo Project 啟動系統性搜索</h3>
-      <p class="news-text">由哈佛天文系前主任 Avi Loeb 領軍, 用 AI 結合多光譜望遠鏡, 在全球部署感測器網絡系統性搜索 UAP。已於 2023 年 1 月在 Harvard 站首次安裝探測器, 目標科學化排除自然現象, 公開發表研究結果。</p>
-      <div class="news-source">來源：Galileo Project, Harvard University</div>
-    </div>
+    <article class="item">
+      <div class="meta"><span class="year">2018 · 10</span>HARVARD</div>
+      <div class="body">
+        <h3>'Oumuamua 星際訪客引發外星假說</h3>
+        <p>夏威夷 Pan-STARRS 望遠鏡發現首個確認嘅星際訪客 'Oumuamua, 形狀雪茄狀, 加速遠離太陽。Avi Loeb 2018 年提出假說: 「可能係外星文明嘅光帆探測器」, 2021 年出書《Extraterrestrial》引發學界激辯。</p>
+        <p class="source">SOURCE · Harvard Astrophysical Journal</p>
+      </div>
+    </article>
+  </section>
 
-    <div class="news-card">
-      <div class="news-emoji">🌠</div>
-      <div class="news-date">2018 · 10 · 19</div>
-      <h3 class="news-title">「'Oumuamua」星際訪客引發外星假說</h3>
-      <p class="news-text">夏威夷 Pan-STARRS 望遠鏡發現首個確認嘅星際訪客 'Oumuamua, 形狀雪茄狀, 加速遠離太陽。Avi Loeb 2018 年提出假說:「可能係外星文明嘅光帆探測器」, 2021 年出書《Extraterrestrial》引發學界激辯。</p>
-      <div class="news-source">來源：Harvard Astrophysical Journal</div>
-    </div>
+  <section id="space">
+    <p class="num">SECTION 03</p>
+    <h2>太空探索</h2>
+    <hr>
 
-  </div>
+    <article class="item">
+      <div class="meta"><span class="year">2024 · 02</span>MARS</div>
+      <div class="body">
+        <h3>Curiosity 探測器發現「外星生命指標」化合物</h3>
+        <p>NASA Curiosity 探測器喺火星岩石樣本中發現長鏈烷烴, 同埋特異嘅碳同位素比例, 部分指標「無法用已知生物學解釋」。雖然團隊強調「非生物來源可能性高」, 但承認仍需更多研究確認。</p>
+        <p class="source">SOURCE · NASA Mars Science Laboratory</p>
+      </div>
+    </article>
 
-  <!-- 🌌 太空探索 -->
-  <div class="section-label" id="space">🌌 太空探索</div>
-  <div class="news-grid">
+    <article class="item">
+      <div class="meta"><span class="year">2020 · 09</span>VENUS</div>
+      <div class="body">
+        <h3>金星大氣層發現「磷化氫」生命指標</h3>
+        <p>皇家天文學會團隊喺金星高層大氣約 55 公里高偵測到磷化氫 PH3 氣體, 喺地球上一般由厭氧微生物產生。雖然後續研究質疑訊號強度, 但被視為「太陽系內可能有微生物生命」嘅重要候選地點。</p>
+        <p class="source">SOURCE · Royal Astronomical Society, Nature Astronomy</p>
+      </div>
+    </article>
+  </section>
 
-    <div class="news-card">
-      <div class="news-emoji">🛰️</div>
-      <div class="news-date">2024 · 02 · 22</div>
-      <h3 class="news-title">NASA 探測器發現「外星生命指標」化合物</h3>
-      <p class="news-text">NASA Curiosity 探測器喺火星岩石樣本中發現長鏈烷烴 (long-chain alkanes), 同埋特異嘅碳同位素比例, 部分指標「無法用已知生物學解釋」。雖然團隊強調「非生物來源可能性高」, 但承認仍需更多研究確認。</p>
-      <div class="news-source">來源：NASA Mars Science Laboratory</div>
-    </div>
+  <section id="contact">
+    <p class="num">SECTION 04</p>
+    <h2>接觸事件</h2>
+    <hr>
 
-    <div class="news-card">
-      <div class="news-emoji">🌍</div>
-      <div class="news-date">2020 · 09 · 14</div>
-      <h3 class="news-title">金星大氣層發現「磷化氫」生命指標</h3>
-      <p class="news-text">皇家天文學會團隊喺金星高層大氣 (約 55 公里高) 偵測到磷化氫 (PH3) 氣體, 喺地球上一般由厭氧微生物產生。雖然後續研究質疑訊號強度, 但被視為「太陽系內可能有微生物生命」嘅重要候選地點。</p>
-      <div class="news-source">來源：Royal Astronomical Society, Nature Astronomy</div>
-    </div>
+    <article class="item">
+      <div class="meta"><span class="year">1977 · 08</span>OHIO</div>
+      <div class="body">
+        <h3>「Wow! Signal」30 年來最強候選 SETI 訊號</h3>
+        <p>俄亥俄州立大學 Big Ear 射電望遠鏡接收一段長 72 秒嘅窄頻訊號, 強度超出背景 30 倍, 非常接近氫線頻率。天文學家 Jerry Ehman 喺 printout 上寫下「Wow!」, 成為 SETI 史上最著名嘅未解事件, 至今未再偵測到類似訊號。</p>
+        <p class="source">SOURCE · Ohio State University Radio Observatory</p>
+      </div>
+    </article>
 
-  </div>
+    <article class="item">
+      <div class="meta"><span class="year">1947 · 07</span>NEW MEXICO</div>
+      <div class="body">
+        <h3>Roswell 事件開啟 UFO 時代</h3>
+        <p>新墨西哥州 Roswell 空軍基地發新聞稿聲稱「撿到飛碟殘骸」, 24 小時後改口「只是氣象氣球」。事件引發 70 多年嘅陰謀論, 政府多次澄清但仍有民間調查員聲稱有人證與外星解剖照。1994 年空軍承認「Project Mogul」高空氣球計劃, 但爭議未止。</p>
+        <p class="source">SOURCE · U.S. Air Force Historical Research Agency</p>
+      </div>
+    </article>
 
-  <!-- 👽 接觸事件 -->
-  <div class="section-label" id="contact">👽 接觸事件</div>
-  <div class="news-grid">
+    <article class="item">
+      <div class="meta"><span class="year">1961 · 09</span>NEW HAMPSHIRE</div>
+      <div class="body">
+        <h3>Betty & Barney Hill 催眠回憶事件</h3>
+        <p>美國新罕布夏州夫婦 Betty & Barney Hill 駕車途中聲稱被外星人綁架進行身體檢查, 催眠回憶後繪出嘅「星圖」, 1970 年代被業餘天文學家 Marjorie Fish 對應到 Zeta Reticuli 雙星系統, 引起 SETI 界廣泛討論, 成為現代「接觸者」敘事嘅原型。</p>
+        <p class="source">SOURCE · Boston University / Marjorie Fish 星圖分析</p>
+      </div>
+    </article>
+  </section>
 
-    <div class="news-card">
-      <div class="news-emoji">📡</div>
-      <div class="news-date">1977 · 08 · 15</div>
-      <h3 class="news-title">「Wow! Signal」30 年來最強候選 SETI 訊號</h3>
-      <p class="news-text">俄亥俄州立大學 Big Ear 射電望遠鏡接收一段長 72 秒嘅窄頻訊號, 強度超出背景 30 倍, 非常接近氫線頻率。天文學家 Jerry Ehman 喺 printout 上寫下「Wow!」, 成為 SETI 史上最著名嘅未解事件, 至今未再偵測到類似訊號。</p>
-      <div class="news-source">來源：Ohio State University Radio Observatory</div>
-    </div>
-
-    <div class="news-card">
-      <div class="news-emoji">🛸</div>
-      <div class="news-date">1947 · 07 · 08</div>
-      <h3 class="news-title">Roswell 事件開啟 UFO 時代</h3>
-      <p class="news-text">新墨西哥州 Roswell 空軍基地發新聞稿聲稱「撿到飛碟殘骸」, 24 小時後改口「只是氣象氣球」。事件引發 70 多年嘅陰謀論, 政府多次澄清但仍有民間調查員聲稱有人證 + 外星解剖照。1994 年空軍承認「Project Mogul」高空氣球計劃, 但爭議未止。</p>
-      <div class="news-source">來源：U.S. Air Force Historical Research Agency</div>
-    </div>
-
-    <div class="news-card">
-      <div class="news-emoji">👤</div>
-      <div class="news-date">1961 · 09 · 19</div>
-      <h3 class="news-title">Betty & Barney Hill 催眠回憶事件</h3>
-      <p class="news-text">美國新罕布夏州夫婦 Betty & Barney Hill 駕車途中聲稱被外星人綁架進行身體檢查, 催眠回憶後繪出嘅「星圖」, 1970 年代被業餘天文學家 Marjorie Fish 對應到 Zeta Reticuli 雙星系統, 引起 SETI 界廣泛討論, 成為現代「接觸者」(abductee) 敘事嘅原型。</p>
-      <div class="news-source">來源：Boston University / Marjorie Fish 星圖分析</div>
-    </div>
-
-  </div>
-
-  <div style="text-align:center; margin:50px 0 20px; color:#888; font-size:0.9em;">
-    ── 持續更新中 · Sono蘇蘿 · 2024 ──
-  </div>
-
-  <div style="text-align:center;">
-    <a href="../" class="back-link">← 返回蘇蘿主頁</a>
-  </div>
+  <footer>
+    <p class="end-mark">— END OF FILE —</p>
+    <a href="../" class="back-link">← 返回蘇蘿</a>
+  </footer>
 
 </div>
+
 </body>
 </html>
