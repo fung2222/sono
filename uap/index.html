@@ -17,14 +17,11 @@
   .back-link { display: inline-block; color: #6bff6b; text-decoration: none; font-size: 0.95em; margin-top: 20px; padding: 8px 16px; border: 1px solid rgba(107,255,107,0.3); border-radius: 8px; transition: all 0.2s; }
   .back-link:hover { background: rgba(107,255,107,0.1); transform: translateX(-2px); }
 
-  /* Hero banner */
-  .hero { width: 100%; min-height: 320px; border-radius: 16px; margin: 24px 0 32px; background: linear-gradient(135deg, #4a0080 0%, #1a0040 50%, #4a0080 100%), url('ufo-hero.jpg'); background-size: cover; background-position: center; background-blend-mode: overlay; border: 1px solid rgba(255,204,0,0.2); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 24px; }
-  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 50%, rgba(255,204,0,0.2) 0%, transparent 50%), radial-gradient(circle at 70% 50%, rgba(255,48,48,0.2) 0%, transparent 50%); z-index: 1; }
-  .hero-text { position: relative; z-index: 2; text-align: center; padding: 20px 24px; width: 100%; max-width: 600px; background: rgba(10,4,32,0.7); border-radius: 12px; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.1); }
-  .hero-text .emoji { display: none; }
-  .hero-text h2 { font-size: 1.6em; color: #ffcc00; margin-bottom: 8px; font-weight: 700; }
-  .hero-text p { color: #e0e0e0; font-size: 1em; max-width: 600px; margin: 0 auto; }
-  .hero-img { display: none; }
+  /* Top banner with UFO background */
+  .uap-top-banner { width: 100%; min-height: 220px; border-radius: 16px; margin: 0 0 24px; background: linear-gradient(180deg, rgba(10,4,32,0.55) 0%, rgba(10,4,32,0.85) 100%), url('ufo-hero.jpg'); background-size: cover; background-position: center; border: 1px solid rgba(255,204,0,0.25); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 24px; }
+  .uap-top-banner h1 { font-size: 2.4em; color: #ffcc00; margin: 0 0 8px; font-weight: 800; text-shadow: 0 2px 12px rgba(0,0,0,0.7); text-align: center; }
+  .uap-top-banner .subtitle { color: #e8e8e8; font-size: 1.05em; letter-spacing: 1px; margin: 0; text-shadow: 0 1px 6px rgba(0,0,0,0.7); }
+  .uap-top-banner .back-link { margin-top: 16px; }
 
   /* Category cards */
   .section-label { font-size: 0.85em; color: #ccc; text-transform: uppercase; letter-spacing: 1.5px; margin: 28px 0 14px; padding-left: 4px; font-weight: 600; }
@@ -52,10 +49,8 @@
   }
   @media (max-width: 600px) {
     .header h1 { font-size: 1.6em; }
-    .hero { min-height: 360px; padding: 20px; }
-    .hero-text { padding: 16px 18px; }
-    .hero-text h2 { font-size: 1.2em; }
-    .hero-text p { font-size: 0.9em; }
+    .uap-top-banner { min-height: 180px; padding: 24px 20px; }
+    .uap-top-banner h1 { font-size: 1.8em; }
     .cat-grid { grid-template-columns: 1fr 1fr; }
     .news-grid { grid-template-columns: 1fr; }
     .news-title { font-size: 1.05em; }
@@ -66,16 +61,10 @@
 <div class="container">
 
   <div class="header">
-    <h1>🛸 外星生命專欄</h1>
-    <p class="subtitle">Sono蘇蘿 · 真實事件 · 持續追蹤</p>
-    <a href="../" class="back-link">← 返回蘇蘿主頁</a>
-  </div>
-
-  <div class="hero">
-    <div class="hero-text">
-      <img class="hero-img" src="ufo-hero.jpg" alt="UFO flying saucer 海面情景">
-      <h2>我們真的孤單嗎？</h2>
-      <p>由 1947 年 Roswell 到 2024 年 AARO 公開影像, 80 年間嘅證據、謊言、突破⋯⋯ 以下係你應該知道嘅 12 單事件。</p>
+    <div class="uap-top-banner">
+      <h1>🛸 外星生命專欄</h1>
+      <p class="subtitle">Sono蘇蘿 · 真實事件 · 持續追蹤</p>
+      <a href="../" class="back-link">← 返回蘇蘿主頁</a>
     </div>
   </div>
 
