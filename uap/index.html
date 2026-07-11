@@ -18,13 +18,13 @@
   .back-link:hover { background: rgba(107,255,107,0.1); transform: translateX(-2px); }
 
   /* Hero banner */
-  .hero { width: 100%; min-height: 240px; border-radius: 16px; margin: 24px 0 32px; background: linear-gradient(135deg, #4a0080 0%, #1a0040 50%, #4a0080 100%); border: 1px solid rgba(255,204,0,0.2); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 24px; }
-  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 50%, rgba(255,204,0,0.15) 0%, transparent 50%), radial-gradient(circle at 70% 50%, rgba(255,48,48,0.15) 0%, transparent 50%); }
-  .hero-text { position: relative; z-index: 1; text-align: center; padding: 0; width: 100%; }
+  .hero { width: 100%; min-height: 320px; border-radius: 16px; margin: 24px 0 32px; background: linear-gradient(135deg, #4a0080 0%, #1a0040 50%, #4a0080 100%), url('ufo-hero.jpg'); background-size: cover; background-position: center; background-blend-mode: overlay; border: 1px solid rgba(255,204,0,0.2); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 24px; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 50%, rgba(255,204,0,0.2) 0%, transparent 50%), radial-gradient(circle at 70% 50%, rgba(255,48,48,0.2) 0%, transparent 50%); z-index: 1; }
+  .hero-text { position: relative; z-index: 2; text-align: center; padding: 20px 24px; width: 100%; max-width: 600px; background: rgba(10,4,32,0.7); border-radius: 12px; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.1); }
   .hero-text .emoji { display: none; }
   .hero-text h2 { font-size: 1.6em; color: #ffcc00; margin-bottom: 8px; font-weight: 700; }
-  .hero-text p { color: #ccc; font-size: 1em; max-width: 600px; margin: 0 auto; }
-  .hero-img { display: block; width: 100%; max-width: 280px; height: auto; margin: 0 auto 14px; border-radius: 8px; box-shadow: 0 4px 24px rgba(0,0,0,0.6); }
+  .hero-text p { color: #e0e0e0; font-size: 1em; max-width: 600px; margin: 0 auto; }
+  .hero-img { display: none; }
 
   /* Category cards */
   .section-label { font-size: 0.85em; color: #ccc; text-transform: uppercase; letter-spacing: 1.5px; margin: 28px 0 14px; padding-left: 4px; font-weight: 600; }
@@ -52,7 +52,8 @@
   }
   @media (max-width: 600px) {
     .header h1 { font-size: 1.6em; }
-    .hero { min-height: 280px; padding: 20px; }
+    .hero { min-height: 360px; padding: 20px; }
+    .hero-text { padding: 16px 18px; }
     .hero-text h2 { font-size: 1.2em; }
     .hero-text p { font-size: 0.9em; }
     .cat-grid { grid-template-columns: 1fr 1fr; }
