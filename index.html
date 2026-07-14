@@ -258,28 +258,7 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
   .wp-grid { grid-template-columns: repeat(2, 1fr); }
   .wp-title-main { font-size: 1.2em; }
   .wp-title { font-size: 0.82em; }
-  .game-gallery { grid-template-columns: repeat(2, 1fr); }
-  .tool-gallery { grid-template-columns: repeat(3, 1fr); }
 }
-
-/* ── Sono 遊戲 (Game Gallery — Sono 桌布 style) ── */
-.game-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 0; margin: 16px 0 0; }
-.game-tile { position: relative; display: block; aspect-ratio: 9 / 16; overflow: hidden; background: #0a0a1a; cursor: pointer; text-decoration: none; }
-.game-tile img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-.game-tile:hover img { transform: scale(1.04); }
-.game-tile-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,26,0.92) 0%, rgba(10,10,26,0.4) 50%, transparent 100%); opacity: 0; transition: opacity 0.3s; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px 10px; }
-.game-tile:hover .game-tile-overlay { opacity: 1; }
-.game-tile-title { font-family: 'Noto Serif TC', 'Source Han Serif TC', serif; color: #fff; font-size: 0.95em; font-weight: 400; letter-spacing: 0.05em; line-height: 1.3; margin-bottom: 4px; }
-.game-tile-tag { display: inline-block; font-family: 'Courier New', monospace; font-size: 0.55em; color: #0a0a1a; background: rgba(184,168,120,0.85); padding: 2px 7px; border-radius: 8px; letter-spacing: 0.1em; text-transform: uppercase; align-self: flex-start; margin-bottom: 4px; }
-.game-tile-meta { font-family: 'Courier New', monospace; color: #c8c4b8; font-size: 0.62em; letter-spacing: 0.1em; opacity: 0.85; }
-
-/* ── Sono 工具 (Tool Gallery — Sono 桌布 style) ── */
-.tool-gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 0; margin: 16px 0 0; }
-.tool-tile { position: relative; display: block; aspect-ratio: 1 / 1; overflow: hidden; background: #0a0a1a; cursor: pointer; text-align: center; text-decoration: none; }
-.tool-tile-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,26,0.85) 0%, rgba(10,10,26,0.3) 50%, transparent 100%); opacity: 0; transition: opacity 0.3s; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding: 12px 8px; }
-.tool-tile:hover .tool-tile-overlay { opacity: 1; }
-.tool-tile-emoji { font-size: 2.2em; line-height: 1; margin-bottom: 6px; }
-.tool-tile-label { font-family: 'Noto Serif TC', 'Source Han Serif TC', serif; color: #fff; font-size: 0.78em; letter-spacing: 0.04em; line-height: 1.2; }
 
 /* Daily 天氣簡約 layout */
 .dw-weather-simple { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; margin-top: 12px; }
@@ -772,159 +751,258 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <div class="tab-panel" id="tab-games">
   <div class="section-label">🎮 AI遊戲</div>
   
-  <h1 class="wp-title-main" style="font-size:1.4em;margin-top:8px;">Sono 遊戲</h1>
-  <div class="section-label" style="padding-left:0;margin:6px 0 0;">8 個 AI 遊戲 · 點擊進入</div>
-  <div class="game-gallery">
-    <a class="game-tile" href="games/cyber-ninja-vs-monster/" title="Cyber Ninja vs Cosmic Monster">
-      <img src="games/cyber-ninja-vs-monster.svg" alt="Cyber Ninja vs Cosmic Monster" loading="lazy">
-      <div class="game-tile-overlay">
-        <span class="game-tile-tag">射擊</span>
-        <div class="game-tile-title">Cyber Ninja vs Cosmic Monster</div>
-        <div class="game-tile-meta">生化機械人斬怪獸 · 大蕉招 · 多 wave</div>
+  <div class="game-list">
+    <!-- ── Cyber Ninja vs Cosmic Monster ── -->
+    <div class="game-item">
+      <div class="game-header" onclick="toggleGame(this)">
+        <img src="games/cyber-ninja-vs-monster.svg" class="game-logo" alt="Cyber Ninja vs Cosmic Monster">
+        <div class="game-info">
+          <span class="game-name">Cyber Ninja vs Cosmic Monster</span>
+          <span class="game-tag">射擊</span>
+        </div>
+        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
-    </a>
-    <a class="game-tile" href="rps-battle/" title="猜拳火柴人">
-      <img src="games/rock-paper-scissors.svg" alt="猜拳火柴人" loading="lazy">
-      <div class="game-tile-overlay">
-        <span class="game-tile-tag">派對</span>
-        <div class="game-tile-title">猜拳火柴人</div>
-        <div class="game-tile-meta">剪刀石頭佈 · 火柴人對戰</div>
+      <div class="game-body">
+        <p class="game-desc">生化機械人斬怪獸 · 狂暴亂射 · 大蕉招「銀河終焉斬」 · 多 wave 推進</p>
+        <a href="games/cyber-ninja-vs-monster/" class="game-play-btn">🎮 立即遊玩</a>
       </div>
-    </a>
-    <a class="game-tile" href="fighter/" title="Stickman Fighter">
-      <img src="games/stickman-fighter.svg" alt="Stickman Fighter" loading="lazy">
-      <div class="game-tile-overlay">
-        <span class="game-tile-tag">對戰</span>
-        <div class="game-tile-title">Stickman Fighter</div>
-        <div class="game-tile-meta">經典對戰 · 鍵盤操作</div>
+    </div>
+
+    <!-- ── 猜拳火柴人 ── -->
+    <div class="game-item">
+      <div class="game-header" onclick="toggleGame(this)">
+        <img src="games/rock-paper-scissors.svg" class="game-logo" alt="猜拳火柴人">
+        <div class="game-info">
+          <span class="game-name">猜拳火柴人</span>
+          <span class="game-tag">派對</span>
+        </div>
+        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
-    </a>
-    <a class="game-tile" href="stickman-fighter-v1/" title="Stickman Fighter v1">
-      <img src="games/stickman-fighter-v1.svg" alt="Stickman Fighter v1" loading="lazy">
-      <div class="game-tile-overlay">
-        <span class="game-tile-tag">對戰</span>
-        <div class="game-tile-title">Stickman Fighter v1</div>
-        <div class="game-tile-meta">強化動畫 · 新角色 · 進階</div>
+      <div class="game-body">
+        <p class="game-desc">剪刀石頭佈 · 火柴人動畫對戰 · 搞笑語音 · 三局兩勝制</p>
+        <a href="rps-battle/" class="game-play-btn">🎮 立即遊玩</a>
       </div>
-    </a>
-    <a class="game-tile" href="snake/" title="貪食蛇">
-      <img src="games/snake.svg" alt="貪食蛇" loading="lazy">
-      <div class="game-tile-overlay">
-        <span class="game-tile-tag">街機</span>
-        <div class="game-tile-title">貪食蛇</div>
-        <div class="game-tile-meta">吃蘋果變長 · 避開自己</div>
+    </div>
+
+    <!-- ── Stickman Fighter (普通版) ── -->
+    <div class="game-item">
+      <div class="game-header" onclick="toggleGame(this)">
+        <img src="games/stickman-fighter.svg" class="game-logo" alt="Stickman Fighter">
+        <div class="game-info">
+          <span class="game-name">Stickman Fighter</span>
+          <span class="game-tag">對戰</span>
+        </div>
+        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
-    </a>
-    <a class="game-tile" href="2048/" title="2048">
-      <img src="games/2048.svg" alt="2048" loading="lazy">
-      <div class="game-tile-overlay">
-        <span class="game-tile-tag">益智</span>
-        <div class="game-tile-title">2048</div>
-        <div class="game-tile-meta">滑動方塊 · 合併相同</div>
+      <div class="game-body">
+        <p class="game-desc">經典 Stickman 對戰 · 普通版 · 流暢動畫 · 鍵盤操作</p>
+        <a href="fighter/" class="game-play-btn">🎮 立即遊玩</a>
       </div>
-    </a>
-    <a class="game-tile" href="xo-three-doors/" title="XO過三關">
-      <img src="games/xo-three-doors.svg" alt="XO過三關" loading="lazy">
-      <div class="game-tile-overlay">
-        <span class="game-tile-tag">策略</span>
-        <div class="game-tile-title">XO過三關</div>
-        <div class="game-tile-meta">井字棋變奏 · 三關挑戰</div>
+    </div>
+
+    <!-- ── Stickman Fighter v1 ── -->
+    <div class="game-item">
+      <div class="game-header" onclick="toggleGame(this)">
+        <img src="games/stickman-fighter-v1.svg" class="game-logo" alt="Stickman Fighter v1">
+        <div class="game-info">
+          <span class="game-name">Stickman Fighter v1</span>
+          <span class="game-tag">對戰</span>
+        </div>
+        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
-    </a>
-    <a class="game-tile" href="memory/" title="記憶配對">
-      <img src="games/memory-match.svg" alt="記憶配對" loading="lazy">
-      <div class="game-tile-overlay">
-        <span class="game-tile-tag">智力</span>
-        <div class="game-tile-title">記憶配對</div>
-        <div class="game-tile-meta">翻卡配對 · 計時挑戰</div>
+      <div class="game-body">
+        <p class="game-desc">Stickman 對戰 v1 版 · 強化動畫 · 新角色 · 進階操作</p>
+        <a href="stickman-fighter-v1/" class="game-play-btn">🎮 立即遊玩</a>
       </div>
-    </a>
+    </div>
+
+    <!-- ── 貪食蛇 ── -->
+    <div class="game-item">
+      <div class="game-header" onclick="toggleGame(this)">
+        <img src="games/snake.svg" class="game-logo" alt="貪食蛇">
+        <div class="game-info">
+          <span class="game-name">貪食蛇</span>
+          <span class="game-tag">街機</span>
+        </div>
+        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="game-body">
+        <p class="game-desc">經典貪食蛇 · 控制蛇移動 · 吃蘋果變長 · 避開自己</p>
+        <a href="snake/" class="game-play-btn">🎮 立即遊玩</a>
+      </div>
+    </div>
+
+    <!-- ── 2048 ── -->
+    <div class="game-item">
+      <div class="game-header" onclick="toggleGame(this)">
+        <img src="games/2048.svg" class="game-logo" alt="2048">
+        <div class="game-info">
+          <span class="game-name">2048</span>
+          <span class="game-tag">益智</span>
+        </div>
+        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="game-body">
+        <p class="game-desc">數字合併 · 滑動方塊合併相同數字 · 挑戰 2048 目標 · 鍵盤+觸屏雙控</p>
+        <a href="2048/" class="game-play-btn">🎮 立即遊玩</a>
+      </div>
+    </div>
+
+    <!-- ── XO過三關 ── -->
+    <div class="game-item">
+      <div class="game-header" onclick="toggleGame(this)">
+        <img src="games/xo-three-doors.svg" class="game-logo" alt="XO過三關">
+        <div class="game-info">
+          <span class="game-name">XO過三關</span>
+          <span class="game-tag">策略</span>
+        </div>
+        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="game-body">
+        <p class="game-desc">井字棋變奏 · 三關挑戰 · 策略思考 · 雙人對戰</p>
+        <a href="xo-three-doors/" class="game-play-btn">🎮 立即遊玩</a>
+      </div>
+    </div>
+
+    <!-- ── 記憶配對 ── -->
+    <div class="game-item">
+      <div class="game-header" onclick="toggleGame(this)">
+        <img src="games/memory-match.svg" class="game-logo" alt="記憶配對">
+        <div class="game-info">
+          <span class="game-name">記憶配對</span>
+          <span class="game-tag">智力</span>
+        </div>
+        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="game-body">
+        <p class="game-desc">翻卡配對 · 考你記憶力 · 簡單/困難模式 · 計時挑戰</p>
+        <a href="memory/" class="game-play-btn">🎮 立即遊玩</a>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin:12px 0 4px;">
+      <a href="games/all.html" style="color:#6bff6b; text-decoration:none; font-weight:700; font-size:0.95em;">全部遊戲 →</a>
+    </div>
   </div>
 </div>
 <!-- ══════ Tab 3: Sono 工具箱 ══════ -->
 <div class="tab-panel" id="tab-toolbox">
-  <h1 class="wp-title-main" style="font-size:1.4em;margin-top:8px;">Sono 工具</h1>
-  <div class="section-label" style="padding-left:0;margin:6px 0 0;">實用工具 + AI 工具</div>
-  <div class="tool-gallery" style="margin-top:14px;">
-    <button class="tool-tile" id="weatherTrigger" type="button" style="border:none;cursor:pointer;">
-      <div class="tool-tile-overlay">
-        <div class="tool-tile-emoji">🌤️</div>
-        <div class="tool-tile-label">全球天氣</div>
-      </div>
-    </button>
-    <button class="tool-tile" id="currencyTrigger" type="button" style="border:none;cursor:pointer;">
-      <div class="tool-tile-overlay">
-        <div class="tool-tile-emoji">💰</div>
-        <div class="tool-tile-label">貨幣匯率</div>
-      </div>
-    </button>
-    <button class="tool-tile" id="searchTrigger" type="button" style="border:none;cursor:pointer;">
-      <div class="tool-tile-overlay">
-        <div class="tool-tile-emoji">🔍</div>
-        <div class="tool-tile-label">Sono 搜尋</div>
-      </div>
-    </button>
-    <button class="tool-tile" id="translateTrigger" type="button" style="border:none;cursor:pointer;">
-      <div class="tool-tile-overlay">
-        <div class="tool-tile-emoji">🌐</div>
-        <div class="tool-tile-label">AI 翻譯</div>
-      </div>
-    </button>
-    <button class="tool-tile" id="issTrigger" type="button" style="border:none;cursor:pointer;">
-      <div class="tool-tile-overlay">
-        <div class="tool-tile-emoji">📡</div>
-        <div class="tool-tile-label">ISS 追蹤</div>
-      </div>
-    </button>
-    <button class="tool-tile" id="worldClockTrigger" type="button" style="border:none;cursor:pointer;">
-      <div class="tool-tile-overlay">
-        <div class="tool-tile-emoji">⏰</div>
-        <div class="tool-tile-label">世界時鐘</div>
-      </div>
-    </button>
-    <button class="tool-tile" id="qrTrigger" type="button" style="border:none;cursor:pointer;">
-      <div class="tool-tile-overlay">
-        <div class="tool-tile-emoji">📱</div>
-        <div class="tool-tile-label">QR Code 生成</div>
-      </div>
-    </button>
-    <button class="tool-tile" id="mapTrigger" type="button" style="border:none;cursor:pointer;">
-      <div class="tool-tile-overlay">
-        <div class="tool-tile-emoji">🗺️</div>
-        <div class="tool-tile-label">世界地圖</div>
-      </div>
-    </button>
-    <button class="tool-tile" id="timerTrigger" type="button" style="border:none;cursor:pointer;">
-      <div class="tool-tile-overlay">
-        <div class="tool-tile-emoji">⏱️</div>
-        <div class="tool-tile-label">番茄計時</div>
-      </div>
-    </button>
-    <button class="tool-tile" id="mtrTrigger" type="button" style="border:none;cursor:pointer;">
-      <div class="tool-tile-overlay">
-        <div class="tool-tile-emoji">🚇</div>
-        <div class="tool-tile-label">MTR 查詢</div>
-      </div>
-    </button>
-    <button class="tool-tile" id="bmiTrigger" type="button" style="border:none;cursor:pointer;">
-      <div class="tool-tile-overlay">
-        <div class="tool-tile-emoji">🏋️</div>
-        <div class="tool-tile-label">BMI 計算</div>
-      </div>
-    </button>
-    <button class="tool-tile" id="sonoChatTrigger" type="button" style="border:none;cursor:pointer;">
-      <div class="tool-tile-overlay">
-        <div class="tool-tile-emoji">💬</div>
-        <div class="tool-tile-label">Sono Chat</div>
-      </div>
-    </button>
-    <button class="tool-tile" id="sonoCreateTrigger" type="button" style="border:none;cursor:pointer;">
-      <div class="tool-tile-overlay">
-        <div class="tool-tile-emoji">🎨</div>
-        <div class="tool-tile-label">Sono 創作</div>
-      </div>
-    </button>
+  <div class="section-label">🛠️ 實用工具</div>
+  <div class="tool-grid">
+    <div class="card tool-sm" id="weatherTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🌤️</span></div>
+      <span class="ts-label">全球天氣</span>
+    </div>
+    <div class="card tool-sm" id="currencyTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">💰</span></div>
+      <span class="ts-label">貨幣匯率</span>
+    </div>
+    <div class="card tool-sm" id="searchTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🔍</span></div>
+      <span class="ts-label">Sono 搜尋</span>
+    </div>
+    <div class="card tool-sm" id="translateTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🌐</span></div>
+      <span class="ts-label">AI 翻譯</span>
+    </div>
+    <div class="card tool-sm" id="issTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">📡</span></div>
+      <span class="ts-label">ISS 追蹤</span>
+    </div>
+    <div class="card tool-sm" id="worldClockTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">⏰</span></div>
+      <span class="ts-label">世界時鐘</span>
+    </div>
+    <div class="card tool-sm" id="qrTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">📱</span></div>
+      <span class="ts-label">QR Code 生成</span>
+    </div>
+    <div class="card tool-sm" id="mapTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🗺️</span></div>
+      <span class="ts-label">世界地圖</span>
+    </div>
+    <div class="card tool-sm" id="timerTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">⏱️</span></div>
+      <span class="ts-label">番茄計時</span>
+    </div>
+    <div class="card tool-sm" id="mtrTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🚇</span></div>
+      <span class="ts-label">MTR 查詢</span>
+    </div>
+    <div class="card tool-sm" id="bmiTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🏋️</span></div>
+      <span class="ts-label">BMI 計算</span>
+    </div>
+    </div>
+
+<div class="section-label">🤖 AI 工具</div>
+  <div class="tool-grid">
+    <div class="card tool-sm" id="sonoChatTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">💬</span></div>
+      <span class="ts-label">Sono Chat</span>
+    </div>
+    <div class="card tool-sm" id="sonoCreateTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🎨</span></div>
+      <span class="ts-label">Sono 創作</span>
+    </div>
+    <div class="card tool-sm">
+      <div class="ts-icon-box"><span class="ts-emoji">🧠</span></div>
+      <span class="ts-label">Sono 分析</span>
+    </div>
   </div>
+
+<div class="section-label">🎪 娛樂工具</div>
+  <div class="tool-grid">
+    <div class="card tool-sm" id="ghostTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">👻</span></div>
+      <span class="ts-label">靈體探測</span>
+    </div>
+    <div class="card tool-sm" id="wheelTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🎲</span></div>
+      <span class="ts-label">命運輪盤</span>
+    </div>
+    <div class="card tool-sm" id="reactTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🎯</span></div>
+      <span class="ts-label">反應挑戰</span>
+    </div>
+    <div class="card tool-sm" id="fortuneTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">💭</span></div>
+      <span class="ts-label">今日運勢</span>
+    </div>
+    <div class="card tool-sm" id="ambientTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🎵</span></div>
+      <span class="ts-label">環境音效</span>
+    </div>
+    <div class="card tool-sm" id="quoteTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">📖</span></div>
+      <span class="ts-label">隨機金句</span>
+    </div>
+    <div class="card tool-sm" id="dreamTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🌙</span></div>
+      <span class="ts-label">夢境解讀</span>
+    </div>
+    <div class="card tool-sm" id="divinationTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">☯️</span></div>
+      <span class="ts-label">易經卜卦</span>
+    </div>
+    <div class="card tool-sm" id="musicTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🎲</span></div>
+      <span class="ts-label">音樂骰子</span>
+    </div>
+    <div class="card tool-sm" id="foodTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🍜</span></div>
+      <span class="ts-label">今晚食咩</span>
+    </div>
+    <div class="card tool-sm" id="tarotTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🃏</span></div>
+      <span class="ts-label">塔羅占卜</span>
+    </div>
+    <div class="card tool-sm" id="numberTrigger">
+      <div class="ts-icon-box"><span class="ts-emoji">🔢</span></div>
+      <span class="ts-label">命運數字</span>
+    </div>
+  </div>
+
 </div>
 
 <!-- Footer -->
