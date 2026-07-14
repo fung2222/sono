@@ -236,6 +236,30 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 
 .section-label { font-size: 0.78em; color: #ccc; text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 10px; padding-left: 4px; }
 
+/* ── Sono 桌布 (Wallpaper Gallery) ── */
+.wp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 0; margin: 0; }
+.wp-item { position: relative; aspect-ratio: 9 / 16; overflow: hidden; background: #0a0a1a; cursor: pointer; transition: opacity 0.2s; }
+.wp-item img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.wp-item:hover img { transform: scale(1.04); }
+.wp-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,26,0.92) 0%, rgba(10,10,26,0.4) 50%, transparent 100%); opacity: 0; transition: opacity 0.3s; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px 10px; }
+.wp-item:hover .wp-overlay { opacity: 1; }
+.wp-meta { font-family: 'Courier New', monospace; color: #c8c4b8; font-size: 0.65em; letter-spacing: 0.1em; margin-bottom: 6px; text-transform: uppercase; opacity: 0.85; }
+.wp-title { font-family: 'Noto Serif TC', 'Source Han Serif TC', serif; color: #fff; font-size: 0.95em; font-weight: 400; letter-spacing: 0.05em; line-height: 1.3; margin-bottom: 8px; }
+.wp-download { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; background: transparent; color: #b8a878; border: 1px solid rgba(184,168,120,0.5); border-radius: 14px; font-size: 0.7em; font-family: 'Courier New', monospace; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; align-self: flex-start; }
+.wp-download:hover { background: #b8a878; color: #0a0a1a; border-color: #b8a878; }
+.wp-theme-tag { position: absolute; top: 8px; left: 8px; font-family: 'Courier New', monospace; font-size: 0.55em; color: #0a0a1a; background: rgba(184,168,120,0.85); padding: 2px 7px; border-radius: 8px; letter-spacing: 0.1em; text-transform: uppercase; }
+.wp-empty { text-align: center; padding: 60px 20px; color: #7a766c; font-family: 'Noto Serif TC', serif; font-size: 1.05em; line-height: 1.8; grid-column: 1 / -1; }
+.wp-empty em { display: block; font-style: normal; color: #b8a878; font-family: 'Courier New', monospace; font-size: 0.78em; letter-spacing: 0.15em; margin-top: 14px; }
+.wp-meta-top { display: flex; align-items: center; justify-content: space-between; margin: 20px 0 12px; }
+.wp-meta-top .date { font-family: 'Courier New', monospace; font-size: 0.78em; color: #7a766c; letter-spacing: 0.15em; }
+.wp-meta-top .count { font-family: 'Courier New', monospace; font-size: 0.7em; color: #5a5852; }
+.wp-title-main { font-family: 'Noto Serif TC', 'Source Han Serif TC', serif; font-size: 1.5em; color: #c8c4b8; font-weight: 300; letter-spacing: 0.12em; margin: 0 0 4px; }
+@media (max-width: 720px) {
+  .wp-grid { grid-template-columns: repeat(2, 1fr); }
+  .wp-title-main { font-size: 1.2em; }
+  .wp-title { font-size: 0.82em; }
+}
+
 /* Daily 天氣簡約 layout */
 .dw-weather-simple { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; margin-top: 12px; }
 .dw-ws-main { display: flex; align-items: center; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 14px; }
@@ -611,7 +635,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <div class="tab-bar">
   <button class="tab-btn active" data-tab="daily" >
     <span class="tab-emoji">📰</span>
-    <span class="tab-label">Sono 每日</span>
+    <span class="tab-label">Sono 桌布</span>
   </button>
   <button class="tab-btn" data-tab="games" >
     <span class="tab-emoji">🎮</span>
@@ -626,107 +650,99 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <!-- ══════ Tab 1: Sono 每日 ══════ -->
 <div class="tab-panel active" id="tab-daily">
 <div id="sono-daily-report">
-<div class="dw-banner-placeholder"><div>⏳ 讀取 HKO 即時天氣中…</div></div>
+  <h1 class="wp-title-main">Sono 桌布</h1>
+  <div class="section-label" style="padding-left:0;margin:8px 0 4px;">每日 AI 靚圖 · 9:16 手機桌布</div>
+  <div class="wp-meta-top">
+    <span class="date" id="wpDate">—</span>
+    <span class="count" id="wpCount">0 張桌布</span>
+  </div>
+  <div class="wp-grid" id="wpGrid"></div>
 </div>
 <script>
-/* Sono 每日 — HKO 即時天氣 + 即時日期 */
-(async function() {
-  const el = document.getElementById('sono-daily-report');
-  if (!el) return;
+(function() {
+  const grid = document.getElementById('wpGrid');
+  const dateEl = document.getElementById('wpDate');
+  const countEl = document.getElementById('wpCount');
+  const months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
   const now = new Date();
-  const weekdays = ['日','一','二','三','四','五','六'];
-  const dateStr = `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`;
-  const weekdayStr = `星期${weekdays[now.getDay()]}`;
-  const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-  let wx = {temp:'--',humidity:'--',uv:'',uvDesc:'',icon:62,rainfall:[],warning:'',updateTime:''};
-  try {
-    const r = await fetch('https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=tc');
-    const d = await r.json();
-    const t = (d.temperature.data||[]).find(x => x.place === '香港天文台');
-    wx.temp = t ? t.value : '--';
-    wx.humidity = (d.humidity.data||[])[0]?.value ?? '--';
-    if (d.uvindex && d.uvindex.data && d.uvindex.data.length) {
-      wx.uv = d.uvindex.data[0].value;
-      wx.uvDesc = d.uvindex.data[0].desc;
+  dateEl.textContent = now.getFullYear() + '年' + months[now.getMonth()] + now.getDate() + '日';
+
+  const manifest = [
+    'images/wallpapers/2026-07-13/01-morning-mist.jpg',
+    'images/wallpapers/2026-07-13/02-night-cityscape.jpg',
+    'images/wallpapers/2026-07-13/03-ocean-breeze.jpg',
+    'images/wallpapers/2026-07-12/01-mountain-sunset.jpg',
+    'images/wallpapers/2026-07-12/02-aurora-night.jpg',
+    'images/wallpapers/2026-07-12/03-forest-mist.jpg'
+  ];
+
+  const themes = {
+    'morning-mist': '清晨薄霧', 'night-cityscape': '夜城', 'ocean-breeze': '海風',
+    'mountain-sunset': '山夕', 'aurora-night': '極光', 'forest-mist': '林霧',
+    'minimal-light': '極簡光', 'space-orb': '太空', 'urban-rain': '城雨',
+    'crystal-lake': '晶湖', 'desert-sky': '漠天', 'urban-light': '城光'
+  };
+
+  const fallback = {
+    'morning-mist': '清晨薄霧中嘅海岸山脈', 'night-cityscape': '夜晚城市天際線',
+    'ocean-breeze': '海洋與海風', 'mountain-sunset': '山脈日落',
+    'aurora-night': '極光夜空', 'forest-mist': '森林薄霧',
+    'minimal-light': '極簡光影', 'space-orb': '深空星雲', 'urban-rain': '城市雨景',
+    'crystal-lake': '水晶湖面', 'desert-sky': '沙漠天空', 'urban-light': '城市燈光'
+  };
+
+  function getTheme(slug) {
+    for (const key in themes) {
+      if (slug.includes(key)) return themes[key];
     }
-    wx.rainfall = (d.rainfall.data||[]).filter(x => x.max > 0);
-    wx.icon = d.icon ? d.icon[0] : 62;
-    wx.warning = d.warningMessage || '';
-    wx.updateTime = d.updateTime || '';
-  } catch(e) { console.log('HKO fetch failed:', e); }
-  const hasRain = wx.rainfall.length > 0;
-  const rainText = hasRain
-    ? `本港部分地區有雨：${wx.rainfall.map(r => `${r.place} ${r.max}mm`).join('、')}`
-    : '本港各區暫無降雨';
-  const wxIcon = hasRain ? '🌧️' : (wx.icon < 30 ? '☀️' : wx.icon < 60 ? '⛅' : '☁️');
-  el.innerHTML = `
-    <div class="section-label">🌤️ 今日天氣</div>
-    <div class="dw-banner">
-      <img class="dw-banner-img" src="images/weather_banner_today.png" alt="維多利亞港">
-      <div class="dw-banner-overlay">
-        <div class="dw-banner-date">${dateStr}</div>
-        <div class="dw-banner-sub">${weekdayStr} · ${timeStr} · 香港天文台</div>
-      </div>
-    </div>
-    <div class="dw-weather-simple">
-      <div class="dw-ws-main">
-        <div class="dw-ws-icon-big">${wxIcon}</div>
-        <div class="dw-ws-temp-big">${wx.temp}°</div>
-        <div class="dw-ws-desc">${wx.uvDesc || (hasRain?'有雨':'天晴')}</div>
-      </div>
-      <div class="dw-ws-detail-grid">
-        <div class="dw-ws-detail"><span class="dw-ws-d-icon">💧</span><span class="dw-ws-d-val">${wx.humidity}%</span><span class="dw-ws-d-lbl">濕度</span></div>
-        <div class="dw-ws-detail"><span class="dw-ws-d-icon">☀️</span><span class="dw-ws-d-val">${wx.uv||'--'}</span><span class="dw-ws-d-lbl">UV ${wx.uvDesc||''}</span></div>
-        <div class="dw-ws-detail"><span class="dw-ws-d-icon">🌧️</span><span class="dw-ws-d-val">${wx.rainfall.length}</span><span class="dw-ws-d-lbl">降雨區</span></div>
-        <div class="dw-ws-detail"><span class="dw-ws-d-icon">📍</span><span class="dw-ws-d-val">${wx.updateTime ? wx.updateTime.substring(11,16) : '--'}</span><span class="dw-ws-d-lbl">更新</span></div>
-      </div>
-    </div>
-    <div class="dw-rain-note">${rainText}${wx.warning?' · ⚠️ '+wx.warning:''}</div>
+    return slug;
+  }
 
-    <div class="section-label" style="margin-top:24px;">🛸 外星生命專欄</div>
-    <div class="uap-grid">
-      <div class="uap-card">
-        <div class="uap-num">01</div>
-        <div class="uap-date">2023 · 07 · 26</div>
-        <h3 class="uap-title">美國會 UAP 聽證會震撼爆料</h3>
-        <p class="uap-text">前 UAP Task Force 主任 David Grusch 國會宣誓作證, 指美國多年來隱瞞「非人類起源」殘骸回收計劃, 涉及跨部門掩蓋。三位退役軍官現場確認雷達鎖定 UAP 片段真實。</p>
-        <div class="uap-source">來源：U.S. House Oversight Subcommittee</div>
-      </div>
-      <div class="uap-card">
-        <div class="uap-num">02</div>
-        <div class="uap-date">2023 · 09 · 14</div>
-        <h3 class="uap-title">NASA UAP 獨立小組首次公開報告</h3>
-        <p class="uap-text">NASA 召集 16 位物理、天文、生物學專家組成獨立小組, 公開承認 UAP 現象「真實」, 並歸咎 stigma 阻礙科學研究。建議建立跨部門舉報平台 + AI 分析歷史數據。</p>
-        <div class="uap-source">來源：NASA UAP Independent Study Team</div>
-      </div>
-      <div class="uap-card">
-        <div class="uap-num">03</div>
-        <div class="uap-date">2021 · 07 · 01</div>
-        <h3 class="uap-title">哈佛 Galileo Project 啟動系統性搜索</h3>
-        <p class="uap-text">Avi Loeb 領軍, 用 AI 結合多光譜望遠鏡, 在全球部署感測器網絡系統性搜索 UAP。已於 2023 年 1 月在 Harvard 站首次安裝探測器, 目標科學化排除自然現象。</p>
-        <div class="uap-source">來源：Galileo Project, Harvard University</div>
-      </div>
-      <div class="uap-card">
-        <div class="uap-num">04</div>
-        <div class="uap-date">2024 · 03 · 08</div>
-        <h3 class="uap-title">五角大樓公開 3 段 UAP 戰機追逐影像</h3>
-        <p class="uap-text">五角大樓正式解密三段軍機雷達鎖定 UAP 影片, 顯示球體飛行物以超音速、無可識別推進方式閃避 F-18 戰機。其中一段發生於中東, 持續 22 秒。</p>
-        <div class="uap-source">來源：All-domain Anomaly Resolution Office (AARO)</div>
-      </div>
-    </div>
+  function tryLoadImage(path, name, themeLabel) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve({ path, name, themeLabel, ok: true });
+      img.onerror = () => resolve({ path, name, themeLabel, ok: false });
+      img.src = path + '?v=' + Date.now();
+      setTimeout(() => resolve({ path, name, themeLabel, ok: false }), 4000);
+    });
+  }
 
-    <div style="text-align:center; margin:18px 0 8px;">
-      <a href="uap/" style="display:inline-block; padding:12px 24px; background:linear-gradient(135deg, rgba(75,0,130,0.4), rgba(255,48,48,0.3)); border:1px solid rgba(255,204,0,0.4); border-radius:8px; color:#ffcc00; text-decoration:none; font-size:1em; font-weight:600; transition:all 0.2s; box-shadow:0 4px 12px rgba(75,0,130,0.3);">
-        🛸 查看更多外星新聞 →
-      </a>
-    </div>
+  async function render() {
+    const results = await Promise.all(manifest.map(p => {
+      const filename = p.split('/').pop();
+      const slug = filename.replace(/^\d+-/, '').replace(/\.[^.]+$/, '').replace(/[^a-z-]/gi, '');
+      const themeLabel = getTheme(slug);
+      const dateMatch = p.match(/wallpapers\/(\d{4}-\d{2}-\d{2})/);
+      const date = dateMatch ? dateMatch[1] : '';
+      return tryLoadImage(p, slug, themeLabel).then(r => ({ ...r, date, fullPath: p }));
+    }));
 
-    <div class="dw-quote-card">
-      <div class="dw-quote-mark">💭</div>
-      <div class="dw-quote-text">宇宙咁大, 唔可能只有我哋。問題係幾時會見到。</div>
-      <div class="dw-quote-author">— 蘇蘿</div>
-    </div>
-  `;
+    const loaded = results.filter(r => r.ok);
+    countEl.textContent = loaded.length + ' 張桌布';
+
+    if (loaded.length === 0) {
+      grid.innerHTML = '<div class="wp-empty">桌布庫存準備中<em>Generate via xAI Grok Imagine · 9:16 portrait</em></div>';
+      return;
+    }
+
+    grid.innerHTML = loaded.map(r => {
+      const [date, n, slug] = [r.date, r.path.match(/\/(\d+)-/)?.[1] || '?', r.path.split('/').pop().replace(/^\d+-|\.[^.]+$/g, '')];
+      const title = r.themeLabel;
+      const safePath = r.fullPath.replace(/'/g, "\\'");
+      return '<a class="wp-item" href="' + safePath + '" download title="' + title + '">' +
+        '<img src="' + safePath + '" alt="' + title + ' 手機桌布" loading="lazy">' +
+        '<span class="wp-theme-tag">' + title + '</span>' +
+        '<div class="wp-overlay">' +
+          '<div class="wp-meta">' + date + ' · ' + n + '</div>' +
+          '<div class="wp-title">' + title + '</div>' +
+          '<span class="wp-download">⬇ 下載原圖</span>' +
+        '</div>' +
+        '</a>';
+    }).join('');
+  }
+
+  render();
 })();
 </script>
 </div>
