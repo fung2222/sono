@@ -1,0 +1,39 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Backup files (prevent re-creation)
+backups/
+*.backup
+*.backup.*
+*.bak
+*.old
+*.orig
+*.tmp
+
+# Python dev
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Node
+node_modules/
+package-lock.json
+
+# Build artifacts
+dist/
+build/
+*.log
+
+# Private drafts (personal work)
+logo-proposals.html
+drafts/
+private/
