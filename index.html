@@ -87,16 +87,19 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .settings-card .hint { font-size: 0.75em; color: #666; margin-top: 10px; line-height: 1.5; }
 
 /* ══════ Tab Bar ══════ */
-.tab-bar { display: flex; gap: 4px; margin: 4px 0 0; background: rgba(255,255,255,0.03); border-radius: 14px; padding: 4px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.tab-bar { display: flex; gap: 2px; margin: 4px 0 0; padding: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; background: transparent; border-bottom: 1px solid rgba(184,168,120,0.2); }
 .tab-bar::-webkit-scrollbar { height: 0; }
-.tab-btn { flex: 1; min-width: 90px; padding: 8px 14px; border: none; border-radius: 11px; cursor: pointer; font-size: 0.9em; font-weight: 700; font-family: inherit; transition: all 0.3s; text-align: center; white-space: nowrap; background: transparent; color: #ccc; }
-.tab-btn:hover { background: rgba(255,255,255,0.04); color: #aaa; }
-.tab-btn .tab-emoji { display: block; font-size: 1.8em; margin-bottom: 1px; }
-.tab-btn .tab-label { font-size: 1.27em; }
-
-.tab-btn.active[data-tab="daily"]  { background: rgba(255,107,157,0.15); color: #ff6b9d; box-shadow: 0 0 20px rgba(255,107,157,0.12); }
-.tab-btn.active[data-tab="games"]  { background: rgba(107,255,107,0.12); color: #6bff6b; box-shadow: 0 0 20px rgba(107,255,107,0.1); }
-.tab-btn.active[data-tab="toolbox"] { background: rgba(0,212,255,0.12); color: #00d4ff; box-shadow: 0 0 20px rgba(0,212,255,0.1); }
+.tab-btn { flex: 1; min-width: 90px; padding: 10px 14px 12px; border: none; cursor: pointer; font-size: 0.9em; font-weight: 400; font-family: inherit; transition: all 0.3s; text-align: center; white-space: nowrap; background: transparent; color: #7a766c; position: relative; }
+.tab-btn:hover { color: #c8c4b8; }
+.tab-btn .tab-emoji { display: block; font-size: 1.4em; margin-bottom: 2px; filter: grayscale(40%); transition: filter 0.3s; }
+.tab-btn:hover .tab-emoji { filter: grayscale(0%); }
+.tab-btn .tab-label { font-family: 'Courier New', monospace; font-size: 0.78em; letter-spacing: 0.15em; text-transform: uppercase; }
+.tab-btn.active { color: #c8c4b8; }
+.tab-btn.active .tab-emoji { filter: grayscale(0%); }
+.tab-btn.active::after { content: ''; position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%); width: 60%; height: 2px; background: #b8a878; }
+.tab-btn.active[data-tab="daily"]   { color: #c8c4b8; }
+.tab-btn.active[data-tab="games"]   { color: #c8c4b8; }
+.tab-btn.active[data-tab="toolbox"] { color: #c8c4b8; }
 
 /* Tab panels */
 .tab-panel { display: none; animation: fadeIn 0.35s ease; }
