@@ -91,11 +91,8 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .tab-bar::-webkit-scrollbar { height: 0; }
 .tab-btn { flex: 1; min-width: 90px; padding: 10px 14px 12px; border: none; cursor: pointer; font-size: 0.9em; font-weight: 400; font-family: inherit; transition: all 0.3s; text-align: center; white-space: nowrap; background: transparent; color: #7a766c; position: relative; }
 .tab-btn:hover { color: #c8c4b8; }
-.tab-btn .tab-emoji { display: block; font-size: 1.4em; margin-bottom: 2px; filter: grayscale(40%); transition: filter 0.3s; }
-.tab-btn:hover .tab-emoji { filter: grayscale(0%); }
 .tab-btn .tab-label { font-family: 'Courier New', monospace; font-size: 0.78em; letter-spacing: 0.15em; text-transform: uppercase; }
 .tab-btn.active { color: #c8c4b8; }
-.tab-btn.active .tab-emoji { filter: grayscale(0%); }
 .tab-btn.active::after { content: ''; position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%); width: 60%; height: 2px; background: #b8a878; }
 .tab-btn.active[data-tab="daily"]   { color: #c8c4b8; }
 .tab-btn.active[data-tab="games"]   { color: #c8c4b8; }
@@ -222,15 +219,15 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 /* ══════ Game Accordion ══════ */
 .game-list { display: flex; flex-direction: column; gap: 4px; }
 .game-item { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 14px; border: 1px solid rgba(255,255,255,0.06); overflow: hidden; cursor: pointer; transition: border-color 0.3s, box-shadow 0.3s; }
-.game-item:hover { border-color: rgba(107,255,107,0.25); box-shadow: 0 4px 20px rgba(107,255,107,0.06); }
-.game-item.open { border-color: rgba(107,255,107,0.35); box-shadow: 0 4px 25px rgba(107,255,107,0.1); }
+.game-item:hover { border-color: rgba(184,168,120,0.3); box-shadow: 0 4px 20px rgba(184,168,120,0.06); }
+.game-item.open { border-color: rgba(184,168,120,0.5); box-shadow: 0 4px 25px rgba(184,168,120,0.1); }
 .game-header { display: flex; align-items: center; gap: 4px; padding: 16px 18px; cursor: pointer; }
 .game-logo { width: 44px; height: 44px; flex-shrink: 0; }
 .game-info { flex: 1; display: flex; flex-direction: column; gap: 3px; }
 .game-name { font-size: 1.05em; font-weight: 700; color: #e0e0e0; }
-.game-tag { font-size: 0.7em; font-weight: 600; color: #6bff6b; background: rgba(107,255,107,0.1); padding: 2px 8px; border-radius: 8px; align-self: flex-start; }
+.game-tag { font-size: 0.7em; font-weight: 600; color: #b8a878; background: rgba(184,168,120,0.1); padding: 2px 8px; border-radius: 8px; align-self: flex-start; }
 .game-chevron { width: 20px; height: 20px; color: #aaa; flex-shrink: 0; transition: transform 0.3s; }
-.game-item.open .game-chevron { transform: rotate(180deg); color: #6bff6b; }
+.game-item.open .game-chevron { transform: rotate(180deg); color: #b8a878; }
 .game-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; padding: 0 18px; }
 .game-item.open .game-body { max-height: 120px; padding: 0 18px 16px; }
 .game-desc { font-size: 0.85em; color: #ccc; line-height: 1.6; margin-bottom: 12px; }
@@ -297,7 +294,6 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 @media (max-width: 600px) {
   .logo { font-size: 2.2em; }
   .tab-btn { padding: 6px 10px; font-size: 0.75em; min-width: 75px; }
-  .tab-btn .tab-emoji { font-size: 1.6em; }
   .tab-btn .tab-label { font-size: 1.1em; }
   .report-item .date-num { font-size: 1.5em; min-width: 45px; }
   .card-grid { grid-template-columns: 1fr; }
