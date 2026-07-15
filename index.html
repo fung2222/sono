@@ -1620,7 +1620,19 @@ async function sendMessage() {
     addMessage('system', '❌ 所有模型都無法使用，請稍後再試。');
   } else if (!resp.ok) {
     var errText = await resp.text();
-    addMessage('system', '❌ API 錯誤 (' + resp.status + ')：請檢查設定。' + (errText.length < 200 ? '\n' + errText : ''));
+    var errMsg = '❌ API 錯誤 (HTTP ' + resp.status + '): ' + resp.statusText;
+    try {
+      var errJson = JSON.parse(errText);
+      if (errJson.error) {
+        errMsg += '\n💬 ' + (errJson.error.message || errJson.error);
+      } else if (errJson.detail) {
+        errMsg += '\n💬 ' + errJson.detail;
+      }
+    } catch(e) {
+      if (errText && errText.length < 300) errMsg += '\n💬 ' + errText;
+    }
+    errMsg += '\n🔧 撳 ⚙️ check endpoint / API key / model 名';
+    addMessage('system', errMsg);
   } else {
     var data = await resp.json();
     var reply = data.choices[0].message.content;
@@ -1634,9 +1646,9 @@ async function sendMessage() {
 
 // ══════ Settings ══════
 function openSettings() {
-  document.getElementById('apiEndpoint').value = localStorage.getItem('sono_api_endpoint') || 'https://openrouter.ai/api/v1/chat/completions';
+  document.getElementById('apiEndpoint').value = localStorage.getItem('sono_api_endpoint') || 'https://integrate.api.nvidia.com/v1/chat/completions';
   document.getElementById('apiKey').value = localStorage.getItem('sono_api_key') || '';
-  document.getElementById('apiModel').value = localStorage.getItem('sono_api_model') || 'google/gemma-4-26b-a4b-it:free';
+  document.getElementById('apiModel').value = localStorage.getItem('sono_api_model') || 'nvidia/nemotron-3-ultra-550b-a55b';
   document.getElementById('settingsOverlay').classList.add('show');
 }
 
@@ -1647,7 +1659,7 @@ function closeSettings() {
 function saveSettings() {
   localStorage.setItem('sono_api_endpoint', document.getElementById('apiEndpoint').value.trim());
   localStorage.setItem('sono_api_key', document.getElementById('apiKey').value.trim());
-  localStorage.setItem('sono_api_model', document.getElementById('apiModel').value.trim() || 'google/gemma-4-26b-a4b-it:free');
+  localStorage.setItem('sono_api_model', document.getElementById('apiModel').value.trim() || 'nvidia/nemotron-3-ultra-550b-a55b');
   closeSettings();
   if (!chatExpanded) toggleChat();
   setTimeout(function() {
