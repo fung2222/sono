@@ -37,60 +37,6 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .logo { font-family: 'Noto Serif TC', 'Source Han Serif TC', 'PingFang TC', serif; font-size: 2.6em; font-weight: 300; color: #c8c4b8; letter-spacing: 0.18em; text-shadow: 0 2px 18px rgba(0,0,0,0.55); }
 .subtitle { font-family: 'Courier New', monospace; font-size: 0.74em; color: #7a766c; letter-spacing: 0.32em; text-transform: uppercase; margin: 8px 0 0; }
 
-/* ══════ Chat Widget ══════ */
-.chat-widget { margin: 16px 0 20px; border-radius: 0; background: #0d0e10; border: 1px solid rgba(184,168,120,0.2); overflow: hidden; transition: border-color 0.3s; }
-.chat-widget.expanded { border-color: rgba(184,168,120,0.4); }
-
-.chat-bar { display: flex; align-items: center; gap: 12px; padding: 12px 16px; cursor: pointer; transition: background 0.2s; }
-.chat-bar:hover { background: rgba(184,168,120,0.04); }
-.chat-bar .chat-avatar { width: 38px; height: 38px; border-radius: 50%; background-color: #0d0e10; background-image: url('chat-avatar.png'); background-size: 85%; background-position: center; background-repeat: no-repeat; flex-shrink: 0; border: 1px solid rgba(184,168,120,0.35); transform: rotate(90deg); }
-.chat-bar .chat-prompt { flex: 1; color: #a8a39a; font-size: 0.92em; font-family: 'Noto Serif TC', serif; letter-spacing: 0.04em; }
-.chat-bar .chat-actions { display: flex; gap: 4px; }
-.chat-bar .chat-btn { width: 32px; height: 32px; border-radius: 0; border: 1px solid rgba(184,168,120,0.2); background: transparent; color: #b8a878; cursor: pointer; font-size: 0.9em; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
-.chat-bar .chat-btn:hover { background: rgba(184,168,120,0.1); border-color: #b8a878; color: #c8c4b8; }
-
-.chat-body { display: none; flex-direction: column; height: 380px; }
-.chat-widget.expanded .chat-body { display: flex; }
-.chat-widget.expanded .chat-bar { border-bottom: 1px solid rgba(184,168,120,0.15); cursor: default; }
-
-.chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-.chat-messages::-webkit-scrollbar { width: 4px; }
-.chat-messages::-webkit-scrollbar-thumb { background: rgba(184,168,120,0.2); }
-
-.msg { max-width: 85%; padding: 10px 14px; border-radius: 0; font-size: 0.9em; line-height: 1.6; animation: msgIn 0.25s ease; word-break: break-word; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; }
-@keyframes msgIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-.msg.assistant { align-self: flex-start; background: rgba(184,168,120,0.06); border-left: 2px solid #b8a878; color: #c8c4b8; }
-.msg.user { align-self: flex-end; background: rgba(184,168,120,0.15); border-right: 2px solid #b8a878; color: #e0e0e0; }
-.msg.system { align-self: center; background: transparent; color: #7a766c; font-size: 0.8em; text-align: center; max-width: 100%; }
-.msg.typing { align-self: flex-start; background: rgba(184,168,120,0.06); color: #c8c4b8; }
-.msg.typing .dots { display: flex; gap: 4px; }
-.msg.typing .dots span { width: 6px; height: 6px; background: #b8a878; animation: bounce 1.4s infinite ease-in-out; }
-.msg.typing .dots span:nth-child(2) { animation-delay: 0.15s; }
-.msg.typing .dots span:nth-child(3) { animation-delay: 0.3s; }
-@keyframes bounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
-
-.chat-input-wrap { display: flex; gap: 8px; padding: 12px 16px; border-top: 1px solid rgba(184,168,120,0.15); }
-.chat-input-wrap input { flex: 1; padding: 10px 14px; border-radius: 0; border: 1px solid rgba(184,168,120,0.2); background: #15171a; color: #c8c4b8; font-size: 0.9em; font-family: inherit; outline: none; transition: border-color 0.2s; }
-.chat-input-wrap input:focus { border-color: #b8a878; }
-.chat-input-wrap input::placeholder { color: #7a766c; }
-.chat-input-wrap .send-btn { width: 40px; height: 40px; border-radius: 0; border: 1px solid #b8a878; background: transparent; color: #b8a878; cursor: pointer; font-size: 1em; transition: all 0.2s; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-.chat-input-wrap .send-btn:hover { background: #b8a878; color: #0d0e10; }
-.chat-input-wrap .send-btn:disabled { opacity: 0.4; cursor: not-allowed; background: transparent; color: #7a766c; border-color: rgba(184,168,120,0.2); }
-
-/* Settings modal */
-.settings-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center; }
-.settings-overlay.show { display: flex; }
-.settings-card { background: #1a1a2e; border-radius: 16px; padding: 28px; max-width: 400px; width: 90%; }
-.settings-card h3 { color: #ff6b9d; margin-bottom: 16px; font-size: 1.1em; }
-.settings-card label { display: block; color: #aaa; font-size: 0.82em; margin-bottom: 4px; margin-top: 12px; }
-.settings-card input, .settings-card select { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); color: #e0e0e0; font-size: 0.9em; font-family: inherit; outline: none; }
-.settings-card input:focus { border-color: #a29bfe; }
-.settings-card .btn-row { display: flex; gap: 4px; margin-top: 20px; }
-.settings-card .btn-row button { flex: 1; padding: 10px; border-radius: 10px; border: none; font-size: 0.9em; cursor: pointer; font-family: inherit; font-weight: 600; }
-.settings-card .btn-save { background: linear-gradient(135deg, #ff6b9d, #c44569); color: #fff; }
-.settings-card .btn-cancel { background: rgba(255,255,255,0.08); color: #aaa; }
-.settings-card .hint { font-size: 0.75em; color: #666; margin-top: 10px; line-height: 1.5; }
-
 /* ══════ Tab Bar ══════ */
 .tab-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.4rem; margin: 16px 0 8px; padding: 14px 16px; background: rgba(184,168,120,0.04); border-top: 1px solid rgba(184,168,120,0.15); border-bottom: 1px solid rgba(184,168,120,0.15); position: sticky; top: 0; z-index: 50; }
 .tab-bar::-webkit-scrollbar { height: 0; }
@@ -311,8 +257,6 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
   .tab-btn .tab-label { font-size: 1.1em; }
   .report-item .date-num { font-size: 1.5em; min-width: 45px; }
   .card-grid { grid-template-columns: 1fr; }
-  .chat-body { height: 340px; }
-  .msg { max-width: 90%; font-size: 0.85em; }
   .game-logo { width: 36px; height: 36px; }
   .game-name { font-size: 0.95em; }
   .game-header { padding: 14px 14px; }
@@ -607,46 +551,6 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <div class="logo-area">
   <div class="logo">Sono蘇蘿</div>
   <div class="subtitle">科技與未來 · 太空與超自然</div>
-</div>
-
-<!-- ══════ AI Chat Widget ══════ -->
-<div class="chat-widget" id="chatWidget">
-  <div class="chat-bar" id="chatBar" onclick="toggleChat()">
-    <div class="chat-avatar"></div>
-    <div class="chat-prompt" id="chatPrompt">同 Sono蘇蘿 傾偈…</div>
-    <div class="chat-actions">
-      <button class="chat-btn" title="設定" onclick="event.stopPropagation();openSettings()">⚙️</button>
-      <button class="chat-btn" id="chatToggleIcon" title="展開">▼</button>
-    </div>
-  </div>
-  <div class="chat-body">
-    <div class="chat-messages" id="chatMessages">
-      <div class="msg system">👋 你好！我係 Sono蘇蘿，有咩可以幫你？</div>
-    </div>
-    <div class="chat-input-wrap">
-      <input type="text" id="chatInput" placeholder="輸入訊息…" onkeydown="if(event.key==='Enter')sendMessage()">
-      <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
-    </div>
-  </div>
-</div>
-
-<!-- Settings Modal -->
-<div class="settings-overlay" id="settingsOverlay">
-  <div class="settings-card">
-    <h3>⚙️ AI 聊天設定</h3>
-    <label>API 端點 (OpenAI 兼容)</label>
-    <input type="text" id="apiEndpoint" placeholder="https://integrate.api.nvidia.com/v1/chat/completions">
-    <p class="hint" style="font-size:0.72em;margin-top:8px;">⚠️ 如遇到 'Failed to fetch' error, 可能係瀏覽器 CORS / network 限制。可試: (a) 用其他 API (OpenRouter 等); (b) 自建 proxy server 過 NVIDIA</p>
-    <label>API Key</label>
-    <input type="password" id="apiKey" placeholder="nvapi-...">
-    <label>Model</label>
-    <input type="text" id="apiModel" placeholder="nvidia/nemotron-3-ultra-550b-a55b" style="font-size:0.82em;">
-    <p class="hint">💡 預設 NVIDIA Nemotron-3 Ultra 550B (最強 open model)。支援任何 OpenAI 兼容 API (NVIDIA build / OpenRouter / 自建)。</p>
-    <div class="btn-row">
-      <button class="btn-cancel" onclick="closeSettings()">取消</button>
-      <button class="btn-save" onclick="saveSettings()">儲存</button>
-    </div>
-  </div>
 </div>
 
 <!-- ══════ Tab Bar ══════ -->
@@ -1492,212 +1396,6 @@ document.addEventListener('click', function(e) {
   }
 });
 
-// ══════ Chat Widget ══════
-var chatExpanded = false;
-var isWaiting = false;
-
-function toggleChat() {
-  chatExpanded = !chatExpanded;
-  var w = document.getElementById('chatWidget');
-  var icon = document.getElementById('chatToggleIcon');
-  if (chatExpanded) {
-    w.classList.add('expanded');
-    icon.textContent = '▲';
-    setTimeout(function() {
-      document.getElementById('chatInput').focus();
-      scrollChat();
-    }, 100);
-  } else {
-    w.classList.remove('expanded');
-    icon.textContent = '▼';
-  }
-}
-
-function scrollChat() {
-  var el = document.getElementById('chatMessages');
-  el.scrollTop = el.scrollHeight;
-}
-
-function addMessage(role, text) {
-  var div = document.createElement('div');
-  div.className = 'msg ' + role;
-  div.textContent = text;
-  document.getElementById('chatMessages').appendChild(div);
-  scrollChat();
-}
-
-function showTyping() {
-  var div = document.createElement('div');
-  div.className = 'msg typing';
-  div.id = 'typing-indicator';
-  div.innerHTML = '<div class="dots"><span></span><span></span><span></span></div>';
-  document.getElementById('chatMessages').appendChild(div);
-  scrollChat();
-}
-
-function hideTyping() {
-  var el = document.getElementById('typing-indicator');
-  if (el) el.remove();
-}
-
-async function sendMessage() {
-  if (isWaiting) return;
-  var input = document.getElementById('chatInput');
-  var text = input.value.trim();
-  if (!text) return;
-
-  // Auto-expand if collapsed
-  if (!chatExpanded) toggleChat();
-
-  addMessage('user', text);
-  input.value = '';
-  document.getElementById('sendBtn').disabled = true;
-  isWaiting = true;
-
-  // Update prompt bar
-  document.getElementById('chatPrompt').textContent = text.length > 30 ? text.slice(0,30)+'…' : text;
-
-  // Get API config — defaults: NVIDIA build via CORS proxy + Nemotron-3 Ultra 550B
-  var endpoint = localStorage.getItem('sono_api_endpoint') || 'https://corsproxy.io/?https://integrate.api.nvidia.com/v1/chat/completions';
-  var apiKey = localStorage.getItem('sono_api_key') || '';
-  var model = localStorage.getItem('sono_api_model') || 'nvidia/nemotron-3-ultra-550b-a55b';
-
-  // Reset force: ?reset=1 clears localStorage ONCE (so defaults apply)
-  // Use sessionStorage flag to ensure only first visit clears, not every sendMessage
-  if (location.search.includes('reset=1') && !sessionStorage.getItem('sono_reset_done')) {
-    localStorage.removeItem('sono_api_endpoint');
-    localStorage.removeItem('sono_api_key');
-    localStorage.removeItem('sono_api_model');
-    sessionStorage.setItem('sono_reset_done', '1');
-  }
-
-  if (!apiKey) {
-    hideTyping();
-    addMessage('system', '⚠️ 未設定 API Key！請撳右上角 ⚙️ 設定');
-    isWaiting = false;
-    document.getElementById('sendBtn').disabled = false;
-    return;
-  }
-
-  showTyping();
-
-  // Fallback models list
-  var models = [ model ];
-
-  var resp = null;
-  var usedModel = null;
-
-  for (var i = 0; i < models.length; i++) {
-    try {
-      var r = await fetch(endpoint, {
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'omit',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + apiKey,
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          model: models[i],
-          messages: [
-            { role: 'system', content: '你係 Sono蘇蘿，由 NVIDIA Nemotron-3 Ultra 550B 模型驅動嘅粵語 AI 助手。你會用粵語詳細回覆，語氣親切有主見，有時會同用戶輕輕抬槓但都係出於關心。永遠用「你」嚟稱呼對方，唔好直接叫對方嘅名。' },
-            { role: 'user', content: text }
-          ],
-          max_tokens: 800,
-          temperature: 0.7
-        })
-      });
-
-      if (r.ok) {
-        resp = r;
-        usedModel = models[i];
-        break;
-      } else {
-        // Try next model on 5xx or rate limit
-        if (r.status >= 500 || r.status === 429) continue;
-        // Other errors (4xx auth etc) — stop and show error
-        resp = r;
-        usedModel = models[i];
-        break;
-      }
-    } catch(e) {
-      // Network error, try next model
-      if (i === models.length - 1) {
-        hideTyping();
-        var err = '❌ 連線失敗: ' + e.message +
-          '\n💡 可能原因:' +
-          '\n1. API endpoint URL 唔啱 (檢查拼字)' +
-          '\n2. Network 有問題 (試其他 URL)' +
-          '\n3. CORS 被封鎖 (可能需要 proxy)' +
-          '\n4. Browser 拒絕 fetch (HTTPS/ mixed content)' +
-          '\n\n📋 而家用緊: ' + endpoint + '\n🔧 撳 ⚙️ 試調整';
-        addMessage('system', err);
-        isWaiting = false;
-        document.getElementById('sendBtn').disabled = false;
-        document.getElementById('chatInput').focus();
-        return;
-      }
-    }
-  }
-
-  hideTyping();
-
-  if (!resp) {
-    addMessage('system', '❌ 所有模型都無法使用，請稍後再試。');
-  } else if (!resp.ok) {
-    var errText = await resp.text();
-    var errMsg = '❌ API 錯誤 (HTTP ' + resp.status + '): ' + resp.statusText;
-    try {
-      var errJson = JSON.parse(errText);
-      if (errJson.error) {
-        errMsg += '\n💬 ' + (errJson.error.message || errJson.error);
-      } else if (errJson.detail) {
-        errMsg += '\n💬 ' + errJson.detail;
-      }
-    } catch(e) {
-      if (errText && errText.length < 300) errMsg += '\n💬 ' + errText;
-    }
-    errMsg += '\n🔧 撳 ⚙️ check endpoint / API key / model 名';
-    addMessage('system', errMsg);
-  } else {
-    var data = await resp.json();
-    var reply = data.choices[0].message.content;
-    addMessage('assistant', reply);
-  }
-
-  isWaiting = false;
-  document.getElementById('sendBtn').disabled = false;
-  document.getElementById('chatInput').focus();
-}
-
-// ══════ Settings ══════
-function openSettings() {
-  document.getElementById('apiEndpoint').value = localStorage.getItem('sono_api_endpoint') || 'https://corsproxy.io/?https://integrate.api.nvidia.com/v1/chat/completions';
-  document.getElementById('apiKey').value = localStorage.getItem('sono_api_key') || '';
-  document.getElementById('apiModel').value = localStorage.getItem('sono_api_model') || 'nvidia/nemotron-3-ultra-550b-a55b';
-  document.getElementById('settingsOverlay').classList.add('show');
-}
-
-function closeSettings() {
-  document.getElementById('settingsOverlay').classList.remove('show');
-}
-
-function saveSettings() {
-  localStorage.setItem('sono_api_endpoint', document.getElementById('apiEndpoint').value.trim());
-  localStorage.setItem('sono_api_key', document.getElementById('apiKey').value.trim());
-  localStorage.setItem('sono_api_model', document.getElementById('apiModel').value.trim() || 'nvidia/nemotron-3-ultra-550b-a55b');
-  closeSettings();
-  if (!chatExpanded) toggleChat();
-  setTimeout(function() {
-    addMessage('system', '✅ 設定已儲存！你可以開始同我傾偈啦～');
-  }, 300);
-}
-
-// Close settings on overlay click
-document.getElementById('settingsOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeSettings();
-});
 // ══════ Currency Converter Modal ══════
 (function(){
   var mRates = {};
@@ -1812,20 +1510,6 @@ document.getElementById('settingsOverlay').addEventListener('click', function(e)
   document.getElementById('searchForm').addEventListener('submit', function(){ setTimeout(function(){ modal.style.display='none'; }, 200); });
 })();
 
-// ══════ Sono Chat Trigger ══════
-(function(){
-  var trigger = document.getElementById('sonoChatTrigger');
-  if (trigger) {
-    trigger.onclick = function(){
-      var chatWidget = document.getElementById('chatWidget');
-      if (chatWidget && !chatWidget.classList.contains('expanded')) {
-        toggleChat();
-      }
-      // Scroll to top to see the chat widget
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-  }
-})();
 
 // ══════ Sono 創作 Modal ══════
 (function(){
@@ -2113,9 +1797,6 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     var output = document.getElementById('trOutput');
     var loading = document.getElementById('trLoading');
     
-    var endpoint = localStorage.getItem('sono_api_endpoint') || 'https://openrouter.ai/api/v1/chat/completions';
-    var key = localStorage.getItem('sono_api_key') || '';
-    var model = localStorage.getItem('sono_api_model') || 'google/gemma-4-26b-a4b-it:free';
     
     if(!key){
       output.textContent = '⚠️ 請先喺 AI 聊天框嘅 ⚙️ 設定入面輸入 API Key';
