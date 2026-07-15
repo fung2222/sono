@@ -672,74 +672,118 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   const now = new Date();
   dateEl.textContent = now.getFullYear() + '年' + months[now.getMonth()] + now.getDate() + '日';
 
-  const manifest = [
-    'images/wallpapers/2026-07-13/01-morning-mist.jpg',
-    'images/wallpapers/2026-07-13/02-night-cityscape.jpg',
-    'images/wallpapers/2026-07-13/03-ocean-breeze.jpg',
-    'images/wallpapers/2026-07-12/01-mountain-sunset.jpg',
-    'images/wallpapers/2026-07-12/02-aurora-night.jpg',
-    'images/wallpapers/2026-07-12/03-forest-mist.jpg'
+  const themeMap = [
+    ['morning-mist', '清晨薄霧'], ['night-cityscape', '夜城'], ['ocean-breeze', '海風'],
+    ['mountain-sunset', '山夕'], ['aurora-night', '極光'], ['forest-mist', '林霧'],
+    ['minimal-light', '極簡光'], ['space-orb', '太空'], ['urban-rain', '城雨'],
+    ['crystal-lake', '晶湖'], ['desert-sky', '漠天'], ['urban-light', '城光'],
+    ['ufo', 'UFO'], ['galaxy', '銀河'], ['nebula', '星雲'], ['cyber', '賽博'],
+    ['sky', '天'], ['mountain', '山'], ['forest', '林'], ['ocean', '海'],
+    ['aurora', '極光'], ['cosmic', '宇宙'], ['tech', '科技']
   ];
 
-  const themes = {
-    'morning-mist': '清晨薄霧', 'night-cityscape': '夜城', 'ocean-breeze': '海風',
-    'mountain-sunset': '山夕', 'aurora-night': '極光', 'forest-mist': '林霧',
-    'minimal-light': '極簡光', 'space-orb': '太空', 'urban-rain': '城雨',
-    'crystal-lake': '晶湖', 'desert-sky': '漠天', 'urban-light': '城光'
-  };
-
-  const fallback = {
-    'morning-mist': '清晨薄霧中嘅海岸山脈', 'night-cityscape': '夜晚城市天際線',
-    'ocean-breeze': '海洋與海風', 'mountain-sunset': '山脈日落',
-    'aurora-night': '極光夜空', 'forest-mist': '森林薄霧',
-    'minimal-light': '極簡光影', 'space-orb': '深空星雲', 'urban-rain': '城市雨景',
-    'crystal-lake': '水晶湖面', 'desert-sky': '沙漠天空', 'urban-light': '城市燈光'
-  };
-
   function getTheme(slug) {
-    for (const key in themes) {
-      if (slug.includes(key)) return themes[key];
+    for (const [key, label] of themeMap) {
+      if (slug.includes(key)) return label;
     }
-    return slug;
+    return slug || '桌布';
   }
 
-  function tryLoadImage(path, name, themeLabel) {
+  function probeImage(path) {
     return new Promise((resolve) => {
       const img = new Image();
-      img.onload = () => resolve({ path, name, themeLabel, ok: true });
-      img.onerror = () => resolve({ path, name, themeLabel, ok: false });
+      img.onload = () => resolve({ path, ok: true });
+      img.onerror = () => resolve({ path, ok: false });
       img.src = path + '?v=' + Date.now();
-      setTimeout(() => resolve({ path, name, themeLabel, ok: false }), 4000);
+      setTimeout(() => resolve({ path, ok: false }), 3000);
+    });
+  }
+
+  function getRecentDates(n) {
+    const dates = [];
+    const d = new Date();
+    for (let i = 0; i < n; i++) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      dates.push(y + '-' + m + '-' + day);
+      d.setDate(d.getDate() - 1);
+    }
+    return dates;
+  }
+
+  async function discoverWallpapers() {
+    const dates = getRecentDates(3);
+    const knownSlugs = [
+      'morning-mist', 'night-cityscape', 'ocean-breeze', 'mountain-sunset',
+      'aurora-night', 'forest-mist', 'minimal-light', 'space-orb',
+      'urban-rain', 'crystal-lake', 'desert-sky', 'urban-light',
+      'ufo-night-sky', 'space-nebula', 'cyberpunk-city', 'tech-circuitry',
+      'galaxy-deep-space', 'ufo-over-city', 'mountain-mist', 'ocean-night',
+      'cosmic-dust'
+    ];
+
+    const found = new Set();
+    const candidates = [];
+    for (const date of dates) {
+      for (let n = 1; n <= 9; n++) {
+        const num = String(n).padStart(2, '0');
+        for (const slug of knownSlugs) {
+          const url = `images/wallpapers/${date}/${num}-${slug}.jpg`;
+          candidates.push(url);
+        }
+      }
+    }
+
+    const batchSize = 16;
+    for (let i = 0; i < candidates.length; i += batchSize) {
+      const batch = candidates.slice(i, i + batchSize);
+      const results = await Promise.all(
+        batch.map(url => probeImage(url).then(r => ({ url, ok: r.ok })))
+      );
+      for (const r of results) {
+        if (r.ok) found.add(r.url);
+      }
+    }
+
+    return Array.from(found).map(url => {
+      const m = url.match(/(\d{4}-\d{2}-\d{2})\/(\d{2})-/);
+      return { path: url, date: m?.[1] || '', num: m?.[2] || '' };
     });
   }
 
   async function render() {
-    const results = await Promise.all(manifest.map(p => {
-      const filename = p.split('/').pop();
-      const slug = filename.replace(/^\d+-/, '').replace(/\.[^.]+$/, '').replace(/[^a-z-]/gi, '');
-      const themeLabel = getTheme(slug);
-      const dateMatch = p.match(/wallpapers\/(\d{4}-\d{2}-\d{2})/);
-      const date = dateMatch ? dateMatch[1] : '';
-      return tryLoadImage(p, slug, themeLabel).then(r => ({ ...r, date, fullPath: p }));
-    }));
+    const found = await discoverWallpapers();
 
-    const loaded = results.filter(r => r.ok);
-    countEl.textContent = loaded.length + ' 張桌布';
+    const items = [];
+    for (const f of found) {
+      const slugMatch = f.prefix.match(/\d+-([a-z-]+)\.jpg/i) || f.prefix.match(/\d+-(.+?)-/);
+      const slug = slugMatch ? slugMatch[1] : '';
+      const theme = getTheme(slug);
+      items.push({
+        path: f.prefix + '.jpg',
+        date: f.date,
+        num: f.num,
+        theme
+      });
+    }
 
-    if (loaded.length === 0) {
+    countEl.textContent = items.length + ' 張桌布';
+
+    if (items.length === 0) {
       grid.innerHTML = '<div class="wp-empty">桌布庫存準備中<em>Generate via xAI Grok Imagine · 9:16 portrait</em></div>';
       return;
     }
 
-    grid.innerHTML = loaded.map(r => {
-      const [date, n, slug] = [r.date, r.path.match(/\/(\d+)-/)?.[1] || '?', r.path.split('/').pop().replace(/^\d+-|\.[^.]+$/g, '')];
-      const title = r.themeLabel;
-      const safePath = r.fullPath.replace(/'/g, "\\'");
+    grid.innerHTML = items.map(item => {
+      const safePath = item.path.replace(/'/g, "\\'");
+      const title = item.theme;
+      const dateShort = item.date.slice(5);
       return '<a class="wp-item" href="' + safePath + '" download title="' + title + '">' +
         '<img src="' + safePath + '" alt="' + title + ' 手機桌布" loading="lazy">' +
         '<span class="wp-theme-tag">' + title + '</span>' +
         '<div class="wp-overlay">' +
-          '<div class="wp-meta">' + date + ' · ' + n + '</div>' +
+          '<div class="wp-meta">' + dateShort + ' · ' + item.num + '</div>' +
           '<div class="wp-title">' + title + '</div>' +
           '<span class="wp-download">⬇ 下載原圖</span>' +
         '</div>' +
