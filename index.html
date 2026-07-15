@@ -1577,7 +1577,13 @@ async function sendMessage() {
     try {
       var r = await fetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+        mode: 'cors',
+        credentials: 'omit',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + apiKey,
+          'Accept': 'application/json'
+        },
         body: JSON.stringify({
           model: models[i],
           messages: [
