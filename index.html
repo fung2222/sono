@@ -92,13 +92,12 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .settings-card .hint { font-size: 0.75em; color: #666; margin-top: 10px; line-height: 1.5; }
 
 /* ══════ Tab Bar ══════ */
-.tab-bar { display: flex; gap: 2px; margin: 4px 0 0; padding: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; background: transparent; border-bottom: 1px solid rgba(184,168,120,0.2); }
+.tab-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.4rem; margin: 16px 0 8px; padding: 14px 16px; background: rgba(184,168,120,0.04); border-top: 1px solid rgba(184,168,120,0.15); border-bottom: 1px solid rgba(184,168,120,0.15); position: sticky; top: 0; z-index: 50; }
 .tab-bar::-webkit-scrollbar { height: 0; }
-.tab-btn { flex: 1; min-width: 90px; padding: 10px 14px 12px; border: none; cursor: pointer; font-size: 0.9em; font-weight: 400; font-family: inherit; transition: all 0.3s; text-align: center; white-space: nowrap; background: transparent; color: #7a766c; position: relative; }
-.tab-btn:hover { color: #c8c4b8; }
-.tab-btn .tab-label { font-family: 'Courier New', monospace; font-size: 0.78em; letter-spacing: 0.15em; text-transform: uppercase; }
-.tab-btn.active { color: #c8c4b8; }
-.tab-btn.active::after { content: ''; position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%); width: 60%; height: 2px; background: #b8a878; }
+.tab-btn { padding: 10px 22px; border: 1px solid transparent; cursor: pointer; font-size: 0.95em; font-weight: 400; font-family: 'PingFang TC', 'Noto Sans TC', sans-serif; transition: all 0.3s; text-align: center; white-space: nowrap; background: transparent; color: #7a766c; letter-spacing: 0.06em; }
+.tab-btn:hover { color: #c8c4b8; border-color: rgba(184,168,120,0.2); }
+.tab-btn .tab-label { font-size: 1em; }
+.tab-btn.active { color: #c8c4b8; border-color: #b8a878; background: rgba(184,168,120,0.08); }
 .tab-btn.active[data-tab="daily"]   { color: #c8c4b8; }
 .tab-btn.active[data-tab="games"]   { color: #c8c4b8; }
 .tab-btn.active[data-tab="toolbox"] { color: #c8c4b8; }
@@ -638,13 +637,13 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <!-- ══════ Tab Bar ══════ -->
 <div class="tab-bar">
   <button class="tab-btn active" data-tab="daily" >
-    <span class="tab-label">Sono 桌布</span>
+    <span class="tab-label">桌布</span>
   </button>
   <button class="tab-btn" data-tab="games" >
-    <span class="tab-label">Sono 遊戲</span>
+    <span class="tab-label">遊戲</span>
   </button>
   <button class="tab-btn" data-tab="toolbox" >
-    <span class="tab-label">Sono 工具</span>
+    <span class="tab-label">工具</span>
   </button>
 </div>
 
