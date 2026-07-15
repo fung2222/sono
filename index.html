@@ -254,13 +254,16 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .wp-theme-tag { position: absolute; top: 8px; left: 8px; font-family: 'Courier New', monospace; font-size: 0.55em; color: #0a0a1a; background: rgba(184,168,120,0.85); padding: 2px 7px; border-radius: 8px; letter-spacing: 0.1em; text-transform: uppercase; }
 .wp-empty { text-align: center; padding: 60px 20px; color: #7a766c; font-family: 'Noto Serif TC', serif; font-size: 1.05em; line-height: 1.8; grid-column: 1 / -1; }
 .wp-empty em { display: block; font-style: normal; color: #b8a878; font-family: 'Courier New', monospace; font-size: 0.78em; letter-spacing: 0.15em; margin-top: 14px; }
-.wp-cat-bar { display: flex; flex-wrap: nowrap; gap: 0.4rem; padding: 4px 0 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.wp-cat-bar-wrap { display: flex; align-items: center; gap: 4px; padding: 4px 0 12px; }
+.wp-cat-bar { display: flex; flex-wrap: nowrap; gap: 0.4rem; padding: 0; flex: 1; min-width: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .wp-cat-bar::-webkit-scrollbar { height: 0; display: none; }
+.wp-cat-arrow { width: 28px; height: 28px; border: 1px solid rgba(184,168,120,0.2); background: transparent; color: #b8a878; font-size: 1.4em; line-height: 1; cursor: pointer; flex-shrink: 0; padding: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-family: inherit; }
+.wp-cat-arrow:hover { border-color: #b8a878; color: #c8c4b8; background: rgba(184,168,120,0.08); }
+.wp-cat-arrow:disabled, .wp-cat-arrow[disabled] { opacity: 0.25; cursor: not-allowed; border-color: rgba(184,168,120,0.1); }
 .wp-chip { padding: 7px 18px; border: 1px solid rgba(184,168,120,0.2); background: transparent; color: #7a766c; font-family: 'PingFang TC', 'Noto Sans TC', sans-serif; font-size: 0.85em; letter-spacing: 0.06em; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: all 0.2s; }
 .wp-chip:hover { color: #c8c4b8; border-color: rgba(184,168,120,0.4); }
 .wp-chip.active { color: #c8c4b8; border-color: #b8a878; background: rgba(184,168,120,0.1); }
-.wp-meta-top { display: flex; align-items: center; justify-content: space-between; margin: 20px 0 12px; }
-.wp-meta-top .date { font-family: 'Courier New', monospace; font-size: 0.78em; color: #7a766c; letter-spacing: 0.15em; }
+.wp-meta-top { display: flex; align-items: center; justify-content: flex-end; margin: 16px 0 12px; }
 .wp-meta-top .count { font-family: 'Courier New', monospace; font-size: 0.7em; color: #5a5852; }
 .wp-title-main { font-family: 'Noto Serif TC', 'Source Han Serif TC', serif; font-size: 1.5em; color: #c8c4b8; font-weight: 300; letter-spacing: 0.12em; margin: 0 0 4px; }
 @media (max-width: 720px) {
@@ -655,21 +658,20 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <!-- ══════ Tab 1: Sono 每日 ══════ -->
 <div class="tab-panel active" id="tab-daily">
 <div id="sono-daily-report">
-  <div class="wp-cat-bar" id="wpCatBar"></div>
+  <div class="wp-cat-bar-wrap">
+    <button class="wp-cat-arrow wp-cat-arrow-left" type="button" aria-label="向左滑">‹</button>
+    <div class="wp-cat-bar" id="wpCatBar"></div>
+    <button class="wp-cat-arrow wp-cat-arrow-right" type="button" aria-label="向右滑">›</button>
+  </div>
   <div class="wp-meta-top">
-    <span class="date" id="wpDate">—</span>
-    <span class="count" id="wpCount">0 張桌布</span>
+    <span class="count" id="wpCount">— 張桌布</span>
   </div>
   <div class="wp-grid" id="wpGrid"></div>
 </div>
 <script>
 (function() {
   const grid = document.getElementById('wpGrid');
-  const dateEl = document.getElementById('wpDate');
   const countEl = document.getElementById('wpCount');
-  const months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
-  const now = new Date();
-  dateEl.textContent = now.getFullYear() + '年' + months[now.getMonth()] + now.getDate() + '日';
 
   // Auto-detect category from slug (slug-to-category map)
   // Add new keywords here as you add new wallpapers
@@ -772,6 +774,17 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
         renderGrid();
       });
     });
+    requestAnimationFrame(updateArrows);
+  }
+
+  function updateArrows() {
+    const bar = document.getElementById('wpCatBar');
+    const left = document.querySelector('.wp-cat-arrow-left');
+    const right = document.querySelector('.wp-cat-arrow-right');
+    if (!bar || !left || !right) return;
+    const max = bar.scrollWidth - bar.clientWidth;
+    left.disabled = bar.scrollLeft <= 4;
+    right.disabled = bar.scrollLeft >= max - 4;
   }
 
   function renderGrid() {
@@ -800,6 +813,21 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
   renderCatBar();
   renderGrid();
+
+  // Arrow click handler (scrolling chip bar)
+  const SCROLL_STEP = 220;
+  document.querySelector('.wp-cat-arrow-left').addEventListener('click', function() {
+    const bar = document.getElementById('wpCatBar');
+    bar.scrollBy({ left: -SCROLL_STEP, behavior: 'smooth' });
+    setTimeout(updateArrows, 350);
+  });
+  document.querySelector('.wp-cat-arrow-right').addEventListener('click', function() {
+    const bar = document.getElementById('wpCatBar');
+    bar.scrollBy({ left: SCROLL_STEP, behavior: 'smooth' });
+    setTimeout(updateArrows, 350);
+  });
+  document.getElementById('wpCatBar').addEventListener('scroll', updateArrows);
+  window.addEventListener('resize', updateArrows);
 
   // Lightbox overlay (single instance, reused)
   const lightbox = document.createElement('div');
