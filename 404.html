@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 · 找不到頁面 — Sono蘇蘿</title>
+<meta name="description" content="Sono蘇蘿 — 找不到頁面。返回主頁繼續瀏覽桌布、遊戲和工具。">
+<meta name="theme-color" content="#0a0a1a">
+<meta name="robots" content="noindex, follow">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #0a0a1a;
+  color: #e0e0e0;
+  font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+  line-height: 1.7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.logo-area {
+  text-align: center;
+  padding: 28px 0 6px;
+  border-bottom: 1px solid rgba(184,168,120,0.15);
+}
+.logo {
+  font-family: 'Noto Serif TC', 'Source Han Serif TC', 'PingFang TC', serif;
+  font-size: 2.4em;
+  font-weight: 300;
+  color: #c8c4b8;
+  letter-spacing: 0.18em;
+  text-shadow: 0 2px 18px rgba(0,0,0,0.55);
+}
+.subtitle {
+  font-family: 'Courier New', monospace;
+  font-size: 0.74em;
+  color: #7a766c;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  margin: 8px 0 0;
+}
+.main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+}
+.error-code {
+  font-family: 'Courier New', monospace;
+  font-size: 6em;
+  font-weight: 700;
+  color: #b8a878;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  margin-bottom: 16px;
+  text-shadow: 0 0 40px rgba(184,168,120,0.3);
+}
+.error-title {
+  font-family: 'Noto Serif TC', 'Source Han Serif TC', serif;
+  font-size: 1.6em;
+  font-weight: 300;
+  color: #c8c4b8;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+.error-msg {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 0.95em;
+  color: #7a766c;
+  line-height: 1.8;
+  margin-bottom: 36px;
+  max-width: 480px;
+}
+.btn-home {
+  display: inline-block;
+  padding: 12px 32px;
+  border: 1px solid #b8a878;
+  background: transparent;
+  color: #b8a878;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85em;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.btn-home:hover {
+  background: #b8a878;
+  color: #0a0a1a;
+  box-shadow: 0 0 20px rgba(184,168,120,0.3);
+}
+.links {
+  margin-top: 40px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.links a {
+  font-family: 'Courier New', monospace;
+  font-size: 0.78em;
+  color: #7a766c;
+  text-decoration: none;
+  letter-spacing: 0.15em;
+  padding: 6px 14px;
+  border: 1px solid rgba(184,168,120,0.2);
+  transition: all 0.2s;
+}
+.links a:hover {
+  color: #c8c4b8;
+  border-color: #b8a878;
+  background: rgba(184,168,120,0.05);
+}
+.footer {
+  text-align: center;
+  padding: 30px 20px;
+  color: #5a5852;
+  font-family: 'Courier New', monospace;
+  font-size: 0.75em;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  letter-spacing: 0.12em;
+}
+@media (max-width: 600px) {
+  .error-code { font-size: 4em; }
+  .error-title { font-size: 1.3em; }
+  .links { flex-direction: column; gap: 10px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="logo-area">
+    <div class="logo">Sono蘇蘿</div>
+    <div class="subtitle">科技與未來 · 太空與超自然</div>
+  </div>
+
+  <div class="main-area">
+    <div class="error-code">404</div>
+    <div class="error-title">找不到頁面</div>
+    <p class="error-msg">
+      你要找的頁面不存在, 可能已被移除或連結錯誤。<br>
+      返回主頁繼續瀏覽桌布、遊戲和工具。
+    </p>
+    <a href="/" class="btn-home">← 返回主頁</a>
+
+    <div class="links">
+      <a href="/#daily">桌布</a>
+      <a href="/#games">遊戲</a>
+      <a href="/#toolbox">工具</a>
+    </div>
+  </div>
+
+  <div class="footer">© Sono蘇蘿 · 簡約低飽和度設計</div>
+</div>
+</body>
+</html>
