@@ -1605,7 +1605,14 @@ async function sendMessage() {
       // Network error, try next model
       if (i === models.length - 1) {
         hideTyping();
-        addMessage('system', '❌ 連線失敗：' + e.message);
+        var err = '❌ 連線失敗: ' + e.message +
+          '\n💡 可能原因:' +
+          '\n1. API endpoint URL 唔啱 (檢查拼字)' +
+          '\n2. Network 有問題 (試其他 URL)' +
+          '\n3. CORS 被封鎖 (可能需要 proxy)' +
+          '\n4. Browser 拒絕 fetch (HTTPS/ mixed content)' +
+          '\n\n📋 而家用緊: ' + endpoint + '\n🔧 撳 ⚙️ 試調整';
+        addMessage('system', err);
         isWaiting = false;
         document.getElementById('sendBtn').disabled = false;
         document.getElementById('chatInput').focus();
