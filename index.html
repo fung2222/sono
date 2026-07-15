@@ -1550,6 +1550,13 @@ async function sendMessage() {
   var apiKey = localStorage.getItem('sono_api_key') || '';
   var model = localStorage.getItem('sono_api_model') || 'nvidia/nemotron-3-ultra-550b-a55b';
 
+  // Reset force: ?reset=1 clears localStorage (so defaults apply)
+  if (location.search.includes('reset=1')) {
+    localStorage.removeItem('sono_api_endpoint');
+    localStorage.removeItem('sono_api_key');
+    localStorage.removeItem('sono_api_model');
+  }
+
   if (!apiKey) {
     hideTyping();
     addMessage('system', '⚠️ 未設定 API Key！請撳右上角 ⚙️ 設定');
