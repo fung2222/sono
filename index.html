@@ -694,6 +694,10 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     requestAnimationFrame(updateArrows);
   }
 
+  renderCatBar();
+  renderGrid();
+}
+
   function updateArrows() {
     const bar = document.getElementById('wpCatBar');
     const left = document.querySelector('.wp-cat-arrow-left');
