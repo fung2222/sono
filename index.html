@@ -577,197 +577,155 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div class="wp-meta-top">
     <span class="count" id="wpCount">— 張桌布</span>
   </div>
-  <script>
-  (function() {
-    const grid = document.getElementById('wpGrid');
-    const countEl = document.getElementById('wpCount');
+  <div class="wp-grid" id="wpGrid"></div>
+</div>
+<script>
+(function() {
+  const grid = document.getElementById('wpGrid');
+  const countEl = document.getElementById('wpCount');
 
-    // Auto-detect category from slug (slug-to-category map)
-    // Add new keywords here as you add new wallpapers
-    const slugCatMap = [
-      { keys: ['ufo', 'flying-saucer', 'saucer', 'uap'], cat: 'ufo' },
-      { keys: ['galaxy', 'nebula', 'space', 'cosmos', 'star', 'aurora', 'orbit', 'cosmic', 'mars', 'planet', 'saturn', 'station', 'astronaut', 'deep'], cat: 'space' },
-      { keys: ['cyber', 'tech', 'circuit', 'circuitry', 'mecha', 'machine', 'robot', 'data', 'hologram', 'ai', 'artificial', 'circuit', 'board', 'neural', 'digital', 'crypto'], cat: 'tech' },
-      { keys: ['mountain', 'ocean', 'forest', 'tree', 'sea', 'lake', 'river', 'flower', 'sky', 'cloud', 'nature', 'rain', 'snow', 'winter', 'summer', 'sunset', 'sunrise', 'morning', 'night', 'fog', 'mist', 'wave', 'peak', 'hill', 'beach', 'desert'], cat: 'nature' },
-      { keys: ['quantum', 'qubit', 'superposition', 'entanglement', 'wavefunction', 'quantum-mechanics', 'hologram', 'data', 'ai', 'neural', 'superposition', 'entanglement'], cat: 'quantum' },
-      { keys: ['cosmos', 'universe', 'multiverse', 'cosmic', 'deep-space', 'void', 'mars', 'planet', 'saturn', 'stars', 'cluster', 'galaxy', 'nebula', 'deep', 'station', 'orbit', 'astronaut', 'cosmonaut'], cat: 'cosmos' },
-      { keys: ['alien', 'extraterrestrial', 'ufo', 'martian', 'spaceship', 'mothership', 'xenomorph', 'xeno', 'grey', 'reptilian', 'uap', 'saucer', 'mystery', 'unknown', 'contact'], cat: 'alien' }
-    ];
+  // Auto-detect category from slug (slug-to-category map)
+  // Add new keywords here as you add new wallpapers
+  const slugCatMap = [
+    { keys: ['ufo', 'flying-saucer', 'saucer'], cat: 'ufo' },
+    { keys: ['galaxy', 'nebula', 'space', 'cosmos', 'star', 'aurora', 'orbit', 'cosmic'], cat: 'space' },
+    { keys: ['cyber', 'tech', 'circuit', 'circuitry', 'mecha', 'machine', 'robot', 'data'], cat: 'tech' },
+    { keys: ['mountain', 'ocean', 'forest', 'tree', 'sea', 'lake', 'river', 'flower', 'sky', 'cloud', 'nature', 'rain', 'snow', 'winter', 'summer', 'sunset', 'sunrise', 'morning', 'night'], cat: 'nature' }
+  ];
 
-    function detectCategory(slug) {
-      const s = (slug || '').toLowerCase();
-      for (const m of slugCatMap) {
-        if (m.keys.some(k => s.includes(k))) return m.cat;
-      }
-      return 'space';
+  function detectCategory(slug) {
+    const s = (slug || '').toLowerCase();
+    for (const m of slugCatMap) {
+      if (m.keys.some(k => s.includes(k))) return m.cat;
     }
+    return 'space';
+  }
 
-    function deriveTheme(slug) {
-      const s = (slug || '').replace(/-/g, ' ');
-      return s.charAt(0).toUpperCase() + s.slice(1) || '桌布';
-    }
+  function deriveTheme(slug) {
+    const s = (slug || '').replace(/-/g, ' ');
+    return s.charAt(0).toUpperCase() + s.slice(1) || '桌布';
+  }
 
-    // Build wallpapers from path list (date inferred from folder)
-    // To add new wallpaper: just add a new path here, top of list
-    const wallpaperPaths = [
-      // Latest (top of list — auto pinned)
-      'images/wallpapers/2026-07-15/28-mist-mountain.jpg',
-      'images/wallpapers/2026-07-15/27-forest-fog.jpg',
-      'images/wallpapers/2026-07-15/26-ocean-wave.jpg',
-      'images/wallpapers/2026-07-15/25-mountain-peak.jpg',
-      'images/wallpapers/2026-07-15/24-hologram.jpg',
-      'images/wallpapers/2026-07-15/23-data-stream.jpg',
-      'images/wallpapers/2026-07-15/22-robot-arm.jpg',
-      'images/wallpapers/2026-07-15/21-ai-neural.jpg',
-      'images/wallpapers/2026-07-15/20-circuit-board.jpg',
-      'images/wallpapers/2026-07-15/19-nocturnal-glow.jpg',
-      'images/wallpapers/2026-07-15/18-mystery-light.jpg',
-      'images/wallpapers/2026-07-15/17-saucer-cosmic.jpg',
-      'images/wallpapers/2026-07-15/16-uap-sky.jpg',
-      'images/wallpapers/2026-07-15/15-ufo-night.jpg',
-      'images/wallpapers/2026-07-15/14-space-station.jpg',
-      'images/wallpapers/2026-07-15/13-mars-surface.jpg',
-      'images/wallpapers/2026-07-15/12-nebula-color.jpg',
-      'images/wallpapers/2026-07-15/11-stars-cluster.jpg',
-      'images/wallpapers/2026-07-15/10-planet-saturn.jpg',
-      'images/wallpapers/2026-07-15/09-ocean-night.jpg',
-      'images/wallpapers/2026-07-15/08-mountain-mist.jpg',
-      'images/wallpapers/2026-07-15/07-aurora-night.jpg',
-      'images/wallpapers/2026-07-15/06-ufo-over-city.jpg',
-      'images/wallpapers/2026-07-15/05-galaxy-deep-space.jpg',
-      'images/wallpapers/2026-07-15/04-tech-circuitry.jpg',
-      'images/wallpapers/2026-07-15/03-cyberpunk-city.jpg',
-      'images/wallpapers/2026-07-15/02-space-nebula.jpg',
-      'images/wallpapers/2026-07-15/01-ufo-night-sky.jpg'
-    ];
+  // Build wallpapers from path list (date inferred from folder)
+  // To add new wallpaper: just add a new path here, top of list
+  const wallpaperPaths = [
+    // Latest (top of list — auto pinned)
+    'images/wallpapers/2026-07-15/28-mist-mountain.jpg',
+    'images/wallpapers/2026-07-15/27-forest-fog.jpg',
+    'images/wallpapers/2026-07-15/26-ocean-wave.jpg',
+    'images/wallpapers/2026-07-15/25-mountain-peak.jpg',
+    'images/wallpapers/2026-07-15/24-hologram.jpg',
+    'images/wallpapers/2026-07-15/23-data-stream.jpg',
+    'images/wallpapers/2026-07-15/22-robot-arm.jpg',
+    'images/wallpapers/2026-07-15/21-ai-neural.jpg',
+    'images/wallpapers/2026-07-15/20-circuit-board.jpg',
+    'images/wallpapers/2026-07-15/19-nocturnal-glow.jpg',
+    'images/wallpapers/2026-07-15/18-mystery-light.jpg',
+    'images/wallpapers/2026-07-15/17-saucer-cosmic.jpg',
+    'images/wallpapers/2026-07-15/16-uap-sky.jpg',
+    'images/wallpapers/2026-07-15/15-ufo-night.jpg',
+    'images/wallpapers/2026-07-15/14-space-station.jpg',
+    'images/wallpapers/2026-07-15/13-mars-surface.jpg',
+    'images/wallpapers/2026-07-15/12-nebula-color.jpg',
+    'images/wallpapers/2026-07-15/11-stars-cluster.jpg',
+    'images/wallpapers/2026-07-15/10-planet-saturn.jpg',
+    'images/wallpapers/2026-07-15/09-ocean-night.jpg',
+    'images/wallpapers/2026-07-15/08-mountain-mist.jpg',
+    'images/wallpapers/2026-07-15/07-aurora-night.jpg',
+    'images/wallpapers/2026-07-15/06-ufo-over-city.jpg',
+    'images/wallpapers/2026-07-15/05-galaxy-deep-space.jpg',
+    'images/wallpapers/2026-07-15/04-tech-circuitry.jpg',
+    'images/wallpapers/2026-07-15/03-cyberpunk-city.jpg',
+    'images/wallpapers/2026-07-15/02-space-nebula.jpg',
+    'images/wallpapers/2026-07-15/01-ufo-night-sky.jpg'
+  ];
 
-    const wallpapers = wallpaperPaths.map(p => {
-      const slug = p.split('/').pop().replace(/^\d+-/, '').replace(/\.[^.]+$/, '').toLowerCase();
-      const dateMatch = p.match(/wallpapers\/(\d{4}-\d{2}-\d{2})/);
-      return {
-        path: p,
-        date: dateMatch ? dateMatch[1] : '',
-        num: p.match(/\/(\d+)-/)?.[1] || '',
-        theme: deriveTheme(slug),
-        cat: detectCategory(slug)
-      };
-    });
+  const wallpapers = wallpaperPaths.map(p => {
+    const slug = p.split('/').pop().replace(/^\d+-/, '').replace(/\.[^.]+$/, '').toLowerCase();
+    const dateMatch = p.match(/wallpapers\/(\d{4}-\d{2}-\d{2})/);
+    return {
+      path: p,
+      date: dateMatch ? dateMatch[1] : '',
+      num: p.match(/\/(\d+)-/)?.[1] || '',
+      theme: deriveTheme(slug),
+      cat: detectCategory(slug)
+    };
+  });
 
-    const categories = [
-      { id: 'all', label: '全部' },
-      { id: 'space', label: '太空' },
-      { id: 'ufo', label: 'UFO' },
-      { id: 'tech', label: '科技' },
-      { id: 'nature', label: '自然' },
-      { id: 'quantum', label: '量子' },
-      { id: 'cosmos', label: '宇宙' },
-      { id: 'alien', label: '外星人' }
-    ];
+  const categories = [
+    { id: 'all', label: '全部' },
+    { id: 'space', label: '太空' },
+    { id: 'ufo', label: 'UFO' },
+    { id: 'tech', label: '科技' },
+    { id: 'nature', label: '自然' }
+  ];
 
-    let currentCat = 'all';
+  let currentCat = 'all';
 
-    function getFiltered() {
-      if (currentCat === 'all') return wallpapers;
-      return wallpapers.filter(w => w.cat === currentCat);
-    }
+  function getFiltered() {
+    if (currentCat === 'all') return wallpapers;
+    return wallpapers.filter(w => w.cat === currentCat);
+  }
 
-    function getCurrentLabel() {
-      if (currentCat === 'all') return '全部';
-      const c = categories.find(x => x.id === currentCat);
-      return c ? c.label : currentCat;
-    }
+  function getCurrentLabel() {
+    if (currentCat === 'all') return '全部';
+    const c = categories.find(x => x.id === currentCat);
+    return c ? c.label : currentCat;
+  }
 
-    function renderCatBar() {
-      const bar = document.getElementById('wpCatBar');
-      bar.innerHTML = categories.map(c =>
-        '<button class="wp-chip' + (c.id === currentCat ? ' active' : '') + '" data-cat="' + c.id + '">' + c.label + '</button>'
-      ).join('');
-      bar.querySelectorAll('.wp-chip').forEach(btn => {
-        btn.addEventListener('click', function() {
-          currentCat = this.getAttribute('data-cat');
-          renderCatBar();
-          renderGrid();
-        });
+  function renderCatBar() {
+    const bar = document.getElementById('wpCatBar');
+    bar.innerHTML = categories.map(c =>
+      '<button class="wp-chip' + (c.id === currentCat ? ' active' : '') + '" data-cat="' + c.id + '">' + c.label + '</button>'
+    ).join('');
+    bar.querySelectorAll('.wp-chip').forEach(btn => {
+      btn.addEventListener('click', function() {
+        currentCat = this.getAttribute('data-cat');
+        renderCatBar();
+        renderGrid();
       });
-      requestAnimationFrame(updateArrows);
+    });
+    requestAnimationFrame(updateArrows);
+  }
+
+  function updateArrows() {
+    const bar = document.getElementById('wpCatBar');
+    const left = document.querySelector('.wp-cat-arrow-left');
+    const right = document.querySelector('.wp-cat-arrow-right');
+    if (!bar || !left || !right) return;
+    const max = bar.scrollWidth - bar.clientWidth;
+    left.disabled = bar.scrollLeft <= 4;
+    right.disabled = bar.scrollLeft >= max - 4;
+  }
+
+  function renderGrid() {
+    const filtered = getFiltered();
+    const currentLabel = getCurrentLabel();
+    countEl.textContent = filtered.length + ' 張桌布 — ' + currentLabel;
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div class="wp-empty">呢個分類暫無桌布<em>Generate via xAI Grok Imagine · 9:16 portrait</em></div>';
+      return;
     }
 
-    function updateArrows() {
-      const bar = document.getElementById('wpCatBar');
-      const left = document.querySelector('.wp-cat-arrow-left');
-      const right = document.querySelector('.wp-cat-arrow-right');
-      if (!bar || !left || !right) return;
-      const max = bar.scrollWidth - bar.clientWidth;
-      left.disabled = bar.scrollLeft <= 4;
-      right.disabled = bar.scrollLeft >= max - 4;
-    }
-
-    function renderGrid() {
-      const filtered = getFiltered();
-      const currentLabel = getCurrentLabel();
-      countEl.textContent = filtered.length + ' 張桌布 — ' + currentLabel;
-
-      if (filtered.length === 0) {
-        grid.innerHTML = '<div class="wp-empty">呢個分類暫無桌布<em>Generate via xAI Grok Imagine · 9:16 portrait</em></div>';
-        return;
-      }
-
-      grid.innerHTML = filtered.map(item => {
-        const title = item.theme;
-        const safePath = item.path.replace(/'/g, "\\'");
-        return '<div class="wp-item" data-wp="' + safePath + '" data-title="' + title + '">' +
-          '<img src="' + safePath + '" alt="' + title + ' 手機桌布" loading="lazy">' +
-          '<span class="wp-theme-tag">' + title + '</span>' +
-          '<div class="wp-overlay">' +
-            '<div class="wp-title">' + title + '</div>' +
-            '<span class="wp-download">🔍 點擊放大</span>' +
-          '</div>' +
+    grid.innerHTML = filtered.map(item => {
+      const title = item.theme;
+      const safePath = item.path.replace(/'/g, "\\'");
+      return '<div class="wp-item" data-wp="' + safePath + '" data-title="' + title + '">' +
+        '<img src="' + safePath + '" alt="' + title + ' 手機桌布" loading="lazy">' +
+        '<span class="wp-theme-tag">' + title + '</span>' +
+        '<div class="wp-overlay">' +
+          '<div class="wp-title">' + title + '</div>' +
+          '<span class="wp-download">🔍 點擊放大</span>' +
+        '</div>' +
         '</div>';
-      }).join('');
-    }
+    }).join('');
+  }
 
-    renderCatBar();
-    renderGrid();
+  renderCatBar();
+  renderGrid();
 
-    // Arrow click handler (scrolling chip bar)
-    const SCROLL_STEP = 220;
-    document.querySelector('.wp-cat-arrow-left').addEventListener('click', function() {
-      const bar = document.getElementById('wpCatBar');
-      bar.scrollBy({ left: -SCROLL_STEP, behavior: 'smooth' });
-      setTimeout(updateArrows, 350);
-    });
-    document.querySelector('.wp-cat-arrow-right').addEventListener('click', function() {
-      const bar = document.getElementById('wpCatBar');
-      bar.scrollBy({ left: SCROLL_STEP, behavior: 'smooth' });
-      setTimeout(updateArrows, 350);
-    });
-    document.getElementById('wpCatBar').addEventListener('scroll', updateArrows);
-    window.addEventListener('resize', updateArrows);
-
-    // Lightbox overlay (single instance, reused)
-    const lightbox = document.createElement('div');
-    lightbox.id = 'wpLightbox';
-    lightbox.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);justify-content:center;align-items:center;cursor:zoom-out;padding:20px;';
-    lightbox.innerHTML = '<img id="wpLightboxImg" style="max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-out;" alt=""><div style="position:absolute;top:20px;right:24px;font-family:Courier New,monospace;color:#b8a878;font-size:0.85em;letter-spacing:0.18em;text-transform:uppercase;pointer-events:none;">✕ 點擊關閉</div>';
-    document.body.appendChild(lightbox);
-
-    grid.addEventListener('click', function(e) {
-      const tile = e.target.closest('.wp-item');
-      if (tile) {
-        const path = tile.getAttribute('data-wp');
-        const title = tile.getAttribute('data-title');
-        document.getElementById('wpLightboxImg').src = path;
-        document.getElementById('wpLightboxImg').alt = title + ' 手機桌布';
-        lightbox.style.display = 'flex';
-        return;
-      }
-    });
-    lightbox.addEventListener('click', function() {
-      lightbox.style.display = 'none';
-      document.getElementById('wpLightboxImg').src = '';
-    });
-  })();
-  </script>
+  // Arrow click handler (scrolling chip bar)
   const SCROLL_STEP = 220;
   document.querySelector('.wp-cat-arrow-left').addEventListener('click', function() {
     const bar = document.getElementById('wpCatBar');
