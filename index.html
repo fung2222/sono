@@ -630,6 +630,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     <h3>⚙️ AI 聊天設定</h3>
     <label>API 端點 (OpenAI 兼容)</label>
     <input type="text" id="apiEndpoint" placeholder="https://integrate.api.nvidia.com/v1/chat/completions">
+    <p class="hint" style="font-size:0.72em;margin-top:8px;">⚠️ 如遇到 'Failed to fetch' error, 可能係瀏覽器 CORS / network 限制。可試: (a) 用其他 API (OpenRouter 等); (b) 自建 proxy server 過 NVIDIA</p>
     <label>API Key</label>
     <input type="password" id="apiKey" placeholder="nvapi-...">
     <label>Model</label>
@@ -1545,8 +1546,8 @@ async function sendMessage() {
   // Update prompt bar
   document.getElementById('chatPrompt').textContent = text.length > 30 ? text.slice(0,30)+'…' : text;
 
-  // Get API config — defaults: NVIDIA build + Nemotron-3 Ultra 550B
-  var endpoint = localStorage.getItem('sono_api_endpoint') || 'https://integrate.api.nvidia.com/v1/chat/completions';
+  // Get API config — defaults: NVIDIA build via CORS proxy + Nemotron-3 Ultra 550B
+  var endpoint = localStorage.getItem('sono_api_endpoint') || 'https://corsproxy.io/?https://integrate.api.nvidia.com/v1/chat/completions';
   var apiKey = localStorage.getItem('sono_api_key') || '';
   var model = localStorage.getItem('sono_api_model') || 'nvidia/nemotron-3-ultra-550b-a55b';
 
@@ -1659,7 +1660,7 @@ async function sendMessage() {
 
 // ══════ Settings ══════
 function openSettings() {
-  document.getElementById('apiEndpoint').value = localStorage.getItem('sono_api_endpoint') || 'https://integrate.api.nvidia.com/v1/chat/completions';
+  document.getElementById('apiEndpoint').value = localStorage.getItem('sono_api_endpoint') || 'https://corsproxy.io/?https://integrate.api.nvidia.com/v1/chat/completions';
   document.getElementById('apiKey').value = localStorage.getItem('sono_api_key') || '';
   document.getElementById('apiModel').value = localStorage.getItem('sono_api_model') || 'nvidia/nemotron-3-ultra-550b-a55b';
   document.getElementById('settingsOverlay').classList.add('show');
