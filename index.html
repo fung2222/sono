@@ -1551,11 +1551,13 @@ async function sendMessage() {
   var apiKey = localStorage.getItem('sono_api_key') || '';
   var model = localStorage.getItem('sono_api_model') || 'nvidia/nemotron-3-ultra-550b-a55b';
 
-  // Reset force: ?reset=1 clears localStorage (so defaults apply)
-  if (location.search.includes('reset=1')) {
+  // Reset force: ?reset=1 clears localStorage ONCE (so defaults apply)
+  // Use sessionStorage flag to ensure only first visit clears, not every sendMessage
+  if (location.search.includes('reset=1') && !sessionStorage.getItem('sono_reset_done')) {
     localStorage.removeItem('sono_api_endpoint');
     localStorage.removeItem('sono_api_key');
     localStorage.removeItem('sono_api_model');
+    sessionStorage.setItem('sono_reset_done', '1');
   }
 
   if (!apiKey) {
