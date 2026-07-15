@@ -709,17 +709,20 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
   async function discoverWallpapers() {
     try {
-      const res = await fetch('wallpapers-manifest-v2.json?v=' + Date.now());
-      if (!res.ok) throw new Error('manifest fetch failed');
+      const cacheBuster = 'cb=' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
+      const res = await fetch('wallpapers-manifest-v2.json?' + cacheBuster, {
+        cache: 'no-store'
+      });
+      if (!res.ok) throw new Error('manifest HTTP ' + res.status);
       const manifest = await res.json();
       return manifest.map(item => ({
-        path: item.path,
+        path: item.path + '?' + cacheBuster,
         date: item.date,
         num: item.num,
         theme: item.theme || '桌布'
       }));
     } catch (e) {
-      console.warn('Wallpaper manifest not available:', e);
+      console.warn('Manifest fetch error:', e);
       return [];
     }
   }
