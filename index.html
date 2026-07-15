@@ -713,43 +713,20 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   }
 
   async function discoverWallpapers() {
-    const dates = getRecentDates(3);
-    const knownSlugs = [
-      'morning-mist', 'night-cityscape', 'ocean-breeze', 'mountain-sunset',
-      'aurora-night', 'forest-mist', 'minimal-light', 'space-orb',
-      'urban-rain', 'crystal-lake', 'desert-sky', 'urban-light',
-      'ufo-night-sky', 'space-nebula', 'cyberpunk-city', 'tech-circuitry',
-      'galaxy-deep-space', 'ufo-over-city', 'mountain-mist', 'ocean-night',
-      'cosmic-dust'
-    ];
-
-    const found = new Set();
-    const candidates = [];
-    for (const date of dates) {
-      for (let n = 1; n <= 9; n++) {
-        const num = String(n).padStart(2, '0');
-        for (const slug of knownSlugs) {
-          const url = `images/wallpapers/${date}/${num}-${slug}.jpg`;
-          candidates.push(url);
-        }
-      }
+    try {
+      const res = await fetch('wallpapers-manifest.json?v=' + Date.now());
+      if (!res.ok) throw new Error('manifest fetch failed');
+      const manifest = await res.json();
+      return manifest.map(item => ({
+        path: item.path,
+        date: item.date,
+        num: item.num,
+        theme: item.theme || '桌布'
+      }));
+    } catch (e) {
+      console.warn('Wallpaper manifest not available:', e);
+      return [];
     }
-
-    const batchSize = 16;
-    for (let i = 0; i < candidates.length; i += batchSize) {
-      const batch = candidates.slice(i, i + batchSize);
-      const results = await Promise.all(
-        batch.map(url => probeImage(url).then(r => ({ url, ok: r.ok })))
-      );
-      for (const r of results) {
-        if (r.ok) found.add(r.url);
-      }
-    }
-
-    return Array.from(found).map(url => {
-      const m = url.match(/(\d{4}-\d{2}-\d{2})\/(\d{2})-/);
-      return { path: url, date: m?.[1] || '', num: m?.[2] || '' };
-    });
   }
 
   async function render() {
