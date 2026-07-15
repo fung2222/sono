@@ -254,6 +254,11 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .wp-theme-tag { position: absolute; top: 8px; left: 8px; font-family: 'Courier New', monospace; font-size: 0.55em; color: #0a0a1a; background: rgba(184,168,120,0.85); padding: 2px 7px; border-radius: 8px; letter-spacing: 0.1em; text-transform: uppercase; }
 .wp-empty { text-align: center; padding: 60px 20px; color: #7a766c; font-family: 'Noto Serif TC', serif; font-size: 1.05em; line-height: 1.8; grid-column: 1 / -1; }
 .wp-empty em { display: block; font-style: normal; color: #b8a878; font-family: 'Courier New', monospace; font-size: 0.78em; letter-spacing: 0.15em; margin-top: 14px; }
+.wp-cat-bar { display: flex; flex-wrap: nowrap; gap: 0.4rem; padding: 4px 0 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.wp-cat-bar::-webkit-scrollbar { height: 0; display: none; }
+.wp-chip { padding: 7px 18px; border: 1px solid rgba(184,168,120,0.2); background: transparent; color: #7a766c; font-family: 'PingFang TC', 'Noto Sans TC', sans-serif; font-size: 0.85em; letter-spacing: 0.06em; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: all 0.2s; }
+.wp-chip:hover { color: #c8c4b8; border-color: rgba(184,168,120,0.4); }
+.wp-chip.active { color: #c8c4b8; border-color: #b8a878; background: rgba(184,168,120,0.1); }
 .wp-meta-top { display: flex; align-items: center; justify-content: space-between; margin: 20px 0 12px; }
 .wp-meta-top .date { font-family: 'Courier New', monospace; font-size: 0.78em; color: #7a766c; letter-spacing: 0.15em; }
 .wp-meta-top .count { font-family: 'Courier New', monospace; font-size: 0.7em; color: #5a5852; }
@@ -650,6 +655,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <!-- ══════ Tab 1: Sono 每日 ══════ -->
 <div class="tab-panel active" id="tab-daily">
 <div id="sono-daily-report">
+  <div class="wp-cat-bar" id="wpCatBar"></div>
   <div class="wp-meta-top">
     <span class="date" id="wpDate">—</span>
     <span class="count" id="wpCount">0 張桌布</span>
@@ -667,38 +673,80 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
   // Inline wallpaper data (v=20260715) — 0 fetch, no failure point
   const wallpapers = [
-    { path: 'images/wallpapers/2026-07-15/01-ufo-night-sky.jpg', date: '2026-07-15', num: '01', theme: 'UFO 夜空' },
-    { path: 'images/wallpapers/2026-07-15/02-space-nebula.jpg', date: '2026-07-15', num: '02', theme: '星雲' },
-    { path: 'images/wallpapers/2026-07-15/03-cyberpunk-city.jpg', date: '2026-07-15', num: '03', theme: '賽博城' },
-    { path: 'images/wallpapers/2026-07-15/04-tech-circuitry.jpg', date: '2026-07-15', num: '04', theme: '科技電路' },
-    { path: 'images/wallpapers/2026-07-15/05-galaxy-deep-space.jpg', date: '2026-07-15', num: '05', theme: '銀河' },
-    { path: 'images/wallpapers/2026-07-15/06-ufo-over-city.jpg', date: '2026-07-15', num: '06', theme: 'UFO 飛越' },
-    { path: 'images/wallpapers/2026-07-15/07-aurora-night.jpg', date: '2026-07-15', num: '07', theme: '極光' },
-    { path: 'images/wallpapers/2026-07-15/08-mountain-mist.jpg', date: '2026-07-15', num: '08', theme: '山霧' },
-    { path: 'images/wallpapers/2026-07-15/09-ocean-night.jpg', date: '2026-07-15', num: '09', theme: '海洋之夜' }
+    { path: 'images/wallpapers/2026-07-15/01-ufo-night-sky.jpg', date: '2026-07-15', num: '01', theme: 'UFO 夜空', cat: 'ufo' },
+    { path: 'images/wallpapers/2026-07-15/02-space-nebula.jpg', date: '2026-07-15', num: '02', theme: '星雲', cat: 'space' },
+    { path: 'images/wallpapers/2026-07-15/03-cyberpunk-city.jpg', date: '2026-07-15', num: '03', theme: '賽博城', cat: 'tech' },
+    { path: 'images/wallpapers/2026-07-15/04-tech-circuitry.jpg', date: '2026-07-15', num: '04', theme: '科技電路', cat: 'tech' },
+    { path: 'images/wallpapers/2026-07-15/05-galaxy-deep-space.jpg', date: '2026-07-15', num: '05', theme: '銀河', cat: 'space' },
+    { path: 'images/wallpapers/2026-07-15/06-ufo-over-city.jpg', date: '2026-07-15', num: '06', theme: 'UFO 飛越', cat: 'ufo' },
+    { path: 'images/wallpapers/2026-07-15/07-aurora-night.jpg', date: '2026-07-15', num: '07', theme: '極光', cat: 'space' },
+    { path: 'images/wallpapers/2026-07-15/08-mountain-mist.jpg', date: '2026-07-15', num: '08', theme: '山霧', cat: 'nature' },
+    { path: 'images/wallpapers/2026-07-15/09-ocean-night.jpg', date: '2026-07-15', num: '09', theme: '海洋之夜', cat: 'nature' }
   ];
 
-  countEl.textContent = wallpapers.length + ' 張桌布';
+  const categories = [
+    { id: 'all', label: '全部' },
+    { id: 'space', label: '太空' },
+    { id: 'ufo', label: 'UFO' },
+    { id: 'tech', label: '科技' },
+    { id: 'nature', label: '自然' }
+  ];
 
-  if (wallpapers.length === 0) {
-    grid.innerHTML = '<div class="wp-empty">桌布庫存準備中<em>Generate via xAI Grok Imagine · 9:16 portrait</em></div>';
-    return;
+  let currentCat = 'all';
+
+  function getFiltered() {
+    if (currentCat === 'all') return wallpapers;
+    return wallpapers.filter(w => w.cat === currentCat);
   }
 
-  grid.innerHTML = wallpapers.map(item => {
-    const dateShort = item.date.slice(5);
-    const title = item.theme;
-    const safePath = item.path.replace(/'/g, "\\'");
-    return '<div class="wp-item" data-wp="' + safePath + '" data-title="' + title + '">' +
-      '<img src="' + safePath + '" alt="' + title + ' 手機桌布" loading="lazy">' +
-      '<span class="wp-theme-tag">' + title + '</span>' +
-      '<div class="wp-overlay">' +
-        '<div class="wp-meta">' + dateShort + ' · ' + item.num + '</div>' +
-        '<div class="wp-title">' + title + '</div>' +
-        '<span class="wp-download">🔍 點擊放大</span>' +
-      '</div>' +
-      '</div>';
-  }).join('');
+  function getCurrentLabel() {
+    if (currentCat === 'all') return '全部';
+    const c = categories.find(x => x.id === currentCat);
+    return c ? c.label : currentCat;
+  }
+
+  function renderCatBar() {
+    const bar = document.getElementById('wpCatBar');
+    bar.innerHTML = categories.map(c =>
+      '<button class="wp-chip' + (c.id === currentCat ? ' active' : '') + '" data-cat="' + c.id + '">' + c.label + '</button>'
+    ).join('');
+    bar.querySelectorAll('.wp-chip').forEach(btn => {
+      btn.addEventListener('click', function() {
+        currentCat = this.getAttribute('data-cat');
+        renderCatBar();
+        renderGrid();
+      });
+    });
+  }
+
+  function renderGrid() {
+    const filtered = getFiltered();
+    const currentLabel = getCurrentLabel();
+    countEl.textContent = filtered.length + ' 張桌布 — ' + currentLabel;
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div class="wp-empty">呢個分類暫無桌布<em>Generate via xAI Grok Imagine · 9:16 portrait</em></div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map(item => {
+      const dateShort = item.date.slice(5);
+      const title = item.theme;
+      const safePath = item.path.replace(/'/g, "\\'");
+      return '<div class="wp-item" data-wp="' + safePath + '" data-title="' + title + '">' +
+        '<img src="' + safePath + '" alt="' + title + ' 手機桌布" loading="lazy">' +
+        '<span class="wp-theme-tag">' + title + '</span>' +
+        '<div class="wp-overlay">' +
+          '<div class="wp-meta">' + dateShort + ' · ' + item.num + '</div>' +
+          '<div class="wp-title">' + title + '</div>' +
+          '<span class="wp-download">🔍 點擊放大</span>' +
+        '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  renderCatBar();
+  renderGrid();
 
   // Lightbox overlay (single instance, reused)
   const lightbox = document.createElement('div');
@@ -707,7 +755,6 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   lightbox.innerHTML = '<img id="wpLightboxImg" style="max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-out;" alt=""><div style="position:absolute;top:20px;right:24px;font-family:Courier New,monospace;color:#b8a878;font-size:0.85em;letter-spacing:0.18em;text-transform:uppercase;pointer-events:none;">✕ 點擊關閉</div>';
   document.body.appendChild(lightbox);
 
-  // Click handler: tap tile → open, tap lightbox → close
   grid.addEventListener('click', function(e) {
     const tile = e.target.closest('.wp-item');
     if (tile) {
