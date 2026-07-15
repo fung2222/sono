@@ -709,7 +709,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
   async function discoverWallpapers() {
     try {
-      const res = await fetch('wallpapers-manifest.json?v=' + Date.now());
+      const res = await fetch('wallpapers-manifest-v2.json?v=' + Date.now());
       if (!res.ok) throw new Error('manifest fetch failed');
       const manifest = await res.json();
       return manifest.map(item => ({
