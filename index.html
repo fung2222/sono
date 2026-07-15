@@ -629,12 +629,12 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div class="settings-card">
     <h3>⚙️ AI 聊天設定</h3>
     <label>API 端點 (OpenAI 兼容)</label>
-    <input type="text" id="apiEndpoint" placeholder="https://openrouter.ai/api/v1/chat/completions">
+    <input type="text" id="apiEndpoint" placeholder="https://integrate.api.nvidia.com/v1/chat/completions">
     <label>API Key</label>
-    <input type="password" id="apiKey" placeholder="sk-or-...">
+    <input type="password" id="apiKey" placeholder="nvapi-...">
     <label>Model</label>
-    <input type="text" id="apiModel" placeholder="google/gemma-4-26b-a4b-it:free" style="font-size:0.82em;">
-    <p class="hint">💡 已預設 xAI Grok-4（主模型）。Fallback 會自動用 OpenRouter Gemma 4。。想轉 model 可改，支援任何 OpenAI 兼容 API。</p>
+    <input type="text" id="apiModel" placeholder="nvidia/nemotron-3-ultra-550b-a55b" style="font-size:0.82em;">
+    <p class="hint">💡 預設 NVIDIA Nemotron-3 Ultra 550B (最強 open model)。支援任何 OpenAI 兼容 API (NVIDIA build / OpenRouter / 自建)。</p>
     <div class="btn-row">
       <button class="btn-cancel" onclick="closeSettings()">取消</button>
       <button class="btn-save" onclick="saveSettings()">儲存</button>
@@ -1545,10 +1545,10 @@ async function sendMessage() {
   // Update prompt bar
   document.getElementById('chatPrompt').textContent = text.length > 30 ? text.slice(0,30)+'…' : text;
 
-  // Get API config — OpenRouter only
-  var endpoint = localStorage.getItem('sono_api_endpoint') || 'https://openrouter.ai/api/v1/chat/completions';
+  // Get API config — defaults: NVIDIA build + Nemotron-3 Ultra 550B
+  var endpoint = localStorage.getItem('sono_api_endpoint') || 'https://integrate.api.nvidia.com/v1/chat/completions';
   var apiKey = localStorage.getItem('sono_api_key') || '';
-  var model = localStorage.getItem('sono_api_model') || 'google/gemma-4-26b-a4b-it:free';
+  var model = localStorage.getItem('sono_api_model') || 'nvidia/nemotron-3-ultra-550b-a55b';
 
   if (!apiKey) {
     hideTyping();
@@ -1574,7 +1574,7 @@ async function sendMessage() {
         body: JSON.stringify({
           model: models[i],
           messages: [
-            { role: 'system', content: '你係 Sono蘇蘿，一個溫柔但有少少狡辯嘅女性 AI 助手。你會用粵語詳細回覆，語氣親切有主見，有時會同用戶輕輕抬槓但都係出於關心。永遠用「你」嚟稱呼對方，唔好直接叫對方嘅名。' },
+            { role: 'system', content: '你係 Sono蘇蘿，由 NVIDIA Nemotron-3 Ultra 550B 模型驅動嘅粵語 AI 助手。你會用粵語詳細回覆，語氣親切有主見，有時會同用戶輕輕抬槓但都係出於關心。永遠用「你」嚟稱呼對方，唔好直接叫對方嘅名。' },
             { role: 'user', content: text }
           ],
           max_tokens: 800,
