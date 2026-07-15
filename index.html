@@ -587,10 +587,13 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   // Auto-detect category from slug (slug-to-category map)
   // Add new keywords here as you add new wallpapers
   const slugCatMap = [
-    { keys: ['ufo', 'flying-saucer', 'saucer'], cat: 'ufo' },
-    { keys: ['galaxy', 'nebula', 'space', 'cosmos', 'star', 'aurora', 'orbit', 'cosmic'], cat: 'space' },
-    { keys: ['cyber', 'tech', 'circuit', 'circuitry', 'mecha', 'machine', 'robot', 'data'], cat: 'tech' },
-    { keys: ['mountain', 'ocean', 'forest', 'tree', 'sea', 'lake', 'river', 'flower', 'sky', 'cloud', 'nature', 'rain', 'snow', 'winter', 'summer', 'sunset', 'sunrise', 'morning', 'night'], cat: 'nature' }
+    { keys: ['ufo', 'flying-saucer', 'saucer', 'uap'], cat: 'ufo' },
+    { keys: ['galaxy', 'nebula', 'space', 'cosmos', 'star', 'aurora', 'orbit', 'cosmic', 'mars', 'planet', 'saturn', 'station', 'astronaut', 'deep'], cat: 'space' },
+    { keys: ['cyber', 'tech', 'circuit', 'circuitry', 'mecha', 'machine', 'robot', 'data', 'hologram', 'ai', 'artificial', 'circuit', 'board', 'neural', 'digital', 'crypto'], cat: 'tech' },
+    { keys: ['mountain', 'ocean', 'forest', 'tree', 'sea', 'lake', 'river', 'flower', 'sky', 'cloud', 'nature', 'rain', 'snow', 'winter', 'summer', 'sunset', 'sunrise', 'morning', 'night', 'fog', 'mist', 'wave', 'peak', 'hill', 'beach', 'desert'], cat: 'nature' },
+    { keys: ['quantum', 'qubit', 'superposition', 'entanglement', 'wavefunction', 'quantum-mechanics', 'hologram', 'data', 'ai', 'neural', 'superposition', 'entanglement'], cat: 'quantum' },
+    { keys: ['cosmos', 'universe', 'multiverse', 'cosmic', 'deep-space', 'void', 'mars', 'planet', 'saturn', 'stars', 'cluster', 'galaxy', 'nebula', 'deep', 'station', 'orbit', 'astronaut', 'cosmonaut'], cat: 'cosmos' },
+    { keys: ['alien', 'extraterrestrial', 'ufo', 'martian', 'spaceship', 'mothership', 'xenomorph', 'xeno', 'grey', 'reptilian', 'uap', 'saucer', 'mystery', 'unknown', 'contact'], cat: 'alien' }
   ];
 
   function detectCategory(slug) {
@@ -657,7 +660,10 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     { id: 'space', label: '太空' },
     { id: 'ufo', label: 'UFO' },
     { id: 'tech', label: '科技' },
-    { id: 'nature', label: '自然' }
+    { id: 'nature', label: '自然' },
+    { id: 'quantum', label: '量子' },
+    { id: 'cosmos', label: '宇宙' },
+    { id: 'alien', label: '外星人' }
   ];
 
   let currentCat = 'all';
