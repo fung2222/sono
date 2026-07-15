@@ -651,7 +651,6 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <!-- ══════ Tab 1: Sono 每日 ══════ -->
 <div class="tab-panel active" id="tab-daily">
 <div id="sono-daily-report">
-  <div class="section-label" style="padding-left:0;margin:8px 0 4px;">每日 AI 靚圖 · 9:16 手機桌布</div>
   <div class="wp-meta-top">
     <span class="date" id="wpDate">—</span>
     <span class="count" id="wpCount">0 張桌布</span>
@@ -691,16 +690,40 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     const dateShort = item.date.slice(5);
     const title = item.theme;
     const safePath = item.path.replace(/'/g, "\\'");
-    return '<a class="wp-item" href="' + safePath + '" download title="' + title + '">' +
+    return '<div class="wp-item" data-wp="' + safePath + '" data-title="' + title + '">' +
       '<img src="' + safePath + '" alt="' + title + ' 手機桌布" loading="lazy">' +
       '<span class="wp-theme-tag">' + title + '</span>' +
       '<div class="wp-overlay">' +
         '<div class="wp-meta">' + dateShort + ' · ' + item.num + '</div>' +
         '<div class="wp-title">' + title + '</div>' +
-        '<span class="wp-download">⬇ 下載原圖</span>' +
+        '<span class="wp-download">🔍 點擊放大</span>' +
       '</div>' +
-      '</a>';
+      '</div>';
   }).join('');
+
+  // Lightbox overlay (single instance, reused)
+  const lightbox = document.createElement('div');
+  lightbox.id = 'wpLightbox';
+  lightbox.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);justify-content:center;align-items:center;cursor:zoom-out;padding:20px;';
+  lightbox.innerHTML = '<img id="wpLightboxImg" style="max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-out;" alt=""><div style="position:absolute;top:20px;right:24px;font-family:Courier New,monospace;color:#b8a878;font-size:0.85em;letter-spacing:0.18em;text-transform:uppercase;pointer-events:none;">✕ 點擊關閉</div>';
+  document.body.appendChild(lightbox);
+
+  // Click handler: tap tile → open, tap lightbox → close
+  grid.addEventListener('click', function(e) {
+    const tile = e.target.closest('.wp-item');
+    if (tile) {
+      const path = tile.getAttribute('data-wp');
+      const title = tile.getAttribute('data-title');
+      document.getElementById('wpLightboxImg').src = path;
+      document.getElementById('wpLightboxImg').alt = title + ' 手機桌布';
+      lightbox.style.display = 'flex';
+      return;
+    }
+  });
+  lightbox.addEventListener('click', function() {
+    lightbox.style.display = 'none';
+    document.getElementById('wpLightboxImg').src = '';
+  });
 })();
 </script>
 </div>
