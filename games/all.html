@@ -4,131 +4,355 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>遊戲庫 · Sono蘇蘿</title>
+<meta name="description" content="Sono蘇蘿 · 遊戲庫 · 8 個 AI 遊戲 · 射擊、對戰、經典、益智、數字類型。">
+<meta name="theme-color" content="#0a0a1a">
+<link rel="icon" type="image/png" sizes="192x192" href="../icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; line-height: 1.6; min-height: 100vh; }
-.container { max-width: 1100px; margin: 0 auto; padding: 20px; }
-
-.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding: 12px 0; }
-.back-btn { display: inline-flex; align-items: center; gap: 6px; color: #888; text-decoration: none; font-size: 0.95em; }
-.back-btn:hover { color: #fff; }
-.title { font-size: 1.8em; font-weight: 900; background: linear-gradient(135deg, #6bff6b, #00d4ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-.category { margin-bottom: 32px; }
-.category-title { font-size: 1.1em; font-weight: 700; color: #6bff6b; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-.category-title::after { content: ''; flex: 1; height: 1px; background: rgba(107,255,107,0.2); }
-
-.game-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 14px;
+body {
+  background: #0a0a1a;
+  color: #e0e0e0;
+  font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+  line-height: 1.7;
+  min-height: 100vh;
 }
-.game-card {
-  background: #1a1a2e;
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 14px;
-  padding: 14px;
-  transition: transform 0.2s, box-shadow 0.2s;
-  text-decoration: none;
-  color: inherit;
+.container { max-width: 760px; margin: 0 auto; padding: 20px; }
+
+/* Logo (同主頁一致) */
+.logo-area { text-align: center; padding: 28px 0 6px; border-bottom: 1px solid rgba(184,168,120,0.15); }
+.logo {
+  font-family: 'Noto Serif TC', 'Source Han Serif TC', 'PingFang TC', serif;
+  font-size: 2.4em;
+  font-weight: 300;
+  color: #c8c4b8;
+  letter-spacing: 0.18em;
+  text-shadow: 0 2px 18px rgba(0,0,0,0.55);
+}
+.subtitle {
+  font-family: 'Courier New', monospace;
+  font-size: 0.74em;
+  color: #7a766c;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  margin: 8px 0 0;
+}
+
+/* Tab bar (同主頁一致) */
+.tab-bar {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 16px 0 24px;
+  padding: 14px 16px;
+  background: rgba(184,168,120,0.04);
+  border-top: 1px solid rgba(184,168,120,0.15);
+  border-bottom: 1px solid rgba(184,168,120,0.15);
 }
-.game-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-  border-color: rgba(107,255,107,0.2);
+.tab-link {
+  padding: 10px 22px;
+  border: 1px solid transparent;
+  color: #7a766c;
+  font-size: 0.95em;
+  font-family: 'PingFang TC', 'Noto Sans TC', sans-serif;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  transition: all 0.3s;
 }
+.tab-link:hover { color: #c8c4b8; border-color: rgba(184,168,120,0.2); }
+.tab-link.active { color: #c8c4b8; border-color: #b8a878; background: rgba(184,168,120,0.08); }
+
+/* Section label (同主頁一致) */
+.section-label {
+  font-size: 0.78em;
+  color: #7a766c;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 20px 0 12px;
+  padding-left: 8px;
+  border-left: 2px solid #b8a878;
+}
+
+/* Chip filter bar (8 個 chip, 滑動) */
+.chip-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 20px 0 16px;
+}
+.chip-bar {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.4rem;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.chip-bar::-webkit-scrollbar { height: 0; display: none; }
+.chip-arrow {
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(184,168,120,0.2);
+  background: transparent;
+  color: #b8a878;
+  font-size: 1.4em;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.chip-arrow:hover { border-color: #b8a878; color: #c8c4b8; background: rgba(184,168,120,0.08); }
+.chip-arrow:disabled { opacity: 0.25; cursor: not-allowed; }
+.chip {
+  padding: 7px 18px;
+  border: 1px solid rgba(184,168,120,0.2);
+  background: transparent;
+  color: #7a766c;
+  font-family: 'PingFang TC', 'Noto Sans TC', sans-serif;
+  font-size: 0.85em;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.chip:hover { color: #c8c4b8; border-color: rgba(184,168,120,0.4); }
+.chip.active { color: #c8c4b8; border-color: #b8a878; background: rgba(184,168,120,0.1); }
+
+/* Count text */
+.count-text {
+  font-family: 'Courier New', monospace;
+  font-size: 0.7em;
+  color: #5a5852;
+  text-align: right;
+  margin-bottom: 12px;
+}
+
+/* Accordion list */
+.accordion { display: flex; flex-direction: column; gap: 8px; }
+.game-item {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(184,168,120,0.12);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.game-item.open { border-color: rgba(184,168,120,0.4); }
+.game-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.game-header:hover { background: rgba(184,168,120,0.04); }
 .game-logo {
-  width: 100%;
-  height: 110px;
+  width: 44px;
+  height: 44px;
   object-fit: contain;
-  margin-bottom: 10px;
-  background: #11111f;
-  border-radius: 10px;
-  padding: 12px;
+  background: #0a0a1a;
+  border-radius: 8px;
+  padding: 4px;
+  flex-shrink: 0;
 }
-.game-name { font-size: 1.05em; font-weight: 700; margin-bottom: 4px; }
+.game-info { flex: 1; min-width: 0; }
+.game-name {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.05em;
+  color: #c8c4b8;
+  font-weight: 400;
+  margin-bottom: 4px;
+}
 .game-tag {
   display: inline-block;
-  font-size: 0.72em;
-  padding: 2px 9px;
-  border-radius: 20px;
-  background: rgba(107,255,107,0.12);
-  color: #6bff6b;
-  margin-top: auto;
-  align-self: flex-start;
+  font-family: 'Courier New', monospace;
+  font-size: 0.65em;
+  color: #0a0a1a;
+  background: #b8a878;
+  padding: 2px 8px;
+  border-radius: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.game-chevron {
+  width: 18px;
+  height: 18px;
+  color: #7a766c;
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.game-item.open .game-chevron { transform: rotate(180deg); color: #b8a878; }
+.game-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+.game-item.open .game-body { max-height: 500px; }
+.game-body-inner {
+  padding: 0 20px 20px 78px;
+  font-size: 0.9em;
+  color: #a8a39a;
+  line-height: 1.7;
+}
+.game-desc { margin-bottom: 12px; }
+.game-play-btn {
+  display: inline-block;
+  padding: 8px 18px;
+  background: transparent;
+  color: #b8a878;
+  border: 1px solid #b8a878;
+  font-family: 'Courier New', monospace;
+  font-size: 0.78em;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.2s;
+  border-radius: 0;
+}
+.game-play-btn:hover { background: #b8a878; color: #0a0a1a; }
+.game-play-btn.disabled { opacity: 0.4; cursor: not-allowed; border-color: rgba(184,168,120,0.4); }
+.game-play-btn.disabled:hover { background: transparent; color: #b8a878; }
+
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  color: #5a5852;
+  font-size: 0.78em;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin-top: 60px;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.12em;
+}
+
+@media (max-width: 600px) {
+  .game-header { padding: 12px 14px; }
+  .game-logo { width: 38px; height: 38px; }
+  .game-body-inner { padding: 0 14px 16px 14px; }
 }
 </style>
 </head>
 <body>
 <div class="container">
-  <div class="header">
-    <a href="../index.html" class="back-btn">← 返回 Sono</a>
-    <div class="title">遊戲庫</div>
+  <div class="logo-area">
+    <div class="logo">Sono蘇蘿</div>
+    <div class="subtitle">科技與未來 · 太空與超自然</div>
   </div>
 
-  <!-- 經典遊戲 -->
-  <div class="category">
-    <div class="category-title">🎮 經典遊戲</div>
-    <div class="game-grid">
-      <a href="../snake/" class="game-card">
-        <img src="snake.svg" class="game-logo" alt="貪食蛇">
-        <div class="game-name">貪食蛇</div>
-        <div class="game-tag">經典</div>
-      </a>
-      <a href="../2048/" class="game-card">
-        <img src="2048.svg" class="game-logo" alt="2048">
-        <div class="game-name">2048</div>
-        <div class="game-tag">數字</div>
-      </a>
-    </div>
+  <div class="tab-bar">
+    <a href="../" class="tab-link">← 返回主頁</a>
   </div>
 
-  <!-- 對戰遊戲 -->
-  <div class="category">
-    <div class="category-title">⚔️ 對戰遊戲</div>
-    <div class="game-grid">
-      <a href="../games/cyber-ninja-vs-monster/" class="game-card">
-        <img src="cyber-ninja-vs-monster.svg" class="game-logo" alt="Cyber Ninja vs Cosmic Monster">
-        <div class="game-name">Cyber Ninja vs Cosmic Monster</div>
-        <div class="game-tag">射擊</div>
-      </a>
-      <a href="../fighter/" class="game-card">
-        <img src="stickman-fighter.svg" class="game-logo" alt="Stickman Fighter">
-        <div class="game-name">Stickman Fighter</div>
-        <div class="game-tag">對戰</div>
-      </a>
-      <a href="../stickman-fighter-v1/" class="game-card">
-        <img src="stickman-fighter-v1.svg" class="game-logo" alt="Stickman Fighter v1">
-        <div class="game-name">Stickman Fighter v1</div>
-        <div class="game-tag">對戰</div>
-      </a>
-      <a href="../rps-battle/" class="game-card">
-        <img src="rock-paper-scissors.svg" class="game-logo" alt="剪刀石頭佈">
-        <div class="game-name">剪刀石頭佈</div>
-        <div class="game-tag">對戰</div>
-      </a>
-      <a href="../tictactoe/" class="game-card">
-        <img src="xo-three-doors.svg" class="game-logo" alt="井字遊戲">
-        <div class="game-name">井字遊戲</div>
-        <div class="game-tag">對戰</div>
-      </a>
-    </div>
+  <div class="section-label">遊戲庫 · 8 個 AI 遊戲</div>
+
+  <!-- Chip filter bar (滑動) -->
+  <div class="chip-bar-wrap">
+    <button class="chip-arrow chip-arrow-left" type="button" aria-label="向左滑">‹</button>
+    <div class="chip-bar" id="chipBar"></div>
+    <button class="chip-arrow chip-arrow-right" type="button" aria-label="向右滑">›</button>
   </div>
 
-  <!-- 益智遊戲 -->
-  <div class="category">
-    <div class="category-title">🧠 益智遊戲</div>
-    <div class="game-grid">
-      <a href="../memory/" class="game-card">
-        <img src="memory-match.svg" class="game-logo" alt="記憶配對">
-        <div class="game-name">記憶配對</div>
-        <div class="game-tag">益智</div>
-      </a>
-    </div>
-  </div>
+  <div class="count-text" id="countText">— 個遊戲</div>
 
+  <!-- Accordion list -->
+  <div class="accordion" id="accordionList"></div>
+
+  <div class="footer">© Sono蘇蘿 · 簡約低飽和度設計 · 遊戲庫</div>
 </div>
+
+<script>
+(function() {
+  // 遊戲資料 (8 個遊戲, 5 個 category)
+  const games = [
+    { name: 'Cyber Ninja vs Cosmic Monster', tag: '射擊', cat: 'shoot',   desc: '生化機械人斬怪獸 · 狂暴亂射 · 大蕉招「銀河終焉斬」 · 多 wave 推進', svg: 'cyber-ninja-vs-monster.svg', href: '../games/cyber-ninja-vs-monster/', subpage: true },
+    { name: 'Stickman Fighter',              tag: '對戰', cat: 'fight',   desc: '經典 Stickman 對戰 · 普通版 · 流暢動畫 · 鍵盤操作', svg: 'stickman-fighter.svg', href: '../games/stickman-fighter/', subpage: false },
+    { name: 'Stickman Fighter v1',           tag: '對戰', cat: 'fight',   desc: 'Stickman 對戰 v1 版 · 強化動畫 · 新角色 · 進階操作', svg: 'stickman-fighter-v1.svg', href: '../games/stickman-fighter-v1/', subpage: false },
+    { name: '2048',                          tag: '數字', cat: 'number',  desc: '數字合併 · 滑動方塊合併相同數字 · 挑戰 2048 目標 · 鍵盤+觸屏雙控', svg: '2048.svg', href: '../games/2048/', subpage: false },
+    { name: '井字遊戲',                      tag: '益智', cat: 'puzzle',  desc: '經典井字過三關 · 雙人對戰或 AI 對手 · 3x3 棋盤 · 簡單有趣', svg: 'xo-three-doors.svg', href: '../games/tictactoe/', subpage: false },
+    { name: '記憶配對',                      tag: '益智', cat: 'puzzle',  desc: '翻牌配對遊戲 · 訓練記憶力 · 多關卡難度 · 計時挑戰', svg: 'memory-match.svg', href: '../games/memory/', subpage: true },
+    { name: '剪刀石頭佈',                    tag: '經典', cat: 'classic', desc: '剪刀石頭佈 · 火柴人動畫對戰 · 搞笑語音 · 三局兩勝制', svg: 'rock-paper-scissors.svg', href: '../games/rps-battle/', subpage: false },
+    { name: '貪食蛇',                        tag: '經典', cat: 'classic', desc: '經典貪食蛇 · 控制蛇移動 · 吃蘋果變長 · 避開自己', svg: 'snake.svg', href: '../games/snake/', subpage: false }
+  ];
+
+  // 5 個 chip categories
+  const categories = [
+    { id: 'all',     label: '全部' },
+    { id: 'shoot',   label: '射擊' },
+    { id: 'fight',   label: '對戰' },
+    { id: 'puzzle',  label: '益智' },
+    { id: 'number',  label: '數字' },
+    { id: 'classic', label: '經典' }
+  ];
+
+  let currentCat = 'all';
+  let openId = null;
+
+  function getFiltered() {
+    if (currentCat === 'all') return games;
+    return games.filter(g => g.cat === currentCat);
+  }
+
+  function renderChipBar() {
+    const bar = document.getElementById('chipBar');
+    bar.innerHTML = categories.map(c =>
+      '<button class="chip' + (c.id === currentCat ? ' active' : '') + '" data-cat="' + c.id + '">' + c.label + '</button>'
+    ).join('');
+    bar.querySelectorAll('.chip').forEach(btn => {
+      btn.addEventListener('click', function() {
+        currentCat = this.getAttribute('data-cat');
+        renderChipBar();
+        renderAccordion();
+        updateCount();
+      });
+    });
+  }
+
+  function updateCount() {
+    const filtered = getFiltered();
+    document.getElementById('countText').textContent = filtered.length + ' 個遊戲';
+  }
+
+  function renderAccordion() {
+    const list = document.getElementById('accordionList');
+    const filtered = getFiltered();
+    list.innerHTML = filtered.map((g, i) => {
+      const isOpen = openId === g.name;
+      const descClass = g.subpage ? '' : ' class="game-play-btn disabled"';
+      return '<div class="game-item' + (isOpen ? ' open' : '') + '">' +
+        '<div class="game-header" data-name="' + g.name + '">' +
+          '<img src="' + g.svg + '" class="game-logo" alt="' + g.name + '">' +
+          '<div class="game-info">' +
+            '<div class="game-name">' + g.name + '</div>' +
+            '<span class="game-tag">' + g.tag + '</span>' +
+          '</div>' +
+          '<svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>' +
+        '</div>' +
+        '<div class="game-body"><div class="game-body-inner">' +
+          '<div class="game-desc">' + g.desc + '</div>' +
+          '<a href="' + g.href + '"' + descClass + '>🎮 立即遊玩</a>' +
+        '</div></div>' +
+      '</div>';
+    }).join('');
+    list.querySelectorAll('.game-header').forEach(h => {
+      h.addEventListener('click', function() {
+        const name = this.getAttribute('data-name');
+        openId = (openId === name) ? null : name;
+        renderAccordion();
+      });
+    });
+  }
+
+  renderChipBar();
+  renderAccordion();
+  updateCount();
+})();
+</script>
 </body>
 </html>
