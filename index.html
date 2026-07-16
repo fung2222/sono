@@ -775,141 +775,107 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <!-- ══════ Tab 2: Sono 遊戲 ══════ -->
 <div class="tab-panel" id="tab-games">
   <div class="section-label">🎮 AI遊戲</div>
-  
-  <div class="game-list">
-    <!-- ── Cyber Ninja vs Cosmic Monster ── -->
-    <div class="game-item">
-      <div class="game-header" onclick="toggleGame(this)">
-        <img src="games/cyber-ninja-vs-monster.svg" class="game-logo" alt="Cyber Ninja vs Cosmic Monster" loading="lazy">
-        <div class="game-info">
-          <span class="game-name">Cyber Ninja vs Cosmic Monster</span>
-          <span class="game-tag">射擊</span>
-        </div>
-        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="game-body">
-        <p class="game-desc">生化機械人斬怪獸 · 狂暴亂射 · 大蕉招「銀河終焉斬」 · 多 wave 推進</p>
-        <a href="games/cyber-ninja-vs-monster/" class="game-play-btn">🎮 立即遊玩</a>
-      </div>
-    </div>
 
-    <!-- ── 猜拳火柴人 ── -->
-    <div class="game-item">
-      <div class="game-header" onclick="toggleGame(this)">
-        <img src="games/rock-paper-scissors.svg" class="game-logo" alt="猜拳火柴人" loading="lazy">
-        <div class="game-info">
-          <span class="game-name">猜拳火柴人</span>
-          <span class="game-tag">派對</span>
-        </div>
-        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="game-body">
-        <p class="game-desc">剪刀石頭佈 · 火柴人動畫對戰 · 搞笑語音 · 三局兩勝制</p>
-        <a href="rps-battle/" class="game-play-btn">🎮 立即遊玩</a>
-      </div>
-    </div>
-
-    <!-- ── Stickman Fighter (普通版) ── -->
-    <div class="game-item">
-      <div class="game-header" onclick="toggleGame(this)">
-        <img src="games/stickman-fighter.svg" class="game-logo" alt="Stickman Fighter" loading="lazy">
-        <div class="game-info">
-          <span class="game-name">Stickman Fighter</span>
-          <span class="game-tag">對戰</span>
-        </div>
-        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="game-body">
-        <p class="game-desc">經典 Stickman 對戰 · 普通版 · 流暢動畫 · 鍵盤操作</p>
-        <a href="fighter/" class="game-play-btn">🎮 立即遊玩</a>
-      </div>
-    </div>
-
-    <!-- ── Stickman Fighter v1 ── -->
-    <div class="game-item">
-      <div class="game-header" onclick="toggleGame(this)">
-        <img src="games/stickman-fighter-v1.svg" class="game-logo" alt="Stickman Fighter v1" loading="lazy">
-        <div class="game-info">
-          <span class="game-name">Stickman Fighter v1</span>
-          <span class="game-tag">對戰</span>
-        </div>
-        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="game-body">
-        <p class="game-desc">Stickman 對戰 v1 版 · 強化動畫 · 新角色 · 進階操作</p>
-        <a href="stickman-fighter-v1/" class="game-play-btn">🎮 立即遊玩</a>
-      </div>
-    </div>
-
-    <!-- ── 貪食蛇 ── -->
-    <div class="game-item">
-      <div class="game-header" onclick="toggleGame(this)">
-        <img src="games/snake.svg" class="game-logo" alt="貪食蛇" loading="lazy">
-        <div class="game-info">
-          <span class="game-name">貪食蛇</span>
-          <span class="game-tag">街機</span>
-        </div>
-        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="game-body">
-        <p class="game-desc">經典貪食蛇 · 控制蛇移動 · 吃蘋果變長 · 避開自己</p>
-        <a href="snake/" class="game-play-btn">🎮 立即遊玩</a>
-      </div>
-    </div>
-
-    <!-- ── 2048 ── -->
-    <div class="game-item">
-      <div class="game-header" onclick="toggleGame(this)">
-        <img src="games/2048.svg" class="game-logo" alt="2048" loading="lazy">
-        <div class="game-info">
-          <span class="game-name">2048</span>
-          <span class="game-tag">益智</span>
-        </div>
-        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="game-body">
-        <p class="game-desc">數字合併 · 滑動方塊合併相同數字 · 挑戰 2048 目標 · 鍵盤+觸屏雙控</p>
-        <a href="2048/" class="game-play-btn">🎮 立即遊玩</a>
-      </div>
-    </div>
-
-    <!-- ── XO過三關 ── -->
-    <div class="game-item">
-      <div class="game-header" onclick="toggleGame(this)">
-        <img src="games/xo-three-doors.svg" class="game-logo" alt="XO過三關" loading="lazy">
-        <div class="game-info">
-          <span class="game-name">XO過三關</span>
-          <span class="game-tag">策略</span>
-        </div>
-        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="game-body">
-        <p class="game-desc">井字棋變奏 · 三關挑戰 · 策略思考 · 雙人對戰</p>
-        <a href="xo-three-doors/" class="game-play-btn">🎮 立即遊玩</a>
-      </div>
-    </div>
-
-    <!-- ── 記憶配對 ── -->
-    <div class="game-item">
-      <div class="game-header" onclick="toggleGame(this)">
-        <img src="games/memory-match.svg" class="game-logo" alt="記憶配對" loading="lazy">
-        <div class="game-info">
-          <span class="game-name">記憶配對</span>
-          <span class="game-tag">智力</span>
-        </div>
-        <svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="game-body">
-        <p class="game-desc">翻卡配對 · 考你記憶力 · 簡單/困難模式 · 計時挑戰</p>
-        <a href="memory/" class="game-play-btn">🎮 立即遊玩</a>
-      </div>
-    </div>
-
-    <div style="text-align:center; margin:12px 0 4px;">
-      <a href="games/all.html" style="color:#6bff6b; text-decoration:none; font-weight:700; font-size:0.95em;">全部遊戲 →</a>
-    </div>
+  <!-- Chip filter bar (滑動選單) -->
+  <div class="wp-cat-bar-wrap">
+    <button class="wp-cat-arrow wp-cat-arrow-left" type="button" aria-label="向左滑">‹</button>
+    <div class="wp-cat-bar" id="gameChipBar"></div>
+    <button class="wp-cat-arrow wp-cat-arrow-right" type="button" aria-label="向右滑">›</button>
   </div>
+
+  <div class="wp-meta-top">
+    <span class="count" id="gameCount">— 個遊戲</span>
+  </div>
+
+  <!-- 風琴 (accordion) 遊戲列表 -->
+  <div class="game-accordion" id="gameAccordion"></div>
 </div>
+
+<script>
+(function() {
+  // 8 個遊戲 + 5 個 category
+  const games = [
+    { name: 'Cyber Ninja vs Cosmic Monster', tag: '射擊', cat: 'shoot',   desc: '生化機械人斬怪獸 · 狂暴亂射 · 大蕉招「銀河終焉斬」 · 多 wave 推進', svg: 'games/cyber-ninja-vs-monster.svg', href: 'games/cyber-ninja-vs-monster/' },
+    { name: '猜拳火柴人',                     tag: '派對', cat: 'party',   desc: '剪刀石頭佈 · 火柴人動畫對戰 · 搞笑語音 · 三局兩勝制', svg: 'games/rock-paper-scissors.svg', href: 'rps-battle/' },
+    { name: 'Stickman Fighter',                tag: '對戰', cat: 'fight',   desc: '經典 Stickman 對戰 · 普通版 · 流暢動畫 · 鍵盤操作', svg: 'games/stickman-fighter.svg', href: 'fighter/' },
+    { name: 'Stickman Fighter v1',             tag: '對戰', cat: 'fight',   desc: 'Stickman 對戰 v1 版 · 強化動畫 · 新角色 · 進階操作', svg: 'games/stickman-fighter-v1.svg', href: 'stickman-fighter-v1/' },
+    { name: '貪食蛇',                         tag: '街機', cat: 'arcade',  desc: '經典貪食蛇 · 控制蛇移動 · 吃蘋果變長 · 避開自己', svg: 'games/snake.svg', href: 'snake/' },
+    { name: '2048',                            tag: '益智', cat: 'puzzle',  desc: '數字合併 · 滑動方塊合併相同數字 · 挑戰 2048 目標 · 鍵盤+觸屏雙控', svg: 'games/2048.svg', href: '2048/' },
+    { name: 'XO過三關',                        tag: '益智', cat: 'puzzle',  desc: '井字棋變奏 · 三關挑戰 · 策略思考 · 雙人對戰', svg: 'games/xo-three-doors.svg', href: 'tictactoe/' },
+    { name: '記憶配對',                        tag: '益智', cat: 'puzzle',  desc: '翻卡配對 · 考你記憶力 · 簡單/困難模式 · 計時挑戰', svg: 'games/memory-match.svg', href: 'memory/' }
+  ];
+
+  const categories = [
+    { id: 'all',    label: '全部' },
+    { id: 'shoot',  label: '射擊' },
+    { id: 'party',  label: '派對' },
+    { id: 'fight',  label: '對戰' },
+    { id: 'arcade', label: '街機' },
+    { id: 'puzzle', label: '益智' }
+  ];
+
+  let currentCat = 'all';
+  let openId = null;
+
+  function getFiltered() {
+    if (currentCat === 'all') return games;
+    return games.filter(g => g.cat === currentCat);
+  }
+
+  function renderChipBar() {
+    const bar = document.getElementById('gameChipBar');
+    bar.innerHTML = categories.map(c =>
+      '<button class="wp-chip' + (c.id === currentCat ? ' active' : '') + '" data-cat="' + c.id + '">' + c.label + '</button>'
+    ).join('');
+    bar.querySelectorAll('.wp-chip').forEach(btn => {
+      btn.addEventListener('click', function() {
+        currentCat = this.getAttribute('data-cat');
+        renderChipBar();
+        renderAccordion();
+        updateCount();
+      });
+    });
+  }
+
+  function updateCount() {
+    const filtered = getFiltered();
+    document.getElementById('gameCount').textContent = filtered.length + ' 個遊戲';
+  }
+
+  function renderAccordion() {
+    const list = document.getElementById('gameAccordion');
+    const filtered = getFiltered();
+    list.innerHTML = filtered.map(g => {
+      const isOpen = openId === g.name;
+      return '<div class="game-item' + (isOpen ? ' open' : '') + '">' +
+        '<div class="game-header" data-name="' + g.name + '">' +
+          '<img src="' + g.svg + '" class="game-logo" alt="' + g.name + '" loading="lazy">' +
+          '<div class="game-info">' +
+            '<span class="game-name">' + g.name + '</span>' +
+            '<span class="game-tag">' + g.tag + '</span>' +
+          '</div>' +
+          '<svg class="game-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>' +
+        '</div>' +
+        '<div class="game-body">' +
+          '<p class="game-desc">' + g.desc + '</p>' +
+          '<a href="' + g.href + '" class="game-play-btn">🎮 立即遊玩</a>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+    list.querySelectorAll('.game-header').forEach(h => {
+      h.addEventListener('click', function() {
+        const name = this.getAttribute('data-name');
+        openId = (openId === name) ? null : name;
+        renderAccordion();
+      });
+    });
+  }
+
+  renderChipBar();
+  renderAccordion();
+  updateCount();
+})();
+</script>
 <!-- ══════ Tab 3: Sono 工具箱 ══════ -->
 <div class="tab-panel" id="tab-toolbox">
   <div class="section-label">🛠️ 實用工具</div>
