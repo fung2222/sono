@@ -1135,11 +1135,11 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     { name: '世界時鐘',   svg: '⏰', cat: 'utility', trigger: 'worldClockTrigger' },
     { name: 'QR Code',   svg: '📱', cat: 'utility', trigger: 'qrTrigger' },
     { name: '世界地圖',   svg: '🗺️', cat: 'utility', trigger: 'mapTrigger' },
-    { name: '番茄計時',   svg: '⏱️', cat: 'utility', trigger: 'timerTrigger' },
     { name: 'MTR 查詢',   svg: '🚇', cat: 'utility', trigger: 'mtrTrigger' },
     // 計算
     { name: '貨幣匯率',   svg: '💰', cat: 'calc', trigger: 'currencyTrigger' },
     { name: 'BMI 計算',   svg: '🏋️', cat: 'calc', trigger: 'bmiTrigger' },
+    { name: '番茄計時',   svg: '⏱️', cat: 'calc', trigger: 'timerTrigger' },
     // 娛樂
     { name: '靈體探測',   svg: '👻', cat: 'fun', trigger: 'ghostTrigger' },
     { name: '命運輪盤',   svg: '🎲', cat: 'fun', trigger: 'wheelTrigger' },
@@ -2329,28 +2329,42 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
 <!-- ══════ Pomodoro Timer Modal ══════ -->
 <div id="timerModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
-  <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a2e);border-radius:16px;max-width:400px;width:100%;padding:24px;border:1px solid rgba(255,107,155,0.2);max-height:90vh;overflow-y:auto;">
+  <div style="background:rgba(13,10,26,0.98);border-radius:0;max-width:400px;width:100%;padding:24px;border:1px solid rgba(184,168,120,0.3);max-height:90vh;overflow-y:auto;font-family:system-ui,-apple-system,'PingFang TC',sans-serif;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-      <h2 style="font-size:1.3em;color:#fff;">⏱️ 番茄計時器</h2>
-      <button id="timerClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <h2 style="font-size:1.15em;color:#c8c4b8;font-weight:400;letter-spacing:0.06em;">⏱️ 番茄計時器</h2>
+      <button id="timerClose" type="button" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(184,168,120,0.15);color:#b8a878;font-size:1.1em;cursor:pointer;">✕</button>
     </div>
     
-    <div id="timerDisplay" style="text-align:center;font-size:4em;font-weight:900;color:#fff;letter-spacing:4px;margin:20px 0;font-variant-numeric:tabular-nums;">25:00</div>
+    <div id="timerDisplay" style="text-align:center;font-size:3.6em;font-weight:300;color:#fff;letter-spacing:4px;margin:16px 0;font-variant-numeric:tabular-nums;font-family:'Courier New',monospace;">25:00</div>
     
-    <div id="timerLabel" style="text-align:center;color:#888;font-size:0.85em;margin-bottom:16px;">🍅 專注模式</div>
+    <div id="timerLabel" style="text-align:center;color:#7a766c;font-size:0.8em;margin-bottom:16px;font-family:'Courier New',monospace;letter-spacing:0.08em;">🍅 專注模式</div>
     
-    <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;flex-wrap:wrap;">
-      <button class="timer-preset active" data-min="25" data-label="🍅 專注" style="padding:8px 14px;border:1px solid #333;border-radius:20px;background:rgba(255,107,155,0.15);color:#ff6b9d;font-size:0.8em;cursor:pointer;">🍅 25分</button>
-      <button class="timer-preset" data-min="5" data-label="☕ 小休" style="padding:8px 14px;border:1px solid #333;border-radius:20px;background:transparent;color:#888;font-size:0.8em;cursor:pointer;">☕ 5分</button>
-      <button class="timer-preset" data-min="15" data-label="🛌 大休" style="padding:8px 14px;border:1px solid #333;border-radius:20px;background:transparent;color:#888;font-size:0.8em;cursor:pointer;">🛌 15分</button>
+    <div style="display:flex;gap:8px;justify-content:center;margin-bottom:12px;flex-wrap:wrap;">
+      <button class="timer-preset active" data-min="25" data-label="🍅 專注" type="button" style="padding:8px 14px;border:1px solid rgba(184,168,120,0.45);border-radius:0;background:rgba(184,168,120,0.15);color:#b8a878;font-size:0.8em;cursor:pointer;font-family:inherit;">🍅 25分</button>
+      <button class="timer-preset" data-min="5" data-label="☕ 小休" type="button" style="padding:8px 14px;border:1px solid rgba(184,168,120,0.2);border-radius:0;background:transparent;color:#7a766c;font-size:0.8em;cursor:pointer;font-family:inherit;">☕ 5分</button>
+      <button class="timer-preset" data-min="15" data-label="🛌 大休" type="button" style="padding:8px 14px;border:1px solid rgba(184,168,120,0.2);border-radius:0;background:transparent;color:#7a766c;font-size:0.8em;cursor:pointer;font-family:inherit;">🛌 15分</button>
+      <button class="timer-preset" data-min="custom" data-label="⚙️ 自定" type="button" style="padding:8px 14px;border:1px solid rgba(184,168,120,0.2);border-radius:0;background:transparent;color:#7a766c;font-size:0.8em;cursor:pointer;font-family:inherit;">⚙️ 自定</button>
+    </div>
+
+    <!-- 自定計時 -->
+    <div id="timerCustomRow" style="display:none;margin:0 0 16px;padding:14px;border:1px solid rgba(184,168,120,0.2);background:rgba(184,168,120,0.04);">
+      <div style="color:#7a766c;font-size:0.75em;margin-bottom:10px;font-family:'Courier New',monospace;letter-spacing:0.06em;">自定長度</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <input id="timerCustomMin" type="number" min="0" max="180" value="30" style="width:72px;padding:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,168,120,0.25);border-radius:0;color:#fff;font-size:1em;font-family:inherit;outline:none;text-align:center;">
+        <span style="color:#7a766c;font-size:0.85em;">分</span>
+        <input id="timerCustomSec" type="number" min="0" max="59" value="0" style="width:72px;padding:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,168,120,0.25);border-radius:0;color:#fff;font-size:1em;font-family:inherit;outline:none;text-align:center;">
+        <span style="color:#7a766c;font-size:0.85em;">秒</span>
+        <button id="timerCustomApply" type="button" style="flex:1;min-width:80px;padding:10px 14px;border:1px solid #b8a878;border-radius:0;background:transparent;color:#b8a878;font-size:0.85em;cursor:pointer;font-family:'Courier New',monospace;letter-spacing:0.08em;">套用</button>
+      </div>
+      <p style="color:#555;font-size:0.68em;margin-top:10px;line-height:1.5;">最長 180 分 · 最短 1 秒</p>
     </div>
     
     <div style="display:flex;gap:8px;justify-content:center;">
-      <button id="timerStart" style="flex:1;padding:12px;border:none;border-radius:25px;background:linear-gradient(135deg,#ff6b9d,#c44569);color:#fff;font-size:1em;cursor:pointer;font-weight:700;">▶ 開始</button>
-      <button id="timerReset" style="width:50px;padding:12px;border:1px solid #333;border-radius:25px;background:transparent;color:#888;font-size:1em;cursor:pointer;">↺</button>
+      <button id="timerStart" type="button" style="flex:1;padding:12px;border:1px solid #b8a878;border-radius:0;background:transparent;color:#b8a878;font-size:0.95em;cursor:pointer;font-family:'Courier New',monospace;letter-spacing:0.1em;">▶ 開始</button>
+      <button id="timerReset" type="button" style="width:50px;padding:12px;border:1px solid rgba(184,168,120,0.25);border-radius:0;background:transparent;color:#7a766c;font-size:1em;cursor:pointer;">↺</button>
     </div>
     
-    <p style="text-align:center;color:#555;font-size:0.7em;margin-top:14px;">專注 25 分鐘 → 小休 5 分鐘 → 專注 25 分鐘 → 大休 15 分鐘</p>
+    <p style="text-align:center;color:#555;font-size:0.7em;margin-top:14px;line-height:1.6;">專注 25 分鐘 → 小休 5 分鐘 → 大休 15 分鐘 · 亦可自定</p>
   </div>
 </div>
 
@@ -2515,6 +2529,10 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   var label = document.getElementById('timerLabel');
   var startBtn = document.getElementById('timerStart');
   var resetBtn = document.getElementById('timerReset');
+  var customRow = document.getElementById('timerCustomRow');
+  var customMin = document.getElementById('timerCustomMin');
+  var customSec = document.getElementById('timerCustomSec');
+  var customApply = document.getElementById('timerCustomApply');
   var interval = null;
   var totalSec = 25 * 60;
   var remaining = totalSec;
@@ -2534,7 +2552,47 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     if(interval){ clearInterval(interval); interval = null; }
     running = false;
     startBtn.textContent = '▶ 開始';
-    startBtn.style.background = 'linear-gradient(135deg,#ff6b9d,#c44569)';
+    startBtn.style.background = 'transparent';
+    startBtn.style.color = '#b8a878';
+    startBtn.style.borderColor = '#b8a878';
+  }
+
+  function setPresetActive(btn){
+    document.querySelectorAll('.timer-preset').forEach(function(b){
+      b.classList.remove('active');
+      b.style.background = 'transparent';
+      b.style.color = '#7a766c';
+      b.style.borderColor = 'rgba(184,168,120,0.2)';
+    });
+    if(btn){
+      btn.classList.add('active');
+      btn.style.background = 'rgba(184,168,120,0.15)';
+      btn.style.color = '#b8a878';
+      btn.style.borderColor = 'rgba(184,168,120,0.45)';
+    }
+  }
+
+  function applySeconds(sec, modeLabel){
+    sec = Math.max(1, Math.min(180 * 60, sec|0));
+    stopTimer();
+    totalSec = sec;
+    remaining = totalSec;
+    label.textContent = (modeLabel || '⚙️ 自定') + '模式';
+    updateDisplay();
+  }
+
+  function readCustomSeconds(){
+    var mins = parseInt(customMin.value, 10);
+    var secs = parseInt(customSec.value, 10);
+    if(isNaN(mins) || mins < 0) mins = 0;
+    if(isNaN(secs) || secs < 0) secs = 0;
+    if(mins > 180) mins = 180;
+    if(secs > 59) secs = 59;
+    customMin.value = mins;
+    customSec.value = secs;
+    var total = mins * 60 + secs;
+    if(total < 1) total = 1;
+    return total;
   }
 
   function playBeep(){
@@ -2560,9 +2618,15 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       stopTimer();
       return;
     }
+    // 若自定列開住，開始前先讀取最新數值
+    if(customRow && customRow.style.display !== 'none'){
+      applySeconds(readCustomSeconds(), '⚙️ 自定');
+    }
+    if(remaining <= 0) remaining = totalSec;
     running = true;
     startBtn.textContent = '⏸ 暫停';
-    startBtn.style.background = 'linear-gradient(135deg,#ffd93d,#ff8c00)';
+    startBtn.style.background = 'rgba(184,168,120,0.15)';
+    startBtn.style.color = '#c8c4b8';
     interval = setInterval(function(){
       remaining--;
       updateDisplay();
@@ -2581,22 +2645,25 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
   document.querySelectorAll('.timer-preset').forEach(function(btn){
     btn.onclick = function(){
-      document.querySelectorAll('.timer-preset').forEach(function(b){
-        b.classList.remove('active');
-        b.style.background = 'transparent';
-        b.style.color = '#888';
-      });
-      this.classList.add('active');
-      this.style.background = 'rgba(255,107,155,0.15)';
-      this.style.color = '#ff6b9d';
-      stopTimer();
-      totalSec = parseInt(this.dataset.min) * 60;
-      remaining = totalSec;
-      label.textContent = this.dataset.label + '模式';
-      updateDisplay();
+      var minAttr = this.dataset.min;
+      setPresetActive(this);
+      if(minAttr === 'custom'){
+        if(customRow) customRow.style.display = 'block';
+        applySeconds(readCustomSeconds(), this.dataset.label);
+        return;
+      }
+      if(customRow) customRow.style.display = 'none';
+      applySeconds(parseInt(minAttr, 10) * 60, this.dataset.label);
     };
   });
 
+  if(customApply){
+    customApply.onclick = function(){
+      var customBtn = document.querySelector('.timer-preset[data-min="custom"]');
+      setPresetActive(customBtn);
+      applySeconds(readCustomSeconds(), '⚙️ 自定');
+    };
+  }
   updateDisplay();
 })();
 
