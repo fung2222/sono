@@ -186,6 +186,19 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .game-play-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; background: transparent; color: #b8a878; border: 1px solid rgba(184,168,120,0.55); border-radius: 0; font-size: 0.75em; font-weight: 400; font-family: 'Courier New', monospace; letter-spacing: 0.1em; text-decoration: none; transition: all 0.2s; }
 .game-play-btn:hover { background: #b8a878; color: #0a0a1a; border-color: #b8a878; }
 
+/* ══════ Tools App Grid（手機主畫面風格 · 跟桌布） ══════ */
+.apps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px 6px; padding: 8px 0 24px; }
+.app-card { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px 2px; cursor: pointer; border-radius: 8px; transition: background 0.2s; -webkit-tap-highlight-color: transparent; }
+.app-card:hover { background: rgba(184,168,120,0.08); }
+.app-card:active { background: rgba(184,168,120,0.16); }
+.app-card.disabled { opacity: 0.4; cursor: not-allowed; }
+.app-icon { width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; font-size: 1.85em; background: rgba(184,168,120,0.08); border: 1px solid rgba(184,168,120,0.22); border-radius: 14px; line-height: 1; }
+.app-label { font-size: 0.72em; color: #c8c4b8; text-align: center; line-height: 1.25; letter-spacing: 0.02em; word-break: keep-all; max-width: 72px; }
+.app-group-label { font-family: 'Courier New', monospace; font-size: 0.72em; color: #7a766c; text-transform: uppercase; letter-spacing: 0.1em; padding: 14px 4px 6px; border-bottom: 1px solid rgba(184,168,120,0.12); margin: 4px 0 2px; grid-column: 1 / -1; }
+.app-empty { text-align: center; padding: 40px 12px; color: #7a766c; font-family: 'Courier New', monospace; font-size: 0.85em; letter-spacing: 0.06em; }
+/* hidden native triggers — keep DOM for existing modal openers */
+.tool-triggers-hidden { position: absolute; width: 0; height: 0; overflow: hidden; opacity: 0; pointer-events: none; }
+
 .section-label { font-size: 0.78em; color: #7a766c; text-transform: uppercase; letter-spacing: 0.08em; margin: 16px 0 10px; padding-left: 4px; font-family: 'Courier New', monospace; }
 
 /* ── Sono 桌布 (Wallpaper Gallery) ── */
@@ -1066,128 +1079,215 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 </script>
 <!-- ══════ Tab 3: Sono 工具箱 ══════ -->
 <div class="tab-panel" id="tab-toolbox">
-  <div class="section-label">🛠️ 實用工具</div>
-  <div class="tool-grid">
-    <div class="card tool-sm" id="weatherTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">🌤️</span></div>
-      <span class="ts-label">全球天氣</span>
-    </div>
-    <div class="card tool-sm" id="currencyTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">💰</span></div>
-      <span class="ts-label">貨幣匯率</span>
-    </div>
-    <div class="card tool-sm disabled" id="searchTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">🔍</span></div>
-      <span class="ts-label">Sono 搜尋</span>
-      <span style="font-size:0.62em;color:#7a766c;margin-top:3px;">開發中</span>
-    </div>
-    <div class="card tool-sm disabled" id="translateTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">🌐</span></div>
-      <span class="ts-label">AI 翻譯</span>
-      <span style="font-size:0.62em;color:#7a766c;margin-top:3px;">開發中</span>
-    </div>
-    <div class="card tool-sm" id="issTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">📡</span></div>
-      <span class="ts-label">ISS 追蹤</span>
-    </div>
-    <div class="card tool-sm" id="worldClockTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">⏰</span></div>
-      <span class="ts-label">世界時鐘</span>
-    </div>
-    <div class="card tool-sm" id="qrTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">📱</span></div>
-      <span class="ts-label">QR Code 生成</span>
-    </div>
-    <div class="card tool-sm" id="mapTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">🗺️</span></div>
-      <span class="ts-label">世界地圖</span>
-    </div>
-    <div class="card tool-sm" id="timerTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">⏱️</span></div>
-      <span class="ts-label">番茄計時</span>
-    </div>
-    <div class="card tool-sm" id="mtrTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">🚇</span></div>
-      <span class="ts-label">MTR 查詢</span>
-    </div>
-    <div class="card tool-sm" id="bmiTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">🏋️</span></div>
-      <span class="ts-label">BMI 計算</span>
-    </div>
-    </div>
 
-<div class="section-label">🤖 AI 工具</div>
-  <div class="tool-grid">
-    <div class="card tool-sm disabled" id="sonoChatTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">💬</span></div>
-      <span class="ts-label">Sono Chat</span>
-      <span style="font-size:0.62em;color:#7a766c;margin-top:3px;">開發中</span>
-    </div>
-    <div class="card tool-sm disabled" id="sonoCreateTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">🎨</span></div>
-      <span class="ts-label">Sono 創作</span>
-      <span style="font-size:0.62em;color:#7a766c;margin-top:3px;">開發中</span>
-    </div>
-    <div class="card tool-sm disabled">
-      <div class="ts-icon-box"><span class="ts-emoji">🧠</span></div>
-      <span class="ts-label">Sono 分析</span>
-      <span style="font-size:0.62em;color:#7a766c;margin-top:3px;">開發中</span>
-    </div>
+  <!-- Chip filter bar（同桌布） -->
+  <div class="wp-cat-bar-wrap" id="toolCatBarWrap">
+    <button class="wp-cat-arrow wp-cat-arrow-left" type="button" aria-label="向左滑" id="toolArrowLeft">‹</button>
+    <div class="wp-cat-bar" id="toolChipBar"></div>
+    <button class="wp-cat-arrow wp-cat-arrow-right" type="button" aria-label="向右滑" id="toolArrowRight">›</button>
   </div>
 
-<div class="section-label">🎪 娛樂工具</div>
-  <div class="tool-grid">
-    <div class="card tool-sm" id="ghostTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">👻</span></div>
-      <span class="ts-label">靈體探測</span>
-    </div>
-    <div class="card tool-sm" id="wheelTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">🎲</span></div>
-      <span class="ts-label">命運輪盤</span>
-    </div>
-    <div class="card tool-sm" id="reactTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">🎯</span></div>
-      <span class="ts-label">反應挑戰</span>
-    </div>
-    <div class="card tool-sm" id="fortuneTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">💭</span></div>
-      <span class="ts-label">今日運勢</span>
-    </div>
-    <div class="card tool-sm" id="ambientTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">🎵</span></div>
-      <span class="ts-label">環境音效</span>
-    </div>
-    <div class="card tool-sm" id="quoteTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">📖</span></div>
-      <span class="ts-label">隨機金句</span>
-    </div>
-    <div class="card tool-sm" id="dreamTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">🌙</span></div>
-      <span class="ts-label">夢境解讀</span>
-    </div>
-    <div class="card tool-sm" id="divinationTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">☯️</span></div>
-      <span class="ts-label">易經卜卦</span>
-    </div>
-    <div class="card tool-sm" id="musicTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">🎲</span></div>
-      <span class="ts-label">音樂骰子</span>
-    </div>
-    <div class="card tool-sm" id="foodTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">🍜</span></div>
-      <span class="ts-label">今晚食咩</span>
-    </div>
-    <div class="card tool-sm" id="tarotTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">🃏</span></div>
-      <span class="ts-label">塔羅占卜</span>
-    </div>
-    <div class="card tool-sm" id="numberTrigger">
-      <div class="ts-icon-box"><span class="ts-emoji">🔢</span></div>
-      <span class="ts-label">命運數字</span>
-    </div>
+  <div class="wp-meta-top">
+    <span class="section-label" id="toolLabel">—</span>
+    <span class="count" id="toolCount">— 個工具</span>
   </div>
 
+  <!-- App 主畫面網格 -->
+  <div id="toolAppGrid"></div>
+
+  <!-- 隱藏原生 triggers（保留 id，原本 IIFE / listener 繼續 work） -->
+  <div class="tool-triggers-hidden" aria-hidden="true">
+    <div class="card tool-sm" id="weatherTrigger"></div>
+    <div class="card tool-sm" id="currencyTrigger"></div>
+    <div class="card tool-sm disabled" id="searchTrigger"></div>
+    <div class="card tool-sm disabled" id="translateTrigger"></div>
+    <div class="card tool-sm" id="issTrigger"></div>
+    <div class="card tool-sm" id="worldClockTrigger"></div>
+    <div class="card tool-sm" id="qrTrigger"></div>
+    <div class="card tool-sm" id="mapTrigger"></div>
+    <div class="card tool-sm" id="timerTrigger"></div>
+    <div class="card tool-sm" id="mtrTrigger"></div>
+    <div class="card tool-sm" id="bmiTrigger"></div>
+    <div class="card tool-sm disabled" id="sonoChatTrigger"></div>
+    <div class="card tool-sm disabled" id="sonoCreateTrigger"></div>
+    <div class="card tool-sm" id="ghostTrigger"></div>
+    <div class="card tool-sm" id="wheelTrigger"></div>
+    <div class="card tool-sm" id="reactTrigger"></div>
+    <div class="card tool-sm" id="fortuneTrigger"></div>
+    <div class="card tool-sm" id="ambientTrigger"></div>
+    <div class="card tool-sm" id="quoteTrigger"></div>
+    <div class="card tool-sm" id="dreamTrigger"></div>
+    <div class="card tool-sm" id="divinationTrigger"></div>
+    <div class="card tool-sm" id="musicTrigger"></div>
+    <div class="card tool-sm" id="foodTrigger"></div>
+    <div class="card tool-sm" id="tarotTrigger"></div>
+    <div class="card tool-sm" id="numberTrigger"></div>
+  </div>
 </div>
+
+<script>
+(function() {
+  // 工具清單（手機 app 排列）— triggerId 對應隱藏 button
+  const tools = [
+    // 實用
+    { name: '全球天氣',   svg: '🌤️', cat: 'utility', trigger: 'weatherTrigger' },
+    { name: '貨幣匯率',   svg: '💰', cat: 'utility', trigger: 'currencyTrigger' },
+    { name: 'ISS 追蹤',  svg: '📡', cat: 'utility', trigger: 'issTrigger' },
+    { name: '世界時鐘',   svg: '⏰', cat: 'utility', trigger: 'worldClockTrigger' },
+    { name: 'QR Code',   svg: '📱', cat: 'utility', trigger: 'qrTrigger' },
+    { name: '世界地圖',   svg: '🗺️', cat: 'utility', trigger: 'mapTrigger' },
+    { name: '番茄計時',   svg: '⏱️', cat: 'utility', trigger: 'timerTrigger' },
+    { name: 'MTR 查詢',   svg: '🚇', cat: 'utility', trigger: 'mtrTrigger' },
+    // 計算
+    { name: 'BMI 計算',   svg: '🏋️', cat: 'calc', trigger: 'bmiTrigger' },
+    // 娛樂
+    { name: '靈體探測',   svg: '👻', cat: 'fun', trigger: 'ghostTrigger' },
+    { name: '命運輪盤',   svg: '🎲', cat: 'fun', trigger: 'wheelTrigger' },
+    { name: '反應挑戰',   svg: '🎯', cat: 'fun', trigger: 'reactTrigger' },
+    { name: '今日運勢',   svg: '💭', cat: 'fun', trigger: 'fortuneTrigger' },
+    { name: '環境音效',   svg: '🎵', cat: 'fun', trigger: 'ambientTrigger' },
+    { name: '隨機金句',   svg: '📖', cat: 'fun', trigger: 'quoteTrigger' },
+    { name: '夢境解讀',   svg: '🌙', cat: 'fun', trigger: 'dreamTrigger' },
+    { name: '易經卜卦',   svg: '☯️', cat: 'fun', trigger: 'divinationTrigger' },
+    { name: '音樂骰子',   svg: '🎲', cat: 'fun', trigger: 'musicTrigger' },
+    { name: '今晚食咩',   svg: '🍜', cat: 'fun', trigger: 'foodTrigger' },
+    { name: '塔羅占卜',   svg: '🃏', cat: 'fun', trigger: 'tarotTrigger' },
+    { name: '命運數字',   svg: '🔢', cat: 'fun', trigger: 'numberTrigger' }
+  ];
+
+  const categories = [
+    { id: 'all',     label: '全部' },
+    { id: 'utility', label: '實用' },
+    { id: 'calc',    label: '計算' },
+    { id: 'fun',     label: '娛樂' }
+  ];
+
+  const groupLabels = { utility: '實用', calc: '計算', fun: '娛樂' };
+  const groupOrder = ['utility', 'calc', 'fun'];
+
+  let currentCat = 'all';
+
+  function getFiltered() {
+    if (currentCat === 'all') return tools;
+    return tools.filter(t => t.cat === currentCat);
+  }
+
+  function getCurrentLabel() {
+    if (currentCat === 'all') return '全部';
+    const c = categories.find(x => x.id === currentCat);
+    return c ? c.label : currentCat;
+  }
+
+  function updateMeta() {
+    const filtered = getFiltered();
+    const countEl = document.getElementById('toolCount');
+    const labelEl = document.getElementById('toolLabel');
+    if (countEl) countEl.textContent = filtered.length + ' 個工具';
+    if (labelEl) labelEl.textContent = getCurrentLabel();
+  }
+
+  function updateToolArrows() {
+    const bar = document.getElementById('toolChipBar');
+    const left = document.getElementById('toolArrowLeft');
+    const right = document.getElementById('toolArrowRight');
+    if (!bar || !left || !right) return;
+    const max = bar.scrollWidth - bar.clientWidth;
+    left.disabled = bar.scrollLeft <= 4;
+    right.disabled = bar.scrollLeft >= max - 4;
+  }
+
+  function openToolByTrigger(triggerId) {
+    const el = document.getElementById(triggerId);
+    if (!el) {
+      console.warn('Tool trigger missing:', triggerId);
+      return;
+    }
+    if (el.classList.contains('disabled')) {
+      alert('⏳ 功能開發中，即將推出');
+      return;
+    }
+    // 觸發原本 listener / onclick（保留所有 modal init）
+    el.click();
+  }
+
+  function renderChipBar() {
+    const bar = document.getElementById('toolChipBar');
+    if (!bar) return;
+    bar.innerHTML = categories.map(c =>
+      '<button class="wp-chip' + (c.id === currentCat ? ' active' : '') + '" data-cat="' + c.id + '">' + c.label + '</button>'
+    ).join('');
+    bar.querySelectorAll('.wp-chip').forEach(btn => {
+      btn.addEventListener('click', function() {
+        currentCat = this.getAttribute('data-cat');
+        renderChipBar();
+        renderAppGrid();
+        updateMeta();
+        requestAnimationFrame(updateToolArrows);
+      });
+    });
+    requestAnimationFrame(updateToolArrows);
+  }
+
+  function cardHtml(t) {
+    return '<div class="app-card" data-trigger="' + t.trigger + '">' +
+      '<div class="app-icon">' + t.svg + '</div>' +
+      '<div class="app-label">' + t.name + '</div>' +
+    '</div>';
+  }
+
+  function renderAppGrid() {
+    const root = document.getElementById('toolAppGrid');
+    if (!root) return;
+    const filtered = getFiltered();
+    if (filtered.length === 0) {
+      root.innerHTML = '<div class="app-empty">暫無工具</div>';
+      return;
+    }
+
+    let html = '';
+    if (currentCat === 'all') {
+      for (const g of groupOrder) {
+        const items = filtered.filter(t => t.cat === g);
+        if (!items.length) continue;
+        html += '<div class="app-group-label">' + groupLabels[g] + '</div>';
+        html += '<div class="apps-grid">';
+        html += items.map(cardHtml).join('');
+        html += '</div>';
+      }
+    } else {
+      html += '<div class="apps-grid">';
+      html += filtered.map(cardHtml).join('');
+      html += '</div>';
+    }
+    root.innerHTML = html;
+
+    root.querySelectorAll('.app-card').forEach(card => {
+      card.addEventListener('click', function() {
+        openToolByTrigger(this.getAttribute('data-trigger'));
+      });
+    });
+  }
+
+  renderChipBar();
+  renderAppGrid();
+  updateMeta();
+
+  const SCROLL_STEP = 220;
+  const leftBtn = document.getElementById('toolArrowLeft');
+  const rightBtn = document.getElementById('toolArrowRight');
+  const chipBar = document.getElementById('toolChipBar');
+  if (leftBtn) leftBtn.addEventListener('click', function() {
+    chipBar.scrollBy({ left: -SCROLL_STEP, behavior: 'smooth' });
+    setTimeout(updateToolArrows, 350);
+  });
+  if (rightBtn) rightBtn.addEventListener('click', function() {
+    chipBar.scrollBy({ left: SCROLL_STEP, behavior: 'smooth' });
+    setTimeout(updateToolArrows, 350);
+  });
+  if (chipBar) chipBar.addEventListener('scroll', updateToolArrows);
+  window.addEventListener('resize', updateToolArrows);
+})();
+</script>
 
 <!-- Footer -->
 <div class="footer">
