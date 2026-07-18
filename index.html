@@ -595,23 +595,37 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   // Add new keywords here as you add new wallpapers
   const slugCatMap = [
     { keys: ['ufo', 'flying-saucer', 'saucer', 'uap'], cat: 'ufo' },
-    { keys: ['galaxy', 'nebula', 'space', 'cosmos', 'star', 'aurora', 'orbit', 'cosmic', 'mars', 'planet', 'saturn', 'station', 'astronaut', 'deep'], cat: 'space' },
-    { keys: ['cyber', 'tech', 'circuit', 'circuitry', 'mecha', 'machine', 'robot', 'data', 'hologram', 'ai', 'artificial', 'circuit', 'board', 'neural', 'digital', 'crypto'], cat: 'tech' },
-    { keys: ['mountain', 'ocean', 'forest', 'tree', 'sea', 'lake', 'river', 'flower', 'sky', 'cloud', 'nature', 'rain', 'snow', 'winter', 'summer', 'sunset', 'sunrise', 'morning', 'night', 'fog', 'mist', 'wave', 'peak', 'hill', 'beach', 'desert'], cat: 'nature' },
-    { keys: ['quantum', 'qubit', 'superposition', 'entanglement', 'wavefunction', 'quantum-mechanics', 'hologram', 'data', 'ai', 'neural', 'superposition', 'entanglement'], cat: 'quantum' },
-    { keys: ['cosmos', 'universe', 'multiverse', 'cosmic', 'deep-space', 'void', 'mars', 'planet', 'saturn', 'stars', 'cluster', 'galaxy', 'nebula', 'deep', 'station', 'orbit', 'astronaut', 'cosmonaut'], cat: 'cosmos' },
-    { keys: ['alien', 'extraterrestrial', 'ufo', 'martian', 'spaceship', 'mothership', 'xenomorph', 'xeno', 'grey', 'reptilian', 'uap', 'saucer', 'mystery', 'unknown', 'contact'], cat: 'alien' }
+    { keys: ['alien', 'extraterrestrial', 'martian', 'spaceship', 'mothership', 'xenomorph', 'xeno', 'grey', 'reptilian', 'contact'], cat: 'alien' },
+    { keys: ['quantum', 'qubit', 'superposition', 'entanglement', 'wavefunction', 'quantum-mechanics'], cat: 'quantum' },
+    { keys: ['cyber', 'tech', 'circuit', 'circuitry', 'mecha', 'machine', 'robot', 'data', 'hologram', 'ai', 'artificial', 'board', 'neural', 'digital', 'crypto'], cat: 'tech' },
+    { keys: ['mountain', 'ocean', 'forest', 'tree', 'sea', 'lake', 'river', 'flower', 'sky', 'cloud', 'nature', 'rain', 'snow', 'winter', 'summer', 'sunset', 'sunrise', 'morning', 'fog', 'mist', 'wave', 'peak', 'hill', 'beach', 'desert'], cat: 'nature' },
+    { keys: ['cosmos', 'universe', 'multiverse', 'deep-space', 'void'], cat: 'cosmos' },
+    { keys: ['galaxy', 'nebula', 'space', 'star', 'stars', 'aurora', 'orbit', 'cosmic', 'mars', 'planet', 'saturn', 'station', 'astronaut', 'cosmonaut', 'deep', 'night', 'nocturnal'], cat: 'space' }
   ];
+
+  // Safe keyword match: avoid short keys like "ai" matching inside "mountain"
+  function matchKey(slug, key) {
+    const s = (slug || '').toLowerCase();
+    const k = (key || '').toLowerCase();
+    if (!s || !k) return false;
+    if (s === k) return true;
+    const parts = s.split('-');
+    if (parts.includes(k)) return true;
+    if (k.includes('-') && s.includes(k)) return true;
+    // longer keys may substring-match (e.g. star → stars)
+    if (k.length >= 4 && s.includes(k)) return true;
+    return false;
+  }
 
   function detectCategory(slug) {
     const s = (slug || '').toLowerCase();
     for (const m of slugCatMap) {
-      if (m.keys.some(k => s.includes(k))) return m.cat;
+      if (m.keys.some(k => matchKey(s, k))) return m.cat;
     }
     return 'space';
   }
 
-  // Category Chinese labels
+  // Category Chinese labels (primary)
   const catLabelMap = {
     space: '太空', ufo: 'UFO', tech: '科技', nature: '自然',
     quantum: '量子', cosmos: '宇宙', alien: '外星人'
@@ -636,7 +650,8 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     { keys: ['sky', 'cloud', 'sunrise', 'sunset', 'morning'], tag: '天空' },
     { keys: ['mystery', 'unknown', 'glow', 'light'], tag: '神秘' },
     { keys: ['rain', 'snow', 'winter', 'summer'], tag: '天氣' },
-    { keys: ['desert'], tag: '沙漠' }
+    { keys: ['desert'], tag: '沙漠' },
+    { keys: ['space'], tag: '太空' }
   ];
 
   // Chinese title map for common slugs
@@ -678,18 +693,17 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     if (catLabelMap[cat]) tags.push(catLabelMap[cat]);
     // Secondary keyword tags
     for (const m of zhTagMap) {
-      if (m.keys.some(k => s.includes(k))) {
+      if (m.keys.some(k => matchKey(s, k))) {
         if (!tags.includes(m.tag)) tags.push(m.tag);
       }
     }
-    // Cap at 3 tags for clean UI
-    return tags.slice(0, 3);
+    // Cap at 4 tags (enough for bar filters + UI)
+    return tags.slice(0, 4);
   }
 
   function deriveTheme(slug) {
     const key = (slug || '').toLowerCase();
     if (zhTitleMap[key]) return zhTitleMap[key];
-    // Fallback: keep readable Chinese-ish fallback
     return '桌布';
   }
 
@@ -741,22 +755,32 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     };
   });
 
+  // Chip bar categories: 全部 + all tags that actually appear on wallpapers
+  const tagOrder = [
+    '太空', '宇宙', 'UFO', '飛碟', '外星人', '科技', '量子', '自然',
+    '山景', '海景', '森林', '星空', '星系', '行星', '航太', '夜景', '城市', '天空', '神秘', '天氣', '沙漠'
+  ];
+  const usedTags = new Set();
+  wallpapers.forEach(w => (w.tags || []).forEach(t => usedTags.add(t)));
   const categories = [
     { id: 'all', label: '全部' },
-    { id: 'space', label: '太空' },
-    { id: 'ufo', label: 'UFO' },
-    { id: 'tech', label: '科技' },
-    { id: 'nature', label: '自然' },
-    { id: 'quantum', label: '量子' },
-    { id: 'cosmos', label: '宇宙' },
-    { id: 'alien', label: '外星人' }
+    ...tagOrder.filter(t => usedTags.has(t)).map(t => ({ id: t, label: t })),
+    // any unexpected tags not in tagOrder, append at end
+    ...[...usedTags].filter(t => !tagOrder.includes(t)).sort().map(t => ({ id: t, label: t }))
   ];
 
   let currentCat = 'all';
 
   function getFiltered() {
     if (currentCat === 'all') return wallpapers;
-    return wallpapers.filter(w => w.cat === currentCat);
+    // Filter by Chinese tag membership (primary + secondary)
+    return wallpapers.filter(w => {
+      const tags = w.tags || [];
+      if (tags.includes(currentCat)) return true;
+      if (w.cat === currentCat) return true;
+      if (catLabelMap[w.cat] === currentCat) return true;
+      return false;
+    });
   }
 
   function getCurrentLabel() {
