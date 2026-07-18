@@ -168,25 +168,25 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .card.ai-card:hover { border-color: #a29bfe; box-shadow: 0 10px 30px rgba(162,155,254,0.12); }
 .coming-soon { display: inline-block; background: rgba(255,255,255,0.06); color: #666; font-size: 0.72em; padding: 3px 10px; border-radius: 10px; margin-top: 8px; }
 
-/* ══════ Game Accordion ══════ */
-.game-list { display: flex; flex-direction: column; gap: 4px; }
-.game-item { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 14px; border: 1px solid rgba(255,255,255,0.06); overflow: hidden; cursor: pointer; transition: border-color 0.3s, box-shadow 0.3s; }
-.game-item:hover { border-color: rgba(184,168,120,0.3); box-shadow: 0 4px 20px rgba(184,168,120,0.06); }
-.game-item.open { border-color: rgba(184,168,120,0.5); box-shadow: 0 4px 25px rgba(184,168,120,0.1); }
-.game-header { display: flex; align-items: center; gap: 4px; padding: 16px 18px; cursor: pointer; }
-.game-logo { width: 44px; height: 44px; flex-shrink: 0; }
-.game-info { flex: 1; display: flex; flex-direction: column; gap: 3px; }
-.game-name { font-size: 1.05em; font-weight: 700; color: #e0e0e0; }
-.game-tag { font-size: 0.7em; font-weight: 600; color: #b8a878; background: rgba(184,168,120,0.1); padding: 2px 8px; border-radius: 8px; align-self: flex-start; }
-.game-chevron { width: 20px; height: 20px; color: #aaa; flex-shrink: 0; transition: transform 0.3s; }
+/* ══════ Game Accordion（跟桌布 Sono 風格） ══════ */
+.game-accordion { display: flex; flex-direction: column; gap: 0; margin: 0; padding: 0; }
+.game-item { background: transparent; border-radius: 0; border: none; border-bottom: 1px solid rgba(184,168,120,0.15); overflow: hidden; cursor: pointer; transition: background 0.2s, border-color 0.2s; }
+.game-item:hover { background: rgba(184,168,120,0.04); }
+.game-item.open { background: rgba(184,168,120,0.06); border-bottom-color: rgba(184,168,120,0.35); }
+.game-header { display: flex; align-items: center; gap: 12px; padding: 14px 8px; cursor: pointer; }
+.game-logo { width: 40px; height: 40px; flex-shrink: 0; border-radius: 8px; border: 1px solid rgba(184,168,120,0.2); background: rgba(184,168,120,0.06); object-fit: contain; padding: 4px; box-sizing: border-box; }
+.game-info { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.game-name { font-size: 0.98em; font-weight: 400; color: #c8c4b8; letter-spacing: 0.02em; line-height: 1.3; }
+.game-tag { font-size: 0.65em; font-weight: 400; color: #0a0a1a; background: rgba(184,168,120,0.85); padding: 2px 7px; border-radius: 8px; align-self: flex-start; font-family: 'Courier New', monospace; letter-spacing: 0.04em; line-height: 1.4; }
+.game-chevron { width: 18px; height: 18px; color: #7a766c; flex-shrink: 0; transition: transform 0.3s, color 0.2s; }
 .game-item.open .game-chevron { transform: rotate(180deg); color: #b8a878; }
-.game-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; padding: 0 18px; }
-.game-item.open .game-body { max-height: 120px; padding: 0 18px 16px; }
-.game-desc { font-size: 0.85em; color: #ccc; line-height: 1.6; margin-bottom: 12px; }
-.game-play-btn { display: inline-flex; align-items: center; gap: 4px; padding: 8px 20px; background: linear-gradient(135deg, #6bff6b, #00d4ff); color: #0a0a1a; border-radius: 20px; font-size: 0.85em; font-weight: 700; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
-.game-play-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(107,255,107,0.3); }
+.game-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; padding: 0 8px; }
+.game-item.open .game-body { max-height: 140px; padding: 0 8px 16px 60px; }
+.game-desc { font-size: 0.82em; color: #7a766c; line-height: 1.65; margin-bottom: 12px; }
+.game-play-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; background: transparent; color: #b8a878; border: 1px solid rgba(184,168,120,0.55); border-radius: 0; font-size: 0.75em; font-weight: 400; font-family: 'Courier New', monospace; letter-spacing: 0.1em; text-decoration: none; transition: all 0.2s; }
+.game-play-btn:hover { background: #b8a878; color: #0a0a1a; border-color: #b8a878; }
 
-.section-label { font-size: 0.78em; color: #ccc; text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 10px; padding-left: 4px; }
+.section-label { font-size: 0.78em; color: #7a766c; text-transform: uppercase; letter-spacing: 0.08em; margin: 16px 0 10px; padding-left: 4px; font-family: 'Courier New', monospace; }
 
 /* ── Sono 桌布 (Wallpaper Gallery) ── */
 .wp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; padding: 0; margin: 0; }
@@ -922,20 +922,20 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
 <!-- ══════ Tab 2: Sono 遊戲 ══════ -->
 <div class="tab-panel" id="tab-games">
-  <div class="section-label">🎮 AI遊戲</div>
 
-  <!-- Chip filter bar (滑動選單) -->
-  <div class="wp-cat-bar-wrap">
-    <button class="wp-cat-arrow wp-cat-arrow-left" type="button" aria-label="向左滑">‹</button>
+  <!-- Chip filter bar（同桌布結構） -->
+  <div class="wp-cat-bar-wrap" id="gameCatBarWrap">
+    <button class="wp-cat-arrow wp-cat-arrow-left" type="button" aria-label="向左滑" id="gameArrowLeft">‹</button>
     <div class="wp-cat-bar" id="gameChipBar"></div>
-    <button class="wp-cat-arrow wp-cat-arrow-right" type="button" aria-label="向右滑">›</button>
+    <button class="wp-cat-arrow wp-cat-arrow-right" type="button" aria-label="向右滑" id="gameArrowRight">›</button>
   </div>
 
   <div class="wp-meta-top">
+    <span class="section-label" id="gameLabel">—</span>
     <span class="count" id="gameCount">— 個遊戲</span>
   </div>
 
-  <!-- 風琴 (accordion) 遊戲列表 -->
+  <!-- 清單（風琴） -->
   <div class="game-accordion" id="gameAccordion"></div>
 </div>
 
@@ -943,8 +943,8 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 (function() {
   // 8 個遊戲 + 5 個 category
   const games = [
-    { name: 'Cyber Ninja vs Cosmic Monster', tag: '射擊', cat: 'shoot',   desc: '生化機械人斬怪獸 · 狂暴亂射 · 大蕉招「銀河終焉斬」 · 多 wave 推進', svg: 'games/cyber-ninja-vs-monster.svg', href: 'games/cyber-ninja-vs-monster/' },
-    { name: '猜拳火柴人',                     tag: '派對', cat: 'party',   desc: '剪刀石頭佈 · 火柴人動畫對戰 · 搞笑語音 · 三局兩勝制', svg: 'games/rock-paper-scissors.svg', href: 'rps-battle/' },
+    { name: 'Cyber Ninja vs Cosmic Monster', tag: '射擊', cat: 'shoot',   desc: '生化機械人斬怪獸 · 狂暴亂射 · 大絕招「銀河終焉斬」 · 多 wave 推進', svg: 'games/cyber-ninja-vs-monster.svg', href: 'games/cyber-ninja-vs-monster/' },
+    { name: '猜拳火柴人',                     tag: '派對', cat: 'party',   desc: '剪刀石頭布 · 火柴人動畫對戰 · 搞笑語音 · 三局兩勝制', svg: 'games/rock-paper-scissors.svg', href: 'rps-battle/' },
     { name: 'Stickman Fighter',                tag: '對戰', cat: 'fight',   desc: '經典 Stickman 對戰 · 普通版 · 流暢動畫 · 鍵盤操作', svg: 'games/stickman-fighter.svg', href: 'fighter/' },
     { name: 'Stickman Fighter v1',             tag: '對戰', cat: 'fight',   desc: 'Stickman 對戰 v1 版 · 強化動畫 · 新角色 · 進階操作', svg: 'games/stickman-fighter-v1.svg', href: 'stickman-fighter-v1/' },
     { name: '貪食蛇',                         tag: '街機', cat: 'arcade',  desc: '經典貪食蛇 · 控制蛇移動 · 吃蘋果變長 · 避開自己', svg: 'games/snake.svg', href: 'snake/' },
@@ -970,6 +970,30 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     return games.filter(g => g.cat === currentCat);
   }
 
+  function getCurrentLabel() {
+    if (currentCat === 'all') return '全部';
+    const c = categories.find(x => x.id === currentCat);
+    return c ? c.label : currentCat;
+  }
+
+  function updateMeta() {
+    const filtered = getFiltered();
+    const countEl = document.getElementById('gameCount');
+    const labelEl = document.getElementById('gameLabel');
+    if (countEl) countEl.textContent = filtered.length + ' 個遊戲';
+    if (labelEl) labelEl.textContent = getCurrentLabel();
+  }
+
+  function updateGameArrows() {
+    const bar = document.getElementById('gameChipBar');
+    const left = document.getElementById('gameArrowLeft');
+    const right = document.getElementById('gameArrowRight');
+    if (!bar || !left || !right) return;
+    const max = bar.scrollWidth - bar.clientWidth;
+    left.disabled = bar.scrollLeft <= 4;
+    right.disabled = bar.scrollLeft >= max - 4;
+  }
+
   function renderChipBar() {
     const bar = document.getElementById('gameChipBar');
     bar.innerHTML = categories.map(c =>
@@ -978,21 +1002,23 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     bar.querySelectorAll('.wp-chip').forEach(btn => {
       btn.addEventListener('click', function() {
         currentCat = this.getAttribute('data-cat');
+        openId = null;
         renderChipBar();
         renderAccordion();
-        updateCount();
+        updateMeta();
+        requestAnimationFrame(updateGameArrows);
       });
     });
-  }
-
-  function updateCount() {
-    const filtered = getFiltered();
-    document.getElementById('gameCount').textContent = filtered.length + ' 個遊戲';
+    requestAnimationFrame(updateGameArrows);
   }
 
   function renderAccordion() {
     const list = document.getElementById('gameAccordion');
     const filtered = getFiltered();
+    if (filtered.length === 0) {
+      list.innerHTML = '<div class="wp-empty" style="grid-column:auto;padding:40px 12px;">呢個分類暫無遊戲</div>';
+      return;
+    }
     list.innerHTML = filtered.map(g => {
       const isOpen = openId === g.name;
       return '<div class="game-item' + (isOpen ? ' open' : '') + '">' +
@@ -1006,7 +1032,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
         '</div>' +
         '<div class="game-body">' +
           '<p class="game-desc">' + g.desc + '</p>' +
-          '<a href="' + g.href + '" class="game-play-btn">🎮 立即遊玩</a>' +
+          '<a href="' + g.href + '" class="game-play-btn">▶ 立即遊玩</a>' +
         '</div>' +
       '</div>';
     }).join('');
@@ -1021,7 +1047,23 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
   renderChipBar();
   renderAccordion();
-  updateCount();
+  updateMeta();
+
+  // Chip bar arrows（同桌布）
+  const SCROLL_STEP = 220;
+  const leftBtn = document.getElementById('gameArrowLeft');
+  const rightBtn = document.getElementById('gameArrowRight');
+  const chipBar = document.getElementById('gameChipBar');
+  if (leftBtn) leftBtn.addEventListener('click', function() {
+    chipBar.scrollBy({ left: -SCROLL_STEP, behavior: 'smooth' });
+    setTimeout(updateGameArrows, 350);
+  });
+  if (rightBtn) rightBtn.addEventListener('click', function() {
+    chipBar.scrollBy({ left: SCROLL_STEP, behavior: 'smooth' });
+    setTimeout(updateGameArrows, 350);
+  });
+  if (chipBar) chipBar.addEventListener('scroll', updateGameArrows);
+  window.addEventListener('resize', updateGameArrows);
 })();
 </script>
 <!-- ══════ Tab 3: Sono 工具箱 ══════ -->
