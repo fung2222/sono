@@ -941,16 +941,14 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
 <script>
 (function() {
-  // 8 個遊戲 + 5 個 category
+  // 6 個遊戲 + 5 個 category
   const games = [
     { name: 'Cyber Ninja vs Cosmic Monster', tag: '射擊', cat: 'shoot',   desc: '生化機械人斬怪獸 · 狂暴亂射 · 大絕招「銀河終焉斬」 · 多 wave 推進', svg: 'games/cyber-ninja-vs-monster.svg', href: 'games/cyber-ninja-vs-monster/' },
     { name: '猜拳火柴人',                     tag: '派對', cat: 'party',   desc: '剪刀石頭布 · 火柴人動畫對戰 · 搞笑語音 · 三局兩勝制', svg: 'games/rock-paper-scissors.svg', href: 'rps-battle/' },
     { name: 'Stickman Fighter',                tag: '對戰', cat: 'fight',   desc: '經典 Stickman 對戰 · 普通版 · 流暢動畫 · 鍵盤操作', svg: 'games/stickman-fighter.svg', href: 'fighter/' },
     { name: 'Stickman Fighter v1',             tag: '對戰', cat: 'fight',   desc: 'Stickman 對戰 v1 版 · 強化動畫 · 新角色 · 進階操作', svg: 'games/stickman-fighter-v1.svg', href: 'stickman-fighter-v1/' },
     { name: '貪食蛇',                         tag: '街機', cat: 'arcade',  desc: '經典貪食蛇 · 控制蛇移動 · 吃蘋果變長 · 避開自己', svg: 'games/snake.svg', href: 'snake/' },
-    { name: '2048',                            tag: '益智', cat: 'puzzle',  desc: '數字合併 · 滑動方塊合併相同數字 · 挑戰 2048 目標 · 鍵盤+觸屏雙控', svg: 'games/2048.svg', href: '2048/' },
-    { name: 'XO過三關',                        tag: '益智', cat: 'puzzle',  desc: '井字棋變奏 · 三關挑戰 · 策略思考 · 雙人對戰', svg: 'games/xo-three-doors.svg', href: 'tictactoe/' },
-    { name: '記憶配對',                        tag: '益智', cat: 'puzzle',  desc: '翻卡配對 · 考你記憶力 · 簡單/困難模式 · 計時挑戰', svg: 'games/memory-match.svg', href: 'memory/' }
+    { name: 'XO過三關',                        tag: '益智', cat: 'puzzle',  desc: '井字棋變奏 · 三關挑戰 · 策略思考 · 雙人對戰', svg: 'games/xo-three-doors.svg', href: 'tictactoe/' }
   ];
 
   const categories = [
