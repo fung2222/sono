@@ -193,13 +193,18 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .wp-item { position: relative; aspect-ratio: 9 / 16; overflow: hidden; background: #0a0a1a; cursor: pointer; transition: opacity 0.2s; }
 .wp-item img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
 .wp-item:hover img { transform: scale(1.04); }
-.wp-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,26,0.92) 0%, rgba(10,10,26,0.4) 50%, transparent 100%); opacity: 0; transition: opacity 0.3s; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px 10px; }
-.wp-item:hover .wp-overlay { opacity: 1; }
-.wp-meta { font-family: 'Courier New', monospace; color: #c8c4b8; font-size: 0.65em; letter-spacing: 0.1em; margin-bottom: 6px; text-transform: uppercase; opacity: 0.85; }
+.wp-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,26,0.92) 0%, rgba(10,10,26,0.45) 45%, transparent 100%); opacity: 0; transition: opacity 0.3s; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px 10px; pointer-events: none; }
+.wp-item:hover .wp-overlay,
+.wp-item.reveal .wp-overlay { opacity: 1; }
+.wp-item.reveal { outline: 1px solid rgba(184,168,120,0.45); }
+.wp-meta { font-family: 'Courier New', monospace; color: #c8c4b8; font-size: 0.65em; letter-spacing: 0.1em; margin-bottom: 6px; opacity: 0.85; }
 .wp-title { font-family: 'Noto Serif TC', 'Source Han Serif TC', serif; color: #fff; font-size: 0.95em; font-weight: 400; letter-spacing: 0.05em; line-height: 1.3; margin-bottom: 8px; }
-.wp-download { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; background: transparent; color: #b8a878; border: 1px solid rgba(184,168,120,0.5); border-radius: 14px; font-size: 0.7em; font-family: 'Courier New', monospace; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; align-self: flex-start; }
+.wp-download { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; background: transparent; color: #b8a878; border: 1px solid rgba(184,168,120,0.5); border-radius: 14px; font-size: 0.72em; font-family: 'Courier New', monospace; letter-spacing: 0.08em; text-decoration: none; transition: all 0.2s; align-self: flex-start; }
 .wp-download:hover { background: #b8a878; color: #0a0a1a; border-color: #b8a878; }
-.wp-theme-tag { position: absolute; top: 8px; left: 8px; font-family: 'Courier New', monospace; font-size: 0.55em; color: #0a0a1a; background: rgba(184,168,120,0.85); padding: 2px 7px; border-radius: 8px; letter-spacing: 0.1em; text-transform: uppercase; }
+.wp-tags { position: absolute; top: 8px; left: 8px; right: 8px; display: flex; flex-wrap: wrap; gap: 4px; z-index: 2; pointer-events: none; }
+.wp-theme-tag { font-family: 'Courier New', monospace; font-size: 0.58em; color: #0a0a1a; background: rgba(184,168,120,0.9); padding: 2px 7px; border-radius: 8px; letter-spacing: 0.04em; line-height: 1.4; white-space: nowrap; }
+.wp-overlay-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+.wp-overlay-tags .wp-theme-tag { background: rgba(184,168,120,0.2); color: #c8c4b8; border: 1px solid rgba(184,168,120,0.35); }
 .wp-empty { text-align: center; padding: 60px 20px; color: #7a766c; font-family: 'Noto Serif TC', serif; font-size: 1.05em; line-height: 1.8; grid-column: 1 / -1; }
 .wp-empty em { display: block; font-style: normal; color: #b8a878; font-family: 'Courier New', monospace; font-size: 0.78em; letter-spacing: 0.15em; margin-top: 14px; }
 .wp-cat-bar-wrap { display: flex; align-items: center; gap: 4px; padding: 4px 0 12px; position: sticky; top: 52px; z-index: 49; background: rgba(13,10,26,0.95); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
@@ -606,9 +611,86 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     return 'space';
   }
 
+  // Category Chinese labels
+  const catLabelMap = {
+    space: '太空', ufo: 'UFO', tech: '科技', nature: '自然',
+    quantum: '量子', cosmos: '宇宙', alien: '外星人'
+  };
+
+  // Keyword → Chinese tag (secondary tags)
+  const zhTagMap = [
+    { keys: ['ufo', 'saucer', 'uap'], tag: '飛碟' },
+    { keys: ['alien', 'extraterrestrial', 'martian', 'xenomorph', 'grey', 'reptilian'], tag: '外星人' },
+    { keys: ['galaxy', 'nebula', 'cosmos', 'cosmic', 'deep-space', 'universe', 'multiverse'], tag: '星系' },
+    { keys: ['star', 'stars', 'cluster', 'aurora'], tag: '星空' },
+    { keys: ['planet', 'mars', 'saturn'], tag: '行星' },
+    { keys: ['orbit', 'station', 'astronaut', 'cosmonaut'], tag: '航太' },
+    { keys: ['night', 'nocturnal'], tag: '夜景' },
+    { keys: ['city', 'cyberpunk'], tag: '城市' },
+    { keys: ['cyber', 'circuit', 'circuitry', 'board', 'data', 'hologram', 'neural', 'digital', 'ai', 'robot', 'tech'], tag: '科技' },
+    { keys: ['quantum', 'qubit', 'superposition', 'entanglement', 'wavefunction'], tag: '量子' },
+    { keys: ['mountain', 'peak', 'hill', 'mist'], tag: '山景' },
+    { keys: ['ocean', 'sea', 'wave', 'beach', 'lake', 'river'], tag: '海景' },
+    { keys: ['forest', 'tree', 'fog'], tag: '森林' },
+    { keys: ['flower', 'nature'], tag: '自然' },
+    { keys: ['sky', 'cloud', 'sunrise', 'sunset', 'morning'], tag: '天空' },
+    { keys: ['mystery', 'unknown', 'glow', 'light'], tag: '神秘' },
+    { keys: ['rain', 'snow', 'winter', 'summer'], tag: '天氣' },
+    { keys: ['desert'], tag: '沙漠' }
+  ];
+
+  // Chinese title map for common slugs
+  const zhTitleMap = {
+    'mist-mountain': '霧中山脈',
+    'forest-fog': '霧中森林',
+    'ocean-wave': '海浪',
+    'mountain-peak': '山峰',
+    'hologram': '全息投影',
+    'data-stream': '數據流',
+    'robot-arm': '機械臂',
+    'ai-neural': '神經網絡',
+    'circuit-board': '電路板',
+    'nocturnal-glow': '夜光',
+    'mystery-light': '神秘之光',
+    'saucer-cosmic': '宇宙飛碟',
+    'uap-sky': '天空 UAP',
+    'ufo-night': '夜空飛碟',
+    'space-station': '太空站',
+    'mars-surface': '火星表面',
+    'nebula-color': '彩色星雲',
+    'stars-cluster': '星團',
+    'planet-saturn': '土星',
+    'ocean-night': '夜海',
+    'mountain-mist': '山霧',
+    'aurora-night': '極光之夜',
+    'ufo-over-city': '城市上空飛碟',
+    'galaxy-deep-space': '深空星系',
+    'tech-circuitry': '科技電路',
+    'cyberpunk-city': '賽博龐克城市',
+    'space-nebula': '太空星雲',
+    'ufo-night-sky': '夜空 UFO'
+  };
+
+  function deriveTags(slug, cat) {
+    const s = (slug || '').toLowerCase();
+    const tags = [];
+    // Primary category tag
+    if (catLabelMap[cat]) tags.push(catLabelMap[cat]);
+    // Secondary keyword tags
+    for (const m of zhTagMap) {
+      if (m.keys.some(k => s.includes(k))) {
+        if (!tags.includes(m.tag)) tags.push(m.tag);
+      }
+    }
+    // Cap at 3 tags for clean UI
+    return tags.slice(0, 3);
+  }
+
   function deriveTheme(slug) {
-    const s = (slug || '').replace(/-/g, ' ');
-    return s.charAt(0).toUpperCase() + s.slice(1) || '桌布';
+    const key = (slug || '').toLowerCase();
+    if (zhTitleMap[key]) return zhTitleMap[key];
+    // Fallback: keep readable Chinese-ish fallback
+    return '桌布';
   }
 
   // Build wallpapers from path list (date inferred from folder)
@@ -648,12 +730,14 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   const wallpapers = wallpaperPaths.map(p => {
     const slug = p.split('/').pop().replace(/^\d+-/, '').replace(/\.[^.]+$/, '').toLowerCase();
     const dateMatch = p.match(/wallpapers\/(\d{4}-\d{2}-\d{2})/);
+    const cat = detectCategory(slug);
     return {
       path: p,
       date: dateMatch ? dateMatch[1] : '',
       num: p.match(/\/(\d+)-/)?.[1] || '',
       theme: deriveTheme(slug),
-      cat: detectCategory(slug)
+      tags: deriveTags(slug, cat),
+      cat: cat
     };
   });
 
@@ -720,11 +804,14 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
     grid.innerHTML = filtered.map(item => {
       const title = item.theme;
+      const tags = (item.tags && item.tags.length) ? item.tags : [catLabelMap[item.cat] || '桌布'];
+      const tagsHtml = tags.map(t => '<span class="wp-theme-tag">' + t + '</span>').join('');
       const safePath = item.path.replace(/'/g, "\\'");
       return '<div class="wp-item" data-wp="' + safePath + '" data-title="' + title + '">' +
         '<img src="' + safePath + '" alt="' + title + ' 手機桌布" loading="lazy">' +
-        '<span class="wp-theme-tag">' + title + '</span>' +
+        '<div class="wp-tags">' + tagsHtml + '</div>' +
         '<div class="wp-overlay">' +
+          '<div class="wp-overlay-tags">' + tagsHtml + '</div>' +
           '<div class="wp-title">' + title + '</div>' +
           '<span class="wp-download">🔍 點擊放大</span>' +
         '</div>' +
@@ -754,20 +841,53 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   const lightbox = document.createElement('div');
   lightbox.id = 'wpLightbox';
   lightbox.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);justify-content:center;align-items:center;cursor:zoom-out;padding:20px;';
-  lightbox.innerHTML = '<img id="wpLightboxImg" style="max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-out;" alt=""><div style="position:absolute;top:20px;right:24px;font-family:Courier New,monospace;color:#b8a878;font-size:0.85em;letter-spacing:0.18em;text-transform:uppercase;pointer-events:none;">✕ 點擊關閉</div>';
+  lightbox.innerHTML = '<img id="wpLightboxImg" style="max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-out;" alt=""><div style="position:absolute;top:20px;right:24px;font-family:Courier New,monospace;color:#b8a878;font-size:0.85em;letter-spacing:0.12em;pointer-events:none;">✕ 點擊關閉</div>';
   document.body.appendChild(lightbox);
+
+  // Two-step interaction:
+  // 1st tap/click  → reveal overlay (tags + 點擊放大)
+  // 2nd tap/click  → open lightbox
+  let revealedTile = null;
+
+  function clearReveal() {
+    if (revealedTile) {
+      revealedTile.classList.remove('reveal');
+      revealedTile = null;
+    }
+  }
+
+  function openWpLightbox(path, title) {
+    document.getElementById('wpLightboxImg').src = path;
+    document.getElementById('wpLightboxImg').alt = (title || '桌布') + ' 手機桌布';
+    lightbox.style.display = 'flex';
+  }
 
   grid.addEventListener('click', function(e) {
     const tile = e.target.closest('.wp-item');
-    if (tile) {
+    if (!tile) return;
+
+    // Already revealed → second click opens lightbox
+    if (tile.classList.contains('reveal')) {
       const path = tile.getAttribute('data-wp');
       const title = tile.getAttribute('data-title');
-      document.getElementById('wpLightboxImg').src = path;
-      document.getElementById('wpLightboxImg').alt = title + ' 手機桌布';
-      lightbox.style.display = 'flex';
+      clearReveal();
+      openWpLightbox(path, title);
       return;
     }
+
+    // First click → show overlay / multi tags
+    clearReveal();
+    tile.classList.add('reveal');
+    revealedTile = tile;
   });
+
+  // Tap outside grid clears reveal
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.wp-item') && !e.target.closest('#wpLightbox')) {
+      clearReveal();
+    }
+  });
+
   lightbox.addEventListener('click', function() {
     lightbox.style.display = 'none';
     document.getElementById('wpLightboxImg').src = '';
