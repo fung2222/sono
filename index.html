@@ -211,7 +211,8 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .wp-chip { padding: 7px 18px; border: 1px solid rgba(184,168,120,0.2); background: transparent; color: #7a766c; font-family: 'PingFang TC', 'Noto Sans TC', sans-serif; font-size: 0.85em; letter-spacing: 0.06em; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: all 0.2s; }
 .wp-chip:hover { color: #c8c4b8; border-color: rgba(184,168,120,0.4); }
 .wp-chip.active { color: #c8c4b8; border-color: #b8a878; background: rgba(184,168,120,0.1); }
-.wp-meta-top { display: flex; align-items: center; justify-content: flex-end; margin: 16px 0 12px; }
+.wp-meta-top { display: flex; align-items: center; justify-content: space-between; margin: 16px 0 12px; }
+.wp-meta-top .section-label { font-size: 0.78em; color: #7a766c; text-transform: uppercase; letter-spacing: 0.08em; }
 .wp-meta-top .count { font-family: 'Courier New', monospace; font-size: 0.7em; color: #5a5852; }
 .wp-title-main { font-family: 'Noto Serif TC', 'Source Han Serif TC', serif; font-size: 1.5em; color: #c8c4b8; font-weight: 300; letter-spacing: 0.12em; margin: 0 0 4px; }
 @media (max-width: 720px) {
@@ -575,6 +576,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     <button class="wp-cat-arrow wp-cat-arrow-right" type="button" aria-label="向右滑">›</button>
   </div>
   <div class="wp-meta-top">
+    <span class="section-label" id="wpLabel">—</span>
     <span class="count" id="wpCount">— 張桌布</span>
   </div>
   <div class="wp-grid" id="wpGrid"></div>
@@ -707,7 +709,9 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   function renderGrid() {
     const filtered = getFiltered();
     const currentLabel = getCurrentLabel();
-    countEl.textContent = filtered.length + ' 張桌布 — ' + currentLabel;
+    countEl.textContent = filtered.length + ' 張桌布';
+    const labelEl = document.getElementById('wpLabel');
+    if (labelEl) labelEl.textContent = currentLabel;
 
     if (filtered.length === 0) {
       grid.innerHTML = '<div class="wp-empty">呢個分類暫無桌布<em>Generate via xAI Grok Imagine · 9:16 portrait</em></div>';
