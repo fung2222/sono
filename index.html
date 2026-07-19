@@ -214,8 +214,6 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .wp-title { font-family: 'Noto Serif TC', 'Source Han Serif TC', serif; color: #fff; font-size: 0.95em; font-weight: 400; letter-spacing: 0.05em; line-height: 1.3; margin-bottom: 8px; }
 .wp-download { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; background: transparent; color: #b8a878; border: 1px solid rgba(184,168,120,0.5); border-radius: 14px; font-size: 0.72em; font-family: 'Courier New', monospace; letter-spacing: 0.08em; text-decoration: none; transition: all 0.2s; align-self: flex-start; }
 .wp-download:hover { background: #b8a878; color: #0a0a1a; border-color: #b8a878; }
-.wp-tags { position: absolute; top: 8px; left: 8px; right: 8px; display: flex; flex-wrap: wrap; gap: 4px; z-index: 2; pointer-events: none; }
-.wp-theme-tag { font-family: 'Courier New', monospace; font-size: 0.58em; color: #0a0a1a; background: rgba(184,168,120,0.9); padding: 2px 7px; border-radius: 8px; letter-spacing: 0.04em; line-height: 1.4; white-space: nowrap; }
 .wp-overlay-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
 .wp-overlay-tags .wp-theme-tag { background: rgba(184,168,120,0.2); color: #c8c4b8; border: 1px solid rgba(184,168,120,0.35); }
 .wp-empty { text-align: center; padding: 60px 20px; color: #7a766c; font-family: 'Noto Serif TC', serif; font-size: 1.05em; line-height: 1.8; grid-column: 1 / -1; }
@@ -846,7 +844,6 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       const safePath = item.path.replace(/'/g, "\\'");
       return '<div class="wp-item" data-wp="' + safePath + '" data-title="' + title + '">' +
         '<img src="' + safePath + '" alt="' + title + ' 手機桌布" loading="lazy">' +
-        '<div class="wp-tags">' + tagsHtml + '</div>' +
         '<div class="wp-overlay">' +
           '<div class="wp-overlay-tags">' + tagsHtml + '</div>' +
           '<div class="wp-title">' + title + '</div>' +
