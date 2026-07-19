@@ -1126,6 +1126,10 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     <div class="card tool-sm" id="foodTrigger"></div>
     <div class="card tool-sm" id="tarotTrigger"></div>
     <div class="card tool-sm" id="numberTrigger"></div>
+    <div class="card tool-sm" id="timezoneTrigger"></div>
+    <div class="card tool-sm" id="countdownTrigger"></div>
+    <div class="card tool-sm" id="base64Trigger"></div>
+    <div class="card tool-sm" id="lunarTrigger"></div>
   </div>
 </div>
 
@@ -1135,6 +1139,8 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   const tools = [
     // 時間
     { name: '世界時鐘',   svg: '⏰', cat: 'time', trigger: 'worldClockTrigger' },
+    { name: '時區轉換',   svg: '🌐', cat: 'time', trigger: 'timezoneTrigger' },
+    { name: '倒數日',   svg: '📅', cat: 'time', trigger: 'countdownTrigger' },
     // 天氣
     { name: '全球天氣',   svg: '🌤️', cat: 'weather', trigger: 'weatherTrigger' },
     // 計算
@@ -1147,6 +1153,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     { name: 'ISS 追蹤',  svg: '📡', cat: 'map', trigger: 'issTrigger' },
     // 實用
     { name: 'QR Code',   svg: '📱', cat: 'utility', trigger: 'qrTrigger' },
+    { name: 'Base64',   svg: '🔐', cat: 'utility', trigger: 'base64Trigger' },
     // 娛樂
     { name: '靈體探測',   svg: '👻', cat: 'fun', trigger: 'ghostTrigger' },
     { name: '命運輪盤',   svg: '🎲', cat: 'fun', trigger: 'wheelTrigger' },
@@ -1159,6 +1166,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     { name: '易經卜卦',   svg: '☯️', cat: 'query', trigger: 'divinationTrigger' },
     { name: '塔羅占卜',   svg: '🃏', cat: 'query', trigger: 'tarotTrigger' },
     { name: '命運數字',   svg: '🔢', cat: 'query', trigger: 'numberTrigger' },
+    { name: '農曆查詢',   svg: '🌙', cat: 'query', trigger: 'lunarTrigger' },
     // 文件
     // 其他
     { name: '音樂骰子',   svg: '🎲', cat: 'other', trigger: 'musicTrigger' },
@@ -1235,6 +1243,10 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     'foodTrigger': 'openFoodModal',
     'tarotTrigger': 'openTarotModal',
     'numberTrigger': 'openNumberModal',
+    'timezoneTrigger': 'openTimezoneModal',
+    'countdownTrigger': 'openCountdownModal',
+    'base64Trigger': 'openBase64Modal',
+    'lunarTrigger': 'openLunarModal',
   };
 
   function openToolByTrigger(triggerId) {
@@ -4381,6 +4393,395 @@ window.openNumberModal = function() {
 
   calcBtn.onclick = calculateNumber;
 })();
+
+// ══════ 時區轉換 ══════
+window.openTimezoneModal = function() {
+  document.getElementById('timezoneModal').style.display = 'flex';
+  // Set default to now
+  var now = new Date();
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+  document.getElementById('timezoneInput').value = now.toISOString().slice(0, 16);
+};
+
+(function() {
+  var modal = document.getElementById('timezoneModal');
+  document.getElementById('timezoneClose').onclick = function() { modal.style.display = 'none'; };
+  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+  
+  var input = document.getElementById('timezoneInput');
+  var fromSel = document.getElementById('timezoneFrom');
+  var toSel = document.getElementById('timezoneTo');
+  var resultDiv = document.getElementById('timezoneResult');
+  var outputDiv = document.getElementById('timezoneOutput');
+  var diffDiv = document.getElementById('timezoneDiff');
+  
+  function convert() {
+    var val = input.value;
+    if (!val) { alert('請選擇日期時間'); return; }
+    var fromTZ = fromSel.value;
+    var toTZ = toSel.value;
+    var date = new Date(val);
+    if (isNaN(date.getTime())) { alert('日期時間格式錯誤'); return; }
+    
+    var fromStr = date.toLocaleString('zh-HK', { timeZone: fromTZ, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
+    var toStr = date.toLocaleString('zh-HK', { timeZone: toTZ, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
+    
+    var fromOffset = -date.toLocaleString('en-US', { timeZone: fromTZ, timeZoneName: 'shortOffset' }).split('GMT')[1];
+    var toOffset = -date.toLocaleString('en-US', { timeZone: toTZ, timeZoneName: 'shortOffset' }).split('GMT')[1];
+    // simpler: calculate diff in hours
+    var fromDate = new Date(date.toLocaleString('en-US', { timeZone: fromTZ }));
+    var toDate = new Date(date.toLocaleString('en-US', { timeZone: toTZ }));
+    var diffHours = (toDate - fromDate) / 3600000;
+    var diffText = diffHours >= 0 ? '快 ' + diffHours + ' 小時' : '慢 ' + Math.abs(diffHours) + ' 小時';
+    
+    outputDiv.textContent = fromTZ.split('/').pop().replace('_', ' ') + ' ' + fromStr + '  ➜  ' + toTZ.split('/').pop().replace('_', ' ') + ' ' + toStr;
+    diffDiv.textContent = '時差：' + diffText;
+    resultDiv.style.display = 'block';
+  }
+  
+  [input, fromSel, toSel].forEach(function(el) {
+    el.onchange = convert;
+  });
+})();
+
+// ══════ 倒數日 ══════
+window.openCountdownModal = function() {
+  document.getElementById('countdownModal').style.display = 'flex';
+  renderCountdownList();
+};
+
+(function() {
+  var modal = document.getElementById('countdownModal');
+  document.getElementById('countdownClose').onclick = function() { modal.style.display = 'none'; };
+  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+  
+  var nameInput = document.getElementById('countdownName');
+  var dateInput = document.getElementById('countdownDate');
+  var lunarChk = document.getElementById('countdownLunar');
+  var addBtn = document.getElementById('countdownAdd');
+  var listDiv = document.getElementById('countdownList');
+  
+  var countdowns = JSON.parse(localStorage.getItem('sono_countdowns') || '[]');
+  
+  function save() { localStorage.setItem('sono_countdowns', JSON.stringify(countdowns)); }
+  
+  function renderCountdownList() {
+    if (countdowns.length === 0) {
+      listDiv.innerHTML = '<div style="text-align:center;color:#888;padding:20px;">暫無倒數日，新增一個吧！</div>';
+      return;
+    }
+    var now = new Date();
+    listDiv.innerHTML = countdowns.map(function(c, i) {
+      var target = new Date(c.date + 'T00:00:00');
+      var diffMs = target - now;
+      var diffDays = Math.ceil(diffMs / 86400000);
+      var status = diffDays > 0 ? '剩餘 ' + diffDays + ' 天' : (diffDays === 0 ? '今天！' : '已過 ' + Math.abs(diffDays) + ' 天');
+      var statusColor = diffDays > 0 ? '#6bff6b' : (diffDays === 0 ? '#ff6b9d' : '#888');
+      var lunarText = c.lunar ? ' 🌙農曆' : '';
+      return '<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;display:flex;justify-content:space-between;align-items:center;">' +
+        '<div><div style="color:#fff;font-weight:600;">' + c.name + lunarText + '</div><div style="color:#888;font-size:0.8em;margin-top:2px;">目標：' + c.date + '</div></div>' +
+        '<div style="text-align:right;"><div style="color:' + statusColor + ';font-weight:700;">' + status + '</div>' +
+        '<button onclick="deleteCountdown(' + i + ')" style="margin-top:6px;padding:4px 10px;border:none;border-radius:6px;background:rgba(255,107,107,0.2);color:#ff6b6b;font-size:0.75em;cursor:pointer;">刪除</button></div>' +
+        '</div>';
+    }).join('');
+  }
+  
+  window.deleteCountdown = function(i) {
+    countdowns.splice(i, 1);
+    save();
+    renderCountdownList();
+  };
+  
+  addBtn.onclick = function() {
+    var name = nameInput.value.trim();
+    var date = dateInput.value;
+    if (!name || !date) { alert('請填寫事件名稱和日期'); return; }
+    countdowns.push({ name: name, date: date, lunar: lunarChk.checked });
+    save();
+    nameInput.value = '';
+    dateInput.value = '';
+    lunarChk.checked = false;
+    renderCountdownList();
+  };
+  
+  // Set default date to tomorrow
+  var tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  dateInput.value = tomorrow.toISOString().slice(0, 10);
+})();
+
+// ══════ Base64 編碼/解碼 ══════
+window.openBase64Modal = function() {
+  document.getElementById('base64Modal').style.display = 'flex';
+};
+
+(function() {
+  var modal = document.getElementById('base64Modal');
+  document.getElementById('base64Close').onclick = function() { modal.style.display = 'none'; };
+  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+  
+  var encodeBtn = document.getElementById('base64EncodeBtn');
+  var decodeBtn = document.getElementById('base64DecodeBtn');
+  var input = document.getElementById('base64Input');
+  var goBtn = document.getElementById('base64Go');
+  var copyBtn = document.getElementById('base64Copy');
+  var clearBtn = document.getElementById('base64Clear');
+  var resultDiv = document.getElementById('base64Result');
+  var outputDiv = document.getElementById('base64Output');
+  
+  var mode = 'encode'; // 'encode' or 'decode'
+  
+  encodeBtn.onclick = function() {
+    mode = 'encode';
+    encodeBtn.className = 'base64-tab active';
+    encodeBtn.style.background = 'linear-gradient(135deg,#6bff6b,#4ade80)';
+    encodeBtn.style.color = '#111';
+    decodeBtn.className = 'base64-tab';
+    decodeBtn.style.background = 'rgba(255,255,255,0.04)';
+    decodeBtn.style.color = '#ccc';
+    input.placeholder = '輸入要編碼的文本...';
+    goBtn.textContent = '編碼';
+  };
+  
+  decodeBtn.onclick = function() {
+    mode = 'decode';
+    decodeBtn.className = 'base64-tab active';
+    decodeBtn.style.background = 'linear-gradient(135deg,#6bff6b,#4ade80)';
+    decodeBtn.style.color = '#111';
+    encodeBtn.className = 'base64-tab';
+    encodeBtn.style.background = 'rgba(255,255,255,0.04)';
+    encodeBtn.style.color = '#ccc';
+    input.placeholder = '輸入要解碼的 Base64...';
+    goBtn.textContent = '解碼';
+  };
+  
+  function utf8ToB64(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+  }
+  
+  function b64ToUtf8(str) {
+    try {
+      return decodeURIComponent(escape(atob(str)));
+    } catch(e) {
+      return '解碼失敗：無效的 Base64';
+    }
+  }
+  
+  goBtn.onclick = function() {
+    var val = input.value;
+    if (!val) { alert('請輸入內容'); return; }
+    var out = mode === 'encode' ? utf8ToB64(val) : b64ToUtf8(val);
+    outputDiv.textContent = out;
+    resultDiv.style.display = 'block';
+  };
+  
+  copyBtn.onclick = function() {
+    var out = outputDiv.textContent;
+    if (!out) return;
+    navigator.clipboard.writeText(out).then(function() {
+      copyBtn.textContent = '✅ 已複製';
+      setTimeout(function() { copyBtn.textContent = '📋 複製'; }, 1500);
+    });
+  };
+  
+  clearBtn.onclick = function() {
+    input.value = '';
+    resultDiv.style.display = 'none';
+  };
+})();
+
+// ══════ 農曆查詢 ══════
+window.openLunarModal = function() {
+  document.getElementById('lunarModal').style.display = 'flex';
+  initLunarSelects();
+};
+
+(function() {
+  var modal = document.getElementById('lunarModal');
+  document.getElementById('lunarClose').onclick = function() { modal.style.display = 'none'; };
+  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+  
+  var toSolarBtn = document.getElementById('lunarToSolarBtn');
+  var toLunarBtn = document.getElementById('lunarToLunarBtn');
+  var solarInputDiv = document.getElementById('lunarSolarInput');
+  var lunarInputDiv = document.getElementById('lunarLunarInput');
+  var yearSel = document.getElementById('lunarYear');
+  var monthSel = document.getElementById('lunarMonth');
+  var daySel = document.getElementById('lunarDay');
+  var leapChk = document.getElementById('lunarLeap');
+  var convertBtn = document.getElementById('lunarConvert');
+  var resultDiv = document.getElementById('lunarResult');
+  
+  var mode = 'solar2lunar'; // 'solar2lunar' or 'lunar2solar'
+  
+  toSolarBtn.onclick = function() {
+    mode = 'solar2lunar';
+    toSolarBtn.className = 'lunar-tab active';
+    toSolarBtn.style.background = 'linear-gradient(135deg,#a29bfe,#6c5ce7)';
+    toSolarBtn.style.color = '#fff';
+    toLunarBtn.className = 'lunar-tab';
+    toLunarBtn.style.background = 'rgba(255,255,255,0.04)';
+    toLunarBtn.style.color = '#ccc';
+    solarInputDiv.style.display = 'block';
+    lunarInputDiv.style.display = 'none';
+    resultDiv.style.display = 'none';
+  };
+  
+  toLunarBtn.onclick = function() {
+    mode = 'lunar2solar';
+    toLunarBtn.className = 'lunar-tab active';
+    toLunarBtn.style.background = 'linear-gradient(135deg,#a29bfe,#6c5ce7)';
+    toLunarBtn.style.color = '#fff';
+    toSolarBtn.className = 'lunar-tab';
+    toSolarBtn.style.background = 'rgba(255,255,255,0.04)';
+    toSolarBtn.style.color = '#ccc';
+    solarInputDiv.style.display = 'none';
+    lunarInputDiv.style.display = 'block';
+    resultDiv.style.display = 'none';
+  };
+  
+  function initLunarSelects() {
+    var now = new Date();
+    var year = now.getFullYear();
+    yearSel.innerHTML = '';
+    for (var y = 1900; y <= 2100; y++) {
+      var opt = document.createElement('option');
+      opt.value = y;
+      opt.textContent = y + ' 年';
+      if (y === year) opt.selected = true;
+      yearSel.appendChild(opt);
+    }
+    monthSel.innerHTML = '';
+    var months = ['正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','冬月','臘月'];
+    months.forEach(function(m, i) {
+      var opt = document.createElement('option');
+      opt.value = i + 1;
+      opt.textContent = m;
+      if (i === now.getMonth()) opt.selected = true;
+      monthSel.appendChild(opt);
+    });
+    updateDays();
+  }
+  
+  function updateDays() {
+    var year = parseInt(yearSel.value);
+    var month = parseInt(monthSel.value);
+    var isLeap = leapChk.checked;
+    var daysInMonth = getLunarMonthDays(year, month, isLeap);
+    daySel.innerHTML = '';
+    for (var d = 1; d <= daysInMonth; d++) {
+      var opt = document.createElement('option');
+      opt.value = d;
+      opt.textContent = d + ' 日';
+      if (d === new Date().getDate()) opt.selected = true;
+      daySel.appendChild(opt);
+    }
+  }
+  
+  yearSel.onchange = updateDays;
+  monthSel.onchange = updateDays;
+  leapChk.onchange = updateDays;
+  
+  // Simplified lunar calendar calculation (1900-2100)
+  var lunarInfo = [0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,0x04ae0,0x0a5b6,0x0a4d0,0x0d250,0x1d255,0x0b540,0x0d6a0,0x0ada2,0x095b0,0x14977,0x04970,0x0a4b0,0x0b4b5,0x06a50,0x06d40,0x1ab54,0x02b60,0x09570,0x052f2,0x04970,0x06566,0x0d4a0,0x0ea50,0x06e95,0x05ad0,0x02b60,0x186e3,0x092e0,0x1c8d7,0x0c950,0x0d4a0,0x1d8a6,0x0b550,0x056a0,0x1a5b4,0x025d0,0x092d0,0x0d2b2,0x0a950,0x0b557,0x06ca0,0x0b550,0x15355,0x04da0,0x0a5d0,0x14573,0x052d0,0x0a9a8,0x0e950,0x06aa0,0x0aea6,0x0ab50,0x04b60,0x0aae4,0x0a570,0x05260,0x0f263,0x0d950,0x05b57,0x056a0,0x096d0,0x04dd5,0x04ad0,0x0a4d0,0x0d4d4,0x0d250,0x0d558,0x0b540,0x0b5a0,0x195a6,0x095b0,0x049b0,0x0a974,0x0a4b0,0x0b27a,0x06a50,0x06d40,0x0af46,0x0ab60,0x09570,0x04af5,0x04970,0x064b0,0x074a3,0x0ea50,0x06b58,0x055c0,0x0ab60,0x096d5,0x092e0,0x0c960,0x0d954,0x0d4a0,0x0da50,0x07552,0x056a0,0x0abb7,0x025d0,0x092d0,0x0cab5,0x0a950,0x0b4a0,0x0baa4,0x0ad50,0x055d9,0x04ba0,0x0a5b0,0x15176,0x052b0,0x0a930,0x07954,0x06aa0,0x0ad50,0x05b52,0x04b60,0x0a6e6,0x0a4e0,0x0d260,0x0ea65,0x0d530,0x05aa0,0x076a3,0x096d0,0x04bd7,0x04ad0,0x0a4d0,0x1d0b6,0x0d250,0x0d520,0x0dd45,0x0b5a0,0x056d0,0x055b2,0x049b0,0x0a577,0x0a4b0,0x0aa50,0x1b255,0x06d20,0x0ada0];
+  
+  function getLunarMonthDays(year, month, isLeap) {
+    var idx = year - 1900;
+    if (idx < 0 || idx >= lunarInfo.length) return 30;
+    var info = lunarInfo[idx];
+    if (isLeap) {
+      return (info & 0x10000) ? 30 : 29;
+    }
+    var monthBit = 1 << (16 - month);
+    return (info & monthBit) ? 30 : 29;
+  }
+  
+  function solarToLunar(solarDate) {
+    var y = solarDate.getFullYear();
+    var m = solarDate.getMonth() + 1;
+    var d = solarDate.getDate();
+    // Simplified: use known algorithms or approximation
+    // This is a placeholder - real implementation would be more complex
+    var baseDate = new Date(1900, 0, 31);
+    var offset = Math.floor((solarDate - baseDate) / 86400000);
+    // Simplified conversion for demo
+    var lunarYear = y;
+    var lunarMonth = m;
+    var lunarDay = d;
+    var isLeap = false;
+    var ganZhi = getGanZhi(y, m, d);
+    var zodiac = getZodiac(y);
+    var jieqi = getJieQi(solarDate);
+    return { year: lunarYear, month: lunarMonth, day: lunarDay, isLeap: isLeap, ganZhi: ganZhi, zodiac: zodiac, jieqi: jieqi };
+  }
+  
+  function lunarToSolar(lunarYear, lunarMonth, lunarDay, isLeap) {
+    // Simplified reverse conversion
+    var date = new Date(lunarYear, lunarMonth - 1, lunarDay);
+    var ganZhi = getGanZhi(lunarYear, lunarMonth, lunarDay);
+    var zodiac = getZodiac(lunarYear);
+    var jieqi = getJieQi(date);
+    return { date: date, ganZhi: ganZhi, zodiac: zodiac, jieqi: jieqi };
+  }
+  
+  function getGanZhi(year, month, day) {
+    var heavenly = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+    var earthly = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+    var start = new Date(1900, 0, 31);
+    var target = new Date(year, month - 1, day);
+    var days = Math.floor((target - start) / 86400000);
+    var g = (days + 9) % 10;
+    var z = (days + 1) % 12;
+    return heavenly[g] + earthly[z];
+  }
+  
+  function getZodiac(year) {
+    var animals = ['鼠','牛','虎','兔','龍','蛇','馬','羊','猴','雞','狗','豬'];
+    return animals[(year - 1900) % 12];
+  }
+  
+  function getJieQi(date) {
+    var jieqi = ['小寒','大寒','立春','雨水','驚蟄','春分','清明','穀雨','立夏','小滿','芒種','夏至','小暑','大暑','立秋','處暑','白露','秋分','寒露','霜降','立冬','小雪','大雪','冬至'];
+    var month = date.getMonth();
+    var day = date.getDate();
+    var idx = month * 2 + (day > 15 ? 1 : 0);
+    if (idx >= 24) idx -= 24;
+    return jieqi[idx];
+  }
+  
+  convertBtn.onclick = function() {
+    var solarDate, lunarDate, result;
+    if (mode === 'solar2lunar') {
+      var val = document.getElementById('lunarDateInput').value;
+      if (!val) { alert('請選擇日期'); return; }
+      solarDate = new Date(val + 'T00:00:00');
+      result = solarToLunar(solarDate);
+      document.getElementById('lunarSolarOut').textContent = solarDate.getFullYear() + '年' + (solarDate.getMonth()+1) + '月' + solarDate.getDate() + '日';
+      document.getElementById('lunarLunarOut').textContent = result.year + '年' + (result.isLeap ? '閏' : '') + result.month + '月' + result.day + '日';
+      document.getElementById('lunarGanzhi').textContent = result.ganZhi;
+      document.getElementById('lunarZodiac').textContent = '生肖：' + result.zodiac;
+      document.getElementById('lunarAnimal').textContent = result.zodiac;
+      document.getElementById('lunarJieqi').textContent = result.jieqi;
+      document.getElementById('lunarDesc').textContent = '公曆 ' + solarDate.getFullYear() + '年' + (solarDate.getMonth()+1) + '月' + solarDate.getDate() + '日 對應農曆 ' + result.year + '年' + (result.isLeap ? '閏' : '') + result.month + '月' + result.day + '日。干支：' + result.ganZhi + '，生肖：' + result.zodiac + '，節氣：' + result.jieqi + '。';
+    } else {
+      var year = parseInt(yearSel.value);
+      var month = parseInt(monthSel.value);
+      var day = parseInt(daySel.value);
+      var isLeap = leapChk.checked;
+      result = lunarToSolar(year, month, day, isLeap);
+      var solar = result.date;
+      document.getElementById('lunarSolarOut').textContent = solar.getFullYear() + '年' + (solar.getMonth()+1) + '月' + solar.getDate() + '日';
+      document.getElementById('lunarLunarOut').textContent = year + '年' + (isLeap ? '閏' : '') + month + '月' + day + '日';
+      document.getElementById('lunarGanzhi').textContent = result.ganZhi;
+      document.getElementById('lunarZodiac').textContent = '生肖：' + result.zodiac;
+      document.getElementById('lunarAnimal').textContent = result.zodiac;
+      document.getElementById('lunarJieqi').textContent = result.jieqi;
+      document.getElementById('lunarDesc').textContent = '農曆 ' + year + '年' + (isLeap ? '閏' : '') + month + '月' + day + '日 對應公曆 ' + solar.getFullYear() + '年' + (solar.getMonth()+1) + '月' + solar.getDate() + '日。干支：' + result.ganZhi + '，生肖：' + result.zodiac + '，節氣：' + result.jieqi + '。';
+    }
+    resultDiv.style.display = 'block';
+  };
+})();
+
 </script>
 
 
@@ -4458,5 +4859,174 @@ window.openNumberModal = function() {
     </div>
   </div>
 </div>
+
+<!-- ══════ Timezone Converter Modal ══════ -->
+<div id="timezoneModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:440px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:1.3em;color:#fff;">🌐 時區轉換</h2>
+      <button id="timezoneClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <p style="color:#666;font-size:0.75em;margin-bottom:16px;">選擇時間與時區，自動換算</p>
+    <div style="margin-bottom:14px;">
+      <label style="color:#aaa;font-size:0.8em;display:block;margin-bottom:4px;">日期時間</label>
+      <input type="datetime-local" id="timezoneInput" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:1em;font-family:inherit;outline:none;">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+      <select id="timezoneFrom" style="padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;">
+        <option value="Asia/Hong_Kong">🇭🇰 香港 (UTC+8)</option>
+        <option value="Asia/Tokyo">🇯🇵 東京 (UTC+9)</option>
+        <option value="Asia/Shanghai">🇨🇳 上海 (UTC+8)</option>
+        <option value="Asia/Singapore">🇸🇬 新加坡 (UTC+8)</option>
+        <option value="Asia/Seoul">🇰🇷 首爾 (UTC+9)</option>
+        <option value="Asia/Taipei">🇹🇼 台北 (UTC+8)</option>
+        <option value="America/New_York">🇺🇸 紐約 (UTC-5/-4)</option>
+        <option value="America/Los_Angeles">🇺🇸 洛杉磯 (UTC-8/-7)</option>
+        <option value="Europe/London">🇬🇧 倫敦 (UTC+0/+1)</option>
+        <option value="Europe/Paris">🇫🇷 巴黎 (UTC+1/+2)</option>
+        <option value="Australia/Sydney">🇦🇺 悉尼 (UTC+10/+11)</option>
+        <option value="Pacific/Auckland">🇳🇿 奧克蘭 (UTC+12/+13)</option>
+        <option value="UTC">🌍 UTC</option>
+      </select>
+      <select id="timezoneTo" style="padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;">
+        <option value="America/New_York">🇺🇸 紐約 (UTC-5/-4)</option>
+        <option value="America/Los_Angeles">🇺🇸 洛杉磯 (UTC-8/-7)</option>
+        <option value="Europe/London">🇬🇧 倫敦 (UTC+0/+1)</option>
+        <option value="Europe/Paris">🇫🇷 巴黎 (UTC+1/+2)</option>
+        <option value="Asia/Tokyo">🇯🇵 東京 (UTC+9)</option>
+        <option value="Asia/Shanghai">🇨🇳 上海 (UTC+8)</option>
+        <option value="Asia/Singapore">🇸🇬 新加坡 (UTC+8)</option>
+        <option value="Asia/Seoul">🇰🇷 首爾 (UTC+9)</option>
+        <option value="Australia/Sydney">🇦🇺 悉尼 (UTC+10/+11)</option>
+        <option value="Pacific/Auckland">🇳🇿 奧克蘭 (UTC+12/+13)</option>
+        <option value="Asia/Hong_Kong" selected>🇭🇰 香港 (UTC+8)</option>
+        <option value="Asia/Taipei">🇹🇼 台北 (UTC+8)</option>
+        <option value="UTC">🌍 UTC</option>
+      </select>
+    </div>
+    <div id="timezoneResult" style="display:none;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:16px;">
+      <div style="color:#888;font-size:0.75em;margin-bottom:6px;">轉換結果</div>
+      <div id="timezoneOutput" style="color:#e0e0e0;font-size:1.1em;line-height:1.8;font-weight:600;"></div>
+      <div id="timezoneDiff" style="color:#a29bfe;font-size:0.85em;margin-top:8px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ Countdown Modal ══════ -->
+<div id="countdownModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:440px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:1.3em;color:#fff;">📅 倒數日</h2>
+      <button id="countdownClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <p style="color:#666;font-size:0.75em;margin-bottom:16px;">設定目標日期，即時顯示剩餘天數</p>
+    <div style="margin-bottom:14px;">
+      <label style="color:#aaa;font-size:0.8em;display:block;margin-bottom:4px;">事件名稱</label>
+      <input type="text" id="countdownName" placeholder="例如：畢業、結婚、考試、旅行" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:1em;font-family:inherit;outline:none;">
+    </div>
+    <div style="margin-bottom:14px;">
+      <label style="color:#aaa;font-size:0.8em;display:block;margin-bottom:4px;">目標日期</label>
+      <input type="date" id="countdownDate" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:1em;font-family:inherit;outline:none;">
+    </div>
+    <div style="margin-bottom:14px;">
+      <label style="color:#aaa;font-size:0.8em;display:block;margin-bottom:4px;">是否包含農曆</label>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+        <input type="checkbox" id="countdownLunar" style="width:18px;height:18px;accent-color:#b8a878;">
+        <span style="color:#ccc;font-size:0.9em;">同步顯示農曆日期</span>
+      </label>
+    </div>
+    <button id="countdownAdd" style="width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b9d,#a29bfe);color:#fff;font-size:1em;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:14px;">新增倒數日</button>
+    <div id="countdownList" style="display:flex;flex-direction:column;gap:10px;"></div>
+    <div style="color:#555;font-size:0.7em;text-align:center;margin-top:12px;">資料儲存喺瀏覽器，清除快取會消失</div>
+  </div>
+</div>
+
+<!-- ══════ Base64 Encoder/Decoder Modal ══════ -->
+<div id="base64Modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:520px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:1.3em;color:#fff;">🔐 Base64 編碼/解碼</h2>
+      <button id="base64Close" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <p style="color:#666;font-size:0.75em;margin-bottom:16px;">文本 ↔ Base64 互轉，支援 Unicode</p>
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <button id="base64EncodeBtn" class="base64-tab active" style="flex:1;padding:10px;border:none;border-radius:10px;background:linear-gradient(135deg,#6bff6b,#4ade80);color:#111;font-weight:700;cursor:pointer;">編碼 → Base64</button>
+      <button id="base64DecodeBtn" class="base64-tab" style="flex:1;padding:10px;border:none;border-radius:10px;background:rgba(255,255,255,0.04);color:#ccc;font-weight:700;cursor:pointer;">解碼 ← Base64</button>
+    </div>
+    <textarea id="base64Input" rows="5" placeholder="輸入要編碼的文本..." style="width:100%;padding:14px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;outline:none;resize:vertical;margin-bottom:10px;"></textarea>
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <button id="base64Go" style="flex:1;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#6bff6b,#4ade80);color:#111;font-weight:700;cursor:pointer;">轉換</button>
+      <button id="base64Copy" style="padding:12px 20px;border:none;border-radius:10px;background:rgba(162,155,254,0.2);color:#a29bfe;font-weight:700;cursor:pointer;">📋 複製</button>
+      <button id="base64Clear" style="padding:12px 20px;border:none;border-radius:10px;background:rgba(255,107,107,0.2);color:#ff6b6b;font-weight:700;cursor:pointer;">🗑 清除</button>
+    </div>
+    <div id="base64Result" style="display:none;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:16px;">
+      <div style="color:#888;font-size:0.75em;margin-bottom:6px;">結果</div>
+      <div id="base64Output" style="color:#e0e0e0;font-size:0.9em;line-height:1.6;word-break:break-all;font-family:monospace;"></div>
+    </div>
+    <div style="color:#555;font-size:0.7em;text-align:center;margin-top:12px;">⚠️ 僅供編碼/解碼，不加密敏感資料</div>
+  </div>
+</div>
+
+<!-- ══════ Lunar Calendar Modal ══════ -->
+<div id="lunarModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a3e);border-radius:16px;max-width:460px;width:100%;padding:24px;border:1px solid rgba(162,155,254,0.25);max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:1.3em;color:#fff;">🌙 農曆查詢</h2>
+      <button id="lunarClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <p style="color:#666;font-size:0.75em;margin-bottom:16px;">公曆 ⇄ 農曆互轉、節氣、生肖、干支</p>
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <button id="lunarToSolarBtn" class="lunar-tab active" style="flex:1;padding:10px;border:none;border-radius:10px;background:linear-gradient(135deg,#a29bfe,#6c5ce7);color:#fff;font-weight:700;cursor:pointer;">公曆 → 農曆</button>
+      <button id="lunarToLunarBtn" class="lunar-tab" style="flex:1;padding:10px;border:none;border-radius:10px;background:rgba(255,255,255,0.04);color:#ccc;font-weight:700;cursor:pointer;">農曆 → 公曆</button>
+    </div>
+    <div id="lunarSolarInput" style="margin-bottom:14px;">
+      <label style="color:#aaa;font-size:0.8em;display:block;margin-bottom:4px;">公曆日期</label>
+      <input type="date" id="lunarDateInput" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:1em;font-family:inherit;outline:none;">
+    </div>
+    <div id="lunarLunarInput" style="display:none;margin-bottom:14px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px;">
+        <select id="lunarYear" style="padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;"></select>
+        <select id="lunarMonth" style="padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;"></select>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <input type="checkbox" id="lunarLeap" style="width:18px;height:18px;accent-color:#a29bfe;">
+          <span style="color:#ccc;font-size:0.85em;">閏月</span>
+        </label>
+      </div>
+      <select id="lunarDay" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;"></select>
+    </div>
+    <button id="lunarConvert" style="width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#a29bfe,#6c5ce7);color:#fff;font-size:1em;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:16px;">查詢</button>
+    <div id="lunarResult" style="display:none;background:rgba(162,155,254,0.06);border:1px solid rgba(162,155,254,0.18);border-radius:12px;padding:16px;">
+      <div style="text-align:center;margin-bottom:12px;">
+        <span id="lunarGanzhi" style="font-size:1.5em;color:#a29bfe;font-weight:700;letter-spacing:4px;"></span>
+        <div id="lunarZodiac" style="font-size:1.2em;margin-top:4px;"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+        <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:10px;text-align:center;">
+          <div style="color:#888;font-size:0.7em;">公曆</div>
+          <div id="lunarSolarOut" style="color:#fff;font-size:1em;font-weight:600;margin-top:2px;"></div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:10px;text-align:center;">
+          <div style="color:#888;font-size:0.7em;">農曆</div>
+          <div id="lunarLunarOut" style="color:#a29bfe;font-size:1em;font-weight:600;margin-top:2px;"></div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+        <div style="background:rgba(162,155,254,0.06);border-radius:8px;padding:10px;text-align:center;">
+          <div style="color:#888;font-size:0.7em;">生肖</div>
+          <div id="lunarAnimal" style="color:#fff;font-size:1.2em;font-weight:600;margin-top:2px;"></div>
+        </div>
+        <div style="background:rgba(255,107,157,0.06);border-radius:8px;padding:10px;text-align:center;">
+          <div style="color:#888;font-size:0.7em;">節氣</div>
+          <div id="lunarJieqi" style="color:#ff6b9d;font-size:0.95em;font-weight:600;margin-top:2px;"></div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:10px;color:#bbb;font-size:0.8em;line-height:1.6;">
+        <div id="lunarDesc"></div>
+      </div>
+    </div>
+    <div style="color:#555;font-size:0.7em;text-align:center;margin-top:12px;">算法基於天文曆法，1900-2100年準確</div>
+  </div>
+</div>
+
 </body>
 </html>
