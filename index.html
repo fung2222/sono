@@ -4869,11 +4869,11 @@ window.openLunarModal = function() {
     </div>
     <p style="color:#666;font-size:0.75em;margin-bottom:16px;">選擇時間與時區，自動換算</p>
     <div style="margin-bottom:14px;">
-      <label style="color:#aaa;font-size:0.8em;display:block;margin-bottom:4px;">日期時間</label>
-      <input type="datetime-local" id="timezoneInput" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:1em;font-family:inherit;outline:none;">
+      <input type="datetime-local" id="timezoneInput" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:1em;font-family:inherit;outline:none;" placeholder="選擇日期時間">
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
-      <select id="timezoneFrom" style="padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;">
+    <div style="margin-bottom:14px;">
+      <label style="color:#aaa;font-size:0.8em;display:block;margin-bottom:4px;">來源時區</label>
+      <select id="timezoneFrom" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;">
         <option value="Asia/Hong_Kong">🇭🇰 香港 (UTC+8)</option>
         <option value="Asia/Tokyo">🇯🇵 東京 (UTC+9)</option>
         <option value="Asia/Shanghai">🇨🇳 上海 (UTC+8)</option>
@@ -4888,7 +4888,10 @@ window.openLunarModal = function() {
         <option value="Pacific/Auckland">🇳🇿 奧克蘭 (UTC+12/+13)</option>
         <option value="UTC">🌍 UTC</option>
       </select>
-      <select id="timezoneTo" style="padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;">
+    </div>
+    <div style="margin-bottom:14px;">
+      <label style="color:#aaa;font-size:0.8em;display:block;margin-bottom:4px;">目標時區</label>
+      <select id="timezoneTo" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;">
         <option value="America/New_York">🇺🇸 紐約 (UTC-5/-4)</option>
         <option value="America/Los_Angeles">🇺🇸 洛杉磯 (UTC-8/-7)</option>
         <option value="Europe/London">🇬🇧 倫敦 (UTC+0/+1)</option>
@@ -4925,8 +4928,7 @@ window.openLunarModal = function() {
       <input type="text" id="countdownName" placeholder="例如：畢業、結婚、考試、旅行" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:1em;font-family:inherit;outline:none;">
     </div>
     <div style="margin-bottom:14px;">
-      <label style="color:#aaa;font-size:0.8em;display:block;margin-bottom:4px;">目標日期</label>
-      <input type="date" id="countdownDate" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:1em;font-family:inherit;outline:none;">
+      <input type="date" id="countdownDate" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:1em;font-family:inherit;outline:none;" placeholder="選擇目標日期">
     </div>
     <div style="margin-bottom:14px;">
       <label style="color:#aaa;font-size:0.8em;display:block;margin-bottom:4px;">是否包含農曆</label>
