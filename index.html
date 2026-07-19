@@ -1784,6 +1784,12 @@ document.addEventListener('click', function(e) {
       document.getElementById('wError').textContent = '❌ '+e.message;
     }
   }
+  window.openWeatherModal = function() {
+    document.getElementById('weatherModal').style.display = 'flex';
+    document.getElementById('wLoading').style.display = 'none';
+    document.getElementById('wResult').style.display = 'none';
+    document.getElementById('wError').style.display = 'none';
+  };
 })();
 
 // ══════ Search Modal ══════
