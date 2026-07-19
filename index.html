@@ -1730,6 +1730,9 @@ document.addEventListener('click', function(e) {
   };
 
   mFetch();
+  window.openCurrencyModal = function() {
+    document.getElementById("currencyModal").style.display = "flex";
+  };
 })();
 
 // ══════ Global Weather Modal ══════
@@ -2130,6 +2133,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     timer = setInterval(fetchISS, 5000);
   };
   document.getElementById('issClose').onclick = function(){
+  window.openISSModal = function() { document.getElementById('issModal').style.display = 'flex'; };
     modal.style.display='none';
     if(timer) clearInterval(timer);
     timer = null;
@@ -2182,6 +2186,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     timer = setInterval(renderClocks, 1000);
   };
   document.getElementById('worldClockClose').onclick = function(){
+  window.openWorldClockModal = function() { document.getElementById('worldClockModal').style.display = 'flex'; };
     modal.style.display='none';
     if(timer) clearInterval(timer);
     timer = null;
@@ -2531,6 +2536,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   var modal = document.getElementById('qrModal');
   document.getElementById('qrTrigger').onclick = function(){ modal.style.display='flex'; };
   document.getElementById('qrClose').onclick = function(){ modal.style.display='none'; };
+  window.openQRModal = function() { document.getElementById('qrModal').style.display = 'flex'; };
   modal.onclick = function(e){ if(e.target===this) modal.style.display='none'; };
   
   document.getElementById('qrGo').onclick = function(){
@@ -2571,6 +2577,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
   document.getElementById('timerTrigger').onclick = function(){ modal.style.display='flex'; };
   document.getElementById('timerClose').onclick = function(){ modal.style.display='none'; stopTimer(); };
+  window.openTimerModal = function() { document.getElementById('timerModal').style.display = 'flex'; };
   modal.onclick = function(e){ if(e.target===this){ modal.style.display='none'; stopTimer(); }};
 
   function updateDisplay(){
@@ -2708,6 +2715,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   
   document.getElementById('ghostTrigger').onclick = function(){ modal.style.display='flex'; };
   document.getElementById('ghostClose').onclick = function(){
+  window.openGhostModal = function() { document.getElementById('ghostModal').style.display = 'flex'; };
     modal.style.display='none';
     stopScan();
   };
@@ -2982,6 +2990,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   var spinning=false;
   document.getElementById('wheelTrigger').onclick=function(){modal.style.display='flex';};
   document.getElementById('wheelClose').onclick=function(){modal.style.display='none';};
+  window.openWheelModal = function() { document.getElementById('wheelModal').style.display = 'flex'; };
   modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
   document.querySelectorAll('.wheel-cat').forEach(function(b){b.onclick=function(){document.querySelectorAll('.wheel-cat').forEach(function(x){x.classList.remove('active');x.style.background='transparent';x.style.color='#888';});this.classList.add('active');this.style.background='rgba(255,107,155,0.15)';this.style.color='#ff6b9d';cat=this.dataset.cat;};});
   document.getElementById('wheelSpin').onclick=function(){
@@ -3000,6 +3009,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   var waiting=false,startTime=0,best=999;
   document.getElementById('reactTrigger').onclick=function(){modal.style.display='flex';resetBox();};
   document.getElementById('reactClose').onclick=function(){modal.style.display='none';};
+  window.openReactModal = function() { document.getElementById('reactModal').style.display = 'flex'; resetBox(); };
   modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
   function resetBox(){waiting=false;box.style.background='#1a2438';msg.textContent='撳我開始';msg.style.color='#888';}
   box.onclick=function(){
@@ -3038,6 +3048,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   }
   document.getElementById('fortuneTrigger').onclick=function(){modal.style.display='flex';draw();};
   document.getElementById('fortuneClose').onclick=function(){modal.style.display='none';};
+  window.openFortuneModal = function() { document.getElementById('fortuneModal').style.display = 'flex'; draw(); };
   modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
   document.getElementById('fortuneRefresh').onclick=draw;
 })();
@@ -3050,6 +3061,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   var ctx=null,noise=null,gain=null,active=null;
   document.getElementById('ambientTrigger').onclick=function(){modal.style.display='flex';};
   document.getElementById('ambientClose').onclick=function(){modal.style.display='none';stopSound();};
+  window.openAmbientModal = function() { document.getElementById('ambientModal').style.display = 'flex'; };
   modal.onclick=function(e){if(e.target===this){modal.style.display='none';stopSound();}};
   function stopSound(){if(noise){try{noise.stop();}catch(e){}noise=null;}if(gain)gain.disconnect();active=null;status.textContent='🎵 揀一個環境音效';}
   function playNoise(type){
@@ -3105,6 +3117,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   }
   document.getElementById('quoteTrigger').onclick=function(){modal.style.display='flex';show();};
   document.getElementById('quoteClose').onclick=function(){modal.style.display='none';};
+  window.openQuoteModal = function() { document.getElementById('quoteModal').style.display = 'flex'; show(); };
   modal.onclick=function(e){if(e.target===this)modal.style.display='none';};
   document.getElementById('quoteRefresh').onclick=show;
 })();
@@ -3127,6 +3140,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   };
   
   document.getElementById('mapClose').onclick = function(){
+  window.openMapModal = function() { document.getElementById('mapModal').style.display = 'flex'; };
     modal.style.display = 'none';
   };
   
