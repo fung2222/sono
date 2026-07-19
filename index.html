@@ -1155,27 +1155,14 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     { name: '命運數字',   svg: '🔢', cat: 'fun', trigger: 'numberTrigger' }
   ];
 
-  const categories = [
-    { id: 'all',     label: '全部' },
-    { id: 'utility', label: '實用' },
-    { id: 'calc',    label: '計算' },
-    { id: 'fun',     label: '娛樂' }
-  ];
-
-  const groupLabels = { utility: '實用', calc: '計算', fun: '娛樂' };
-  const groupOrder = ['utility', 'calc', 'fun'];
-
   let currentCat = 'all';
 
   function getFiltered() {
-    if (currentCat === 'all') return tools;
-    return tools.filter(t => t.cat === currentCat);
+    return tools;
   }
 
   function getCurrentLabel() {
-    if (currentCat === 'all') return '全部';
-    const c = categories.find(x => x.id === currentCat);
-    return c ? c.label : currentCat;
+    return '全部';
   }
 
   function updateMeta() {
@@ -1238,9 +1225,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   function renderChipBar() {
     const bar = document.getElementById('toolChipBar');
     if (!bar) return;
-    bar.innerHTML = categories.map(c =>
-      '<button class="wp-chip' + (c.id === currentCat ? ' active' : '') + '" data-cat="' + c.id + '">' + c.label + '</button>'
-    ).join('');
+    bar.innerHTML = '<button class="wp-chip active" data-cat="all">全部</button>';
     bar.querySelectorAll('.wp-chip').forEach(btn => {
       btn.addEventListener('click', function() {
         currentCat = this.getAttribute('data-cat');
@@ -1269,21 +1254,9 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       return;
     }
 
-    let html = '';
-    if (currentCat === 'all') {
-      for (const g of groupOrder) {
-        const items = filtered.filter(t => t.cat === g);
-        if (!items.length) continue;
-        html += '<div class="app-group-label">' + groupLabels[g] + '</div>';
-        html += '<div class="apps-grid">';
-        html += items.map(cardHtml).join('');
-        html += '</div>';
-      }
-    } else {
-      html += '<div class="apps-grid">';
-      html += filtered.map(cardHtml).join('');
-      html += '</div>';
-    }
+    let html = '<div class="apps-grid">';
+    html += filtered.map(cardHtml).join('');
+    html += '</div>';
     root.innerHTML = html;
 
     root.querySelectorAll('.app-card').forEach(card => {
