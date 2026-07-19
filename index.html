@@ -1196,18 +1196,43 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     right.disabled = bar.scrollLeft >= max - 4;
   }
 
+  // 映射 trigger ID 到對應的 modal 打開函數
+  const triggerToModal = {
+    'weatherTrigger': 'openWeatherModal',
+    'currencyTrigger': 'openCurrencyModal',
+    'issTrigger': 'openISSModal',
+    'qrTrigger': 'openQRModal',
+    'mapTrigger': 'openMapModal',
+    'worldClockTrigger': 'openWorldClockModal',
+    'timerTrigger': 'openTimerModal',
+    'mtrTrigger': 'openMTRModal',
+    'bmiTrigger': 'openBMIModal',
+    'ghostTrigger': 'openGhostModal',
+    'wheelTrigger': 'openWheelModal',
+    'reactTrigger': 'openReactModal',
+    'fortuneTrigger': 'openFortuneModal',
+    'ambientTrigger': 'openAmbientModal',
+    'quoteTrigger': 'openQuoteModal',
+    'dreamTrigger': 'openDreamModal',
+    'divinationTrigger': 'openDivinationModal',
+    'musicTrigger': 'openMusicModal',
+    'foodTrigger': 'openFoodModal',
+    'tarotTrigger': 'openTarotModal',
+    'numberTrigger': 'openNumberModal',
+  };
+
   function openToolByTrigger(triggerId) {
-    const el = document.getElementById(triggerId);
-    if (!el) {
-      console.warn('Tool trigger missing:', triggerId);
+    const fnName = triggerToModal[triggerId];
+    if (!fnName) {
+      console.warn('Tool trigger not mapped:', triggerId);
       return;
     }
-    if (el.classList.contains('disabled')) {
-      alert('⏳ 功能開發中，即將推出');
-      return;
+    const fn = window[fnName];
+    if (typeof fn === 'function') {
+      fn();
+    } else {
+      console.error('Modal opener not found:', fnName);
     }
-    // 觸發原本 listener / onclick（保留所有 modal init）
-    el.click();
   }
 
   function renderChipBar() {
