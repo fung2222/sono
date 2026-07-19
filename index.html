@@ -4405,7 +4405,8 @@ window.openTimezoneModal = function() {
 
 (function() {
   var modal = document.getElementById('timezoneModal');
-  document.getElementById('timezoneClose').onclick = function() { modal.style.display = 'none'; };
+  var closeBtn = document.getElementById('timezoneClose');
+  closeBtn.onclick = function() { modal.style.display = 'none'; };
   modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
   
   var input = document.getElementById('timezoneInput');
@@ -4417,18 +4418,15 @@ window.openTimezoneModal = function() {
   
   function convert() {
     var val = input.value;
-    if (!val) { alert('請選擇日期時間'); return; }
+    if (!val) { return; }
     var fromTZ = fromSel.value;
     var toTZ = toSel.value;
     var date = new Date(val);
-    if (isNaN(date.getTime())) { alert('日期時間格式錯誤'); return; }
+    if (isNaN(date.getTime())) { return; }
     
     var fromStr = date.toLocaleString('zh-HK', { timeZone: fromTZ, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
     var toStr = date.toLocaleString('zh-HK', { timeZone: toTZ, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
     
-    var fromOffset = -date.toLocaleString('en-US', { timeZone: fromTZ, timeZoneName: 'shortOffset' }).split('GMT')[1];
-    var toOffset = -date.toLocaleString('en-US', { timeZone: toTZ, timeZoneName: 'shortOffset' }).split('GMT')[1];
-    // simpler: calculate diff in hours
     var fromDate = new Date(date.toLocaleString('en-US', { timeZone: fromTZ }));
     var toDate = new Date(date.toLocaleString('en-US', { timeZone: toTZ }));
     var diffHours = (toDate - fromDate) / 3600000;
@@ -4439,9 +4437,24 @@ window.openTimezoneModal = function() {
     resultDiv.style.display = 'block';
   }
   
+  // Convert when any field changes
   [input, fromSel, toSel].forEach(function(el) {
     el.onchange = convert;
   });
+  
+  // Convert on modal open (with small delay for default value)
+  var originalOpen = window.openTimezoneModal;
+  window.openTimezoneModal = function() {
+    modal.style.display = 'flex';
+    // Set default time if empty
+    if (!input.value) {
+      var now = new Date();
+      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      input.value = now.toISOString().slice(0, 16);
+    }
+    // Auto-convert after a brief delay
+    setTimeout(convert, 100);
+  };
 })();
 
 // ══════ 倒數日 ══════
