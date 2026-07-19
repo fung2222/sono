@@ -2716,10 +2716,13 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   var interval = null;
   var canvasInterval = null;
   var level = 0;
-  
+
+  window.openGhostModal = function() {
+    modal.style.display = 'flex';
+  };
+
   document.getElementById('ghostTrigger').onclick = function(){ modal.style.display='flex'; };
   document.getElementById('ghostClose').onclick = function(){
-  window.openGhostModal = function() { document.getElementById('ghostModal').style.display = 'flex'; };
     modal.style.display='none';
     stopScan();
   };
