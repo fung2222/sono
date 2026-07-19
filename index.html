@@ -607,6 +607,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     { keys: ['ufo', 'flying-saucer', 'saucer', 'uap'], cat: 'ufo' },
     { keys: ['alien', 'extraterrestrial', 'martian', 'spaceship', 'mothership', 'xenomorph', 'xeno', 'grey', 'reptilian', 'contact'], cat: 'alien' },
     { keys: ['quantum', 'qubit', 'superposition', 'entanglement', 'wavefunction', 'quantum-mechanics'], cat: 'quantum' },
+    { keys: ['mystery', 'portal', 'ruins', 'ancient', 'unknown'], cat: 'mystery' },
     { keys: ['cyber', 'tech', 'circuit', 'circuitry', 'mecha', 'machine', 'robot', 'data', 'hologram', 'ai', 'artificial', 'board', 'neural', 'digital', 'crypto'], cat: 'tech' },
     { keys: ['mountain', 'ocean', 'forest', 'tree', 'sea', 'lake', 'river', 'flower', 'sky', 'cloud', 'nature', 'rain', 'snow', 'winter', 'summer', 'sunset', 'sunrise', 'morning', 'fog', 'mist', 'wave', 'peak', 'hill', 'beach', 'desert'], cat: 'nature' },
     { keys: ['cosmos', 'universe', 'multiverse', 'deep-space', 'void'], cat: 'cosmos' },
@@ -638,7 +639,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   // Category Chinese labels (primary)
   const catLabelMap = {
     space: '太空', ufo: 'UFO', tech: '科技', nature: '自然',
-    quantum: '量子', cosmos: '宇宙', alien: '外星人'
+    quantum: '量子', cosmos: '宇宙', alien: '外星人', mystery: '神秘'
   };
 
   // Keyword → Chinese tag (secondary tags)
@@ -693,7 +694,17 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     'tech-circuitry': '科技電路',
     'cyberpunk-city': '賽博龐克城市',
     'space-nebula': '太空星雲',
-    'ufo-night-sky': '夜空 UFO'
+    'ufo-night-sky': '夜空 UFO',
+    'quantum-superposition': '量子疊加',
+    'alien-grey-contact': '灰人接觸',
+    'desert-dunes-sunset': '沙漠黃昏',
+    'storm-thunder-rain': '雷暴雨夜',
+    'cyberpunk-neon-city': '霓虹賽博城',
+    'astronaut-orbit-station': '軌道太空人',
+    'planet-ice-rings': '冰環行星',
+    'forest-bioluminescent': '螢光森林',
+    'ocean-underwater-wave': '深海光柱',
+    'mystery-portal-glow': '神秘之門'
   };
 
   function deriveTags(slug, cat) {
@@ -720,7 +731,18 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   // Build wallpapers from path list (date inferred from folder)
   // To add new wallpaper: just add a new path here, top of list
   const wallpaperPaths = [
-    // Latest (top of list — auto pinned)
+    // Latest (top of list — auto pinned) 2026-07-19 batch
+    'images/wallpapers/2026-07-19/01-quantum-superposition.jpg',
+    'images/wallpapers/2026-07-19/02-alien-grey-contact.jpg',
+    'images/wallpapers/2026-07-19/03-desert-dunes-sunset.jpg',
+    'images/wallpapers/2026-07-19/04-storm-thunder-rain.jpg',
+    'images/wallpapers/2026-07-19/05-cyberpunk-neon-city.jpg',
+    'images/wallpapers/2026-07-19/06-astronaut-orbit-station.jpg',
+    'images/wallpapers/2026-07-19/07-planet-ice-rings.jpg',
+    'images/wallpapers/2026-07-19/08-forest-bioluminescent.jpg',
+    'images/wallpapers/2026-07-19/09-ocean-underwater-wave.jpg',
+    'images/wallpapers/2026-07-19/10-mystery-portal-glow.jpg',
+    // 2026-07-15
     'images/wallpapers/2026-07-15/28-mist-mountain.jpg',
     'images/wallpapers/2026-07-15/27-forest-fog.jpg',
     'images/wallpapers/2026-07-15/26-ocean-wave.jpg',
