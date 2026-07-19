@@ -2133,11 +2133,11 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     timer = setInterval(fetchISS, 5000);
   };
   document.getElementById('issClose').onclick = function(){
-  window.openISSModal = function() { document.getElementById('issModal').style.display = 'flex'; };
     modal.style.display='none';
     if(timer) clearInterval(timer);
     timer = null;
   };
+  window.openISSModal = function() { document.getElementById('issModal').style.display = 'flex'; fetchISS(); timer = setInterval(fetchISS, 5000); };
   modal.onclick = function(e){
     if(e.target===this){
       modal.style.display='none';
