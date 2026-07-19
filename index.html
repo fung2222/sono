@@ -1129,17 +1129,20 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 (function() {
   // 工具清單（手機 app 排列）— triggerId 對應隱藏 button
   const tools = [
-    // 實用
-    { name: '全球天氣',   svg: '🌤️', cat: 'utility', trigger: 'weatherTrigger' },
-    { name: 'ISS 追蹤',  svg: '📡', cat: 'utility', trigger: 'issTrigger' },
-    { name: '世界時鐘',   svg: '⏰', cat: 'utility', trigger: 'worldClockTrigger' },
-    { name: 'QR Code',   svg: '📱', cat: 'utility', trigger: 'qrTrigger' },
-    { name: '世界地圖',   svg: '🗺️', cat: 'utility', trigger: 'mapTrigger' },
-    { name: 'MTR 查詢',   svg: '🚇', cat: 'utility', trigger: 'mtrTrigger' },
+    // 時間
+    { name: '世界時鐘',   svg: '⏰', cat: 'time', trigger: 'worldClockTrigger' },
+    // 天氣
+    { name: '全球天氣',   svg: '🌤️', cat: 'weather', trigger: 'weatherTrigger' },
     // 計算
     { name: '貨幣匯率',   svg: '💰', cat: 'calc', trigger: 'currencyTrigger' },
     { name: 'BMI 計算',   svg: '🏋️', cat: 'calc', trigger: 'bmiTrigger' },
     { name: '番茄計時',   svg: '⏱️', cat: 'calc', trigger: 'timerTrigger' },
+    // 地圖
+    { name: '世界地圖',   svg: '🗺️', cat: 'map', trigger: 'mapTrigger' },
+    { name: 'MTR 查詢',   svg: '🚇', cat: 'map', trigger: 'mtrTrigger' },
+    { name: 'ISS 追蹤',  svg: '📡', cat: 'map', trigger: 'issTrigger' },
+    // 實用
+    { name: 'QR Code',   svg: '📱', cat: 'utility', trigger: 'qrTrigger' },
     // 娛樂
     { name: '靈體探測',   svg: '👻', cat: 'fun', trigger: 'ghostTrigger' },
     { name: '命運輪盤',   svg: '🎲', cat: 'fun', trigger: 'wheelTrigger' },
@@ -1147,22 +1150,44 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     { name: '今日運勢',   svg: '💭', cat: 'fun', trigger: 'fortuneTrigger' },
     { name: '環境音效',   svg: '🎵', cat: 'fun', trigger: 'ambientTrigger' },
     { name: '隨機金句',   svg: '📖', cat: 'fun', trigger: 'quoteTrigger' },
-    { name: '夢境解讀',   svg: '🌙', cat: 'fun', trigger: 'dreamTrigger' },
-    { name: '易經卜卦',   svg: '☯️', cat: 'fun', trigger: 'divinationTrigger' },
-    { name: '音樂骰子',   svg: '🎲', cat: 'fun', trigger: 'musicTrigger' },
-    { name: '今晚食咩',   svg: '🍜', cat: 'fun', trigger: 'foodTrigger' },
-    { name: '塔羅占卜',   svg: '🃏', cat: 'fun', trigger: 'tarotTrigger' },
-    { name: '命運數字',   svg: '🔢', cat: 'fun', trigger: 'numberTrigger' }
+    // 查詢
+    { name: '夢境解讀',   svg: '🌙', cat: 'query', trigger: 'dreamTrigger' },
+    { name: '易經卜卦',   svg: '☯️', cat: 'query', trigger: 'divinationTrigger' },
+    { name: '塔羅占卜',   svg: '🃏', cat: 'query', trigger: 'tarotTrigger' },
+    { name: '命運數字',   svg: '🔢', cat: 'query', trigger: 'numberTrigger' },
+    // 文件
+    // 其他
+    { name: '音樂骰子',   svg: '🎲', cat: 'other', trigger: 'musicTrigger' },
+    { name: '今晚食咩',   svg: '🍜', cat: 'other', trigger: 'foodTrigger' }
   ];
+
+  const categories = [
+    { id: 'all',     label: '全部' },
+    { id: 'time',    label: '時間' },
+    { id: 'weather', label: '天氣' },
+    { id: 'calc',    label: '計算' },
+    { id: 'map',     label: '地圖' },
+    { id: 'utility', label: '實用' },
+    { id: 'fun',     label: '娛樂' },
+    { id: 'query',   label: '查詢' },
+    { id: 'doc',     label: '文件' },
+    { id: 'other',   label: '其他' }
+  ];
+
+  const groupLabels = { time: '時間', weather: '天氣', calc: '計算', map: '地圖', utility: '實用', fun: '娛樂', query: '查詢', doc: '文件', other: '其他' };
+  const groupOrder = ['time', 'weather', 'calc', 'map', 'utility', 'fun', 'query', 'doc', 'other'];
 
   let currentCat = 'all';
 
   function getFiltered() {
-    return tools;
+    if (currentCat === 'all') return tools;
+    return tools.filter(t => t.cat === currentCat);
   }
 
   function getCurrentLabel() {
-    return '全部';
+    if (currentCat === 'all') return '全部';
+    const c = categories.find(x => x.id === currentCat);
+    return c ? c.label : currentCat;
   }
 
   function updateMeta() {
@@ -1225,7 +1250,9 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   function renderChipBar() {
     const bar = document.getElementById('toolChipBar');
     if (!bar) return;
-    bar.innerHTML = '<button class="wp-chip active" data-cat="all">全部</button>';
+    bar.innerHTML = categories.map(c =>
+      '<button class="wp-chip' + (c.id === currentCat ? ' active' : '') + '" data-cat="' + c.id + '">' + c.label + '</button>'
+    ).join('');
     bar.querySelectorAll('.wp-chip').forEach(btn => {
       btn.addEventListener('click', function() {
         currentCat = this.getAttribute('data-cat');
@@ -1254,9 +1281,21 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       return;
     }
 
-    let html = '<div class="apps-grid">';
-    html += filtered.map(cardHtml).join('');
-    html += '</div>';
+    let html = '';
+    if (currentCat === 'all') {
+      for (const g of groupOrder) {
+        const items = filtered.filter(t => t.cat === g);
+        if (!items.length) continue;
+        html += '<div class="app-group-label">' + groupLabels[g] + '</div>';
+        html += '<div class="apps-grid">';
+        html += items.map(cardHtml).join('');
+        html += '</div>';
+      }
+    } else {
+      html += '<div class="apps-grid">';
+      html += filtered.map(cardHtml).join('');
+      html += '</div>';
+    }
     root.innerHTML = html;
 
     root.querySelectorAll('.app-card').forEach(card => {
