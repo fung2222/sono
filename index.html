@@ -649,14 +649,14 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     { keys: ['galaxy', 'nebula', 'cosmos', 'cosmic', 'deep-space', 'universe', 'multiverse'], tag: '星系' },
     { keys: ['star', 'stars', 'cluster', 'aurora'], tag: '星空' },
     { keys: ['planet', 'mars', 'saturn'], tag: '行星' },
-    { keys: ['orbit', 'station', 'astronaut', 'cosmonaut'], tag: '航太' },
+    { keys: ['orbit', 'station', 'astronaut', 'cosmonaut', 'rocket'], tag: '航太' },
     { keys: ['night', 'nocturnal'], tag: '夜景' },
     { keys: ['city', 'cyberpunk'], tag: '城市' },
     { keys: ['cyber', 'circuit', 'circuitry', 'board', 'data', 'hologram', 'neural', 'digital', 'ai', 'robot', 'tech'], tag: '科技' },
     { keys: ['quantum', 'qubit', 'superposition', 'entanglement', 'wavefunction'], tag: '量子' },
     { keys: ['mountain', 'peak', 'hill', 'mist'], tag: '山景' },
     { keys: ['ocean', 'sea', 'wave', 'beach', 'lake', 'river'], tag: '海景' },
-    { keys: ['forest', 'tree', 'fog'], tag: '森林' },
+    { keys: ['forest', 'tree', 'fog', 'bamboo'], tag: '森林' },
     { keys: ['flower', 'nature'], tag: '自然' },
     { keys: ['sky', 'cloud', 'sunrise', 'sunset', 'morning'], tag: '天空' },
     { keys: ['mystery', 'unknown', 'glow', 'light'], tag: '神秘' },
@@ -704,7 +704,17 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     'planet-ice-rings': '冰環行星',
     'forest-bioluminescent': '螢光森林',
     'ocean-underwater-wave': '深海光柱',
-    'mystery-portal-glow': '神秘之門'
+    'mystery-portal-glow': '神秘之門',
+    'cosmic-whale-nebula': '宇宙鯨魚',
+    'floating-tea-temple-cloud': '浮空茶寺',
+    'neon-cyber-samurai-rain': '霓虹武士',
+    'crystal-canyon-aurora': '水晶峽谷',
+    'ocean-library-ruins': '海底書庫',
+    'volcano-dragon-night': '火山龍影',
+    'bamboo-forest-moon': '月下竹靈',
+    'retro-rocket-station': '復古航太庫',
+    'desert-mirror-mirage': '沙漠鏡城',
+    'quantum-garden-night': '量子花園'
   };
 
   function deriveTags(slug, cat) {
@@ -731,7 +741,18 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   // Build wallpapers from path list (date inferred from folder)
   // To add new wallpaper: just add a new path here, top of list
   const wallpaperPaths = [
-    // Latest (top of list — auto pinned) 2026-07-19 batch
+    // Latest (top) — xAI grok-imagine-image-quality 9:16 batch
+    'images/wallpapers/2026-07-20/01-cosmic-whale-nebula.jpg',
+    'images/wallpapers/2026-07-20/02-floating-tea-temple-cloud.jpg',
+    'images/wallpapers/2026-07-20/03-neon-cyber-samurai-rain.jpg',
+    'images/wallpapers/2026-07-20/04-crystal-canyon-aurora.jpg',
+    'images/wallpapers/2026-07-20/05-ocean-library-ruins.jpg',
+    'images/wallpapers/2026-07-20/06-volcano-dragon-night.jpg',
+    'images/wallpapers/2026-07-20/07-bamboo-forest-moon.jpg',
+    'images/wallpapers/2026-07-20/08-retro-rocket-station.jpg',
+    'images/wallpapers/2026-07-20/09-desert-mirror-mirage.jpg',
+    'images/wallpapers/2026-07-20/10-quantum-garden-night.jpg',
+    // 2026-07-19 batch
     'images/wallpapers/2026-07-19/01-quantum-superposition.jpg',
     'images/wallpapers/2026-07-19/02-alien-grey-contact.jpg',
     'images/wallpapers/2026-07-19/03-desert-dunes-sunset.jpg',
@@ -1150,6 +1171,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     <div class="card tool-sm" id="numberTrigger"></div>
     <div class="card tool-sm" id="timezoneTrigger"></div>
     <div class="card tool-sm" id="countdownTrigger"></div>
+    <div class="card tool-sm" id="stopwatchTrigger"></div>
     <div class="card tool-sm" id="base64Trigger"></div>
     <div class="card tool-sm" id="lunarTrigger"></div>
   </div>
@@ -1163,6 +1185,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     { name: '世界時鐘',   svg: '⏰', cat: 'time', trigger: 'worldClockTrigger' },
     { name: '時區轉換',   svg: '🌐', cat: 'time', trigger: 'timezoneTrigger' },
     { name: '倒數日',   svg: '📅', cat: 'time', trigger: 'countdownTrigger' },
+    { name: '秒錶',     svg: '⏲️', cat: 'time', trigger: 'stopwatchTrigger' },
     // 天氣
     { name: '全球天氣',   svg: '🌤️', cat: 'weather', trigger: 'weatherTrigger' },
     // 計算
@@ -1267,6 +1290,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     'numberTrigger': 'openNumberModal',
     'timezoneTrigger': 'openTimezoneModal',
     'countdownTrigger': 'openCountdownModal',
+    'stopwatchTrigger': 'openStopwatchModal',
     'base64Trigger': 'openBase64Modal',
     'lunarTrigger': 'openLunarModal',
   };
@@ -4788,6 +4812,120 @@ window.openLunarModal = function() {
   initLunarSelects();
 };
 
+// ══════ 秒錶 (stopwatch) — lazy bind, modal HTML after this script block ══════
+window.openStopwatchModal = function() {
+  var modal = document.getElementById('stopwatchModal');
+  if (!modal) return;
+  var display = document.getElementById('stopwatchDisplay');
+  var msEl = document.getElementById('stopwatchMs');
+  var startBtn = document.getElementById('stopwatchStart');
+  var lapBtn = document.getElementById('stopwatchLap');
+  var resetBtn = document.getElementById('stopwatchReset');
+  var closeBtn = document.getElementById('stopwatchClose');
+  var lapsEl = document.getElementById('stopwatchLaps');
+  var pulse = document.getElementById('stopwatchPulse');
+
+  if (!modal._swBound) {
+    var running = false;
+    var startTs = 0;
+    var acc = 0;
+    var raf = null;
+    var laps = [];
+
+    function fmt(ms) {
+      ms = Math.max(0, ms | 0);
+      var cs = Math.floor(ms / 10) % 100;
+      var s = Math.floor(ms / 1000) % 60;
+      var m = Math.floor(ms / 60000) % 60;
+      var h = Math.floor(ms / 3600000);
+      var pad = function(n, w) { n = String(n); while (n.length < w) n = '0' + n; return n; };
+      if (h > 0) return pad(h, 2) + ':' + pad(m, 2) + ':' + pad(s, 2);
+      return pad(m, 2) + ':' + pad(s, 2);
+    }
+    function fmtMs(ms) {
+      var cs = Math.floor(Math.max(0, ms) / 10) % 100;
+      return '.' + (cs < 10 ? '0' : '') + cs;
+    }
+    function nowMs() {
+      return acc + (running ? (performance.now() - startTs) : 0);
+    }
+    function paint() {
+      var t = nowMs();
+      if (display) display.textContent = fmt(t);
+      if (msEl) msEl.textContent = fmtMs(t);
+      if (pulse) {
+        pulse.style.opacity = running ? (0.35 + 0.45 * Math.abs(Math.sin(t / 280))) : '0.15';
+        pulse.style.transform = running ? ('scale(' + (1 + 0.06 * Math.sin(t / 200)) + ')') : 'scale(1)';
+      }
+      if (running) raf = requestAnimationFrame(paint);
+    }
+    function renderLaps() {
+      if (!lapsEl) return;
+      if (!laps.length) {
+        lapsEl.innerHTML = '<div style="text-align:center;color:#555;font-size:0.78em;padding:12px 0;font-family:Courier New,monospace;">暫無圈數 · 計時中可撳「記圈」</div>';
+        return;
+      }
+      var html = '';
+      for (var i = laps.length - 1; i >= 0; i--) {
+        var lap = laps[i];
+        var delta = i === 0 ? lap : (lap - laps[i - 1]);
+        html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid rgba(184,168,120,0.12);font-family:Courier New,monospace;">' +
+          '<span style="color:#7a766c;font-size:0.8em;">#' + (i + 1) + '</span>' +
+          '<span style="color:#c8c4b8;font-size:0.95em;">' + fmt(lap) + fmtMs(lap) + '</span>' +
+          '<span style="color:#b8a878;font-size:0.8em;">+' + fmt(delta) + fmtMs(delta) + '</span></div>';
+      }
+      lapsEl.innerHTML = html;
+    }
+    function setRunningUI(on) {
+      if (startBtn) {
+        startBtn.textContent = on ? '⏸ 暫停' : (acc > 0 ? '▶ 繼續' : '▶ 開始');
+        startBtn.style.background = on ? 'linear-gradient(135deg,#ff6b9d,#c44)' : 'linear-gradient(135deg,#b8a878,#8a7a50)';
+        startBtn.style.color = on ? '#fff' : '#0a0a1a';
+      }
+      if (lapBtn) lapBtn.disabled = !on;
+      if (lapBtn) lapBtn.style.opacity = on ? '1' : '0.45';
+    }
+    if (closeBtn) closeBtn.onclick = function() { modal.style.display = 'none'; };
+    modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+    if (startBtn) startBtn.onclick = function() {
+      if (running) {
+        acc = nowMs();
+        running = false;
+        if (raf) cancelAnimationFrame(raf);
+        raf = null;
+        setRunningUI(false);
+        paint();
+      } else {
+        running = true;
+        startTs = performance.now();
+        setRunningUI(true);
+        paint();
+      }
+    };
+    if (lapBtn) lapBtn.onclick = function() {
+      if (!running) return;
+      laps.push(Math.floor(nowMs()));
+      renderLaps();
+    };
+    if (resetBtn) resetBtn.onclick = function() {
+      running = false;
+      if (raf) cancelAnimationFrame(raf);
+      raf = null;
+      startTs = 0; acc = 0; laps = [];
+      setRunningUI(false);
+      renderLaps();
+      paint();
+    };
+    modal._sw = { paint: paint, setRunningUI: setRunningUI, renderLaps: renderLaps };
+    modal._swBound = true;
+    setRunningUI(false);
+    renderLaps();
+    paint();
+  }
+  modal.style.display = 'flex';
+  if (modal._sw) modal._sw.paint();
+};
+
 </script>
 
 
@@ -5033,6 +5171,33 @@ window.openLunarModal = function() {
       </div>
     </div>
     <div style="color:#555;font-size:0.7em;text-align:center;margin-top:12px;">算法基於天文曆法，1900-2100年準確</div>
+  </div>
+</div>
+
+<!-- ══════ Stopwatch Modal ══════ -->
+<div id="stopwatchModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.78);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
+  <div style="position:relative;background:linear-gradient(160deg,#12101c 0%,#0a0a1a 55%,#16122a 100%);border-radius:18px;max-width:400px;width:100%;padding:24px 22px 20px;border:1px solid rgba(184,168,120,0.28);max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.55);">
+    <div id="stopwatchPulse" style="pointer-events:none;position:absolute;left:50%;top:118px;width:220px;height:220px;margin-left:-110px;margin-top:-110px;border-radius:50%;background:radial-gradient(circle,rgba(184,168,120,0.22) 0%,rgba(184,168,120,0.05) 45%,transparent 70%);opacity:0.15;transition:opacity 0.2s;"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;position:relative;z-index:1;">
+      <h2 style="font-size:1.2em;color:#c8c4b8;font-weight:500;letter-spacing:0.06em;margin:0;">⏲️ 秒錶</h2>
+      <button id="stopwatchClose" type="button" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(184,168,120,0.12);color:#b8a878;font-size:1.1em;cursor:pointer;">✕</button>
+    </div>
+    <p style="color:#555;font-size:0.72em;margin:0 0 18px;position:relative;z-index:1;font-family:Courier New,monospace;letter-spacing:0.08em;">即時計秒 · 支援記圈</p>
+    <div style="text-align:center;position:relative;z-index:1;padding:18px 0 8px;">
+      <div style="display:inline-flex;align-items:baseline;gap:2px;">
+        <span id="stopwatchDisplay" style="font-size:3.4em;font-weight:300;color:#fff;letter-spacing:3px;font-variant-numeric:tabular-nums;font-family:Courier New,monospace;line-height:1;">00:00</span>
+        <span id="stopwatchMs" style="font-size:1.35em;font-weight:400;color:#b8a878;font-variant-numeric:tabular-nums;font-family:Courier New,monospace;">.00</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin:18px 0 14px;position:relative;z-index:1;">
+      <button id="stopwatchStart" type="button" style="flex:1.4;padding:14px 12px;border:none;border-radius:12px;background:linear-gradient(135deg,#b8a878,#8a7a50);color:#0a0a1a;font-size:1em;font-weight:700;cursor:pointer;letter-spacing:0.06em;">▶ 開始</button>
+      <button id="stopwatchLap" type="button" disabled style="flex:1;padding:14px 10px;border:1px solid rgba(184,168,120,0.35);border-radius:12px;background:rgba(184,168,120,0.08);color:#b8a878;font-size:0.92em;cursor:pointer;opacity:0.45;">◎ 記圈</button>
+      <button id="stopwatchReset" type="button" style="width:52px;padding:14px 0;border:1px solid rgba(255,255,255,0.12);border-radius:12px;background:transparent;color:#888;font-size:1.05em;cursor:pointer;">↺</button>
+    </div>
+    <div style="position:relative;z-index:1;border:1px solid rgba(184,168,120,0.14);border-radius:12px;background:rgba(0,0,0,0.25);overflow:hidden;">
+      <div style="padding:8px 12px;border-bottom:1px solid rgba(184,168,120,0.12);color:#7a766c;font-size:0.72em;font-family:Courier New,monospace;letter-spacing:0.08em;">圈數紀錄</div>
+      <div id="stopwatchLaps" style="max-height:180px;overflow-y:auto;"></div>
+    </div>
   </div>
 </div>
 
