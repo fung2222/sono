@@ -2186,11 +2186,11 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     timer = setInterval(renderClocks, 1000);
   };
   document.getElementById('worldClockClose').onclick = function(){
-  window.openWorldClockModal = function() { document.getElementById('worldClockModal').style.display = 'flex'; };
     modal.style.display='none';
     if(timer) clearInterval(timer);
     timer = null;
   };
+  window.openWorldClockModal = function() { document.getElementById('worldClockModal').style.display = 'flex'; renderClocks(); timer = setInterval(renderClocks, 1000); };
   modal.onclick = function(e){
     if(e.target===this){
       modal.style.display='none';
