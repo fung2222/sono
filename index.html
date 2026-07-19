@@ -4395,144 +4395,153 @@ window.openNumberModal = function() {
 })();
 
 // ══════ 時區轉換 ══════
+// NOTE: modal HTML is AFTER this script block — bind lazily on first open
+// (eager getElementById at parse time is null and throws, kills rest of script)
 window.openTimezoneModal = function() {
-  document.getElementById('timezoneModal').style.display = 'flex';
-  // Set default to now
-  var now = new Date();
-  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-  document.getElementById('timezoneInput').value = now.toISOString().slice(0, 16);
-};
-
-(function() {
   var modal = document.getElementById('timezoneModal');
-  var closeBtn = document.getElementById('timezoneClose');
-  closeBtn.onclick = function() { modal.style.display = 'none'; };
-  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
-  
+  if (!modal) return;
   var input = document.getElementById('timezoneInput');
   var fromSel = document.getElementById('timezoneFrom');
   var toSel = document.getElementById('timezoneTo');
   var resultDiv = document.getElementById('timezoneResult');
   var outputDiv = document.getElementById('timezoneOutput');
   var diffDiv = document.getElementById('timezoneDiff');
-  
+  var closeBtn = document.getElementById('timezoneClose');
+
   function convert() {
+    if (!input || !fromSel || !toSel || !resultDiv || !outputDiv || !diffDiv) return;
     var val = input.value;
-    if (!val) { return; }
+    if (!val) return;
     var fromTZ = fromSel.value;
     var toTZ = toSel.value;
-    var date = new Date(val);
-    if (isNaN(date.getTime())) { return; }
-    
-    var fromStr = date.toLocaleString('zh-HK', { timeZone: fromTZ, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
-    var toStr = date.toLocaleString('zh-HK', { timeZone: toTZ, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
-    
-    var fromDate = new Date(date.toLocaleString('en-US', { timeZone: fromTZ }));
-    var toDate = new Date(date.toLocaleString('en-US', { timeZone: toTZ }));
-    var diffHours = (toDate - fromDate) / 3600000;
-    var diffText = diffHours >= 0 ? '快 ' + diffHours + ' 小時' : '慢 ' + Math.abs(diffHours) + ' 小時';
-    
-    outputDiv.textContent = fromTZ.split('/').pop().replace('_', ' ') + ' ' + fromStr + '  ➜  ' + toTZ.split('/').pop().replace('_', ' ') + ' ' + toStr;
+    // Interpret datetime-local as wall clock in source timezone, convert to target
+    var parts = val.match(/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+    if (!parts) return;
+    var y = +parts[1], mo = +parts[2], d = +parts[3], h = +parts[4], mi = +parts[5];
+    // Find UTC ms for this wall time in fromTZ via iterative offset
+    var guess = Date.UTC(y, mo - 1, d, h, mi);
+    function offsetMs(utcMs, tz) {
+      var s = new Date(utcMs).toLocaleString('en-US', { timeZone: tz, hour12: false });
+      // en-US: "M/D/YYYY, HH:MM:SS"
+      var m = s.match(/(\d+)\/(\d+)\/(\d+),\s*(\d+):(\d+):(\d+)/);
+      if (!m) return 0;
+      var asUtc = Date.UTC(+m[3], +m[1] - 1, +m[2], +m[4] % 24, +m[5], +m[6]);
+      return asUtc - utcMs;
+    }
+    var off1 = offsetMs(guess, fromTZ);
+    var utcMs = guess - off1;
+    // one more pass for DST edge
+    var off2 = offsetMs(utcMs, fromTZ);
+    utcMs = guess - off2;
+    var instant = new Date(utcMs);
+    if (isNaN(instant.getTime())) return;
+
+    var fmt = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false };
+    var fromStr = instant.toLocaleString('zh-HK', Object.assign({ timeZone: fromTZ }, fmt));
+    var toStr = instant.toLocaleString('zh-HK', Object.assign({ timeZone: toTZ }, fmt));
+
+    var offFrom = offsetMs(utcMs, fromTZ) / 3600000;
+    var offTo = offsetMs(utcMs, toTZ) / 3600000;
+    var diffHours = Math.round((offTo - offFrom) * 100) / 100;
+    var diffText = diffHours === 0 ? '相同' : (diffHours > 0 ? ('快 ' + diffHours + ' 小時') : ('慢 ' + Math.abs(diffHours) + ' 小時'));
+
+    var fromName = fromTZ.split('/').pop().replace(/_/g, ' ');
+    var toName = toTZ.split('/').pop().replace(/_/g, ' ');
+    outputDiv.textContent = fromName + ' ' + fromStr + '  ➜  ' + toName + ' ' + toStr;
     diffDiv.textContent = '時差：' + diffText;
     resultDiv.style.display = 'block';
   }
-  
-  // Convert when any field changes
-  [input, fromSel, toSel].forEach(function(el) {
-    el.onchange = convert;
-  });
-  
-  // Convert on modal open (with small delay for default value)
-  var originalOpen = window.openTimezoneModal;
-  window.openTimezoneModal = function() {
-    modal.style.display = 'flex';
-    // Set default time if empty
-    if (!input.value) {
-      var now = new Date();
-      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-      input.value = now.toISOString().slice(0, 16);
-    }
-    // Auto-convert after a brief delay
-    setTimeout(convert, 100);
-  };
-})();
 
-// ══════ 倒數日 ══════
-window.openCountdownModal = function() {
-  document.getElementById('countdownModal').style.display = 'flex';
-  renderCountdownList();
+  if (!modal._tzBound) {
+    if (closeBtn) closeBtn.onclick = function() { modal.style.display = 'none'; };
+    modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+    [input, fromSel, toSel].forEach(function(el) {
+      if (!el) return;
+      el.onchange = convert;
+      el.oninput = convert;
+    });
+    modal._tzBound = true;
+  }
+
+  modal.style.display = 'flex';
+  if (input) {
+    var now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    input.value = now.toISOString().slice(0, 16);
+  }
+  convert();
 };
 
-(function() {
+// ══════ 倒數日 ══════
+// modal HTML after this script — lazy bind on open
+window._sonoCountdowns = JSON.parse(localStorage.getItem('sono_countdowns') || '[]');
+window.deleteCountdown = function(i) {
+  window._sonoCountdowns.splice(i, 1);
+  localStorage.setItem('sono_countdowns', JSON.stringify(window._sonoCountdowns));
+  if (window.renderCountdownList) window.renderCountdownList();
+};
+window.renderCountdownList = function() {
+  var listDiv = document.getElementById('countdownList');
+  if (!listDiv) return;
+  var countdowns = window._sonoCountdowns;
+  if (countdowns.length === 0) {
+    listDiv.innerHTML = '<div style="text-align:center;color:#888;padding:20px;">暫無倒數日，新增一個吧！</div>';
+    return;
+  }
+  var now = new Date();
+  listDiv.innerHTML = countdowns.map(function(c, i) {
+    var target = new Date(c.date + 'T00:00:00');
+    var diffMs = target - now;
+    var diffDays = Math.ceil(diffMs / 86400000);
+    var status = diffDays > 0 ? '剩餘 ' + diffDays + ' 天' : (diffDays === 0 ? '今天！' : '已過 ' + Math.abs(diffDays) + ' 天');
+    var statusColor = diffDays > 0 ? '#6bff6b' : (diffDays === 0 ? '#ff6b9d' : '#888');
+    var lunarText = c.lunar ? ' 🌙農曆' : '';
+    return '<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;display:flex;justify-content:space-between;align-items:center;">' +
+      '<div><div style="color:#fff;font-weight:600;">' + c.name + lunarText + '</div><div style="color:#888;font-size:0.8em;margin-top:2px;">目標：' + c.date + '</div></div>' +
+      '<div style="text-align:right;"><div style="color:' + statusColor + ';font-weight:700;">' + status + '</div>' +
+      '<button onclick="deleteCountdown(' + i + ')" style="margin-top:6px;padding:4px 10px;border:none;border-radius:6px;background:rgba(255,107,107,0.2);color:#ff6b6b;font-size:0.75em;cursor:pointer;">刪除</button></div>' +
+      '</div>';
+  }).join('');
+};
+window.openCountdownModal = function() {
   var modal = document.getElementById('countdownModal');
-  document.getElementById('countdownClose').onclick = function() { modal.style.display = 'none'; };
-  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
-  
+  if (!modal) return;
   var nameInput = document.getElementById('countdownName');
   var dateInput = document.getElementById('countdownDate');
   var lunarChk = document.getElementById('countdownLunar');
   var addBtn = document.getElementById('countdownAdd');
-  var listDiv = document.getElementById('countdownList');
-  
-  var countdowns = JSON.parse(localStorage.getItem('sono_countdowns') || '[]');
-  
-  function save() { localStorage.setItem('sono_countdowns', JSON.stringify(countdowns)); }
-  
-  function renderCountdownList() {
-    if (countdowns.length === 0) {
-      listDiv.innerHTML = '<div style="text-align:center;color:#888;padding:20px;">暫無倒數日，新增一個吧！</div>';
-      return;
-    }
-    var now = new Date();
-    listDiv.innerHTML = countdowns.map(function(c, i) {
-      var target = new Date(c.date + 'T00:00:00');
-      var diffMs = target - now;
-      var diffDays = Math.ceil(diffMs / 86400000);
-      var status = diffDays > 0 ? '剩餘 ' + diffDays + ' 天' : (diffDays === 0 ? '今天！' : '已過 ' + Math.abs(diffDays) + ' 天');
-      var statusColor = diffDays > 0 ? '#6bff6b' : (diffDays === 0 ? '#ff6b9d' : '#888');
-      var lunarText = c.lunar ? ' 🌙農曆' : '';
-      return '<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;display:flex;justify-content:space-between;align-items:center;">' +
-        '<div><div style="color:#fff;font-weight:600;">' + c.name + lunarText + '</div><div style="color:#888;font-size:0.8em;margin-top:2px;">目標：' + c.date + '</div></div>' +
-        '<div style="text-align:right;"><div style="color:' + statusColor + ';font-weight:700;">' + status + '</div>' +
-        '<button onclick="deleteCountdown(' + i + ')" style="margin-top:6px;padding:4px 10px;border:none;border-radius:6px;background:rgba(255,107,107,0.2);color:#ff6b6b;font-size:0.75em;cursor:pointer;">刪除</button></div>' +
-        '</div>';
-    }).join('');
-  }
-  
-  window.deleteCountdown = function(i) {
-    countdowns.splice(i, 1);
-    save();
-    renderCountdownList();
-  };
-  
-  addBtn.onclick = function() {
-    var name = nameInput.value.trim();
-    var date = dateInput.value;
-    if (!name || !date) { alert('請填寫事件名稱和日期'); return; }
-    countdowns.push({ name: name, date: date, lunar: lunarChk.checked });
-    save();
-    nameInput.value = '';
-    dateInput.value = '';
-    lunarChk.checked = false;
-    renderCountdownList();
-  };
-  
-  // Set default date to tomorrow
-  var tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  dateInput.value = tomorrow.toISOString().slice(0, 10);
-})();
+  var closeBtn = document.getElementById('countdownClose');
 
-// ══════ Base64 編碼/解碼 ══════
-window.openBase64Modal = function() {
-  document.getElementById('base64Modal').style.display = 'flex';
+  if (!modal._cdBound) {
+    if (closeBtn) closeBtn.onclick = function() { modal.style.display = 'none'; };
+    modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+    if (addBtn) addBtn.onclick = function() {
+      var name = nameInput && nameInput.value.trim();
+      var date = dateInput && dateInput.value;
+      if (!name || !date) { alert('請填寫事件名稱和日期'); return; }
+      window._sonoCountdowns.push({ name: name, date: date, lunar: !!(lunarChk && lunarChk.checked) });
+      localStorage.setItem('sono_countdowns', JSON.stringify(window._sonoCountdowns));
+      if (nameInput) nameInput.value = '';
+      if (dateInput) dateInput.value = '';
+      if (lunarChk) lunarChk.checked = false;
+      window.renderCountdownList();
+    };
+    modal._cdBound = true;
+  }
+  if (dateInput && !dateInput.value) {
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    dateInput.value = tomorrow.toISOString().slice(0, 10);
+  }
+  modal.style.display = 'flex';
+  window.renderCountdownList();
 };
 
-(function() {
+// ══════ Base64 編碼/解碼 ══════
+// modal HTML after this script — lazy bind on open
+window.openBase64Modal = function() {
   var modal = document.getElementById('base64Modal');
-  document.getElementById('base64Close').onclick = function() { modal.style.display = 'none'; };
-  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
-  
+  if (!modal) return;
   var encodeBtn = document.getElementById('base64EncodeBtn');
   var decodeBtn = document.getElementById('base64DecodeBtn');
   var input = document.getElementById('base64Input');
@@ -4541,79 +4550,66 @@ window.openBase64Modal = function() {
   var clearBtn = document.getElementById('base64Clear');
   var resultDiv = document.getElementById('base64Result');
   var outputDiv = document.getElementById('base64Output');
-  
-  var mode = 'encode'; // 'encode' or 'decode'
-  
-  encodeBtn.onclick = function() {
-    mode = 'encode';
-    encodeBtn.className = 'base64-tab active';
-    encodeBtn.style.background = 'linear-gradient(135deg,#6bff6b,#4ade80)';
-    encodeBtn.style.color = '#111';
-    decodeBtn.className = 'base64-tab';
-    decodeBtn.style.background = 'rgba(255,255,255,0.04)';
-    decodeBtn.style.color = '#ccc';
-    input.placeholder = '輸入要編碼的文本...';
-    goBtn.textContent = '編碼';
-  };
-  
-  decodeBtn.onclick = function() {
-    mode = 'decode';
-    decodeBtn.className = 'base64-tab active';
-    decodeBtn.style.background = 'linear-gradient(135deg,#6bff6b,#4ade80)';
-    decodeBtn.style.color = '#111';
-    encodeBtn.className = 'base64-tab';
-    encodeBtn.style.background = 'rgba(255,255,255,0.04)';
-    encodeBtn.style.color = '#ccc';
-    input.placeholder = '輸入要解碼的 Base64...';
-    goBtn.textContent = '解碼';
-  };
-  
-  function utf8ToB64(str) {
-    return btoa(unescape(encodeURIComponent(str)));
-  }
-  
-  function b64ToUtf8(str) {
-    try {
-      return decodeURIComponent(escape(atob(str)));
-    } catch(e) {
-      return '解碼失敗：無效的 Base64';
-    }
-  }
-  
-  goBtn.onclick = function() {
-    var val = input.value;
-    if (!val) { alert('請輸入內容'); return; }
-    var out = mode === 'encode' ? utf8ToB64(val) : b64ToUtf8(val);
-    outputDiv.textContent = out;
-    resultDiv.style.display = 'block';
-  };
-  
-  copyBtn.onclick = function() {
-    var out = outputDiv.textContent;
-    if (!out) return;
-    navigator.clipboard.writeText(out).then(function() {
-      copyBtn.textContent = '✅ 已複製';
-      setTimeout(function() { copyBtn.textContent = '📋 複製'; }, 1500);
-    });
-  };
-  
-  clearBtn.onclick = function() {
-    input.value = '';
-    resultDiv.style.display = 'none';
-  };
-})();
+  var closeBtn = document.getElementById('base64Close');
 
-// ══════ 農曆查詢 ══════
-window.openLunarModal = function() {
-  document.getElementById('lunarModal').style.display = 'flex';
-  initLunarSelects();
+  if (!modal._b64Bound) {
+    var mode = 'encode';
+    function utf8ToB64(str) { return btoa(unescape(encodeURIComponent(str))); }
+    function b64ToUtf8(str) {
+      try { return decodeURIComponent(escape(atob(str))); }
+      catch(e) { return '解碼失敗：無效的 Base64'; }
+    }
+    if (closeBtn) closeBtn.onclick = function() { modal.style.display = 'none'; };
+    modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+    if (encodeBtn) encodeBtn.onclick = function() {
+      mode = 'encode';
+      encodeBtn.className = 'base64-tab active';
+      encodeBtn.style.background = 'linear-gradient(135deg,#6bff6b,#4ade80)';
+      encodeBtn.style.color = '#111';
+      if (decodeBtn) { decodeBtn.className = 'base64-tab'; decodeBtn.style.background = 'rgba(255,255,255,0.04)'; decodeBtn.style.color = '#ccc'; }
+      if (input) input.placeholder = '輸入要編碼的文本...';
+      if (goBtn) goBtn.textContent = '編碼';
+    };
+    if (decodeBtn) decodeBtn.onclick = function() {
+      mode = 'decode';
+      decodeBtn.className = 'base64-tab active';
+      decodeBtn.style.background = 'linear-gradient(135deg,#6bff6b,#4ade80)';
+      decodeBtn.style.color = '#111';
+      if (encodeBtn) { encodeBtn.className = 'base64-tab'; encodeBtn.style.background = 'rgba(255,255,255,0.04)'; encodeBtn.style.color = '#ccc'; }
+      if (input) input.placeholder = '輸入要解碼的 Base64...';
+      if (goBtn) goBtn.textContent = '解碼';
+    };
+    if (goBtn) goBtn.onclick = function() {
+      var val = input && input.value;
+      if (!val) { alert('請輸入內容'); return; }
+      var out = mode === 'encode' ? utf8ToB64(val) : b64ToUtf8(val);
+      if (outputDiv) outputDiv.textContent = out;
+      if (resultDiv) resultDiv.style.display = 'block';
+    };
+    if (copyBtn) copyBtn.onclick = function() {
+      var out = outputDiv && outputDiv.textContent;
+      if (!out) return;
+      navigator.clipboard.writeText(out).then(function() {
+        copyBtn.textContent = '✅ 已複製';
+        setTimeout(function() { copyBtn.textContent = '📋 複製'; }, 1500);
+      });
+    };
+    if (clearBtn) clearBtn.onclick = function() {
+      if (input) input.value = '';
+      if (resultDiv) resultDiv.style.display = 'none';
+    };
+    modal._b64Bound = true;
+  }
+  modal.style.display = 'flex';
 };
 
-(function() {
+// ══════ 農曆查詢 ══════
+// modal HTML after this script — lazy bind on open
+window._lunarInfo = [0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,0x04ae0,0x0a5b6,0x0a4d0,0x0d250,0x1d255,0x0b540,0x0d6a0,0x0ada2,0x095b0,0x14977,0x04970,0x0a4b0,0x0b4b5,0x06a50,0x06d40,0x1ab54,0x02b60,0x09570,0x052f2,0x04970,0x06566,0x0d4a0,0x0ea50,0x06e95,0x05ad0,0x02b60,0x186e3,0x092e0,0x1c8d7,0x0c950,0x0d4a0,0x1d8a6,0x0b550,0x056a0,0x1a5b4,0x025d0,0x092d0,0x0d2b2,0x0a950,0x0b557,0x06ca0,0x0b550,0x15355,0x04da0,0x0a5d0,0x14573,0x052d0,0x0a9a8,0x0e950,0x06aa0,0x0aea6,0x0ab50,0x04b60,0x0aae4,0x0a570,0x05260,0x0f263,0x0d950,0x05b57,0x056a0,0x096d0,0x04dd5,0x04ad0,0x0a4d0,0x0d4d4,0x0d250,0x0d558,0x0b540,0x0b5a0,0x195a6,0x095b0,0x049b0,0x0a974,0x0a4b0,0x0b27a,0x06a50,0x06d40,0x0af46,0x0ab60,0x09570,0x04af5,0x04970,0x064b0,0x074a3,0x0ea50,0x06b58,0x055c0,0x0ab60,0x096d5,0x092e0,0x0c960,0x0d954,0x0d4a0,0x0da50,0x07552,0x056a0,0x0abb7,0x025d0,0x092d0,0x0cab5,0x0a950,0x0b4a0,0x0baa4,0x0ad50,0x055d9,0x04ba0,0x0a5b0,0x15176,0x052b0,0x0a930,0x07954,0x06aa0,0x0ad50,0x05b52,0x04b60,0x0a6e6,0x0a4e0,0x0d260,0x0ea65,0x0d530,0x05aa0,0x076a3,0x096d0,0x04bd7,0x04ad0,0x0a4d0,0x1d0b6,0x0d250,0x0d520,0x0dd45,0x0b5a0,0x056d0,0x055b2,0x049b0,0x0a577,0x0a4b0,0x0aa50,0x1b255,0x06d20,0x0ada0];
+window.openLunarModal = function() {
   var modal = document.getElementById('lunarModal');
-  document.getElementById('lunarClose').onclick = function() { modal.style.display = 'none'; };
-  modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
-  
+  if (!modal) return;
+  var closeBtn = document.getElementById('lunarClose');
   var toSolarBtn = document.getElementById('lunarToSolarBtn');
   var toLunarBtn = document.getElementById('lunarToLunarBtn');
   var solarInputDiv = document.getElementById('lunarSolarInput');
@@ -4624,135 +4620,32 @@ window.openLunarModal = function() {
   var leapChk = document.getElementById('lunarLeap');
   var convertBtn = document.getElementById('lunarConvert');
   var resultDiv = document.getElementById('lunarResult');
-  
-  var mode = 'solar2lunar'; // 'solar2lunar' or 'lunar2solar'
-  
-  toSolarBtn.onclick = function() {
-    mode = 'solar2lunar';
-    toSolarBtn.className = 'lunar-tab active';
-    toSolarBtn.style.background = 'linear-gradient(135deg,#a29bfe,#6c5ce7)';
-    toSolarBtn.style.color = '#fff';
-    toLunarBtn.className = 'lunar-tab';
-    toLunarBtn.style.background = 'rgba(255,255,255,0.04)';
-    toLunarBtn.style.color = '#ccc';
-    solarInputDiv.style.display = 'block';
-    lunarInputDiv.style.display = 'none';
-    resultDiv.style.display = 'none';
-  };
-  
-  toLunarBtn.onclick = function() {
-    mode = 'lunar2solar';
-    toLunarBtn.className = 'lunar-tab active';
-    toLunarBtn.style.background = 'linear-gradient(135deg,#a29bfe,#6c5ce7)';
-    toLunarBtn.style.color = '#fff';
-    toSolarBtn.className = 'lunar-tab';
-    toSolarBtn.style.background = 'rgba(255,255,255,0.04)';
-    toSolarBtn.style.color = '#ccc';
-    solarInputDiv.style.display = 'none';
-    lunarInputDiv.style.display = 'block';
-    resultDiv.style.display = 'none';
-  };
-  
-  function initLunarSelects() {
-    var now = new Date();
-    var year = now.getFullYear();
-    yearSel.innerHTML = '';
-    for (var y = 1900; y <= 2100; y++) {
-      var opt = document.createElement('option');
-      opt.value = y;
-      opt.textContent = y + ' 年';
-      if (y === year) opt.selected = true;
-      yearSel.appendChild(opt);
-    }
-    monthSel.innerHTML = '';
-    var months = ['正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','冬月','臘月'];
-    months.forEach(function(m, i) {
-      var opt = document.createElement('option');
-      opt.value = i + 1;
-      opt.textContent = m;
-      if (i === now.getMonth()) opt.selected = true;
-      monthSel.appendChild(opt);
-    });
-    updateDays();
-  }
-  
-  function updateDays() {
-    var year = parseInt(yearSel.value);
-    var month = parseInt(monthSel.value);
-    var isLeap = leapChk.checked;
-    var daysInMonth = getLunarMonthDays(year, month, isLeap);
-    daySel.innerHTML = '';
-    for (var d = 1; d <= daysInMonth; d++) {
-      var opt = document.createElement('option');
-      opt.value = d;
-      opt.textContent = d + ' 日';
-      if (d === new Date().getDate()) opt.selected = true;
-      daySel.appendChild(opt);
-    }
-  }
-  
-  yearSel.onchange = updateDays;
-  monthSel.onchange = updateDays;
-  leapChk.onchange = updateDays;
-  
-  // Simplified lunar calendar calculation (1900-2100)
-  var lunarInfo = [0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,0x04ae0,0x0a5b6,0x0a4d0,0x0d250,0x1d255,0x0b540,0x0d6a0,0x0ada2,0x095b0,0x14977,0x04970,0x0a4b0,0x0b4b5,0x06a50,0x06d40,0x1ab54,0x02b60,0x09570,0x052f2,0x04970,0x06566,0x0d4a0,0x0ea50,0x06e95,0x05ad0,0x02b60,0x186e3,0x092e0,0x1c8d7,0x0c950,0x0d4a0,0x1d8a6,0x0b550,0x056a0,0x1a5b4,0x025d0,0x092d0,0x0d2b2,0x0a950,0x0b557,0x06ca0,0x0b550,0x15355,0x04da0,0x0a5d0,0x14573,0x052d0,0x0a9a8,0x0e950,0x06aa0,0x0aea6,0x0ab50,0x04b60,0x0aae4,0x0a570,0x05260,0x0f263,0x0d950,0x05b57,0x056a0,0x096d0,0x04dd5,0x04ad0,0x0a4d0,0x0d4d4,0x0d250,0x0d558,0x0b540,0x0b5a0,0x195a6,0x095b0,0x049b0,0x0a974,0x0a4b0,0x0b27a,0x06a50,0x06d40,0x0af46,0x0ab60,0x09570,0x04af5,0x04970,0x064b0,0x074a3,0x0ea50,0x06b58,0x055c0,0x0ab60,0x096d5,0x092e0,0x0c960,0x0d954,0x0d4a0,0x0da50,0x07552,0x056a0,0x0abb7,0x025d0,0x092d0,0x0cab5,0x0a950,0x0b4a0,0x0baa4,0x0ad50,0x055d9,0x04ba0,0x0a5b0,0x15176,0x052b0,0x0a930,0x07954,0x06aa0,0x0ad50,0x05b52,0x04b60,0x0a6e6,0x0a4e0,0x0d260,0x0ea65,0x0d530,0x05aa0,0x076a3,0x096d0,0x04bd7,0x04ad0,0x0a4d0,0x1d0b6,0x0d250,0x0d520,0x0dd45,0x0b5a0,0x056d0,0x055b2,0x049b0,0x0a577,0x0a4b0,0x0aa50,0x1b255,0x06d20,0x0ada0];
-  
+
   function getLunarMonthDays(year, month, isLeap) {
     var idx = year - 1900;
+    var lunarInfo = window._lunarInfo;
     if (idx < 0 || idx >= lunarInfo.length) return 30;
     var info = lunarInfo[idx];
-    if (isLeap) {
-      return (info & 0x10000) ? 30 : 29;
-    }
+    if (isLeap) return (info & 0x10000) ? 30 : 29;
     var monthBit = 1 << (16 - month);
     return (info & monthBit) ? 30 : 29;
   }
-  
-  function solarToLunar(solarDate) {
-    var y = solarDate.getFullYear();
-    var m = solarDate.getMonth() + 1;
-    var d = solarDate.getDate();
-    // Simplified: use known algorithms or approximation
-    // This is a placeholder - real implementation would be more complex
-    var baseDate = new Date(1900, 0, 31);
-    var offset = Math.floor((solarDate - baseDate) / 86400000);
-    // Simplified conversion for demo
-    var lunarYear = y;
-    var lunarMonth = m;
-    var lunarDay = d;
-    var isLeap = false;
-    var ganZhi = getGanZhi(y, m, d);
-    var zodiac = getZodiac(y);
-    var jieqi = getJieQi(solarDate);
-    return { year: lunarYear, month: lunarMonth, day: lunarDay, isLeap: isLeap, ganZhi: ganZhi, zodiac: zodiac, jieqi: jieqi };
-  }
-  
-  function lunarToSolar(lunarYear, lunarMonth, lunarDay, isLeap) {
-    // Simplified reverse conversion
-    var date = new Date(lunarYear, lunarMonth - 1, lunarDay);
-    var ganZhi = getGanZhi(lunarYear, lunarMonth, lunarDay);
-    var zodiac = getZodiac(lunarYear);
-    var jieqi = getJieQi(date);
-    return { date: date, ganZhi: ganZhi, zodiac: zodiac, jieqi: jieqi };
-  }
-  
   function getGanZhi(year, month, day) {
     var heavenly = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
     var earthly = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
-    var start = new Date(1900, 0, 31);
+    var startD = new Date(1900, 0, 31);
     var target = new Date(year, month - 1, day);
-    var days = Math.floor((target - start) / 86400000);
-    var g = (days + 9) % 10;
-    var z = (days + 1) % 12;
+    var days = Math.floor((target - startD) / 86400000);
+    var g = ((days % 10) + 10) % 10; g = (g + 9) % 10;
+    // keep original formula
+    g = (days + 9) % 10; if (g < 0) g += 10;
+    var z = (days + 1) % 12; if (z < 0) z += 12;
     return heavenly[g] + earthly[z];
   }
-  
   function getZodiac(year) {
     var animals = ['鼠','牛','虎','兔','龍','蛇','馬','羊','猴','雞','狗','豬'];
-    return animals[(year - 1900) % 12];
+    return animals[((year - 1900) % 12 + 12) % 12];
   }
-  
   function getJieQi(date) {
     var jieqi = ['小寒','大寒','立春','雨水','驚蟄','春分','清明','穀雨','立夏','小滿','芒種','夏至','小暑','大暑','立秋','處暑','白露','秋分','寒露','霜降','立冬','小雪','大雪','冬至'];
     var month = date.getMonth();
@@ -4761,39 +4654,117 @@ window.openLunarModal = function() {
     if (idx >= 24) idx -= 24;
     return jieqi[idx];
   }
-  
-  convertBtn.onclick = function() {
-    var solarDate, lunarDate, result;
-    if (mode === 'solar2lunar') {
-      var val = document.getElementById('lunarDateInput').value;
-      if (!val) { alert('請選擇日期'); return; }
-      solarDate = new Date(val + 'T00:00:00');
-      result = solarToLunar(solarDate);
-      document.getElementById('lunarSolarOut').textContent = solarDate.getFullYear() + '年' + (solarDate.getMonth()+1) + '月' + solarDate.getDate() + '日';
-      document.getElementById('lunarLunarOut').textContent = result.year + '年' + (result.isLeap ? '閏' : '') + result.month + '月' + result.day + '日';
-      document.getElementById('lunarGanzhi').textContent = result.ganZhi;
-      document.getElementById('lunarZodiac').textContent = '生肖：' + result.zodiac;
-      document.getElementById('lunarAnimal').textContent = result.zodiac;
-      document.getElementById('lunarJieqi').textContent = result.jieqi;
-      document.getElementById('lunarDesc').textContent = '公曆 ' + solarDate.getFullYear() + '年' + (solarDate.getMonth()+1) + '月' + solarDate.getDate() + '日 對應農曆 ' + result.year + '年' + (result.isLeap ? '閏' : '') + result.month + '月' + result.day + '日。干支：' + result.ganZhi + '，生肖：' + result.zodiac + '，節氣：' + result.jieqi + '。';
-    } else {
-      var year = parseInt(yearSel.value);
-      var month = parseInt(monthSel.value);
-      var day = parseInt(daySel.value);
-      var isLeap = leapChk.checked;
-      result = lunarToSolar(year, month, day, isLeap);
-      var solar = result.date;
-      document.getElementById('lunarSolarOut').textContent = solar.getFullYear() + '年' + (solar.getMonth()+1) + '月' + solar.getDate() + '日';
-      document.getElementById('lunarLunarOut').textContent = year + '年' + (isLeap ? '閏' : '') + month + '月' + day + '日';
-      document.getElementById('lunarGanzhi').textContent = result.ganZhi;
-      document.getElementById('lunarZodiac').textContent = '生肖：' + result.zodiac;
-      document.getElementById('lunarAnimal').textContent = result.zodiac;
-      document.getElementById('lunarJieqi').textContent = result.jieqi;
-      document.getElementById('lunarDesc').textContent = '農曆 ' + year + '年' + (isLeap ? '閏' : '') + month + '月' + day + '日 對應公曆 ' + solar.getFullYear() + '年' + (solar.getMonth()+1) + '月' + solar.getDate() + '日。干支：' + result.ganZhi + '，生肖：' + result.zodiac + '，節氣：' + result.jieqi + '。';
+  function solarToLunar(solarDate) {
+    var y = solarDate.getFullYear(), m = solarDate.getMonth() + 1, d = solarDate.getDate();
+    return { year: y, month: m, day: d, isLeap: false, ganZhi: getGanZhi(y, m, d), zodiac: getZodiac(y), jieqi: getJieQi(solarDate) };
+  }
+  function lunarToSolar(lunarYear, lunarMonth, lunarDay, isLeap) {
+    var date = new Date(lunarYear, lunarMonth - 1, lunarDay);
+    return { date: date, ganZhi: getGanZhi(lunarYear, lunarMonth, lunarDay), zodiac: getZodiac(lunarYear), jieqi: getJieQi(date) };
+  }
+  function updateDays() {
+    if (!yearSel || !monthSel || !daySel || !leapChk) return;
+    var year = parseInt(yearSel.value, 10);
+    var month = parseInt(monthSel.value, 10);
+    var isLeap = leapChk.checked;
+    var daysInMonth = getLunarMonthDays(year, month, isLeap);
+    var prev = parseInt(daySel.value, 10) || 1;
+    daySel.innerHTML = '';
+    for (var d = 1; d <= daysInMonth; d++) {
+      var opt = document.createElement('option');
+      opt.value = d; opt.textContent = d + ' 日';
+      if (d === prev || (d === daysInMonth && prev > daysInMonth)) opt.selected = true;
+      daySel.appendChild(opt);
     }
-    resultDiv.style.display = 'block';
-  };
-})();
+  }
+  function initLunarSelects() {
+    if (!yearSel || !monthSel || !daySel) return;
+    var now = new Date();
+    var year = now.getFullYear();
+    if (!yearSel.options.length) {
+      yearSel.innerHTML = '';
+      for (var y = 1900; y <= 2100; y++) {
+        var opt = document.createElement('option');
+        opt.value = y; opt.textContent = y + ' 年';
+        if (y === year) opt.selected = true;
+        yearSel.appendChild(opt);
+      }
+      monthSel.innerHTML = '';
+      var months = ['正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','冬月','臘月'];
+      months.forEach(function(m, i) {
+        var o = document.createElement('option');
+        o.value = i + 1; o.textContent = m;
+        if (i === now.getMonth()) o.selected = true;
+        monthSel.appendChild(o);
+      });
+    }
+    updateDays();
+  }
+
+  if (!modal._lunarBound) {
+    var mode = 'solar2lunar';
+    if (closeBtn) closeBtn.onclick = function() { modal.style.display = 'none'; };
+    modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+    if (toSolarBtn) toSolarBtn.onclick = function() {
+      mode = 'solar2lunar';
+      toSolarBtn.className = 'lunar-tab active';
+      toSolarBtn.style.background = 'linear-gradient(135deg,#a29bfe,#6c5ce7)';
+      toSolarBtn.style.color = '#fff';
+      if (toLunarBtn) { toLunarBtn.className = 'lunar-tab'; toLunarBtn.style.background = 'rgba(255,255,255,0.04)'; toLunarBtn.style.color = '#ccc'; }
+      if (solarInputDiv) solarInputDiv.style.display = 'block';
+      if (lunarInputDiv) lunarInputDiv.style.display = 'none';
+      if (resultDiv) resultDiv.style.display = 'none';
+    };
+    if (toLunarBtn) toLunarBtn.onclick = function() {
+      mode = 'lunar2solar';
+      toLunarBtn.className = 'lunar-tab active';
+      toLunarBtn.style.background = 'linear-gradient(135deg,#a29bfe,#6c5ce7)';
+      toLunarBtn.style.color = '#fff';
+      if (toSolarBtn) { toSolarBtn.className = 'lunar-tab'; toSolarBtn.style.background = 'rgba(255,255,255,0.04)'; toSolarBtn.style.color = '#ccc'; }
+      if (solarInputDiv) solarInputDiv.style.display = 'none';
+      if (lunarInputDiv) lunarInputDiv.style.display = 'block';
+      if (resultDiv) resultDiv.style.display = 'none';
+      initLunarSelects();
+    };
+    if (yearSel) yearSel.onchange = updateDays;
+    if (monthSel) monthSel.onchange = updateDays;
+    if (leapChk) leapChk.onchange = updateDays;
+    if (convertBtn) convertBtn.onclick = function() {
+      var result;
+      if (mode === 'solar2lunar') {
+        var val = document.getElementById('lunarDateInput') && document.getElementById('lunarDateInput').value;
+        if (!val) { alert('請選擇日期'); return; }
+        var solarDate = new Date(val + 'T00:00:00');
+        result = solarToLunar(solarDate);
+        document.getElementById('lunarSolarOut').textContent = solarDate.getFullYear() + '年' + (solarDate.getMonth()+1) + '月' + solarDate.getDate() + '日';
+        document.getElementById('lunarLunarOut').textContent = result.year + '年' + (result.isLeap ? '閏' : '') + result.month + '月' + result.day + '日';
+        document.getElementById('lunarGanzhi').textContent = result.ganZhi;
+        document.getElementById('lunarZodiac').textContent = '生肖：' + result.zodiac;
+        document.getElementById('lunarAnimal').textContent = result.zodiac;
+        document.getElementById('lunarJieqi').textContent = result.jieqi;
+        document.getElementById('lunarDesc').textContent = '公曆 ' + solarDate.getFullYear() + '年' + (solarDate.getMonth()+1) + '月' + solarDate.getDate() + '日 對應農曆 ' + result.year + '年' + (result.isLeap ? '閏' : '') + result.month + '月' + result.day + '日。干支：' + result.ganZhi + '，生肖：' + result.zodiac + '，節氣：' + result.jieqi + '。';
+      } else {
+        var year = parseInt(yearSel.value, 10);
+        var month = parseInt(monthSel.value, 10);
+        var day = parseInt(daySel.value, 10);
+        var isLeap = leapChk && leapChk.checked;
+        result = lunarToSolar(year, month, day, isLeap);
+        var solar = result.date;
+        document.getElementById('lunarSolarOut').textContent = solar.getFullYear() + '年' + (solar.getMonth()+1) + '月' + solar.getDate() + '日';
+        document.getElementById('lunarLunarOut').textContent = year + '年' + (isLeap ? '閏' : '') + month + '月' + day + '日';
+        document.getElementById('lunarGanzhi').textContent = result.ganZhi;
+        document.getElementById('lunarZodiac').textContent = '生肖：' + result.zodiac;
+        document.getElementById('lunarAnimal').textContent = result.zodiac;
+        document.getElementById('lunarJieqi').textContent = result.jieqi;
+        document.getElementById('lunarDesc').textContent = '農曆 ' + year + '年' + (isLeap ? '閏' : '') + month + '月' + day + '日 對應公曆 ' + solar.getFullYear() + '年' + (solar.getMonth()+1) + '月' + solar.getDate() + '日。干支：' + result.ganZhi + '，生肖：' + result.zodiac + '，節氣：' + result.jieqi + '。';
+      }
+      if (resultDiv) resultDiv.style.display = 'block';
+    };
+    modal._lunarBound = true;
+  }
+  modal.style.display = 'flex';
+  initLunarSelects();
+};
 
 </script>
 
@@ -4915,7 +4886,7 @@ window.openLunarModal = function() {
         <option value="Asia/Seoul">🇰🇷 首爾 (UTC+9)</option>
         <option value="Australia/Sydney">🇦🇺 悉尼 (UTC+10/+11)</option>
         <option value="Pacific/Auckland">🇳🇿 奧克蘭 (UTC+12/+13)</option>
-        <option value="Asia/Hong_Kong" selected>🇭🇰 香港 (UTC+8)</option>
+        <option value="Asia/Hong_Kong">🇭🇰 香港 (UTC+8)</option>
         <option value="Asia/Taipei">🇹🇼 台北 (UTC+8)</option>
         <option value="UTC">🌍 UTC</option>
       </select>
