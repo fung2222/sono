@@ -3140,8 +3140,15 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   };
   
   document.getElementById('mapClose').onclick = function(){
-  window.openMapModal = function() { document.getElementById('mapModal').style.display = 'flex'; };
     modal.style.display = 'none';
+  };
+  window.openMapModal = function() {
+    document.getElementById('mapModal').style.display = 'flex';
+    if(!map){
+      initMap();
+    } else {
+      map.invalidateSize();
+    }
   };
   
   modal.onclick = function(e){
