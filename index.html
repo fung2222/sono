@@ -1281,21 +1281,9 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       return;
     }
 
-    let html = '';
-    if (currentCat === 'all') {
-      for (const g of groupOrder) {
-        const items = filtered.filter(t => t.cat === g);
-        if (!items.length) continue;
-        html += '<div class="app-group-label">' + groupLabels[g] + '</div>';
-        html += '<div class="apps-grid">';
-        html += items.map(cardHtml).join('');
-        html += '</div>';
-      }
-    } else {
-      html += '<div class="apps-grid">';
-      html += filtered.map(cardHtml).join('');
-      html += '</div>';
-    }
+    let html = '<div class="apps-grid">';
+    html += filtered.map(cardHtml).join('');
+    html += '</div>';
     root.innerHTML = html;
 
     root.querySelectorAll('.app-card').forEach(card => {
