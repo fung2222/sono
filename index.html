@@ -211,8 +211,20 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .wp-item.reveal { outline: 1px solid rgba(184,168,120,0.45); }
 .wp-meta { font-family: 'Courier New', monospace; color: #c8c4b8; font-size: 0.65em; letter-spacing: 0.1em; margin-bottom: 6px; opacity: 0.85; }
 .wp-title { font-family: 'Noto Serif TC', 'Source Han Serif TC', serif; color: #fff; font-size: 0.95em; font-weight: 400; letter-spacing: 0.05em; line-height: 1.3; margin-bottom: 8px; }
-.wp-download { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; background: transparent; color: #b8a878; border: 1px solid rgba(184,168,120,0.5); border-radius: 14px; font-size: 0.72em; font-family: 'Courier New', monospace; letter-spacing: 0.08em; text-decoration: none; transition: all 0.2s; align-self: flex-start; }
-.wp-download:hover { background: #b8a878; color: #0a0a1a; border-color: #b8a878; }
+.wp-download { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; background: transparent; color: #b8a878; border: 1px solid rgba(184,168,120,0.5); border-radius: 14px; font-size: 0.72em; font-family: 'Courier New', monospace; letter-spacing: 0.08em; text-decoration: none; transition: all 0.2s; cursor: pointer; }
+  .wp-download:hover { background: #b8a878; color: #0a0a1a; border-color: #b8a878; }
+  .wp-overlay-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .wp-fav-btn { position: absolute; top: 8px; right: 8px; z-index: 2; width: 32px; height: 32px; border: 1px solid rgba(184,168,120,0.35); border-radius: 50%; background: rgba(10,10,26,0.55); color: #7a766c; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); transition: all 0.2s; padding: 0; line-height: 1; }
+  .wp-fav-btn:hover, .wp-fav-btn.on { color: #ff6b9d; border-color: rgba(255,107,157,0.55); background: rgba(255,107,157,0.12); }
+  .wp-item.is-fav .wp-fav-btn { color: #ff6b9d; border-color: rgba(255,107,157,0.5); }
+  .wp-meta-actions { display: flex; align-items: center; gap: 10px; }
+  .wp-action-btn { padding: 4px 10px; border: 1px solid rgba(184,168,120,0.35); background: transparent; color: #b8a878; font-family: 'Courier New', monospace; font-size: 0.72em; letter-spacing: 0.06em; cursor: pointer; border-radius: 0; transition: all 0.2s; white-space: nowrap; }
+  .wp-action-btn:hover { background: rgba(184,168,120,0.12); color: #c8c4b8; }
+  .wp-chip.chip-special { border-style: dashed; }
+  .wp-chip.chip-special.active { border-style: solid; color: #ffb3c7; border-color: rgba(255,107,157,0.55); background: rgba(255,107,157,0.1); }
+  #wpLightbox .wp-lb-bar { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 16px 18px; background: linear-gradient(to top, rgba(0,0,0,0.85), transparent); display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; pointer-events: none; }
+  #wpLightbox .wp-lb-bar button, #wpLightbox .wp-lb-bar a { pointer-events: auto; }
+  #wpLightbox .wp-lb-title { position: absolute; left: 16px; top: 18px; color: #c8c4b8; font-family: 'Courier New', monospace; font-size: 0.85em; letter-spacing: 0.08em; max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; pointer-events: none; }
 .wp-overlay-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
 .wp-overlay-tags .wp-theme-tag { background: rgba(184,168,120,0.2); color: #c8c4b8; border: 1px solid rgba(184,168,120,0.35); }
 .wp-empty { text-align: center; padding: 60px 20px; color: #7a766c; font-family: 'Noto Serif TC', serif; font-size: 1.05em; line-height: 1.8; grid-column: 1 / -1; }
@@ -592,7 +604,10 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   </div>
   <div class="wp-meta-top">
     <span class="section-label" id="wpLabel">—</span>
-    <span class="count" id="wpCount">— 張桌布</span>
+    <div class="wp-meta-actions">
+      <button type="button" class="wp-action-btn" id="wpRandomBtn" title="隨機一張">🎲 隨機</button>
+      <span class="count" id="wpCount">— 張桌布</span>
+    </div>
   </div>
   <div class="wp-grid" id="wpGrid"></div>
 </div>
@@ -829,25 +844,69 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     };
   });
 
-  // Chip bar categories: 全部 + all tags that actually appear on wallpapers
+  // Chip bar categories: 全部 + 收藏/最近 + all tags that appear
   const tagOrder = [
     '太空', '宇宙', 'UFO', '飛碟', '外星人', '科技', '量子', '自然',
     '山景', '海景', '森林', '星空', '星系', '行星', '航太', '夜景', '城市', '天空', '神秘', '天氣', '沙漠'
   ];
   const usedTags = new Set();
   wallpapers.forEach(w => (w.tags || []).forEach(t => usedTags.add(t)));
-  const categories = [
-    { id: 'all', label: '全部' },
-    ...tagOrder.filter(t => usedTags.has(t)).map(t => ({ id: t, label: t })),
-    // any unexpected tags not in tagOrder, append at end
-    ...[...usedTags].filter(t => !tagOrder.includes(t)).sort().map(t => ({ id: t, label: t }))
-  ];
 
+  // localStorage: favorites + recent
+  const FAV_KEY = 'sono_wp_favs';
+  const RECENT_KEY = 'sono_wp_recent';
+  function loadList(key) {
+    try {
+      const raw = localStorage.getItem(key);
+      const arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr.filter(function(x) { return typeof x === 'string'; }) : [];
+    } catch (e) { return []; }
+  }
+  function saveList(key, arr) {
+    try { localStorage.setItem(key, JSON.stringify(arr)); } catch (e) {}
+  }
+  let favs = loadList(FAV_KEY);
+  let recent = loadList(RECENT_KEY);
+  function isFav(path) { return favs.indexOf(path) !== -1; }
+  function toggleFav(path) {
+    const i = favs.indexOf(path);
+    if (i === -1) favs.unshift(path);
+    else favs.splice(i, 1);
+    if (favs.length > 200) favs = favs.slice(0, 200);
+    saveList(FAV_KEY, favs);
+    return isFav(path);
+  }
+  function pushRecent(path) {
+    recent = recent.filter(function(p) { return p !== path; });
+    recent.unshift(path);
+    if (recent.length > 24) recent = recent.slice(0, 24);
+    saveList(RECENT_KEY, recent);
+  }
+
+  function buildCategories() {
+    return [
+      { id: 'all', label: '全部', special: false },
+      { id: '__fav', label: '❤️ 收藏', special: true },
+      { id: '__recent', label: '最近', special: true },
+      ...tagOrder.filter(t => usedTags.has(t)).map(t => ({ id: t, label: t, special: false })),
+      ...[...usedTags].filter(t => !tagOrder.includes(t)).sort().map(t => ({ id: t, label: t, special: false }))
+    ];
+  }
+  let categories = buildCategories();
   let currentCat = 'all';
 
   function getFiltered() {
     if (currentCat === 'all') return wallpapers;
-    // Filter by Chinese tag membership (primary + secondary)
+    if (currentCat === '__fav') {
+      const set = {};
+      favs.forEach(function(p) { set[p] = true; });
+      return wallpapers.filter(function(w) { return set[w.path]; });
+    }
+    if (currentCat === '__recent') {
+      const map = {};
+      wallpapers.forEach(function(w) { map[w.path] = w; });
+      return recent.map(function(p) { return map[p]; }).filter(Boolean);
+    }
     return wallpapers.filter(w => {
       const tags = w.tags || [];
       if (tags.includes(currentCat)) return true;
@@ -859,14 +918,27 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
   function getCurrentLabel() {
     if (currentCat === 'all') return '全部';
+    if (currentCat === '__fav') return '收藏';
+    if (currentCat === '__recent') return '最近';
     const c = categories.find(x => x.id === currentCat);
     return c ? c.label : currentCat;
   }
 
+  function downloadWp(path, title) {
+    const a = document.createElement('a');
+    a.href = path;
+    a.download = (title || 'sono-wallpaper').replace(/[\\/:*?"<>|]/g, '') + '.jpg';
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
   function renderCatBar() {
+    categories = buildCategories();
     const bar = document.getElementById('wpCatBar');
     bar.innerHTML = categories.map(c =>
-      '<button class="wp-chip' + (c.id === currentCat ? ' active' : '') + '" data-cat="' + c.id + '">' + c.label + '</button>'
+      '<button class="wp-chip' + (c.special ? ' chip-special' : '') + (c.id === currentCat ? ' active' : '') + '" data-cat="' + c.id + '">' + c.label + '</button>'
     ).join('');
     bar.querySelectorAll('.wp-chip').forEach(btn => {
       btn.addEventListener('click', function() {
@@ -880,8 +952,8 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
   function updateArrows() {
     const bar = document.getElementById('wpCatBar');
-    const left = document.querySelector('.wp-cat-arrow-left');
-    const right = document.querySelector('.wp-cat-arrow-right');
+    const left = document.querySelector('#tab-daily .wp-cat-arrow-left');
+    const right = document.querySelector('#tab-daily .wp-cat-arrow-right');
     if (!bar || !left || !right) return;
     const max = bar.scrollWidth - bar.clientWidth;
     left.disabled = bar.scrollLeft <= 4;
@@ -896,7 +968,10 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     if (labelEl) labelEl.textContent = currentLabel;
 
     if (filtered.length === 0) {
-      grid.innerHTML = '<div class="wp-empty">呢個分類暫無桌布<em>Generate via xAI Grok Imagine · 9:16 portrait</em></div>';
+      let empty = '呢個分類暫無桌布';
+      if (currentCat === '__fav') empty = '未有收藏<em>點右上角 ♡ 即可收藏</em>';
+      else if (currentCat === '__recent') empty = '未有瀏覽紀錄<em>打開任意桌布後會出現喺呢度</em>';
+      grid.innerHTML = '<div class="wp-empty">' + empty + '</div>';
       return;
     }
 
@@ -905,12 +980,17 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       const tags = (item.tags && item.tags.length) ? item.tags : [catLabelMap[item.cat] || '桌布'];
       const tagsHtml = tags.map(t => '<span class="wp-theme-tag">' + t + '</span>').join('');
       const safePath = item.path.replace(/'/g, "\\'");
-      return '<div class="wp-item" data-wp="' + safePath + '" data-title="' + title + '">' +
+      const favOn = isFav(item.path);
+      return '<div class="wp-item' + (favOn ? ' is-fav' : '') + '" data-wp="' + safePath + '" data-title="' + title + '">' +
         '<img src="' + safePath + '" alt="' + title + ' 手機桌布" loading="lazy">' +
+        '<button type="button" class="wp-fav-btn' + (favOn ? ' on' : '') + '" aria-label="收藏" title="收藏">' + (favOn ? '♥' : '♡') + '</button>' +
         '<div class="wp-overlay">' +
           '<div class="wp-overlay-tags">' + tagsHtml + '</div>' +
           '<div class="wp-title">' + title + '</div>' +
-          '<button class="wp-download" type="button">🔍 放大</button>' +
+          '<div class="wp-overlay-actions">' +
+            '<button class="wp-download wp-enlarge" type="button">🔍 放大</button>' +
+            '<button class="wp-download wp-save" type="button">⬇ 下載</button>' +
+          '</div>' +
         '</div>' +
         '</div>';
     }).join('');
@@ -921,12 +1001,12 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
   // Arrow click handler (scrolling chip bar)
   const SCROLL_STEP = 220;
-  document.querySelector('.wp-cat-arrow-left').addEventListener('click', function() {
+  document.querySelector('#tab-daily .wp-cat-arrow-left').addEventListener('click', function() {
     const bar = document.getElementById('wpCatBar');
     bar.scrollBy({ left: -SCROLL_STEP, behavior: 'smooth' });
     setTimeout(updateArrows, 350);
   });
-  document.querySelector('.wp-cat-arrow-right').addEventListener('click', function() {
+  document.querySelector('#tab-daily .wp-cat-arrow-right').addEventListener('click', function() {
     const bar = document.getElementById('wpCatBar');
     bar.scrollBy({ left: SCROLL_STEP, behavior: 'smooth' });
     setTimeout(updateArrows, 350);
@@ -938,12 +1018,32 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   const lightbox = document.createElement('div');
   lightbox.id = 'wpLightbox';
   lightbox.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);justify-content:center;align-items:center;cursor:zoom-out;padding:20px;';
-  lightbox.innerHTML = '<img id="wpLightboxImg" style="max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-out;" alt=""><div style="position:absolute;top:20px;right:24px;font-family:Courier New,monospace;color:#b8a878;font-size:0.85em;letter-spacing:0.12em;pointer-events:none;">✕ 點擊關閉</div>';
+  lightbox.innerHTML =
+    '<div class="wp-lb-title" id="wpLightboxTitle"></div>' +
+    '<div style="position:absolute;top:18px;right:20px;font-family:Courier New,monospace;color:#b8a878;font-size:0.85em;letter-spacing:0.12em;pointer-events:none;">✕ 點擊背景關閉</div>' +
+    '<img id="wpLightboxImg" style="max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-out;" alt="">' +
+    '<div class="wp-lb-bar">' +
+      '<button type="button" class="wp-download" id="wpLbFav">♡ 收藏</button>' +
+      '<button type="button" class="wp-download" id="wpLbDl">⬇ 下載</button>' +
+      '<button type="button" class="wp-download" id="wpLbClose">關閉</button>' +
+    '</div>';
   document.body.appendChild(lightbox);
 
+  let lbPath = '';
+  let lbTitle = '';
+
+  function syncLbFavBtn() {
+    const btn = document.getElementById('wpLbFav');
+    if (!btn || !lbPath) return;
+    const on = isFav(lbPath);
+    btn.textContent = on ? '♥ 已收藏' : '♡ 收藏';
+    btn.style.color = on ? '#ff6b9d' : '#b8a878';
+    btn.style.borderColor = on ? 'rgba(255,107,157,0.55)' : 'rgba(184,168,120,0.5)';
+  }
+
   // Two-step interaction:
-  // 1st tap/click  → reveal overlay (tags + 點擊放大)
-  // 2nd tap/click  → open lightbox
+  // 1st tap/click  → reveal overlay
+  // enlarge button → lightbox
   let revealedTile = null;
 
   function clearReveal() {
@@ -954,25 +1054,52 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   }
 
   function openWpLightbox(path, title) {
+    lbPath = path;
+    lbTitle = title || '桌布';
+    pushRecent(path);
     document.getElementById('wpLightboxImg').src = path;
-    document.getElementById('wpLightboxImg').alt = (title || '桌布') + ' 手機桌布';
+    document.getElementById('wpLightboxImg').alt = lbTitle + ' 手機桌布';
+    document.getElementById('wpLightboxTitle').textContent = lbTitle;
+    syncLbFavBtn();
     lightbox.style.display = 'flex';
+    if (currentCat === '__recent') renderGrid();
   }
 
   grid.addEventListener('click', function(e) {
     const tile = e.target.closest('.wp-item');
     if (!tile) return;
+    const path = tile.getAttribute('data-wp');
+    const title = tile.getAttribute('data-title');
 
-    // Clicked the enlarge button → open lightbox (stop propagation)
-    if (e.target.closest('.wp-download')) {
+    // Favorite heart
+    if (e.target.closest('.wp-fav-btn')) {
       e.stopPropagation();
-      const path = tile.getAttribute('data-wp');
-      const title = tile.getAttribute('data-title');
+      const on = toggleFav(path);
+      tile.classList.toggle('is-fav', on);
+      const btn = tile.querySelector('.wp-fav-btn');
+      if (btn) {
+        btn.classList.toggle('on', on);
+        btn.textContent = on ? '♥' : '♡';
+      }
+      if (currentCat === '__fav') renderGrid();
+      return;
+    }
+
+    // Enlarge
+    if (e.target.closest('.wp-enlarge')) {
+      e.stopPropagation();
       openWpLightbox(path, title);
       return;
     }
 
-    // Clicked on already-revealed tile (but not button) → hide overlay
+    // Download from overlay
+    if (e.target.closest('.wp-save')) {
+      e.stopPropagation();
+      downloadWp(path, title);
+      return;
+    }
+
+    // Already revealed → hide
     if (tile.classList.contains('reveal')) {
       clearReveal();
       return;
@@ -992,10 +1119,45 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   });
 
   lightbox.addEventListener('click', function(e) {
-    if (e.target === lightbox) {
+    if (e.target === lightbox || e.target.id === 'wpLightboxImg') {
       lightbox.style.display = 'none';
       document.getElementById('wpLightboxImg').src = '';
+      lbPath = '';
     }
+  });
+  document.getElementById('wpLbClose').addEventListener('click', function(e) {
+    e.stopPropagation();
+    lightbox.style.display = 'none';
+    document.getElementById('wpLightboxImg').src = '';
+    lbPath = '';
+  });
+  document.getElementById('wpLbDl').addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (lbPath) downloadWp(lbPath, lbTitle);
+  });
+  document.getElementById('wpLbFav').addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (!lbPath) return;
+    toggleFav(lbPath);
+    syncLbFavBtn();
+    // sync grid heart if visible
+    const tile = grid.querySelector('.wp-item[data-wp="' + lbPath.replace(/"/g, '\\"') + '"]');
+    if (tile) {
+      const on = isFav(lbPath);
+      tile.classList.toggle('is-fav', on);
+      const b = tile.querySelector('.wp-fav-btn');
+      if (b) { b.classList.toggle('on', on); b.textContent = on ? '♥' : '♡'; }
+    }
+    if (currentCat === '__fav') renderGrid();
+  });
+
+  // Random from current filter
+  document.getElementById('wpRandomBtn').addEventListener('click', function(e) {
+    e.stopPropagation();
+    const list = getFiltered();
+    if (!list.length) return;
+    const item = list[Math.floor(Math.random() * list.length)];
+    openWpLightbox(item.path, item.theme);
   });
 })();
 </script>
