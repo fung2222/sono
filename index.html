@@ -1035,7 +1035,6 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
           '<div class="wp-title">' + title + '</div>' +
           '<div class="wp-overlay-actions">' +
             '<button class="wp-download wp-enlarge" type="button">🔍 放大</button>' +
-            '<button class="wp-download wp-save" type="button">⬇ 下載</button>' +
           '</div>' +
         '</div>' +
         '</div>';
@@ -1135,13 +1134,6 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     if (e.target.closest('.wp-enlarge')) {
       e.stopPropagation();
       openWpLightbox(path, title);
-      return;
-    }
-
-    // Download from overlay
-    if (e.target.closest('.wp-save')) {
-      e.stopPropagation();
-      downloadWp(path, title);
       return;
     }
 
