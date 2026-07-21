@@ -957,8 +957,8 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   }
 
   function openRandomWp() {
-    // Random from current filter (全部/收藏/標籤…), not a filter itself
-    const list = getFiltered();
+    // Always random from ALL wallpapers (not current filter)
+    const list = wallpapers;
     if (!list.length) return;
     const item = list[Math.floor(Math.random() * list.length)];
     openWpLightbox(item.path, item.theme);
