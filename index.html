@@ -222,9 +222,12 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
   .wp-action-btn:hover { background: rgba(184,168,120,0.12); color: #c8c4b8; }
   .wp-chip.chip-special { border-style: dashed; }
   .wp-chip.chip-special.active { border-style: solid; color: #ffb3c7; border-color: rgba(255,107,157,0.55); background: rgba(255,107,157,0.1); }
-  #wpLightbox .wp-lb-bar { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 16px 18px; background: linear-gradient(to top, rgba(0,0,0,0.85), transparent); display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; pointer-events: none; }
+  #wpLightbox .wp-lb-bar { position: absolute; left: 0; right: 0; bottom: 0; padding: 16px 16px 22px; background: linear-gradient(to top, rgba(0,0,0,0.85), transparent); display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; pointer-events: none; }
   #wpLightbox .wp-lb-bar button, #wpLightbox .wp-lb-bar a { pointer-events: auto; }
-  #wpLightbox .wp-lb-title { position: absolute; left: 16px; top: 18px; color: #c8c4b8; font-family: 'Courier New', monospace; font-size: 0.85em; letter-spacing: 0.08em; max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; pointer-events: none; }
+  #wpLightbox .wp-lb-bar .wp-download { padding: 7px 14px; font-size: 0.8em; border-radius: 16px; }
+  #wpLightbox .wp-lb-next { position: absolute; top: 16px; right: 14px; z-index: 2; padding: 8px 12px; border: 1px solid rgba(184,168,120,0.45); background: rgba(10,10,26,0.55); color: #b8a878; font-family: 'Courier New', monospace; font-size: 0.78em; letter-spacing: 0.06em; cursor: pointer; border-radius: 14px; backdrop-filter: blur(4px); }
+  #wpLightbox .wp-lb-next:hover { background: rgba(184,168,120,0.18); color: #c8c4b8; }
+  #wpLightbox .wp-lb-title { position: absolute; left: 16px; top: 18px; color: #c8c4b8; font-family: 'Courier New', monospace; font-size: 0.85em; letter-spacing: 0.08em; max-width: 52%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; pointer-events: none; }
 .wp-overlay-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
 .wp-overlay-tags .wp-theme-tag { background: rgba(184,168,120,0.2); color: #c8c4b8; border: 1px solid rgba(184,168,120,0.35); }
 .wp-empty { text-align: center; padding: 60px 20px; color: #7a766c; font-family: 'Noto Serif TC', serif; font-size: 1.05em; line-height: 1.8; grid-column: 1 / -1; }
@@ -604,10 +607,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   </div>
   <div class="wp-meta-top">
     <span class="section-label" id="wpLabel">—</span>
-    <div class="wp-meta-actions">
-      <button type="button" class="wp-action-btn" id="wpRandomBtn" title="隨機一張">🎲 隨機</button>
-      <span class="count" id="wpCount">— 張桌布</span>
-    </div>
+    <span class="count" id="wpCount">— 張桌布</span>
   </div>
   <div class="wp-grid" id="wpGrid"></div>
 </div>
@@ -907,7 +907,8 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   function buildCategories() {
     return [
       { id: 'all', label: '全部', special: false },
-      { id: '__fav', label: '❤️ 收藏', special: true },
+      { id: '__fav', label: '收藏', special: true },
+      { id: '__random', label: '隨機', special: true, action: true },
       { id: '__recent', label: '最近', special: true },
       ...tagOrder.filter(t => usedTags.has(t)).map(t => ({ id: t, label: t, special: false })),
       ...[...usedTags].filter(t => !tagOrder.includes(t)).sort().map(t => ({ id: t, label: t, special: false }))
@@ -955,15 +956,39 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     a.remove();
   }
 
+  function openRandomWp() {
+    // Random from current filter (全部/收藏/標籤…), not a filter itself
+    const list = getFiltered();
+    if (!list.length) return;
+    const item = list[Math.floor(Math.random() * list.length)];
+    openWpLightbox(item.path, item.theme);
+  }
+
+  function openNextWp() {
+    const list = getFiltered();
+    if (!list.length) return;
+    let idx = 0;
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].path === lbPath) { idx = i; break; }
+    }
+    const next = list[(idx + 1) % list.length];
+    openWpLightbox(next.path, next.theme);
+  }
+
   function renderCatBar() {
     categories = buildCategories();
     const bar = document.getElementById('wpCatBar');
     bar.innerHTML = categories.map(c =>
-      '<button class="wp-chip' + (c.special ? ' chip-special' : '') + (c.id === currentCat ? ' active' : '') + '" data-cat="' + c.id + '">' + c.label + '</button>'
+      '<button class="wp-chip' + (c.special ? ' chip-special' : '') + (c.id === currentCat && !c.action ? ' active' : '') + '" data-cat="' + c.id + '"' + (c.action ? ' data-action="1"' : '') + '>' + c.label + '</button>'
     ).join('');
     bar.querySelectorAll('.wp-chip').forEach(btn => {
       btn.addEventListener('click', function() {
-        currentCat = this.getAttribute('data-cat');
+        const id = this.getAttribute('data-cat');
+        if (id === '__random') {
+          openRandomWp();
+          return;
+        }
+        currentCat = id;
         renderCatBar();
         renderGrid();
       });
@@ -1041,12 +1066,12 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   lightbox.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);justify-content:center;align-items:center;cursor:zoom-out;padding:20px;';
   lightbox.innerHTML =
     '<div class="wp-lb-title" id="wpLightboxTitle"></div>' +
-    '<div style="position:absolute;top:18px;right:20px;font-family:Courier New,monospace;color:#b8a878;font-size:0.85em;letter-spacing:0.12em;pointer-events:none;">✕ 點擊背景關閉</div>' +
-    '<img id="wpLightboxImg" style="max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-out;" alt="">' +
+    '<button type="button" class="wp-lb-next" id="wpLbNext" title="下一張">› 下一張</button>' +
+    '<img id="wpLightboxImg" style="max-width:100%;max-height:100%;object-fit:contain;cursor:pointer;" alt="">' +
     '<div class="wp-lb-bar">' +
       '<button type="button" class="wp-download" id="wpLbFav">♡ 收藏</button>' +
       '<button type="button" class="wp-download" id="wpLbDl">⬇ 下載</button>' +
-      '<button type="button" class="wp-download" id="wpLbClose">關閉</button>' +
+      '<button type="button" class="wp-download" id="wpLbClose">✕ 關閉</button>' +
     '</div>';
   document.body.appendChild(lightbox);
 
@@ -1140,11 +1165,15 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   });
 
   lightbox.addEventListener('click', function(e) {
+    // Tap image or backdrop → next (close 用底部 ✕ 關閉)
     if (e.target === lightbox || e.target.id === 'wpLightboxImg') {
-      lightbox.style.display = 'none';
-      document.getElementById('wpLightboxImg').src = '';
-      lbPath = '';
+      e.stopPropagation();
+      openNextWp();
     }
+  });
+  document.getElementById('wpLbNext').addEventListener('click', function(e) {
+    e.stopPropagation();
+    openNextWp();
   });
   document.getElementById('wpLbClose').addEventListener('click', function(e) {
     e.stopPropagation();
@@ -1170,15 +1199,6 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       if (b) { b.classList.toggle('on', on); b.textContent = on ? '♥' : '♡'; }
     }
     if (currentCat === '__fav') renderGrid();
-  });
-
-  // Random from current filter
-  document.getElementById('wpRandomBtn').addEventListener('click', function(e) {
-    e.stopPropagation();
-    const list = getFiltered();
-    if (!list.length) return;
-    const item = list[Math.floor(Math.random() * list.length)];
-    openWpLightbox(item.path, item.theme);
   });
 })();
 </script>
