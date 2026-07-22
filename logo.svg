@@ -1,24 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
   <defs>
-    <linearGradient id="wl" x1="0" y1="1" x2="1" y2="0">
-      <stop offset="0%" stop-color="#ff6b9d"/>
-      <stop offset="35%" stop-color="#c44569"/>
-      <stop offset="65%" stop-color="#a29bfe"/>
-      <stop offset="100%" stop-color="#6c5ce7"/>
-    </linearGradient>
-    <linearGradient id="txt" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#ff6b9d"/>
-      <stop offset="50%" stop-color="#a29bfe"/>
-      <stop offset="100%" stop-color="#6c5ce7"/>
+    <linearGradient id="goldRing" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d4c898"/>
+      <stop offset="50%" stop-color="#b8a878"/>
+      <stop offset="100%" stop-color="#8a7d54"/>
     </linearGradient>
   </defs>
-  <!-- Icon (音波高度由 26 縮到 18，約 70%，即縮 30%) -->
-  <!-- Centered vertically: y range shifted to ~21-39, total 18px tall -->
-  <rect x="14" y="21" width="5" height="11" rx="2.5" fill="url(#wl)" opacity="0.45"/>
-  <rect x="22" y="18" width="5" height="18" rx="2.5" fill="url(#wl)" opacity="0.58"/>
-  <rect x="30" y="16" width="5" height="24" rx="2.5" fill="url(#wl)" opacity="0.72"/>
-  <rect x="38" y="18" width="5" height="20" rx="2.5" fill="url(#wl)" opacity="0.85"/>
-  <rect x="46" y="21" width="5" height="15" rx="2.5" fill="url(#wl)" opacity="0.92"/>
-  <!-- Wordmark (保留原本位置同大小) -->
-  <text x="60" y="40" font-family="'Segoe UI',-apple-system,sans-serif" font-size="28" font-weight="900" fill="url(#txt)" letter-spacing="3">Sono</text>
+  <!-- Dark navy background -->
+  <rect width="200" height="200" fill="#0a0a1a"/>
+  <!-- Concentric rings (tilted -18deg), varied width/opacity for depth -->
+  <g transform="rotate(-18 100 100)" fill="none" stroke="url(#goldRing)" stroke-linecap="round">
+    <!-- Inner solid ring -->
+    <circle cx="100" cy="100" r="42" stroke-width="3.5" opacity="0.95"/>
+    <!-- Middle ring -->
+    <circle cx="100" cy="100" r="66" stroke-width="2.4" opacity="0.6"/>
+    <!-- Outer faint ring -->
+    <circle cx="100" cy="100" r="90" stroke-width="1.6" opacity="0.32"/>
+  </g>
+  <!-- Center focus dot: subtle gold core -->
+  <circle cx="100" cy="100" r="4" fill="#d4c898"/>
+  <circle cx="100" cy="100" r="1.5" fill="#0a0a1a"/>
+  <!-- Satellite on inner ring (off-center) -->
+  <circle cx="142" cy="100" r="4.5" fill="#d4c898"/>
+  <!-- Tiny marker on outer ring (asymmetric accent) -->
+  <circle cx="56" cy="142" r="2.2" fill="#b8a878" opacity="0.7"/>
 </svg>
