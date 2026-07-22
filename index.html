@@ -222,10 +222,61 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
   .wp-action-btn:hover { background: rgba(184,168,120,0.12); color: #c8c4b8; }
   .wp-chip.chip-special { border-style: dashed; }
   .wp-chip.chip-special.active { border-style: solid; color: #ffb3c7; border-color: rgba(255,107,157,0.55); background: rgba(255,107,157,0.1); }
-  #wpLightbox .wp-lb-bar { position: absolute; left: 0; right: 0; bottom: 0; padding: 16px 16px 22px; background: linear-gradient(to top, rgba(0,0,0,0.85), transparent); display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; pointer-events: none; }
-  #wpLightbox .wp-lb-bar button, #wpLightbox .wp-lb-bar a { pointer-events: auto; }
-  #wpLightbox .wp-lb-bar .wp-download { padding: 7px 14px; font-size: 0.8em; border-radius: 16px; }
-  #wpLightbox .wp-lb-title { position: absolute; left: 16px; top: 18px; color: #c8c4b8; font-family: 'Courier New', monospace; font-size: 0.85em; letter-spacing: 0.08em; max-width: 42%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; pointer-events: none; }
+  /* ── Lightbox (Phase 2/3: redesigned layout) ── */
+  #wpLightbox { user-select: none; -webkit-user-select: none; }
+  /* Side prev/next: full-height bars on left/right edges */
+  #wpLightbox .wp-lb-side {
+    position: absolute; top: 0; bottom: 0; width: 22%;
+    background: transparent; border: none; color: rgba(184,168,120,0.0);
+    font-size: 3.2em; line-height: 1; cursor: pointer;
+    transition: color 0.2s, background 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    font-family: system-ui, sans-serif; padding: 0; z-index: 2;
+  }
+  #wpLightbox .wp-lb-side:hover,
+  #wpLightbox .wp-lb-side:focus-visible { color: rgba(184,168,120,0.85); background: rgba(184,168,120,0.08); outline: none; }
+  #wpLightbox .wp-lb-side:active { background: rgba(184,168,120,0.18); }
+  #wpLightbox .wp-lb-prev { left: 0; }
+  #wpLightbox .wp-lb-next { right: 0; }
+  /* Title + tags in bottom-left */
+  #wpLightbox .wp-lb-info {
+    position: absolute; left: 20px; bottom: 92px;
+    pointer-events: none; max-width: calc(100% - 40px);
+    text-align: left;
+  }
+  #wpLightbox .wp-lb-title {
+    color: rgba(232,228,216,0.95); font-family: 'Noto Serif TC', serif;
+    font-size: 1.05em; font-weight: 400; letter-spacing: 0.04em;
+    line-height: 1.2; text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+    margin-bottom: 6px;
+  }
+  #wpLightbox .wp-lb-tags {
+    display: flex; flex-wrap: wrap; gap: 4px;
+    font-family: 'PingFang TC', sans-serif;
+    font-size: 0.7em; letter-spacing: 0.06em;
+    color: rgba(232,228,216,0.6);
+  }
+  #wpLightbox .wp-lb-tags .wp-lb-tag { color: rgba(232,228,216,0.6); }
+  /* Bottom action bar */
+  #wpLightbox .wp-lb-bar {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 18px 16px 28px;
+    background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.5) 70%, transparent 100%);
+    display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+    pointer-events: none;
+  }
+  #wpLightbox .wp-lb-bar button { pointer-events: auto; }
+  #wpLightbox .wp-lb-action {
+    padding: 9px 18px; border: 1px solid rgba(184,168,120,0.55);
+    background: rgba(0,0,0,0.4); color: #b8a878;
+    font-family: 'PingFang TC', 'Noto Sans TC', sans-serif;
+    font-size: 0.82em; letter-spacing: 0.08em;
+    border-radius: 22px; cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  }
+  #wpLightbox .wp-lb-action:hover { background: rgba(184,168,120,0.18); color: #c8c4b8; border-color: #b8a878; }
+  #wpLightbox .wp-lb-action:active { transform: scale(0.96); }
 .wp-overlay-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
 .wp-overlay-tags .wp-theme-tag { background: rgba(184,168,120,0.2); color: #c8c4b8; border: 1px solid rgba(184,168,120,0.35); }
 .wp-empty { text-align: center; padding: 60px 20px; color: #7a766c; font-family: 'Noto Serif TC', serif; font-size: 1.05em; line-height: 1.8; grid-column: 1 / -1; }
@@ -1146,18 +1197,26 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   window.addEventListener('resize', updateArrows);
 
   // Lightbox overlay (single instance, reused)
+  // Layout (bottom-up):
+  //   - prev/next vertical bars on left/right edges (thumb-friendly)
+  //   - bottom action bar: ♡ 收藏 · ⬇ 下載 · ✕ 關閉
+  //   - bottom-left info: title (small) + tags (smaller)
+  //   - click image / backdrop → next
   const lightbox = document.createElement('div');
   lightbox.id = 'wpLightbox';
-  lightbox.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);justify-content:center;align-items:center;cursor:zoom-out;padding:20px;';
+  lightbox.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.94);justify-content:center;align-items:center;cursor:zoom-out;';
   lightbox.innerHTML =
-    '<div class="wp-lb-title" id="wpLightboxTitle"></div>' +
+    '<button type="button" class="wp-lb-side wp-lb-prev" id="wpLbPrev" aria-label="上一張">‹</button>' +
     '<img id="wpLightboxImg" style="max-width:100%;max-height:100%;object-fit:contain;cursor:pointer;" alt="">' +
+    '<button type="button" class="wp-lb-side wp-lb-next" id="wpLbNext" aria-label="下一張">›</button>' +
+    '<div class="wp-lb-info">' +
+      '<div class="wp-lb-title" id="wpLightboxTitle"></div>' +
+      '<div class="wp-lb-tags" id="wpLightboxTags"></div>' +
+    '</div>' +
     '<div class="wp-lb-bar">' +
-      '<button type="button" class="wp-download" id="wpLbPrev" title="上一張">‹ 上一張</button>' +
-      '<button type="button" class="wp-download" id="wpLbNext" title="下一張">› 下一張</button>' +
-      '<button type="button" class="wp-download" id="wpLbFav">♡ 收藏</button>' +
-      '<button type="button" class="wp-download" id="wpLbDl">⬇ 下載</button>' +
-      '<button type="button" class="wp-download" id="wpLbClose">✕ 關閉</button>' +
+      '<button type="button" class="wp-lb-action" id="wpLbFav">♡ 收藏</button>' +
+      '<button type="button" class="wp-lb-action" id="wpLbDl">⬇ 下載</button>' +
+      '<button type="button" class="wp-lb-action" id="wpLbClose">✕ 關閉</button>' +
     '</div>';
   document.body.appendChild(lightbox);
 
@@ -1189,9 +1248,21 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     lbPath = path;
     lbTitle = title || '桌布';
     pushRecent(path);
-    document.getElementById('wpLightboxImg').src = path;
-    document.getElementById('wpLightboxImg').alt = lbTitle + ' 手機桌布';
+    const img = document.getElementById('wpLightboxImg');
+    img.src = path;
+    img.alt = lbTitle + ' 手機桌布';
     document.getElementById('wpLightboxTitle').textContent = lbTitle;
+    // Look up tags from current wallpaper list so we can render them
+    const wp = wallpapers.find(function(w){ return w.path === path; });
+    const tagDiv = document.getElementById('wpLightboxTags');
+    if (wp && tagDiv) {
+      const tags = (wp.tags && wp.tags.length) ? wp.tags : [catLabelMap[wp.cat] || '桌布'];
+      tagDiv.innerHTML = tags.slice(0, 4).map(function(t){
+        return '<span class="wp-lb-tag">#' + t + '</span>';
+      }).join(' ');
+    } else if (tagDiv) {
+      tagDiv.innerHTML = '';
+    }
     syncLbFavBtn();
     lightbox.style.display = 'flex';
     if (currentCat === '__recent') renderGrid();
