@@ -1525,17 +1525,42 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     'lunarTrigger': 'openLunarModal',
   };
 
+  // Safe wrapper: catches any error from modal opener so one broken tool
+  // never silently fails. Shows a brief toast for user-visible feedback,
+  // plus a full console error with stack trace for debugging.
+  function showToolError(triggerId, fnName, err) {
+    console.error('[Sono tool error] trigger=' + triggerId + ' fn=' + fnName, err);
+    var existing = document.getElementById('sonoErrorToast');
+    if (existing) existing.remove();
+    var toast = document.createElement('div');
+    toast.id = 'sonoErrorToast';
+    toast.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);' +
+      'background:#2a1a1a;color:#ffb3c7;border:1px solid rgba(255,107,157,0.55);' +
+      'border-radius:10px;padding:10px 16px;font-size:0.85em;font-family:system-ui,sans-serif;' +
+      'z-index:99999;box-shadow:0 4px 18px rgba(0,0,0,0.5);max-width:88vw;text-align:center;';
+    toast.textContent = '⚠ 工具暫時未能開啟，請重試或重新整理頁面';
+    toast.onclick = function() { toast.remove(); };
+    document.body.appendChild(toast);
+    setTimeout(function() { if (toast.parentNode) toast.remove(); }, 4000);
+  }
+
   function openToolByTrigger(triggerId) {
-    const fnName = triggerToModal[triggerId];
+    var fnName = triggerToModal[triggerId];
     if (!fnName) {
       console.warn('Tool trigger not mapped:', triggerId);
+      showToolError(triggerId, '(unmapped)', new Error('Trigger not in triggerToModal map'));
       return;
     }
-    const fn = window[fnName];
-    if (typeof fn === 'function') {
-      fn();
-    } else {
+    var fn = window[fnName];
+    if (typeof fn !== 'function') {
       console.error('Modal opener not found:', fnName);
+      showToolError(triggerId, fnName, new Error('window.' + fnName + ' is not a function'));
+      return;
+    }
+    try {
+      fn();
+    } catch (err) {
+      showToolError(triggerId, fnName, err);
     }
   }
 
