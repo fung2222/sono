@@ -6,22 +6,10 @@
       <stop offset="100%" stop-color="#8a7d54"/>
     </linearGradient>
   </defs>
-  <!-- Dark navy background -->
   <rect width="200" height="200" fill="#0a0a1a"/>
-  <!-- Concentric rings (tilted -18deg), varied width/opacity for depth -->
   <g transform="rotate(-18 100 100)" fill="none" stroke="url(#goldRing)" stroke-linecap="round">
-    <!-- Inner solid ring -->
-    <circle cx="100" cy="100" r="42" stroke-width="3.5" opacity="0.95"/>
-    <!-- Middle ring -->
-    <circle cx="100" cy="100" r="66" stroke-width="2.4" opacity="0.6"/>
-    <!-- Outer faint ring -->
-    <circle cx="100" cy="100" r="90" stroke-width="1.6" opacity="0.32"/>
+    <circle cx="100" cy="100" r="78" stroke-width="2.6" opacity="0.55"/>
+    <circle cx="100" cy="100" r="92" stroke-width="1.6" opacity="0.32"/>
   </g>
-  <!-- Center focus dot: subtle gold core -->
-  <circle cx="100" cy="100" r="4" fill="#d4c898"/>
-  <circle cx="100" cy="100" r="1.5" fill="#0a0a1a"/>
-  <!-- Satellite on inner ring (off-center) -->
-  <circle cx="142" cy="100" r="4.5" fill="#d4c898"/>
-  <!-- Tiny marker on outer ring (asymmetric accent) -->
-  <circle cx="56" cy="142" r="2.2" fill="#b8a878" opacity="0.7"/>
+  <path d="M 122 78 C 122 68, 112 62, 100 62 C 86 62, 76 70, 76 82 C 76 94, 86 98, 100 102 C 114 106, 124 110, 124 122 C 124 134, 114 142, 100 142 C 86 142, 76 136, 76 124" fill="none" stroke="url(#goldRing)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
