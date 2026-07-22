@@ -36,6 +36,7 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .logo-area { text-align: center; padding: 28px 0 6px; border-bottom: 1px solid rgba(184,168,120,0.15); }
 .logo { font-family: 'Noto Serif TC', 'Source Han Serif TC', 'PingFang TC', serif; font-size: 2.6em; font-weight: 300; color: #c8c4b8; letter-spacing: 0.18em; text-shadow: 0 2px 18px rgba(0,0,0,0.55); }
 .subtitle { font-family: 'Courier New', monospace; font-size: 0.74em; color: #7a766c; letter-spacing: 0.32em; text-transform: uppercase; margin: 8px 0 0; }
+.logo-ai-badge { display: inline-block; margin-left: 10px; padding: 2px 9px; border: 1px solid rgba(184,168,120,0.45); border-radius: 10px; color: #b8a878; letter-spacing: 0.1em; font-size: 0.95em; text-transform: none; }
 
 /* ══════ Tab Bar ══════ */
 .tab-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.4rem; margin: 16px 0 8px; padding: 14px 16px; background: rgba(13,10,26,0.95); border-top: 1px solid rgba(184,168,120,0.3); border-bottom: 1px solid rgba(184,168,120,0.3); position: sticky; top: 0; z-index: 50; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
@@ -337,7 +338,9 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 }
 
 /* Footer */
-.footer { text-align: center; padding: 40px 20px; color: #7a766c; font-family: 'Courier New', monospace; font-size: 0.78em; letter-spacing: 0.12em; border-top: 1px solid rgba(184,168,120,0.15); margin-top: 40px; }
+.footer { text-align: center; padding: 40px 20px 24px; color: #7a766c; font-family: 'Courier New', monospace; font-size: 0.78em; letter-spacing: 0.12em; border-top: 1px solid rgba(184,168,120,0.15); margin-top: 40px; line-height: 1.8; }
+.footer-tagline { color: #a8a498; letter-spacing: 0.08em; margin-bottom: 8px; }
+.footer-credit { color: #7a766c; font-size: 0.92em; letter-spacing: 0.08em; }
 
 @media (max-width: 600px) {
   .logo { font-size: 2.2em; }
@@ -651,7 +654,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <!-- Logo -->
 <div class="logo-area">
   <div class="logo">Sono蘇蘿</div>
-  <div class="subtitle">科技與未來 · 太空與超自然</div>
+  <div class="subtitle">科技與未來 · 太空與超自然 <span class="logo-ai-badge">✨ 由 AI 創造</span></div>
 </div>
 
 <!-- ══════ Tab Bar ══════ -->
@@ -1800,7 +1803,67 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
 <!-- Footer -->
 <div class="footer">
-  Powered by <strong>Sono</strong>
+  <div class="footer-tagline">Sono蘇蘿 · 每日 AI 桌布 + 遊戲 + 實用工具</div>
+  <div class="footer-credit">
+    Powered with <span style="color:#ff6b9d">♥</span> by Sono
+    &nbsp;·&nbsp;
+    <a href="#" id="aboutLink" style="color:#b8a878;text-decoration:none;border-bottom:1px dotted rgba(184,168,120,0.4);">關於</a>
+    &nbsp;·&nbsp;
+    <span class="footer-year">© 2026</span>
+  </div>
+</div>
+
+<!-- About Modal -->
+<div id="aboutModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:linear-gradient(160deg,#12101c 0%,#0a0a1a 60%,#16122a 100%);border-radius:18px;max-width:440px;width:100%;max-height:85vh;overflow-y:auto;border:1px solid rgba(184,168,120,0.32);box-shadow:0 20px 60px rgba(0,0,0,0.6);">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:22px 24px 14px;border-bottom:1px solid rgba(184,168,120,0.18);">
+      <h2 style="margin:0;color:#c8c4b8;font-family:'Noto Serif TC',serif;font-size:1.25em;font-weight:400;letter-spacing:0.1em;">關於 Sono 蘇蘿</h2>
+      <button id="aboutClose" type="button" class="modal-close modal-close-gold">✕</button>
+    </div>
+    <div style="padding:20px 24px 26px;color:#a8a498;font-family:system-ui,-apple-system,'PingFang TC',sans-serif;font-size:0.92em;line-height:1.85;">
+      <p style="margin:0 0 16px;color:#c8c4b8;">Sono 是一個實驗性個人助理網站 — <span style="color:#b8a878;">全部由 AI 設計並實現</span>。</p>
+
+      <div style="display:flex;flex-direction:column;gap:12px;margin:18px 0;">
+        <div style="background:rgba(184,168,120,0.06);border-left:2px solid rgba(184,168,120,0.45);padding:10px 14px;border-radius:0 6px 6px 0;">
+          <div style="color:#b8a878;font-weight:500;margin-bottom:2px;">🖼 AI 桌布</div>
+          <div style="font-size:0.88em;color:#8a8678;">每張由 xAI Grok 寫實生成 · 1080×1920 · 多標籤分類</div>
+        </div>
+        <div style="background:rgba(184,168,120,0.06);border-left:2px solid rgba(184,168,120,0.45);padding:10px 14px;border-radius:0 6px 6px 0;">
+          <div style="color:#b8a878;font-weight:500;margin-bottom:2px;">🎮 AI 遊戲</div>
+          <div style="font-size:0.88em;color:#8a8678;">6 個原創瀏覽器小遊戲 · Canvas + JS · AI 編程</div>
+        </div>
+        <div style="background:rgba(184,168,120,0.06);border-left:2px solid rgba(184,168,120,0.45);padding:10px 14px;border-radius:0 6px 6px 0;">
+          <div style="color:#b8a878;font-weight:500;margin-bottom:2px;">🛠 AI 工具</div>
+          <div style="font-size:0.88em;color:#8a8678;">26 個實用小工具 · 天氣、匯率、翻譯、計時等</div>
+        </div>
+      </div>
+
+      <div style="border-top:1px solid rgba(184,168,120,0.15);padding-top:14px;margin-top:14px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+          <span style="color:#7a766c;">技術</span>
+          <span style="color:#a8a498;">PWA · xAI · GitHub Pages</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+          <span style="color:#7a766c;">版本</span>
+          <span style="color:#a8a498;">v5 · 2026-07-22</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+          <span style="color:#7a766c;">反饋</span>
+          <span style="color:#a8a498;">
+            <a href="https://github.com/fung2222/sono/issues" target="_blank" rel="noopener" style="color:#b8a878;text-decoration:none;border-bottom:1px dotted rgba(184,168,120,0.4);">GitHub Issues</a>
+          </span>
+        </div>
+        <div style="display:flex;justify-content:space-between;">
+          <span style="color:#7a766c;">源碼</span>
+          <span style="color:#a8a498;">
+            <a href="https://github.com/fung2222/sono" target="_blank" rel="noopener" style="color:#b8a878;text-decoration:none;border-bottom:1px dotted rgba(184,168,120,0.4);">github.com/fung2222/sono</a>
+          </span>
+        </div>
+      </div>
+
+      <p style="margin:18px 0 0;color:#7a766c;font-size:0.82em;text-align:center;font-style:italic;">「由 AI 創造 · 為人而用」</p>
+    </div>
+  </div>
 </div>
 
 </div>
@@ -2129,6 +2192,36 @@ function switchTab(tabName) {
   var last = 'daily';
   try { last = localStorage.getItem('sono_last_tab') || 'daily'; } catch(e) {}
   switchTab(last);
+})();
+
+// ══════ About Modal ══════
+// Lazy-bind pattern (aboutModal HTML may be after this script tag if structure changes)
+function openAboutModal() {
+  var modal = document.getElementById('aboutModal');
+  if (!modal) return;
+  if (!modal._aboutBound) {
+    var closeBtn = document.getElementById('aboutClose');
+    if (closeBtn) closeBtn.onclick = function() { modal.style.display = 'none'; };
+    modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
+    modal._aboutBound = true;
+  }
+  modal.style.display = 'flex';
+}
+(function() {
+  var link = document.getElementById('aboutLink');
+  if (link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      openAboutModal();
+    });
+  }
+  // Esc also closes About modal
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      var m = document.getElementById('aboutModal');
+      if (m && getComputedStyle(m).display !== 'none') m.style.display = 'none';
+    }
+  });
 })();
 
 // ══════ Live Date ══════
