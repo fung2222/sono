@@ -8,17 +8,17 @@
   </defs>
   <!-- Dark navy background -->
   <rect width="200" height="200" fill="#0a0a1a"/>
-  <!-- Bold gold 'S' centered, scaled DOWN 25% from previous (bd45c80) -->
-  <path d="M 122 73
-           C 122 61, 113 54, 100 54
-           C 85 54, 78 63, 78 76
-           C 78 88, 87 95, 100 100
-           C 113 105, 122 111, 122 124
-           C 122 137, 113 146, 100 146
-           C 87 146, 78 140, 78 127"
+  <!-- Bold gold 'S' at iOS safe zone standard size (~65% canvas) -->
+  <path d="M 134 56
+           C 134 38, 119 26, 100 26
+           C 76 26, 66 42, 66 64
+           C 66 84, 82 94, 100 100
+           C 118 106, 134 114, 134 136
+           C 134 158, 119 174, 100 174
+           C 76 174, 66 162, 66 140"
         fill="none"
         stroke="url(#goldS)"
-        stroke-width="11"
+        stroke-width="14"
         stroke-linecap="round"
         stroke-linejoin="round"/>
 </svg>
