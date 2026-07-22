@@ -239,6 +239,14 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .wp-chip { padding: 7px 18px; border: 1px solid rgba(184,168,120,0.2); background: transparent; color: #7a766c; font-family: 'PingFang TC', 'Noto Sans TC', sans-serif; font-size: 0.85em; letter-spacing: 0.06em; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: all 0.2s; }
 .wp-chip:hover { color: #c8c4b8; border-color: rgba(184,168,120,0.4); }
 .wp-chip.active { color: #c8c4b8; border-color: #b8a878; background: rgba(184,168,120,0.1); }
+/* Mega theme chips — slightly bolder, brighter to distinguish from sub-tags */
+.wp-chip.chip-theme { border-color: rgba(184,168,120,0.4); color: #b8a878; font-weight: 500; padding: 7px 14px; }
+.wp-chip.chip-theme:hover { border-color: #b8a878; background: rgba(184,168,120,0.08); }
+.wp-chip.chip-theme.active { color: #0a0a1a; background: #b8a878; border-color: #b8a878; font-weight: 600; }
+/* Sub chips — smaller, lighter to visually recede */
+.wp-chip.chip-sub { padding: 5px 12px; font-size: 0.78em; border-color: rgba(184,168,120,0.12); }
+/* Visual separator between chip groups */
+.wp-chip-sep { width: 1px; height: 18px; background: rgba(184,168,120,0.25); flex-shrink: 0; align-self: center; margin: 0 6px; }
 .wp-meta-top { display: flex; align-items: baseline; justify-content: space-between; margin: 4px 0 4px; }
 .wp-meta-top .section-label { font-family: 'Courier New', monospace; font-size: 0.78em; color: #7a766c; text-transform: uppercase; letter-spacing: 0.08em; line-height: 1; }
 .wp-meta-top .count { font-family: 'Courier New', monospace; font-size: 0.78em; color: #7a766c; text-transform: uppercase; letter-spacing: 0.08em; line-height: 1; }
@@ -640,6 +648,14 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     { keys: ['galaxy', 'nebula', 'space', 'star', 'stars', 'aurora', 'orbit', 'cosmic', 'mars', 'planet', 'saturn', 'station', 'astronaut', 'cosmonaut', 'deep', 'night', 'nocturnal'], cat: 'space' }
   ];
 
+  // 4 mega themes (top-level grouping) — each maps to a set of primary cats
+  const megaThemeMap = {
+    '宇宙': ['space', 'cosmos', 'ufo', 'alien'],
+    '自然': ['nature'],
+    '城市': ['tech'],     // city-night / cyberpunk → tech theme
+    '抽象': ['quantum', 'mystery']
+  };
+
   // Safe keyword match: avoid short keys like "ai" matching inside "mountain"
   function matchKey(slug, key) {
     const s = (slug || '').toLowerCase();
@@ -876,10 +892,36 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     };
   });
 
-  // Chip bar categories: 全部 + 收藏/最近 + all tags that appear
-  const tagOrder = [
-    '太空', '宇宙', 'UFO', '飛碟', '外星人', '科技', '量子', '自然',
-    '山景', '海景', '森林', '星空', '星系', '行星', '航太', '夜景', '城市', '天空', '神秘', '天氣', '沙漠'
+  // Chip bar categories: system actions + 4 mega themes + sub-tags (grouped)
+  // Render order: [系統動作] → [4 大主題] → [細分類]
+  const chipGroups = [
+    { kind: 'system', items: [
+      { id: 'all', label: '全部' },
+      { id: '__fav', label: '收藏', special: true },
+      { id: '__random', label: '隨機', special: true, action: true },
+      { id: '__recent', label: '最近', special: true }
+    ]},
+    { kind: 'theme', items: [
+      { id: '__theme_宇宙', label: '宇宙', icon: '🌌' },
+      { id: '__theme_自然', label: '自然', icon: '🌿' },
+      { id: '__theme_城市', label: '城市', icon: '🏙' },
+      { id: '__theme_抽象', label: '抽象', icon: '✨' }
+    ]},
+    { kind: 'sub', items: [
+      { id: '太空', label: '太空' },
+      { id: '星系', label: '星系' },
+      { id: 'UFO', label: 'UFO' },
+      { id: '外星人', label: '外星人' },
+      { id: '山景', label: '山景' },
+      { id: '海景', label: '海景' },
+      { id: '森林', label: '森林' },
+      { id: '天空', label: '天空' },
+      { id: '沙漠', label: '沙漠' },
+      { id: '夜景', label: '夜景' },
+      { id: '科技', label: '科技' },
+      { id: '量子', label: '量子' },
+      { id: '神秘', label: '神秘' }
+    ]}
   ];
   const usedTags = new Set();
   wallpapers.forEach(w => (w.tags || []).forEach(t => usedTags.add(t)));
@@ -916,14 +958,17 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   }
 
   function buildCategories() {
-    return [
-      { id: 'all', label: '全部', special: false },
-      { id: '__fav', label: '收藏', special: true },
-      { id: '__random', label: '隨機', special: true, action: true },
-      { id: '__recent', label: '最近', special: true },
-      ...tagOrder.filter(t => usedTags.has(t)).map(t => ({ id: t, label: t, special: false })),
-      ...[...usedTags].filter(t => !tagOrder.includes(t)).sort().map(t => ({ id: t, label: t, special: false }))
-    ];
+    // Flatten chipGroups into render list with group separators.
+    // Each item: { id, label, special?, action?, icon?, group? }
+    const out = [];
+    chipGroups.forEach(g => {
+      g.items.forEach(it => {
+        // For sub chips, only include if any wallpaper actually uses the tag
+        if (g.kind === 'sub' && !usedTags.has(it.id)) return;
+        out.push(Object.assign({ group: g.kind }, it));
+      });
+    });
+    return out;
   }
   let categories = buildCategories();
   let currentCat = 'all';
@@ -939,6 +984,13 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       const map = {};
       wallpapers.forEach(function(w) { map[w.path] = w; });
       return recent.map(function(p) { return map[p]; }).filter(Boolean);
+    }
+    // Mega theme filter: __theme_<name> → match by primary cat
+    if (currentCat.indexOf('__theme_') === 0) {
+      const themeName = currentCat.slice('__theme_'.length);
+      const allowedCats = megaThemeMap[themeName] || [];
+      if (!allowedCats.length) return wallpapers;
+      return wallpapers.filter(w => allowedCats.indexOf(w.cat) !== -1);
     }
     return wallpapers.filter(w => {
       const tags = w.tags || [];
@@ -1000,9 +1052,21 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   function renderCatBar() {
     categories = buildCategories();
     const bar = document.getElementById('wpCatBar');
-    bar.innerHTML = categories.map(c =>
-      '<button class="wp-chip' + (c.special ? ' chip-special' : '') + (c.id === currentCat && !c.action ? ' active' : '') + '" data-cat="' + c.id + '"' + (c.action ? ' data-action="1"' : '') + '>' + c.label + '</button>'
-    ).join('');
+    let lastGroup = null;
+    bar.innerHTML = categories.map(c => {
+      // Insert a visual separator between groups
+      const sep = (lastGroup && lastGroup !== c.group)
+        ? '<span class="wp-chip-sep" aria-hidden="true"></span>' : '';
+      lastGroup = c.group;
+      const cls = 'wp-chip'
+        + (c.special ? ' chip-special' : '')
+        + (c.group === 'theme' ? ' chip-theme' : '')
+        + (c.group === 'sub' ? ' chip-sub' : '')
+        + (c.id === currentCat && !c.action ? ' active' : '');
+      return sep + '<button class="' + cls + '" data-cat="' + c.id + '"'
+        + (c.action ? ' data-action="1"' : '')
+        + '>' + (c.icon ? c.icon + ' ' : '') + c.label + '</button>';
+    }).join('');
     bar.querySelectorAll('.wp-chip').forEach(btn => {
       btn.addEventListener('click', function() {
         const id = this.getAttribute('data-cat');
