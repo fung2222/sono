@@ -33,15 +33,17 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .container { max-width: 100%; margin: 0; padding: 0 4px; }
 
 /* Logo */
-.logo-area { text-align: center; padding: 24px 0 6px; border-bottom: 1px solid rgba(184,168,120,0.15); }
+.logo-area { text-align: center; padding: 22px 0 6px; border-bottom: 1px solid rgba(184,168,120,0.15); }
 .logo-lockup { display: inline-flex; align-items: center; gap: 14px; }
-.logo-mark { width: 44px; height: 44px; flex-shrink: 0; display: block; }
-.logo-text { text-align: left; }
-.logo { font-family: 'Noto Serif TC', 'Source Han Serif TC', 'PingFang TC', serif; font-size: 2.6em; font-weight: 300; color: #c8c4b8; letter-spacing: 0.18em; text-shadow: 0 2px 18px rgba(0,0,0,0.55); line-height: 1; }
-.subtitle { font-family: 'Courier New', monospace; font-size: 0.74em; color: #7a766c; letter-spacing: 0.32em; text-transform: uppercase; margin: 6px 0 0; }
+.logo-mark { width: 52px; height: 52px; flex-shrink: 0; display: block; align-self: center; }
+.logo-text { text-align: left; display: flex; flex-direction: column; gap: 4px; }
+.logo { font-family: 'Noto Serif TC', 'Source Han Serif TC', 'PingFang TC', serif; font-size: 2.4em; font-weight: 300; color: #c8c4b8; letter-spacing: 0.16em; text-shadow: 0 2px 14px rgba(0,0,0,0.5); line-height: 1; }
+.subtitle { font-family: 'Courier New', monospace; font-size: 0.72em; color: #7a766c; letter-spacing: 0.3em; text-transform: uppercase; line-height: 1; }
 @media (max-width: 480px) {
-  .logo-mark { width: 38px; height: 38px; }
+  .logo-mark { width: 44px; height: 44px; }
   .logo-lockup { gap: 12px; }
+  .logo { font-size: 2.0em; letter-spacing: 0.12em; }
+  .subtitle { font-size: 0.66em; letter-spacing: 0.22em; }
 }
 
 /* ══════ Tab Bar ══════ */
@@ -360,7 +362,6 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 }
 
 @media (max-width: 600px) {
-  .logo { font-size: 2.2em; }
   .tab-btn { padding: 6px 10px; font-size: 0.75em; min-width: 75px; }
   .tab-btn .tab-label { font-size: 1.1em; }
   .report-item .date-num { font-size: 1.5em; min-width: 45px; }
