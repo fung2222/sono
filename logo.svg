@@ -8,17 +8,17 @@
   </defs>
   <!-- Dark navy background -->
   <rect width="200" height="200" fill="#0a0a1a"/>
-  <!-- Bold gold 'S' centered, scaled DOWN 30% from previous (4615c32) size -->
-  <path d="M 129 64
-           C 129 49, 117 40, 100 40
-           C 81 40, 71 51, 71 67
-           C 71 82, 83 91, 100 97
-           C 117 103, 129 111, 129 133
-           C 129 149, 117 160, 100 160
-           C 83 160, 71 152, 71 135"
+  <!-- Bold gold 'S' centered, scaled DOWN 25% from previous (bd45c80) -->
+  <path d="M 122 73
+           C 122 61, 113 54, 100 54
+           C 85 54, 78 63, 78 76
+           C 78 88, 87 95, 100 100
+           C 113 105, 122 111, 122 124
+           C 122 137, 113 146, 100 146
+           C 87 146, 78 140, 78 127"
         fill="none"
         stroke="url(#goldS)"
-        stroke-width="12"
+        stroke-width="11"
         stroke-linecap="round"
         stroke-linejoin="round"/>
 </svg>
