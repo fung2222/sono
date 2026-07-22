@@ -1206,6 +1206,25 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     }
     if (currentCat === '__fav') renderGrid();
   });
+
+  // Keyboard navigation: Esc=close, ←/→ = prev/next (only when lightbox open)
+  document.addEventListener('keydown', function(e) {
+    var lb = document.getElementById('wpLightbox');
+    if (!lb || getComputedStyle(lb).display === 'none') return;
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      lb.style.display = 'none';
+      var img = document.getElementById('wpLightboxImg');
+      if (img) img.src = '';
+      lbPath = '';
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      openPrevWp();
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      openNextWp();
+    }
+  });
 })();
 </script>
 </div>
