@@ -225,9 +225,6 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
   #wpLightbox .wp-lb-bar { position: absolute; left: 0; right: 0; bottom: 0; padding: 16px 16px 22px; background: linear-gradient(to top, rgba(0,0,0,0.85), transparent); display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; pointer-events: none; }
   #wpLightbox .wp-lb-bar button, #wpLightbox .wp-lb-bar a { pointer-events: auto; }
   #wpLightbox .wp-lb-bar .wp-download { padding: 7px 14px; font-size: 0.8em; border-radius: 16px; }
-  #wpLightbox .wp-lb-nav { position: absolute; top: 16px; right: 14px; z-index: 2; display: flex; gap: 8px; }
-  #wpLightbox .wp-lb-next, #wpLightbox .wp-lb-prev { padding: 8px 12px; border: 1px solid rgba(184,168,120,0.45); background: rgba(10,10,26,0.55); color: #b8a878; font-family: 'Courier New', monospace; font-size: 0.78em; letter-spacing: 0.06em; cursor: pointer; border-radius: 14px; backdrop-filter: blur(4px); }
-  #wpLightbox .wp-lb-next:hover, #wpLightbox .wp-lb-prev:hover { background: rgba(184,168,120,0.18); color: #c8c4b8; }
   #wpLightbox .wp-lb-title { position: absolute; left: 16px; top: 18px; color: #c8c4b8; font-family: 'Courier New', monospace; font-size: 0.85em; letter-spacing: 0.08em; max-width: 42%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; pointer-events: none; }
 .wp-overlay-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
 .wp-overlay-tags .wp-theme-tag { background: rgba(184,168,120,0.2); color: #c8c4b8; border: 1px solid rgba(184,168,120,0.35); }
@@ -1077,12 +1074,10 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   lightbox.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);justify-content:center;align-items:center;cursor:zoom-out;padding:20px;';
   lightbox.innerHTML =
     '<div class="wp-lb-title" id="wpLightboxTitle"></div>' +
-    '<div class="wp-lb-nav">' +
-      '<button type="button" class="wp-lb-prev" id="wpLbPrev" title="上一張">‹ 上一張</button>' +
-      '<button type="button" class="wp-lb-next" id="wpLbNext" title="下一張">› 下一張</button>' +
-    '</div>' +
     '<img id="wpLightboxImg" style="max-width:100%;max-height:100%;object-fit:contain;cursor:pointer;" alt="">' +
     '<div class="wp-lb-bar">' +
+      '<button type="button" class="wp-download" id="wpLbPrev" title="上一張">‹ 上一張</button>' +
+      '<button type="button" class="wp-download" id="wpLbNext" title="下一張">› 下一張</button>' +
       '<button type="button" class="wp-download" id="wpLbFav">♡ 收藏</button>' +
       '<button type="button" class="wp-download" id="wpLbDl">⬇ 下載</button>' +
       '<button type="button" class="wp-download" id="wpLbClose">✕ 關閉</button>' +
