@@ -445,6 +445,19 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 #sono-daily-report .dw-footer{ text-align:center; padding:20px 0 10px; color:#555; font-size:0.65em; line-height:2; }
 #sono-daily-report .dw-footer a{ color:#666; text-decoration:none; }
 
+/* ── Unified modal close button (32px round, gray by default, gold for special tools like stopwatch) ── */
+.modal-close {
+  width: 32px; height: 32px; border: none; border-radius: 50%;
+  background: rgba(255,255,255,0.06); color: #888;
+  font-size: 1.1em; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  line-height: 1; padding: 0;
+  transition: background 0.2s, color 0.2s;
+}
+.modal-close:hover { background: rgba(255,255,255,0.12); color: #c8c4b8; }
+.modal-close.modal-close-gold { background: rgba(184,168,120,0.12); color: #b8a878; }
+.modal-close.modal-close-gold:hover { background: rgba(184,168,120,0.2); color: #d4c898; }
+
 </style>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -1662,7 +1675,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:420px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">🏋️ BMI 計算</h2>
-      <button id="bmiClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="bmiClose" class="modal-close">✕</button>
     </div>
     <div style="margin-bottom:14px;">
       <label style="color:#aaa;font-size:0.8em;display:block;margin-bottom:4px;">身高 (cm)</label>
@@ -1688,7 +1701,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a3e);border-radius:16px;max-width:480px;width:100%;padding:24px;border:1px solid rgba(162,155,254,0.25);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">🌙 夢境解讀</h2>
-      <button id="dreamClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="dreamClose" class="modal-close">✕</button>
     </div>
     <div style="margin-bottom:14px;">
       <label style="color:#a29bfe;font-size:0.8em;display:block;margin-bottom:4px;">輸入夢境關鍵詞（例：跌落山、見到蛇、飛）</label>
@@ -1720,7 +1733,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#1a0a1a,#2e1a1a);border-radius:16px;max-width:460px;width:100%;padding:24px;border:1px solid rgba(255,215,0,0.25);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">☯️ 易經卜卦</h2>
-      <button id="divinationClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="divinationClose" class="modal-close">✕</button>
     </div>
     <div style="margin-bottom:16px;">
       <label style="color:#ffd93d;font-size:0.8em;display:block;margin-bottom:6px;">默念你嘅問題（10 秒）</label>
@@ -1762,7 +1775,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#0a0a1a,#1a0a2e);border-radius:16px;max-width:440px;width:100%;padding:24px;border:1px solid rgba(255,107,157,0.25);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">🎲 音樂骰子</h2>
-      <button id="musicClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="musicClose" class="modal-close">✕</button>
     </div>
     <div id="musicResult" style="text-align:center;padding:30px 20px;background:rgba(255,107,157,0.05);border-radius:14px;margin-bottom:16px;">
       <div id="musicEmoji" style="font-size:4em;margin-bottom:12px;"></div>
@@ -1783,7 +1796,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#0a1a0a,#1a2e1a);border-radius:16px;max-width:440px;width:100%;padding:24px;border:1px solid rgba(255,165,0,0.25);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">🍜 今晚食咩</h2>
-      <button id="foodClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="foodClose" class="modal-close">✕</button>
     </div>
     <div style="margin-bottom:14px;">
       <label style="color:#ffa500;font-size:0.8em;display:block;margin-bottom:6px;">選擇條件（可選）</label>
@@ -1815,7 +1828,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#1a0a1a,#2e1a2e);border-radius:16px;max-width:460px;width:100%;padding:24px;border:1px solid rgba(162,155,254,0.3);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">🃏 塔羅占卜</h2>
-      <button id="tarotClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="tarotClose" class="modal-close">✕</button>
     </div>
     <div style="margin-bottom:14px;">
       <input id="tarotQuestion" type="text" placeholder="問一個問題..." style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:0.95em;font-family:inherit;outline:none;">
@@ -1836,7 +1849,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a3e);border-radius:16px;max-width:440px;width:100%;padding:24px;border:1px solid rgba(0,212,255,0.25);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">🔢 命運數字</h2>
-      <button id="numberClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="numberClose" class="modal-close">✕</button>
     </div>
     <div style="margin-bottom:14px;">
       <label style="color:#00d4ff;font-size:0.8em;display:block;margin-bottom:6px;">輸入你嘅生日（例：1990-08-15）</label>
@@ -1863,7 +1876,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:480px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">💰 貨幣匯率</h2>
-      <button id="currencyClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="currencyClose" class="modal-close">✕</button>
     </div>
     <div style="display:flex;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.06);">
       <div><div style="color:#888;font-size:0.75em;">基準匯率</div><div id="mBaseRate" style="color:#6bff6b;font-size:1em;font-weight:700;">--</div></div>
@@ -1890,7 +1903,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:480px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">🌤️ 全球天氣</h2>
-      <button id="weatherClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="weatherClose" class="modal-close">✕</button>
     </div>
     <p style="color:#666;font-size:0.75em;margin-bottom:12px;">Open-Meteo 免費數據 · 中英文城市名皆可 · 即時天氣 + 5 日預測</p>
     <div style="display:flex;gap:8px;margin-bottom:16px;">
@@ -1920,7 +1933,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:500px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">🔍 Sono 搜尋</h2>
-      <button id="searchClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="searchClose" class="modal-close">✕</button>
     </div>
     <p style="color:#888;font-size:0.8em;margin-bottom:12px;">由 DuckDuckGo 提供 · 尊重私隱 · 無限次使用</p>
     <form id="searchForm" action="https://lite.duckduckgo.com/lite/" method="GET" target="_blank">
@@ -1943,7 +1956,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:520px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:95vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">🎨 Sono 創作</h2>
-      <button id="createClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="createClose" class="modal-close">✕</button>
     </div>
     <p style="color:#666;font-size:0.75em;margin-bottom:14px;">AI 圖像生成 · 輸入描述即可創作</p>
     <div style="display:flex;gap:8px;margin-bottom:12px;">
@@ -2344,7 +2357,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:520px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">🌐 AI 翻譯</h2>
-      <button id="translateClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="translateClose" class="modal-close">✕</button>
     </div>
     <p style="color:#666;font-size:0.75em;margin-bottom:12px;">OpenRouter + Gemma 4（免費）· 支援多語言</p>
     <textarea id="trInput" rows="4" placeholder="輸入要翻譯嘅文字..." style="width:100%;padding:14px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:1em;font-family:inherit;outline:none;resize:vertical;margin-bottom:10px;"></textarea>
@@ -2374,7 +2387,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:480px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">📡 ISS 追蹤</h2>
-      <button id="issClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="issClose" class="modal-close">✕</button>
     </div>
     <p style="color:#666;font-size:0.75em;margin-bottom:16px;">國際太空站實時位置 · NASA Open Notify API</p>
     <div style="text-align:center;padding:20px 0;">
@@ -2403,7 +2416,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:480px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">⏰ 世界時鐘</h2>
-      <button id="worldClockClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="worldClockClose" class="modal-close">✕</button>
     </div>
     <p style="color:#666;font-size:0.75em;margin-bottom:16px;">全球主要城市時間對比</p>
     <div id="clockList" style="display:flex;flex-direction:column;gap:8px;"></div>
@@ -2680,7 +2693,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:480px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">📱 QR Code 生成器</h2>
-      <button id="qrClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="qrClose" class="modal-close">✕</button>
     </div>
     <p style="color:#666;font-size:0.75em;margin-bottom:12px;">輸入文字或 URL 生成 QR Code</p>
     <input type="text" id="qrInput" placeholder="輸入文字或 URL..." value="https://fung2222.github.io/sono/" style="width:100%;padding:14px;background:rgba(255,255,255,0.06);border:1px solid #333;border-radius:10px;color:#fff;font-size:1em;font-family:inherit;outline:none;margin-bottom:12px;">
@@ -2704,7 +2717,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:rgba(13,10,26,0.98);border-radius:0;max-width:400px;width:100%;padding:24px;border:1px solid rgba(184,168,120,0.3);max-height:90vh;overflow-y:auto;font-family:system-ui,-apple-system,'PingFang TC',sans-serif;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.15em;color:#c8c4b8;font-weight:400;letter-spacing:0.06em;">⏱️ 番茄計時器</h2>
-      <button id="timerClose" type="button" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(184,168,120,0.15);color:#b8a878;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="timerClose" type="button" class="modal-close modal-close-gold">✕</button>
     </div>
     
     <div id="timerDisplay" style="text-align:center;font-size:3.6em;font-weight:300;color:#fff;letter-spacing:4px;margin:16px 0;font-variant-numeric:tabular-nums;font-family:'Courier New',monospace;">25:00</div>
@@ -2746,7 +2759,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a2e);border-radius:16px;max-width:400px;width:100%;padding:24px;border:1px solid rgba(255,107,155,0.2);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">🎲 命運輪盤</h2>
-      <button id="wheelClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="wheelClose" class="modal-close">✕</button>
     </div>
     <div id="wheelResult" style="text-align:center;font-size:3em;margin:20px 0;min-height:80px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;">🎰</div>
     <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;flex-wrap:wrap;">
@@ -2763,7 +2776,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a2e);border-radius:16px;max-width:400px;width:100%;padding:24px;border:1px solid rgba(0,212,255,0.2);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">🎯 反應挑戰</h2>
-      <button id="reactClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="reactClose" class="modal-close">✕</button>
     </div>
     <div id="reactBox" style="width:100%;height:200px;border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.1s;background:#1a2438;border:2px solid #333;user-select:none;">
       <span id="reactMsg" style="color:#888;font-size:1.2em;">撳我開始</span>
@@ -2778,7 +2791,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a2e);border-radius:16px;max-width:400px;width:100%;padding:24px;border:1px solid rgba(255,215,0,0.2);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">💭 今日運勢</h2>
-      <button id="fortuneClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="fortuneClose" class="modal-close">✕</button>
     </div>
     <div style="text-align:center;">
       <div id="fortuneStars" style="font-size:2.5em;margin:10px 0;"></div>
@@ -2795,7 +2808,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a2e);border-radius:16px;max-width:400px;width:100%;padding:24px;border:1px solid rgba(107,255,107,0.2);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">🎵 環境音效</h2>
-      <button id="ambientClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="ambientClose" class="modal-close">✕</button>
     </div>
     <div id="ambientStatus" style="text-align:center;color:#6bff6b;font-size:0.9em;margin-bottom:14px;">🎵 揀一個環境音效</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
@@ -2816,7 +2829,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a2e);border-radius:16px;max-width:400px;width:100%;padding:24px;border:1px solid rgba(162,155,254,0.2);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">📖 隨機金句</h2>
-      <button id="quoteClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="quoteClose" class="modal-close">✕</button>
     </div>
     <div id="quoteText" style="text-align:center;color:#e0e0e0;font-size:1.2em;line-height:1.8;padding:20px;background:rgba(162,155,254,0.05);border-radius:12px;margin:10px 0;font-style:italic;min-height:80px;display:flex;align-items:center;justify-content:center;"></div>
     <div id="quoteAuthor" style="text-align:center;color:#a29bfe;font-size:0.9em;margin:8px 0;"></div>
@@ -2830,7 +2843,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a2e);border-radius:16px;max-width:480px;width:100%;padding:24px;border:1px solid rgba(107,255,107,0.2);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">👻 靈體探測器</h2>
-      <button id="ghostClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="ghostClose" class="modal-close">✕</button>
     </div>
     <p style="color:#666;font-size:0.75em;margin-bottom:16px;">EMF 電磁場探測 · 靈體感應模擬</p>
     
@@ -3288,7 +3301,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a2e);border-radius:16px;max-width:600px;width:100%;height:90vh;padding:20px;border:1px solid rgba(107,255,107,0.2);display:flex;flex-direction:column;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
       <h2 style="font-size:1.3em;color:#fff;">🗺️ 世界地圖</h2>
-      <button id="mapClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="mapClose" class="modal-close">✕</button>
     </div>
     
     <div style="display:flex;gap:8px;margin-bottom:12px;">
@@ -5283,7 +5296,7 @@ window.openStopwatchModal = function() {
   <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:440px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">🌐 時區轉換</h2>
-      <button id="timezoneClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="timezoneClose" class="modal-close">✕</button>
     </div>
     <p style="color:#666;font-size:0.75em;margin-bottom:16px;">選擇時間與時區，自動換算</p>
     <div style="margin-bottom:14px;">
@@ -5338,7 +5351,7 @@ window.openStopwatchModal = function() {
   <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:440px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">📅 倒數日</h2>
-      <button id="countdownClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="countdownClose" class="modal-close">✕</button>
     </div>
     <p style="color:#666;font-size:0.75em;margin-bottom:16px;">設定目標日期，即時顯示剩餘天數</p>
     <div style="margin-bottom:14px;">
@@ -5366,7 +5379,7 @@ window.openStopwatchModal = function() {
   <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;max-width:520px;width:100%;padding:24px;border:1px solid rgba(255,255,255,0.08);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">🔐 Base64 編碼/解碼</h2>
-      <button id="base64Close" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="base64Close" class="modal-close">✕</button>
     </div>
     <p style="color:#666;font-size:0.75em;margin-bottom:16px;">文本 ↔ Base64 互轉，支援 Unicode</p>
     <div style="display:flex;gap:8px;margin-bottom:16px;">
@@ -5392,7 +5405,7 @@ window.openStopwatchModal = function() {
   <div style="background:linear-gradient(135deg,#0a0a1a,#1a1a3e);border-radius:16px;max-width:460px;width:100%;padding:24px;border:1px solid rgba(162,155,254,0.25);max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h2 style="font-size:1.3em;color:#fff;">🌙 農曆查詢</h2>
-      <button id="lunarClose" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,0.06);color:#888;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="lunarClose" class="modal-close">✕</button>
     </div>
     <p style="color:#666;font-size:0.75em;margin-bottom:16px;">公曆 ⇄ 農曆互轉、節氣、生肖、干支</p>
     <div style="display:flex;gap:8px;margin-bottom:16px;">
@@ -5454,7 +5467,7 @@ window.openStopwatchModal = function() {
     <div id="stopwatchPulse" style="pointer-events:none;position:absolute;left:50%;top:118px;width:220px;height:220px;margin-left:-110px;margin-top:-110px;border-radius:50%;background:radial-gradient(circle,rgba(184,168,120,0.22) 0%,rgba(184,168,120,0.05) 45%,transparent 70%);opacity:0.15;transition:opacity 0.2s;"></div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;position:relative;z-index:1;">
       <h2 style="font-size:1.2em;color:#c8c4b8;font-weight:500;letter-spacing:0.06em;margin:0;">⏲️ 秒錶</h2>
-      <button id="stopwatchClose" type="button" style="width:32px;height:32px;border:none;border-radius:50%;background:rgba(184,168,120,0.12);color:#b8a878;font-size:1.1em;cursor:pointer;">✕</button>
+      <button id="stopwatchClose" type="button" class="modal-close modal-close-gold">✕</button>
     </div>
     <p style="color:#555;font-size:0.72em;margin:0 0 18px;position:relative;z-index:1;font-family:Courier New,monospace;letter-spacing:0.08em;">即時計秒 · 支援記圈</p>
     <div style="text-align:center;position:relative;z-index:1;padding:18px 0 8px;">
