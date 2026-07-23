@@ -922,6 +922,9 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   function deriveTags(slug, cat) {
     const s = (slug || '').toLowerCase();
     const tags = [];
+    // Character / cartoon collection tags
+    if (s.includes('cute-anime') || s.includes('cute-semi-real')) tags.push('人物');
+    if (s.includes('cute-anime') || s.includes('cute-3d') || s.includes('cute-semi-real')) tags.push('卡通');
     // Primary category tag
     if (catLabelMap[cat]) tags.push(catLabelMap[cat]);
     // Secondary keyword tags
@@ -1130,7 +1133,9 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
       { id: '夜景', label: '夜景' },
       { id: '科技', label: '科技' },
       { id: '量子', label: '量子' },
-      { id: '神秘', label: '神秘' }
+      { id: '神秘', label: '神秘' },
+      { id: '人物', label: '人物' },
+      { id: '卡通', label: '卡通' }
     ]}
   ];
   const usedTags = new Set();
