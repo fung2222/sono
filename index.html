@@ -783,6 +783,21 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 
   // Chinese title map for common slugs
   const zhTitleMap = {
+    'cartoon-coastal-train-landscape': '海岸列車晴空',
+    'cartoon-mountain-village-dawn': '山谷村落晨曦',
+    'cartoon-rainy-old-town': '雨夜古城小巷',
+    'cartoon-starry-lake-cabin': '星湖森林木屋',
+    'cartoon-cloud-temple-mountain': '雲海山寺',
+    'cartoon-cat-bookshop': '貓咪夜間書店',
+    'cartoon-rabbit-flower-garden': '兔仔花園早晨',
+    'cartoon-otter-river-picnic': '水獺河畔野餐',
+    'cartoon-fox-autumn-forest': '狐狸秋林小徑',
+    'cartoon-penguin-snow-village': '企鵝雪國村莊',
+    'cartoon-sky-castle-waterfalls': '天空瀑布城堡',
+    'cartoon-candy-town': '糖果夢幻小鎮',
+    'cartoon-mushroom-forest': '螢光蘑菇森林',
+    'cartoon-underwater-village': '海底珊瑚村莊',
+    'cartoon-moon-camping': '月球星空露營',
     'cute-anime-wisteria-garden': '紫藤花園漫步',
     'cute-anime-seaside-train': '海岸列車夏日',
     'cute-anime-rain-window': '雨窗閱讀時光',
@@ -924,7 +939,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
     const tags = [];
     // Character / cartoon collection tags
     if (s.includes('cute-anime') || s.includes('cute-semi-real')) tags.push('人物');
-    if (s.includes('cute-anime') || s.includes('cute-3d') || s.includes('cute-semi-real')) tags.push('卡通');
+    if (s.includes('cartoon') || s.includes('cute-anime') || s.includes('cute-3d') || s.includes('cute-semi-real')) tags.push('卡通');
     // Primary category tag
     if (catLabelMap[cat]) tags.push(catLabelMap[cat]);
     // Secondary keyword tags
@@ -946,6 +961,22 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   // Build wallpapers from path list (date inferred from folder)
   // To add new wallpaper: just add a new path here, top of list
   const wallpaperPaths = [
+    // Cartoon landscapes / animals / fantasy scenes
+    'images/wallpapers/2026-07-23-cartoon-landscape/01-cartoon-coastal-train-landscape.jpg',
+    'images/wallpapers/2026-07-23-cartoon-landscape/02-cartoon-mountain-village-dawn.jpg',
+    'images/wallpapers/2026-07-23-cartoon-landscape/03-cartoon-rainy-old-town.jpg',
+    'images/wallpapers/2026-07-23-cartoon-landscape/04-cartoon-starry-lake-cabin.jpg',
+    'images/wallpapers/2026-07-23-cartoon-landscape/05-cartoon-cloud-temple-mountain.jpg',
+    'images/wallpapers/2026-07-23-cartoon-landscape/06-cartoon-cat-bookshop.jpg',
+    'images/wallpapers/2026-07-23-cartoon-landscape/07-cartoon-rabbit-flower-garden.jpg',
+    'images/wallpapers/2026-07-23-cartoon-landscape/08-cartoon-otter-river-picnic.jpg',
+    'images/wallpapers/2026-07-23-cartoon-landscape/09-cartoon-fox-autumn-forest.jpg',
+    'images/wallpapers/2026-07-23-cartoon-landscape/10-cartoon-penguin-snow-village.jpg',
+    'images/wallpapers/2026-07-23-cartoon-landscape/11-cartoon-sky-castle-waterfalls.jpg',
+    'images/wallpapers/2026-07-23-cartoon-landscape/12-cartoon-candy-town.jpg',
+    'images/wallpapers/2026-07-23-cartoon-landscape/13-cartoon-mushroom-forest.jpg',
+    'images/wallpapers/2026-07-23-cartoon-landscape/14-cartoon-underwater-village.jpg',
+    'images/wallpapers/2026-07-23-cartoon-landscape/15-cartoon-moon-camping.jpg',
     // Cute / anime / 3D / semi-real collection
     'images/wallpapers/2026-07-23-cute/01-cute-anime-wisteria-garden.jpg',
     'images/wallpapers/2026-07-23-cute/02-cute-anime-seaside-train.jpg',
