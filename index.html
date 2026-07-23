@@ -36,10 +36,10 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .logo-area { text-align: center; padding: 22px 0 6px; border-bottom: 1px solid rgba(184,168,120,0.15); }
 .logo-lockup { display: inline-flex; align-items: center; }
 .logo-text { text-align: center; display: flex; flex-direction: column; gap: 4px; }
-.logo { font-family: 'DejaVu Serif', Georgia, 'Noto Serif TC', serif; font-size: 2.64em; font-weight: 700; color: #c4b080; letter-spacing: 0.08em; text-shadow: 0 2px 14px rgba(0,0,0,0.5); line-height: 1; }
+.logo { display: block; width: 190px; height: auto; filter: drop-shadow(0 2px 7px rgba(0,0,0,0.5)); }
 .subtitle { font-family: 'Courier New', monospace; font-size: 0.72em; color: #7a766c; letter-spacing: 0.3em; text-transform: uppercase; line-height: 1; }
 @media (max-width: 480px) {
-  .logo { font-size: 2.2em; letter-spacing: 0.12em; }
+  .logo { width: 170px; }
   .subtitle { font-size: 0.66em; letter-spacing: 0.22em; }
 }
 
@@ -671,7 +671,7 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
   <div class="logo-lockup">
 
     <div class="logo-text">
-      <div class="logo">Sono</div>
+      <img class="logo" src="sono-wordmark.svg" alt="Sono" width="190" height="55">
       <div class="subtitle">科技 自然 AI 太空</div>
     </div>
   </div>
