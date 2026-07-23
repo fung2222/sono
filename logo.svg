@@ -8,8 +8,8 @@
   </defs>
   <!-- Dark navy background -->
   <rect width="200" height="200" fill="#0a0a1a"/>
-  <!-- Gold 'S', scaled to 70% around the exact canvas centre -->
-  <g transform="translate(100 100) scale(0.7) translate(-100 -100)">
+  <!-- Gold 'S', scaled down another 20% and kept at the exact canvas centre -->
+  <g transform="translate(100 100) scale(0.56) translate(-100 -100)">
   <path d="M 134 56
            C 134 38, 119 26, 100 26
            C 76 26, 66 42, 66 64
