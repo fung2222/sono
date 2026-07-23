@@ -2,25 +2,12 @@
   <defs>
     <linearGradient id="goldS" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#e8dcaa"/>
-      <stop offset="50%" stop-color="#c4b080"/>
+      <stop offset="52%" stop-color="#c4b080"/>
       <stop offset="100%" stop-color="#8a7d54"/>
     </linearGradient>
   </defs>
-  <!-- Dark navy background -->
   <rect width="200" height="200" fill="#0a0a1a"/>
-  <!-- Gold 'S', 30% wider while keeping its current height and exact centre -->
-  <g transform="translate(100 100) scale(0.728 0.56) translate(-100 -100)">
-  <path d="M 134 56
-           C 134 38, 119 26, 100 26
-           C 76 26, 66 42, 66 64
-           C 66 84, 82 94, 100 100
-           C 118 106, 134 114, 134 136
-           C 134 158, 119 174, 100 174
-           C 76 174, 66 162, 66 140"
-        fill="none"
-        stroke="url(#goldS)"
-        stroke-width="14"
-        stroke-linecap="round"
-        stroke-linejoin="round"/>
-  </g>
+  <text x="100" y="151" text-anchor="middle"
+        font-family="DejaVu Serif" font-size="142" font-weight="700"
+        fill="url(#goldS)">S</text>
 </svg>
