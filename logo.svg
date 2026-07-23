@@ -8,7 +8,8 @@
   </defs>
   <!-- Dark navy background -->
   <rect width="200" height="200" fill="#0a0a1a"/>
-  <!-- Bold gold 'S' at iOS safe zone standard size (~65% canvas) -->
+  <!-- Gold 'S', scaled to 70% around the exact canvas centre -->
+  <g transform="translate(100 100) scale(0.7) translate(-100 -100)">
   <path d="M 134 56
            C 134 38, 119 26, 100 26
            C 76 26, 66 42, 66 64
@@ -21,4 +22,5 @@
         stroke-width="14"
         stroke-linecap="round"
         stroke-linejoin="round"/>
+  </g>
 </svg>
