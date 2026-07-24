@@ -198,7 +198,10 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: -apple-system, 'PingFan
 .app-card:hover { background: rgba(184,168,120,0.08); }
 .app-card:active { background: rgba(184,168,120,0.16); }
 .app-card.disabled { opacity: 0.4; cursor: not-allowed; }
-.app-icon { width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; font-size: 1.85em; background: rgba(184,168,120,0.08); border: 1px solid rgba(184,168,120,0.22); border-radius: 14px; line-height: 1; }
+.app-icon { width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; background: rgba(184,168,120,0.08); border: 1px solid rgba(184,168,120,0.22); border-radius: 14px; color: #b8a878; }
+.app-icon .tool-icon { width: 30px; height: 30px; display: block; }
+.app-card:hover .app-icon { background: rgba(184,168,120,0.14); border-color: rgba(184,168,120,0.4); }
+.app-card:hover .tool-icon { transform: scale(1.06); transition: transform 0.25s; }
 .app-label { font-size: 0.72em; color: #c8c4b8; text-align: center; line-height: 1.25; letter-spacing: 0.02em; word-break: keep-all; max-width: 72px; }
 .app-group-label { font-family: 'Courier New', monospace; font-size: 0.72em; color: #7a766c; text-transform: uppercase; letter-spacing: 0.1em; padding: 14px 4px 6px; border-bottom: 1px solid rgba(184,168,120,0.12); margin: 4px 0 2px; grid-column: 1 / -1; }
 .app-empty { text-align: center; padding: 40px 12px; color: #7a766c; font-family: 'Courier New', monospace; font-size: 0.85em; letter-spacing: 0.06em; }
@@ -1854,42 +1857,79 @@ document.querySelectorAll('.card.tool-sm').forEach(function(card) {
 <script>
 (function() {
   // 工具清單（手機 app 排列）— triggerId 對應隱藏 button
+  // 21 個 Lucide SVG icon（24×24 viewBox，stroke=1.5，currentColor → Sono 金 #b8a878）
+  const toolIcons = {
+    // 時間
+    worldClock:  '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>',
+    timezone:    '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>',
+    countdown:   '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M3 11h18"/><circle cx="12" cy="16" r="1.2"/></svg>',
+    stopwatch:   '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 2h6"/><path d="M12 2v3"/></svg>',
+    // 天氣
+    weather:     '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a4 4 0 0 0 0-8 6 6 0 0 0-11-2 5 5 0 0 0-1 10"/><path d="M9 22h6"/><path d="M12 18v4"/></svg>',
+    // 計算
+    currency:    '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9.5C15 8 13.5 7 12 7s-3 1-3 2.5 1.5 2 3 2.5 3 1 3 2.5-1.5 2.5-3 2.5-3-1-3-2.5"/><path d="M12 6v1"/><path d="M12 17v1"/></svg>',
+    bmi:         '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/><path d="M3.5 12h4l2-4 3 8 2-4h5.5"/></svg>',
+    timer:       '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M12 2v20"/><path d="M17 5h3l-3 5h2v9"/></svg>',
+    // 地圖
+    map:         '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3 3 6v15l6-3 6 3 6-3V3l-6 3z"/><path d="M9 3v15"/><path d="M15 6v15"/></svg>',
+    mtr:         '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="16" rx="3"/><circle cx="8.5" cy="10" r="1"/><circle cx="15.5" cy="10" r="1"/><path d="M9 16h6"/><path d="M7 21l-2-2"/><path d="M17 21l2-2"/></svg>',
+    iss:         '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14a7 7 0 0 1 14 0"/><path d="M9 14a3 3 0 0 1 6 0"/><circle cx="12" cy="14" r="1"/><path d="M12 3v3"/><path d="M19 9l-2 2"/><path d="M5 9l2 2"/></svg>',
+    // 實用
+    qr:          '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3"/><path d="M21 14v3h-3"/><path d="M14 21h3"/><path d="M21 18v3"/></svg>',
+    base64:      '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg>',
+    // 娛樂
+    ghost:       '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V11a7 7 0 0 1 14 0v10"/><path d="M5 21l1-2 1 2 1-2 1 2 1-2 1 2 1-2 1 2 1-2 1 2 1-2 1 2 1-2"/><circle cx="10" cy="11" r="0.6"/><circle cx="14" cy="11" r="0.6"/></svg>',
+    wheel:       '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3"/><path d="M12 18v3"/><path d="M3 12h3"/><path d="M18 12h3"/></svg>',
+    react:       '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M12 3l-3 4 3 4 3-4z"/><path d="M12 21l-3-4 3-4 3 4z"/></svg>',
+    fortune:     '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"/><path d="M12 20v2"/><path d="M5 12H3"/><path d="M21 12h-2"/><path d="M12 5a7 7 0 0 0-4 12.7L12 21l4-3.3A7 7 0 0 0 12 5z"/><circle cx="12" cy="11" r="2"/></svg>',
+    ambient:     '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
+    quote:       '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V6a2 2 0 0 1 2-2h11"/><path d="M19 4h1a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-1"/><path d="M9 9h6"/><path d="M9 13h4"/></svg>',
+    // 查詢
+    dream:       '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
+    divination:  '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a4 4 0 0 0-4 4v2h8V7a4 4 0 0 0-4-4z"/><path d="M4 9h16l-2 12H6z"/><path d="M9 13l3 2 3-2"/></svg>',
+    tarot:       '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M10 8h4"/><path d="M10 12h4"/><path d="M10 16h4"/><circle cx="12" cy="6" r="0.5"/></svg>',
+    number:      '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 8l3-2 3 2"/><path d="M12 6v6"/><path d="M8 14h2l2 4h2"/><path d="M14 14h4"/><path d="M14 18h4"/></svg>',
+    lunar:       '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/><circle cx="9" cy="10" r="0.5"/><circle cx="15" cy="13" r="0.5"/></svg>',
+    // 其他
+    music:       '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/></svg>',
+    food:        '<svg class="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18"/><path d="M5 11a7 7 0 0 1 14 0"/><path d="M9 16v3"/><path d="M15 16v3"/><path d="M5 11v5h14v-5"/></svg>'
+  };
+
   const tools = [
     // 時間
-    { name: '世界時鐘',   svg: '⏰', cat: 'time', trigger: 'worldClockTrigger' },
-    { name: '時區轉換',   svg: '🌐', cat: 'time', trigger: 'timezoneTrigger' },
-    { name: '倒數日',   svg: '📅', cat: 'time', trigger: 'countdownTrigger' },
-    { name: '秒錶',     svg: '⏲️', cat: 'time', trigger: 'stopwatchTrigger' },
+    { name: '世界時鐘',   svg: toolIcons.worldClock, cat: 'time', trigger: 'worldClockTrigger' },
+    { name: '時區轉換',   svg: toolIcons.timezone,   cat: 'time', trigger: 'timezoneTrigger' },
+    { name: '倒數日',     svg: toolIcons.countdown,  cat: 'time', trigger: 'countdownTrigger' },
+    { name: '秒錶',       svg: toolIcons.stopwatch,  cat: 'time', trigger: 'stopwatchTrigger' },
     // 天氣
-    { name: '全球天氣',   svg: '🌤️', cat: 'weather', trigger: 'weatherTrigger' },
+    { name: '全球天氣',   svg: toolIcons.weather,    cat: 'weather', trigger: 'weatherTrigger' },
     // 計算
-    { name: '貨幣匯率',   svg: '💰', cat: 'calc', trigger: 'currencyTrigger' },
-    { name: 'BMI 計算',   svg: '🏋️', cat: 'calc', trigger: 'bmiTrigger' },
-    { name: '番茄計時',   svg: '⏱️', cat: 'calc', trigger: 'timerTrigger' },
+    { name: '貨幣匯率',   svg: toolIcons.currency,   cat: 'calc', trigger: 'currencyTrigger' },
+    { name: 'BMI 計算',   svg: toolIcons.bmi,        cat: 'calc', trigger: 'bmiTrigger' },
+    { name: '番茄計時',   svg: toolIcons.timer,      cat: 'calc', trigger: 'timerTrigger' },
     // 地圖
-    { name: '世界地圖',   svg: '🗺️', cat: 'map', trigger: 'mapTrigger' },
-    { name: 'MTR 查詢',   svg: '🚇', cat: 'map', trigger: 'mtrTrigger' },
-    { name: 'ISS 追蹤',  svg: '📡', cat: 'map', trigger: 'issTrigger' },
+    { name: '世界地圖',   svg: toolIcons.map,        cat: 'map', trigger: 'mapTrigger' },
+    { name: 'MTR 查詢',   svg: toolIcons.mtr,        cat: 'map', trigger: 'mtrTrigger' },
+    { name: 'ISS 追蹤',   svg: toolIcons.iss,        cat: 'map', trigger: 'issTrigger' },
     // 實用
-    { name: 'QR Code',   svg: '📱', cat: 'utility', trigger: 'qrTrigger' },
-    { name: 'Base64',   svg: '🔐', cat: 'utility', trigger: 'base64Trigger' },
+    { name: 'QR Code',    svg: toolIcons.qr,         cat: 'utility', trigger: 'qrTrigger' },
+    { name: 'Base64',     svg: toolIcons.base64,     cat: 'utility', trigger: 'base64Trigger' },
     // 娛樂
-    { name: '靈體探測',   svg: '👻', cat: 'fun', trigger: 'ghostTrigger' },
-    { name: '命運輪盤',   svg: '🎲', cat: 'fun', trigger: 'wheelTrigger' },
-    { name: '反應挑戰',   svg: '🎯', cat: 'fun', trigger: 'reactTrigger' },
-    { name: '今日運勢',   svg: '💭', cat: 'fun', trigger: 'fortuneTrigger' },
-    { name: '環境音效',   svg: '🎵', cat: 'fun', trigger: 'ambientTrigger' },
-    { name: '隨機金句',   svg: '📖', cat: 'fun', trigger: 'quoteTrigger' },
+    { name: '靈體探測',   svg: toolIcons.ghost,      cat: 'fun', trigger: 'ghostTrigger' },
+    { name: '命運輪盤',   svg: toolIcons.wheel,      cat: 'fun', trigger: 'wheelTrigger' },
+    { name: '反應挑戰',   svg: toolIcons.react,      cat: 'fun', trigger: 'reactTrigger' },
+    { name: '今日運勢',   svg: toolIcons.fortune,    cat: 'fun', trigger: 'fortuneTrigger' },
+    { name: '環境音效',   svg: toolIcons.ambient,    cat: 'fun', trigger: 'ambientTrigger' },
+    { name: '隨機金句',   svg: toolIcons.quote,      cat: 'fun', trigger: 'quoteTrigger' },
     // 查詢
-    { name: '夢境解讀',   svg: '🌙', cat: 'query', trigger: 'dreamTrigger' },
-    { name: '易經卜卦',   svg: '☯️', cat: 'query', trigger: 'divinationTrigger' },
-    { name: '塔羅占卜',   svg: '🃏', cat: 'query', trigger: 'tarotTrigger' },
-    { name: '命運數字',   svg: '🔢', cat: 'query', trigger: 'numberTrigger' },
-    { name: '農曆查詢',   svg: '🌙', cat: 'query', trigger: 'lunarTrigger' },
-    // 文件
+    { name: '夢境解讀',   svg: toolIcons.dream,      cat: 'query', trigger: 'dreamTrigger' },
+    { name: '易經卜卦',   svg: toolIcons.divination, cat: 'query', trigger: 'divinationTrigger' },
+    { name: '塔羅占卜',   svg: toolIcons.tarot,      cat: 'query', trigger: 'tarotTrigger' },
+    { name: '命運數字',   svg: toolIcons.number,     cat: 'query', trigger: 'numberTrigger' },
+    { name: '農曆查詢',   svg: toolIcons.lunar,      cat: 'query', trigger: 'lunarTrigger' },
     // 其他
-    { name: '音樂骰子',   svg: '🎲', cat: 'other', trigger: 'musicTrigger' },
-    { name: '今晚食咩',   svg: '🍜', cat: 'other', trigger: 'foodTrigger' }
+    { name: '音樂骰子',   svg: toolIcons.music,      cat: 'other', trigger: 'musicTrigger' },
+    { name: '今晚食咩',   svg: toolIcons.food,       cat: 'other', trigger: 'foodTrigger' }
   ];
 
   const categories = [
